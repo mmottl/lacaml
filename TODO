@@ -1,0 +1,5 @@
+As of now (2005-06-20), the LAPACK-documentation is out of date.  In the
+next LAPACK-release the following functions need to be revised:
+
+  * gelsd: revise computation of workspace sizes
+  * gesdd: revise computation of workspace sizes

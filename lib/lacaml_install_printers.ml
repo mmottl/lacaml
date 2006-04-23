@@ -1,0 +1,25 @@
+let printers =
+  [
+    "Lacaml_io.pp_fvec";
+    "Lacaml_io.pp_cvec";
+    "Lacaml_io.pp_ivec";
+    "Lacaml_io.pp_fmat";
+    "Lacaml_io.pp_cmat";
+    "Lacaml_io.pp_imat";
+  ]
+
+let eval_string
+      ?(print_outcome = false) ?(err_formatter = Format.err_formatter) str =
+  let lexbuf = Lexing.from_string str in
+  let phrase = !Toploop.parse_toplevel_phrase lexbuf in
+  Toploop.execute_phrase print_outcome err_formatter phrase
+
+let rec install_printers = function
+  | [] -> true
+  | printer :: printers ->
+      let cmd = Printf.sprintf "#install_printer %s;;" printer in
+      eval_string cmd && install_printers printers
+
+let () =
+  if not (install_printers printers) then
+    Format.eprintf "Problem installing LACAML-printers@."

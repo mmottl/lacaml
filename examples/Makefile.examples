@@ -1,0 +1,11 @@
+OCAMLMAKEFILE = ../../OCamlMakefile
+
+INCDIRS = ../../lib
+LIBDIRS = $(INCDIRS)
+LIBS = bigarray lacaml
+
+ifneq ($(shell uname),Darwin)
+  OCAMLBLDFLAGS = -dllpath $(INCDIRS)
+endif
+
+-include $(OCAMLMAKEFILE)

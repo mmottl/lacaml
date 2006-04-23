@@ -1,0 +1,18 @@
+name="lacaml"
+version="3.0.12"
+description="LACAML - BLAS/LAPACK-interface for OCaml"
+
+requires="lacaml.core"
+requires(toploop)="lacaml.top"
+
+package "core" (
+  requires="bigarray"
+  archive(byte)="lacaml.cma"
+  archive(native)="lacaml.cmxa"
+)
+
+package "top" (
+  requires="lacaml.core"
+  archive(byte)="lacaml_top.cma"
+  archive(native)="lacaml_top.cmxa"
+)

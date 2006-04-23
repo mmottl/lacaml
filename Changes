@@ -1,0 +1,399 @@
+2006-01-21:  Updated copy of f2c.h to fix size-related bugs on AMD64.
+             Fixed some warnings introduced by OCaml-3.09.
+
+2006-01-18:  Fixed a bug in pbsv and sbmv.
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umh.ac.be>
+             for contributing the patch!
+
+2006-01-16:  Updated OCamlMakefile.
+
+2005-12-09:  Fixed an installation problem on Darwin.
+
+2005-10-06:  Fixed META-file for better integration with the
+             OCaml-toplevel.
+
+             Added new function:
+
+               * Mat.copy_row
+
+2005-09-22:  Added new function:
+
+               * Mat.to_col_vecs
+
+2005-09-21:  Added new function:
+
+               * Vec.random  (for both real and complex numbers)
+
+2005-08-24:  Added a new function:
+
+               * Vec.append
+
+2005-07-15:  Fixed two documentation generation bugs.
+
+2005-07-14:  Major release (version 3)!
+
+             The API has been significantly normalized, simplified and
+             documented to make its use more convenient.
+
+             ATTENTION: THE ORDER OF VECTOR ARGUMENTS TO FUNCTION AXPY
+             HAS CHANGED, AND PARAMETER X IS LABELED.  IF YOUR COMPILER
+             DOES NOT COMPLAIN ABOUT MISSING LABELS, YOUR PROGRAM WILL
+             COMPILE BUT PRODUCE WRONG RESULTS.  ALWAYS LABEL PARAMETER
+             X FOR AXPY, WHICH IS ALSO MUCH MORE READABLE.
+
+             New LAPACK-function:
+
+               * gesvd for complex numbers
+
+                 Thanks to Egbert Ammicht <eammicht@lucent.com> for
+                 this contribution!
+
+             Added specific build rules for MacOS X.  Thanks to Patrick
+             Cousot <Patrick.Cousot@ens.fr> for this contribution!
+
+2005-06-20:  Relaxed a runtime check in gemm to let the user specify
+             his own "k"-value.
+
+2005-06-17:  New LAPACK-functions:
+
+               * syevr
+               * lamch
+
+             New functions in Mat-module:
+
+               * random
+
+             Added pretty-printer for integer vectors to printers
+             installed in the toplevel.
+
+2005-06-15:  Fixed a supposedly very rare bug in gesvd and gesdd.
+
+             Changed interface of all gels?_min_lwork functions for more
+             understandable, safer usage.
+
+2005-06-14:  New LAPACK-function:
+
+               * gesdd
+
+2005-06-08:  New LAPACK-function:
+
+               * syevd
+
+2005-06-06:  Tightened parameter checks for printing matrices and vectors.
+
+2005-06-03:  Fixed a bug in mvec_of_array (degenerate case when array
+             has zero length).
+
+2005-05-31:  Fixed a couple of GC-related bugs pointed out by Saffire (an
+             FFI-type checker).
+
+2005-05-27:  New function in Mat-module:
+
+               * mvec_to_array
+
+2005-05-17:  Changed interface of swap-function to avoid parameter confusions.
+
+2005-05-13:  Added pretty-printing for int-bigarrays.
+
+2005-05-12:  Further regularisation of pretty-printing module.
+
+2005-05-11:  Greatly regularized pretty-printing module.
+
+2005-04-05:  Improved pretty-printing functions to allow for printing
+             labels.
+
+2005-03-28:  Fixed a bug in Mat.of_col_vecs.
+
+2005-03-28:  New functions in Mat-module:
+
+               * of_col_vecs
+
+2005-03-23:  Added a toplevel-specific module for installing
+             pretty-printers, which is automatically loaded when requiring
+             the library in the toplevel.
+
+2005-03-22:  Added a new constant parameter to function Vec.ssqr_diff.
+
+2005-03-10:  New functions in Mat-module:
+
+               * mvec_of_array
+               * from_col_vec
+               * from_row_vec
+
+             Slightly improved some examples.
+
+2005-03-03:  Improved pretty-printing functions.
+
+             Changed examples to make use of new pretty-printing
+             functions.
+
+             Fixed some severe bugs (uninitialized data!) in several
+             functions.
+
+2005-03-02:  Updated contact + copyright information.
+
+             Updated OCamlMakefile.
+
+             Fixed a bug in the gelsX-functions.
+
+             Added module Lacaml_io for printing matrices and vectors
+             in convenient ways.
+
+             New functions in Mat-module:
+
+               * copy
+               * of_diag
+               * col
+               * transpose
+               * fold_cols
+
+             New functions in Vec-module:
+
+               * to_array
+               * of_list
+               * to_list
+               * rev
+
+2004-11-13:  Added new LAPACK-function for singular value decomposition
+             (SVD):
+
+               * gesvd
+
+             Thanks to Liam Stewart <liam@cs.toronto.edu> for this
+             contribution!
+
+2004-08-05:  Renamed a constant to prevent potential name clashes on
+             Mac OS X.
+
+2004-08-02:  Fixed a severe thread-related bug.  The attribute "noalloc"
+             cannot be used with external functions that make use of
+             "caml_enter_blocking_section".
+
+2004-08-01:  New matrix function:
+
+               * map
+
+             Thanks to Liam Stewart <liam@cs.toronto.edu> again for
+             his help!
+
+2004-07-23:  Major feature additions.
+
+             New LAPACK- and BLAS-functions (mostly computational routines):
+
+               * syr, syrk
+               * lansy
+               * sytrf, sytrs, sytri, sycon
+               * getrs
+               * potrs
+
+             Thanks to Liam Stewart <liam@cs.toronto.edu> again for this
+             huge contribution!
+
+2004-07-15:  Major feature additions.
+
+             New LAPACK- and BLAS-functions (mostly computational routines):
+
+               * gecon
+               * pocon
+               * gemm
+               * symm
+               * lange
+               * getrf
+               * getri
+               * potrf
+               * potri
+
+             Thanks to Liam Stewart <liam@cs.toronto.edu> for this
+             huge contribution!
+
+2004-07-15:  Upgraded some internal functions as suggested by OCaml-3.08.
+
+             Minor improvements to examples.
+
+             New matrix function:
+
+               * Mat.of_array
+
+             Updated OCamlMakefile.
+
+2004-07-04:  Moved gelss-function from SDCZ to SD-code only.
+             Interfaces to complex code (CZ) are not compatible.
+
+             Thanks to Liam Stewart <liam@cs.toronto.edu> for pointing
+             this out!
+
+             Updated OCamlMakefile.
+
+2004-04-27:  Updated OCamlMakefile.
+
+2004-03-16:  Fixed a small compilation problem.
+
+             Updated OCamlMakefile.
+
+2004-02-27:  Fixed a minor problem with external functions returning
+             type unit. Added "CAMLprim" to all C-stubs.
+
+             Fixed too tight type restrictions of axpy.
+
+             Corrected error locations.
+
+             Tightened some parameter checks, and made them more modular.
+
+             Changed function interfaces (not backward compatible):
+
+               * Mat.init_row
+               * Mat.init_col
+
+             Changed the "trans"-parameter in various functions from
+             a boolean to type "trans2" or "trans3", which consist of
+             constructors "`N", "`T", "`C" depending on them making
+             sense in this context.
+
+             New matrix functions:
+
+               * Mat.dim1
+               * Mat.dim2
+
+             New vector functions:
+
+               * Vec.dim
+               * Vec.init
+               * Vec.of_array
+               * Vec.logspace
+
+             New LAPACK function:
+
+               * geev  (General algorithm for solving eigenproblems)
+                 This function was initially contributed by Oleg Trott
+                 <ot14@columbia.edu>.
+
+             Removed obsolete file myXerbla.c.
+
+             Cleaned up examples.
+
+             Improved documentation a bit.
+
+2004-02-21:  Added CAMLprim in the C-interface where appropriate.
+
+2004-01-31:  Added Makefile.conf again for more understandable installation.
+
+             Added new functions for matrix creation:
+
+               * diag
+               * hankel
+               * pascal
+               * rosser
+               * toeplitz
+               * vandermonde
+               * wilkinson
+
+             Made Vec.min and Vec.max use the 2-norm for comparison.
+             Removed a superfluous debug statement.
+             Updated OCamlMakefile.
+
+2003-12-19:  Fixed a severe bug in Vec.fold.
+
+             Improved element-wise vector division (prevent overflow).
+
+             Added two functions for generating matrices:
+
+               * init_rows
+               * init_cols
+
+             Improved functionality of Vec.iter and Vec.iteri.
+
+2003-12-18:  Update to allow shared libraries.
+
+2003-12-16:  Changed Fortran error handling to catch invalid arguments
+             that OCaml did not detect.
+
+2003-12-15:  Fixed a bug in the examples (lin_eq).
+
+2003-12-14:  Changed the signature of a couple of functions: non-optional
+             arguments that are overwritten and represent the result of
+             the function will not be returned anymore (unit-functions).
+
+             Relaxed the conditions of the license to allow static
+             linking.
+
+2003-12-12:  Released new major version. Please note new module names!
+
+             Added support for complex transforms.
+             Allow accessing submatrices using labels.
+
+             Updated OCamlMakefile.
+             Changed stub names (invisible to user).
+
+2003-01-07:  Updated OCamlMakefile to make use of "findlib".
+
+2002-09-12:  Updated OCamlMakefile and license.
+
+             Documented all modules for use with ocamldoc.
+
+2002-07-24:  Incorporated further extensions by Christophe Troestler.
+
+             Fixed a couple of C-compiler warnings (pedantic mode).
+
+2002-07-16:  Fixed potential problem with threads and GC.
+
+2002-07-12:  Added loads of new LAPACK- and BLAS-functions!
+
+             Many thanks to
+
+               Christophe Troestler <Christophe.Troestler@umh.ac.be>
+
+             for this major contribution!
+
+2002-07-03:  Small fix in wrong type declaration in C-code (has no effect
+             at runtime).
+
+2002-05-05:  Updated OCamlMakefile.
+
+2002-05-04:  Revised the whole installation procedure. See INSTALL for
+             details.
+
+2002-04-30:  Updated OcamlMakefile: it does not ask for confirmation
+             during installation anymore!
+
+2002-04-23:  Added the file "f2c.h" to the distribution so that people
+             don't have to install it.
+
+2002-02-10:  Removed project from Sourceforge for simpler maintainance.
+
+2002-01-04:  Changed the example a little bit to show users functionality
+             from module "Vec_D" (i.e. basic vector operations).
+
+2002-01-02:  Removed two more unneeded object files from the f2c-library.
+             (Thanks to John Malecki for the hint!).
+
+2001-09-06:  Removed labels referring to standard library modules from the
+             implementation: will be deprecated in the next OCaml-release.
+
+2001-06-30:  Removed "Printexc.catch" from lin_reg-example: is going to be
+             deprecated in upcoming OCaml-release.
+
+             Bumped major version number: the existing functionality of
+             the library seems stable enough.
+
+2001-04-03:  Minor change to make things compile in label mode.
+
+2001-03-30:  Added annotation "noalloc" to functions that benefit from it.
+             This lets OCaml slightly improve efficiency of function calls.
+
+2001-02-21:  Updated README.
+
+2001-02-20:  Added additional checks for increment-parameters: this
+             prevents segfaults if the user passes invalid arguments.
+
+             Added new module "vec_SD.ml" and supplementary C-files
+             for additional (non-BLAS) vector operations. It currently
+             implements "ssqr", "add", "sub", "mul", "div" and "ssqr_diff"
+             (see module interface for documentation).
+
+2001-02-09:  Added "asum"-function from BLAS.
+
+2001-02-08:  Added "copy"- and "dot"-functions from BLAS and restructered
+             the code a bit to make it more extensible.
+
+2001-01-24:  First release.
