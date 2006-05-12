@@ -26,5 +26,9 @@ uninstall:
 .PHONY:	clean
 clean:
 	@cd lib && $(MAKE) clean
-	@for dir in $(EXAMPLES); do (cd $$dir && $(MAKE) $@); done
+	@make clean-examples
 	@rm -f doc
+
+.PHONY: clean-examples
+clean-examples:
+	@for dir in $(EXAMPLES); do (cd $$dir && $(MAKE) clean); done
