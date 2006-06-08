@@ -585,7 +585,7 @@ CAMLprim value LFUN(lange_stub)(
           WORK_data);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(copy_double(res));
+  CAMLreturn(caml_copy_double(res));
 }
 
 CAMLprim value LFUN(lange_stub_bc)(value *argv, int argn)

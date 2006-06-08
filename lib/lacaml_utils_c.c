@@ -28,7 +28,7 @@
 
 value copy_two_doubles(double d0, double d1)
 {
-  value res = alloc_small(2 * Double_wosize, Double_array_tag);
+  value res = caml_alloc_small(2 * Double_wosize, Double_array_tag);
   Store_double_field(res, 0, d0);
   Store_double_field(res, 1, d1);
   return res;

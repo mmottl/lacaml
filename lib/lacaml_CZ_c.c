@@ -94,7 +94,7 @@ CAMLprim value LFUN(lansy_stub)(
     WORK_data);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(copy_double(res));
+  CAMLreturn(caml_copy_double(res));
 }
 
 CAMLprim value LFUN(lansy_stub_bc)(value *argv, int argn)
@@ -129,12 +129,13 @@ CAMLprim value LFUN(gecon_stub)(
   value vANORM)
 {
   CAMLparam3(vA, vWORK, vRWORK);
+  CAMLlocal1(v_rcond);
 
   char GET_INT(NORM);
   integer GET_INT(N), INFO;
   REAL GET_DOUBLE(ANORM), RCOND;
 
-  value res;
+  value v_res;
 
   MAT_PARAMS(A);
   VEC_PARAMS1(WORK);
@@ -148,14 +149,12 @@ CAMLprim value LFUN(gecon_stub)(
     WORK_data, RWORK_data, &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  res = alloc_small(2, 0);
-  Field(res, 0) = Val_int(INFO);
+  v_rcond = caml_copy_double(RCOND);
+  v_res = caml_alloc_small(2, 0);
+  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 1) = v_rcond;
 
-  Begin_roots1(res);
-    Field(res, 1) = copy_double(RCOND);
-  End_roots();
-
-  CAMLreturn(res);
+  CAMLreturn(v_res);
 }
 
 CAMLprim value LFUN(gecon_stub_bc)(value *argv, int argn)
@@ -188,12 +187,13 @@ CAMLprim value LFUN(sycon_stub)(
   value vANORM)
 {
   CAMLparam3(vA, vIPIV, vWORK);
+  CAMLlocal1(v_rcond);
 
   char GET_INT(UPLO);
   integer GET_INT(N), INFO;
   REAL GET_DOUBLE(ANORM), RCOND;
 
-  value res;
+  value v_res;
 
   MAT_PARAMS(A);
   INT_VEC_PARAMS(IPIV);
@@ -208,14 +208,12 @@ CAMLprim value LFUN(sycon_stub)(
     WORK_data, &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  res = alloc_small(2, 0);
-  Field(res, 0) = Val_int(INFO);
+  v_rcond = caml_copy_double(RCOND);
+  v_res = caml_alloc_small(2, 0);
+  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 1) = v_rcond;
 
-  Begin_roots1(res);
-    Field(res, 1) = copy_double(RCOND);
-  End_roots();
-
-  CAMLreturn(res);
+  CAMLreturn(v_res);
 }
 
 CAMLprim value LFUN(sycon_stub_bc)(value *argv, int argn)
@@ -247,12 +245,13 @@ CAMLprim value LFUN(pocon_stub)(
   value vANORM)
 {
   CAMLparam3(vA, vWORK, vRWORK);
+  CAMLlocal1(v_rcond);
 
   char GET_INT(UPLO);
   integer GET_INT(N), INFO;
   REAL GET_DOUBLE(ANORM), RCOND;
 
-  value res;
+  value v_res;
 
   MAT_PARAMS(A);
   VEC_PARAMS1(WORK);
@@ -266,14 +265,12 @@ CAMLprim value LFUN(pocon_stub)(
     WORK_data, RWORK_data, &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  res = alloc_small(2, 0);
-  Field(res, 0) = Val_int(INFO);
+  v_rcond = caml_copy_double(RCOND);
+  v_res = caml_alloc_small(2, 0);
+  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 1) = v_rcond;
 
-  Begin_roots1(res);
-    Field(res, 1) = copy_double(RCOND);
-  End_roots();
-
-  CAMLreturn(res);
+  CAMLreturn(v_res);
 }
 
 CAMLprim value LFUN(pocon_stub_bc)(value *argv, int argn)

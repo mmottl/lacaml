@@ -114,7 +114,7 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   CAMLreturn(Val_unit);
 }
 
-#define COPY_NUMBER(acc) copy_double(acc)
+#define COPY_NUMBER(acc) caml_copy_double(acc)
 
 #define NAME LFUN(max_stub)
 #define INIT -LACAML_INF
@@ -177,7 +177,7 @@ CAMLprim value LFUN(ssqr_stub)(
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(copy_double(acc));
+  CAMLreturn(caml_copy_double(acc));
 }
 
 CAMLprim value LFUN(fold_stub)(
@@ -207,7 +207,7 @@ CAMLprim value LFUN(fold_stub)(
   };
 
   while (start != last) {
-    acc = callback2(vClosure, acc, copy_double(*start));
+    acc = callback2(vClosure, acc, caml_copy_double(*start));
     start += INCX;
   };
 
