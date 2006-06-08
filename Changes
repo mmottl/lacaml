@@ -1,3 +1,5 @@
+2006-06-08:  Fixed some GC-bugs.  Cleaned up C-code.
+
 2006-01-21:  Updated copy of f2c.h to fix size-related bugs on AMD64.
              Fixed some warnings introduced by OCaml-3.09.
 
