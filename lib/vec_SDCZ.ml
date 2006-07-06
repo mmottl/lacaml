@@ -94,6 +94,30 @@ let append v1 v2 =
   for i = 1 to n2 do res.{i + n1} <- v2.{i} done;
   res
 
+let rec coll_size n = function
+  | [] -> n
+  | v :: vs -> coll_size (dim v + n) vs
+
+external direct_copy :
+  int -> (* N *)
+  int -> (* OFSY *)
+  int -> (* INCY *)
+  vec -> (* Y *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec (* X *)
+  -> unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
+
+let concat vs =
+  let res = create (coll_size 0 vs) in
+  let coll ofsy v =
+    let n = dim v in
+    direct_copy n ofsy 1 res 1 1 v;
+    ofsy + n
+  in
+  ignore (List.fold_left coll 1 vs);
+  res
+
 let empty = create 0
 
 external direct_linspace :

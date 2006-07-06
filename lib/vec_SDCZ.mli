@@ -63,6 +63,9 @@ val append : vec -> vec -> vec
 (** [append v1 v2] @return the vector resulting from appending vector
     [v2] to [v1]. *)
 
+val concat : vec list -> vec
+(** [concat vs] @return the concatenation of vectors [vs]. *)
+
 val empty : vec
 (** [empty] the empty vector. *)
 
