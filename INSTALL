@@ -5,7 +5,7 @@
 ---------------------------------------------------------------------------
 
   1) Get BLAS (preferably a more efficient ATLAS-implementation),
-     LAPACK and G2C (see README for details) and install these libraries.
+     LAPACK and F2C (see README for details) and install these libraries.
 
      If the libraries are installed in a non-standard place, you may
      need to set the paths to the include files and to the static or
