@@ -382,16 +382,6 @@ let xlange_get_params loc m n ar ac a =
   let n = get_dim2_mat loc "a" a ac "n" n in
   m, n
 
-(* ?lansy -- auxiliary functions *)
-
-let xlansy_get_params loc n ar ac a =
-  get_n_of_a loc ar ac a n
-
-(* ??trf -- auxiliary functions *)
-
-let xxtrf_get_params loc ar ac a n =
-  get_n_of_a loc ar ac a n
-
 (* ??trs -- auxiliary functions *)
 
 let xxtrs_get_params loc ar ac a n br bc b nrhs =
@@ -414,9 +404,6 @@ let xxtrs_err loc n nrhs a b err =
 let xxtri_lu_err loc err =
   failwith (sprintf "%s: U(%i,%i)=0 in the LU factorization" loc err err)
 
-let xxtri_get_params loc n ar ac a =
-    get_dim2_mat loc "a" a ac "n" n
-
 let xxtri_err loc n a err =
   let msg =
     match err with
@@ -426,8 +413,6 @@ let xxtri_err loc n a err =
   invalid_arg (sprintf "%s: %s" loc msg)
 
 (* ??con -- auxiliary functions *)
-
-let xxcon_get_params loc n ar ac a = get_dim2_mat loc "a" a ac "n" n
 
 let xxcon_err loc n a err =
   let msg =

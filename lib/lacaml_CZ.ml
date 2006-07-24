@@ -62,7 +62,7 @@ let lansy_min_lwork n = function `I -> n | _ -> 0
 
 let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.lansy" in
-  let n = xlansy_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let norm_char = get_norm_char norm in
   let uplo_char = get_uplo_char up in
   let min_work = lansy_min_lwork n norm in
@@ -91,7 +91,7 @@ let gecon_min_lrwork n = 2 * n
 
 let gecon ?n ?(norm = `O) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.gecon" in
-  let n = xxcon_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let norm_char = get_norm_char norm in
   let work, lwork =
     get_work
@@ -125,7 +125,7 @@ let sycon_min_lwork n = 2 * n
 
 let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.sycon" in
-  let n = xxcon_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let work, lwork =
     get_work
@@ -160,7 +160,7 @@ let pocon_min_lrwork n = n
 
 let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.pocon" in
-  let n = xxcon_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let min_lwork, min_lrwork = pocon_min_lwork n, pocon_min_lrwork n in
   let work, lwork =

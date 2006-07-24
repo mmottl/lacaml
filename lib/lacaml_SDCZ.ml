@@ -414,12 +414,12 @@ let getri_get_opt_lwork loc n ar ac a =
 
 let getri_opt_lwork ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.getri_opt_lwork" in
-  let n = xxtri_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   getri_get_opt_lwork loc n ar ac a
 
 let getri ?n ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.getri" in
-  let n = xxtri_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let work, lwork =
     get_work
       loc Vec.create work
@@ -454,7 +454,7 @@ let sytrf_get_opt_lwork loc uplo n ar ac a =
 let sytrf_opt_lwork ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.sytrf_opt_lwork" in
   let uplo_char = get_uplo_char up in
-  let n = xxtrf_get_params loc ar ac a n in
+  let n = get_n_of_a loc ar ac a n in
   sytrf_get_opt_lwork loc uplo_char n ar ac a
 
 let sytrf_min_lwork () = 1
@@ -462,7 +462,7 @@ let sytrf_min_lwork () = 1
 let sytrf ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.sytrf" in
   let uplo_char = get_uplo_char up in
-  let n = xxtrf_get_params loc ar ac a n in
+  let n = get_n_of_a loc ar ac a n in
   let ipiv = sytrf_get_ipiv loc ipiv n in
   let work, lwork =
     get_work
@@ -518,7 +518,7 @@ let sytri_min_lwork n = n
 let sytri ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.sytri" in
   let uplo_char = get_uplo_char up in
-  let n = xxtri_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let work, lwork =
     get_work
       loc Vec.create work
@@ -544,7 +544,7 @@ external direct_potrf :
 let potrf ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.potrf" in
   let uplo_char = get_uplo_char up in
-  let n = xxtrf_get_params loc ar ac a n in
+  let n = get_n_of_a loc ar ac a n in
   let info = direct_potrf uplo_char n ar ac a in
   if info <> 0 then
     if info > 0 then potrf_chol_err loc info
@@ -583,7 +583,7 @@ external direct_potri :
 
 let potri ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.potri" in
-  let n = xxtri_get_params loc n ar ac a in
+  let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let info = direct_potri uplo_char n ar ac a in
   if info <> 0 then

@@ -1,3 +1,7 @@
+2006-07-24:  Tightened parameter checks on functions that accept square
+             matrices only to prevent LAPACK from complaining (i.e. raise
+             OCaml exceptions instead).
+
 2006-07-06:  Added Vec.concat.
 
 2006-06-08:  Fixed some GC-bugs.  Cleaned up C-code.
