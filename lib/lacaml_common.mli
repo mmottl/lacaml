@@ -47,8 +47,8 @@ exception InternalError of string
 (** [InternalError msg] gets raised when BLAS or LAPACK exhibit undefined
     behaviour. *)
 
-type int_vec = (int, int_elt, fortran_layout) Array1.t
-(** Type of integer vectors. *)
+type int_vec = (int32, int32_elt, fortran_layout) Array1.t
+(** Type of 32bit Fortran integer vectors. *)
 
 val create_int_vec : int -> int_vec
 (** [create_int_vec n] @return an int-vector with [n] rows. *)

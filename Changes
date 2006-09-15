@@ -1,3 +1,6 @@
+2006-09-15:  Fixed bug on 64bit architectures: Fortran integers are
+             32bit only, Lacaml did not account for that.
+
 2006-07-24:  Tightened parameter checks on functions that accept square
              matrices only to prevent LAPACK from complaining (i.e. raise
              OCaml exceptions instead).

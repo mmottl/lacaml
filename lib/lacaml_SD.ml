@@ -370,7 +370,7 @@ let gelsy ?m ?n ?(ar = 1) ?(ac = 1) a ?(rcond = -1.0)
         else jpvt
     | None ->
         let jpvt = create_int_vec n in
-        Array1.fill jpvt 0;
+        Array1.fill jpvt 0l;
         jpvt in
 
   let work, lwork =
@@ -947,7 +947,7 @@ let syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo =
   let info =
     direct_syevd
       ar ac a n jobz uplo 1 Vec.empty dummy_work (-1) dummy_iwork (-1) in
-  if info = 0 then int_of_float dummy_work.{1}, dummy_iwork.{1}
+  if info = 0 then int_of_float dummy_work.{1}, Int32.to_int dummy_iwork.{1}
   else
     syevd_err
       loc (syevd_min_lwork ~vectors) (syevd_min_liwork ~vectors)
@@ -1087,7 +1087,7 @@ let syevr_get_opt_l_li_work
       isuppz
       dummy_work (-1)
       dummy_iwork (-1) in
-  if info = 0 then int_of_float dummy_work.{1}, dummy_iwork.{1}
+  if info = 0 then int_of_float dummy_work.{1}, Int32.to_int dummy_iwork.{1}
   else syevr_err loc a n info
 
 let syevr_get_opt_lwork
