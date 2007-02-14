@@ -568,7 +568,7 @@ external direct_gesvd :
 
 let gesvd_min_lwork ~m ~n =
   let min_m_n = min m n in
-  max 1 (max (3*min_m_n + max m n) (5 * min_m_n))
+  max 1 (max (3 * min_m_n + max m n) (5 * min_m_n))
 
 let gesvd_get_opt_lwork loc jobu jobvt m n ar ac a s ur uc u vtr vtc vt =
   let lwork = -1 in
@@ -589,13 +589,17 @@ let gesvd_opt_lwork
       loc Vec.create Mat.create jobu jobvt m n ar ac a s ur uc u vtr vtc vt in
   gesvd_get_opt_lwork loc jobu jobvt m n ar ac a s ur uc u vtr vtc vt
 
+let get_job_svecs mat = function
+  | `A | `S -> mat
+  | `O | `N -> Mat.empty
+
 let gesvd
     ?m ?n
     ?(jobu = `A) ?(jobvt = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u
     ?(vtr = 1) ?(vtc = 1) ?vt ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.gesvd" in
-  let jobu, jobvt, m, n, s, u, vt =
+  let jobu_c, jobvt_c, m, n, s, u, vt =
     gesvd_get_params
       loc Vec.create Mat.create jobu jobvt m n ar ac a s ur uc u vtr vtc vt in
   let work, lwork =
@@ -604,12 +608,15 @@ let gesvd
     | None ->
         let lwork =
           gesvd_get_opt_lwork
-            loc jobu jobvt m n ar ac a s ur uc u vtr vtc vt in
+            loc jobu_c jobvt_c m n ar ac a s ur uc u vtr vtc vt in
         Vec.create lwork, lwork in
   let info =
-    direct_gesvd jobu jobvt m n ar ac a s ur uc u vtr vtc vt work lwork in
-  if info = 0 then s, u, vt
-  else gesvd_err loc jobu jobvt m n a u vt lwork info
+    direct_gesvd jobu_c jobvt_c m n ar ac a s ur uc u vtr vtc vt work lwork in
+  if info = 0 then
+    let u = get_job_svecs u jobu in
+    let vt = get_job_svecs vt jobvt in
+    s, u, vt
+  else gesvd_err loc jobu_c jobvt_c m n a u vt lwork info
 
 
 (* GESDD *)
@@ -689,10 +696,10 @@ let gesdd_opt_lwork
     ?(ur = 1) ?(uc = 1) ?u ?(vtr = 1) ?(vtc = 1) ?vt
     ?iwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.gesdd_opt_lwork" in
-  let jobz, m, n, s, u, vt =
+  let jobz_c, m, n, s, u, vt =
     gesdd_get_params
       loc Vec.create Mat.create jobz m n ar ac a s ur uc u vtr vtc vt in
-  gesdd_get_opt_lwork loc jobz ?iwork m n ar ac a s ur uc u vtr vtc vt
+  gesdd_get_opt_lwork loc jobz_c ?iwork m n ar ac a s ur uc u vtr vtc vt
 
 let gesdd
     ?m ?n
@@ -700,7 +707,7 @@ let gesdd
     ?(ur = 1) ?(uc = 1) ?u ?(vtr = 1) ?(vtc = 1) ?vt
     ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.gesdd" in
-  let jobz, m, n, s, u, vt =
+  let jobz_c, m, n, s, u, vt =
     gesdd_get_params
       loc Vec.create Mat.create jobz m n ar ac a s ur uc u vtr vtc vt in
   let iwork = gesdd_get_iwork loc ~m ~n iwork in
@@ -710,12 +717,16 @@ let gesdd
     | None ->
         let lwork =
           gesdd_get_opt_lwork
-            loc jobz ~iwork m n ar ac a s ur uc u vtr vtc vt in
+            loc jobz_c ~iwork m n ar ac a s ur uc u vtr vtc vt in
         Vec.create lwork, lwork in
   let info =
-    direct_gesdd jobz m n ar ac a s ur uc u vtr vtc vt work lwork iwork in
-  if info = 0 then s, u, vt
-  else gesdd_err loc jobz m n a u vt lwork info
+    direct_gesdd jobz_c m n ar ac a s ur uc u vtr vtc vt work lwork iwork in
+  if info = 0 then
+    match jobz with
+    | `A | `S -> s, u, vt
+    | `O -> if m >= n then s, Mat.empty, vt else s, u, Mat.empty
+    | `N -> s, Mat.empty, Mat.empty
+  else gesdd_err loc jobz_c m n a u vt lwork info
 
 
 (* General eigenvalue problem (simple drivers) *)

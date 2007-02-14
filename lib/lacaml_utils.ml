@@ -548,13 +548,16 @@ let gesvd_err loc jobu jobvt m n a u vt lwork err =
       | -6 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 m) (Array2.dim1 a)
       | -9 ->
           sprintf "dim1(u): valid=[%d..[ got=%d"
-            (if jobu = 'A' || jobu = 'A' then max 1 m else 1) (Array2.dim1 u)
+            (match jobu with 'A' | 'S' -> max 1 m | _ -> 1)
+            (Array2.dim1 u)
       | -11 ->
           sprintf "dim1(vt): valid=[%d..[ got=%d"
             (
-              if jobvt = 'A' then max 1 n
-              else if jobvt = 'S' then max 1 (min m n)
-              else 1)
+              match jobvt with
+              | 'A' -> max 1 n
+              | 'S' -> max 1 (min m n)
+              | _ -> 1
+            )
             (Array2.dim1 vt)
       | -13 -> sprintf "lwork: valid=[%d..[ got=%d" 1 lwork
       | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
@@ -562,16 +565,14 @@ let gesvd_err loc jobu jobvt m n a u vt lwork err =
 
 let gesvd_get_params
     loc vec_create mat_create jobu jobvt m n ar ac a s ur uc u vtr vtc vt =
-  let jobu = get_s_d_job_char jobu in
-  let jobvt = get_s_d_job_char jobvt in
   let m = get_dim1_mat loc "a" a ar "m" m in
   let n = get_dim2_mat loc "a" a ac "n" n in
   let s = get_vec loc "s" s 1 1 (min m n) vec_create in
   let um, un =
     match jobu with
-    | 'A' -> m, m
-    | 'S' -> m, min m n
-    | _  -> 1, 1 in  (* LDU >= 1 even when U not referenced *)
+    | `A -> m, m
+    | `S -> m, min m n
+    | `O | `N -> 1, 1 in  (* LDU >= 1 even when U not referenced *)
   let u =
     match u with
     | Some u ->
@@ -581,9 +582,9 @@ let gesvd_get_params
     | None -> mat_create um un in
   let vm, vn =
     match jobvt with
-    | 'A' -> n, n
-    | 'S' -> min m n, n
-    | _ ->  1, 1 in  (* LDVT >= 1 even when VT not referenced *)
+    | `A -> n, n
+    | `S -> min m n, n
+    | `O | `N ->  1, 1 in  (* LDVT >= 1 even when VT not referenced *)
   let vt =
     match vt with
     | Some vt ->
@@ -591,7 +592,9 @@ let gesvd_get_params
         check_dim2_mat loc "vt" vt vtc "vn" vn;
         vt
     | None -> mat_create vm vn in
-  jobu, jobvt, m, n, s, u, vt
+  let jobu_c = get_s_d_job_char jobu in
+  let jobvt_c = get_s_d_job_char jobvt in
+  jobu_c, jobvt_c, m, n, s, u, vt
 
 
 (* gesdd -- auxiliary functions *)
@@ -608,12 +611,16 @@ let gesdd_err loc jobz m n a u vt lwork err =
       | -5 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 m) (Array2.dim1 a)
       | -8 ->
           sprintf "dim1(u): valid=[%d..[ got=%d"
-            (if jobz = 'A' || jobz = 'O' && m < n then max 1 m else 1)
+            (
+              if jobz = 'A' || jobz = 'S' || (jobz = 'O' && m < n)
+              then max 1 m
+              else 1
+            )
             (Array2.dim1 u)
       | -10 ->
           sprintf "dim1(vt): valid=[%d..[ got=%d"
             (
-              if jobz = 'A' || jobz = 'O' && m >= n then max 1 n
+              if jobz = 'A' || (jobz = 'O' && m >= n) then max 1 n
               else if jobz = 'S' then max 1 (min m n)
               else 1
             )
@@ -624,17 +631,16 @@ let gesdd_err loc jobz m n a u vt lwork err =
 
 let gesdd_get_params
       loc vec_create mat_create jobz m n ar ac a s ur uc u vtr vtc vt =
-  let jobz = get_s_d_job_char jobz in
   let m = get_dim1_mat loc "a" a ar "m" m in
   let n = get_dim2_mat loc "a" a ac "n" n in
   let min_m_n = min m n in
   let s = get_vec loc "s" s 1 1 min_m_n vec_create in
   let um, un, vm, vn =
     match jobz with
-    | 'A' -> m, m, n, n
-    | 'S' -> m, min_m_n, min_m_n, n
-    | 'O' -> if m >= n then 1, 1, n, n else m, m, m, n
-    | _  -> 1, 1, 1, 1 in  (* LDU >= 1 even when U not referenced *)
+    | `A -> m, m, n, n
+    | `S -> m, min_m_n, min_m_n, n
+    | `O -> if m >= n then 1, 1, n, n else m, m, m, n
+    | `N  -> 1, 1, 1, 1 in  (* LDU >= 1 even when U not referenced *)
   let u =
     match u with
     | Some u ->
@@ -649,7 +655,8 @@ let gesdd_get_params
         check_dim2_mat loc "vt" vt vtc "vn" vn;
         vt
     | None -> mat_create vm vn in
-  jobz, m, n, s, u, vt
+  let jobz_c = get_s_d_job_char jobz in
+  jobz_c, m, n, s, u, vt
 
 
 (* ??sv -- auxiliary functions *)
