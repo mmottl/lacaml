@@ -51,7 +51,7 @@ CAMLprim value LFUN(map_stub)(
   value vClosure)
 {
   CAMLparam3(vA, vC, vClosure);
-  CAMLlocal1(res);
+  CAMLlocal1(v_res);
 
   int GET_INT(M), GET_INT(N);
 
@@ -70,9 +70,10 @@ CAMLprim value LFUN(map_stub)(
          entry_a < entry_end;
          entry_a++, entry_c++)
     {
-      res = caml_callback(vClosure, copy_two_doubles(entry_a->r, entry_a->i));
-      entry_c->r = Double_field(res, 0);
-      entry_c->i = Double_field(res, 1);
+      value v_entry_a = copy_two_doubles(entry_a->r, entry_a->i);
+      v_res = caml_callback(vClosure, v_entry_a);
+      entry_c->r = Double_field(v_res, 0);
+      entry_c->i = Double_field(v_res, 1);
     }
   }
 

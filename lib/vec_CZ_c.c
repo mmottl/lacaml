@@ -277,7 +277,8 @@ CAMLprim value LFUN(fold_stub)(
   };
 
   while  (start != last) {
-    acc = callback2(vClosure, acc, copy_two_doubles(start->r, start->i));
+    value v_start = copy_two_doubles(start->r, start->i);
+    acc = caml_callback2(vClosure, acc, v_start);
     start += INCX;
   };
 

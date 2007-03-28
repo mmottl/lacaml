@@ -1,3 +1,5 @@
+2007-03-28:  Fixed potential GC-bugs.  Updated OCamlMakefile.
+
 2006-11-22:  Updated OCamlMakefile.
 
 2006-09-15:  Fixed bug on 64bit architectures: Fortran integers are
