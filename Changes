@@ -1,3 +1,5 @@
+2007-03-30:  Added lacaml_utils to installed interfaces.
+
 2007-03-28:  Fixed potential GC-bugs.  Updated OCamlMakefile.
 
 2006-11-22:  Updated OCamlMakefile.
