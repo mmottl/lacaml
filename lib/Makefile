@@ -98,7 +98,7 @@ LIBINSTALL_FILES := \
   lacaml_float64.ml lacaml_float64.cmi \
   lacaml_complex32.ml lacaml_complex32.cmi \
   lacaml_complex64.ml lacaml_complex64.cmi \
-  lacaml_common.cmi lacaml_io.cmi \
+  lacaml_common.cmi lacaml_utils.cmi lacaml_io.cmi \
   lacaml_install_printers.cmi \
   lacaml.cmi lacaml.cma lacaml_top.cma lacaml.cmxa lacaml.a \
   liblacaml_stubs.a $(INSTALL_DLL)
