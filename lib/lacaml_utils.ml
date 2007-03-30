@@ -474,7 +474,7 @@ let potrf_chol_err loc err =
   failwith (
     sprintf "%s: leading minor of order %d is not positive definite" loc err)
 
-let potrf_err loc uplo n a err =
+let potrf_err loc n a err =
   let msg =
     match err with
     | -2 -> sprintf "n: valid=[0..[ got=%d" n
@@ -670,16 +670,16 @@ let xxsv_err loc n nrhs b err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
-let xxsv_lu_err loc n nrhs b err =
+let xxsv_lu_err loc err =
   failwith (sprintf "%s: U(%i,%i)=0 in the LU factorization" loc err err)
 
-let xxsv_pos_err loc n nrhs b err =
+let xxsv_pos_err loc err =
   let msg =
     sprintf
       "%s: the leading minor of order %i is not positive definite" loc err in
   failwith msg
 
-let xxsv_ind_err loc n nrhs b err =
+let xxsv_ind_err loc err =
   let msg =
     sprintf
       "%s: D(%i,%i)=0 in the diagonal pivoting factorization" loc err err in

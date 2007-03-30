@@ -38,7 +38,7 @@ let pp_space ppf = pp_print_string ppf " "
 
 let pp_end_row_newline ppf _ = pp_newline ppf
 let pp_end_row_space ppf _ = pp_space ppf
-let pp_end_col_space ppf ~row ~col = pp_space ppf
+let pp_end_col_space ppf ~row:_ ~col:_ = pp_space ppf
 
 let pp_padded_str ppf pad_c max_len str =
   let str_len = String.length str in
@@ -662,7 +662,7 @@ let pp_ocaml_end_row_mat ppf _ =
   pp_force_newline ppf ();
   pp_print_string ppf "[| "
 
-let pp_end_col_semi_space ppf ~row ~col = pp_print_string ppf "; "
+let pp_end_col_semi_space ppf ~row:_ ~col:_ = pp_print_string ppf "; "
 
 let pp_omat ppf pp_el mat =
   if Array2.dim1 mat = 0 || Array2.dim2 mat = 0 then pp_print_string ppf "[||]"

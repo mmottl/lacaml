@@ -66,7 +66,7 @@ let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let norm_char = get_norm_char norm in
   let uplo_char = get_uplo_char up in
   let min_work = lansy_min_lwork n norm in
-  let work, lwork = get_work loc RVec.create work min_work min_work "lwork" in
+  let work, _lwork = get_work loc RVec.create work min_work min_work "lwork" in
   direct_lansy norm_char uplo_char n ar ac a work
 
 
@@ -93,10 +93,10 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.gecon" in
   let n = get_n_of_a loc ar ac a n in
   let norm_char = get_norm_char norm in
-  let work, lwork =
+  let work, _lwork =
     get_work
       loc Vec.create work (gecon_min_lwork n) (gecon_min_lwork n) "lwork" in
-  let rwork, lrwork =
+  let rwork, _lrwork =
     get_work
       loc RVec.create rwork
       (gecon_min_lrwork n) (gecon_min_lrwork n) "lrwork" in
@@ -127,7 +127,7 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.sycon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
-  let work, lwork =
+  let work, _lwork =
     get_work
       loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) "lwork" in
   let ipiv =
@@ -163,9 +163,9 @@ let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let min_lwork, min_lrwork = pocon_min_lwork n, pocon_min_lrwork n in
-  let work, lwork =
+  let work, _lwork =
     get_work loc Vec.create work min_lwork min_lwork "lwork" in
-  let rwork, lrwork =
+  let rwork, _lrwork =
     get_work loc RVec.create rwork min_lrwork min_lrwork "lrwork" in
   let anorm =
     match anorm with
@@ -245,7 +245,7 @@ let gesvd
         Vec.create lwork, lwork in
   let rwork =
     match rwork with
-    | None -> RVec.create (gesvd_lrwork m n)
+    | None -> RVec.create (gesvd_lrwork ~m ~n)
     | Some rwork ->
         let lrwork = Array1.dim rwork in
         let min_lrwork = gesvd_lrwork ~m ~n in

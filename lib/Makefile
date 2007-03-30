@@ -68,7 +68,7 @@ SOURCES := \
 	lacaml.ml \
 	$(STUBS)
 
-OCAMLFLAGS := -warn-error A
+OCAMLFLAGS := -w A -warn-error A
 #CFLAGS	:= -fPIC -DPIC -Wall -Werror -pedantic -Wno-unused -Wno-long-long
 CFLAGS := -O2 -fPIC -DPIC
 CLIBS := $(LAPACK) $(BLAS) $(F2C)

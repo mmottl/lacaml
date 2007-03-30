@@ -183,7 +183,7 @@ let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let norm_char = get_norm_char norm in
   let uplo_char = get_uplo_char up in
   let min_work = lansy_min_lwork n norm in
-  let work, lwork = get_work loc Vec.create work min_work min_work "lwork" in
+  let work, _lwork = get_work loc Vec.create work min_work min_work "lwork" in
   direct_lansy norm_char uplo_char n ar ac a work
 
 external direct_lamch : char -> float = "lacaml_FPREClamch_stub"
@@ -226,10 +226,10 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.gecon" in
   let n = get_n_of_a loc ar ac a n in
   let norm_char = get_norm_char norm in
-  let work, lwork =
+  let work, _lwork =
     get_work
       loc Vec.create work (gecon_min_lwork n) (gecon_min_lwork n) "lwork" in
-  let iwork, liwork =
+  let iwork, _liwork =
     get_work
       loc Lacaml_common.create_int_vec iwork
       (gecon_min_liwork n) (gecon_min_liwork n) "liwork" in
@@ -263,10 +263,10 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.sycon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
-  let work, lwork =
+  let work, _lwork =
     get_work
       loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) "lwork" in
-  let iwork, liwork =
+  let iwork, _liwork =
     get_work
       loc Lacaml_common.create_int_vec iwork
       (sycon_min_liwork n) (sycon_min_liwork n) "liwork" in
@@ -302,10 +302,10 @@ let pocon ?n ?(up = true) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.pocon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
-  let work, lwork =
+  let work, _lwork =
     get_work
       loc Vec.create work (pocon_min_lwork n) (pocon_min_lwork n) "lwork" in
-  let iwork, liwork =
+  let iwork, _liwork =
     get_work
       loc Lacaml_common.create_int_vec iwork
       (pocon_min_liwork n) (pocon_min_liwork n) "liwork" in
@@ -377,7 +377,7 @@ let gelsy ?m ?n ?(ar = 1) ?(ac = 1) a ?(rcond = -1.0)
     match work with
     | Some work ->
         let lwork = Array1.dim work in
-        let min_lwork = gelsy_min_lwork m n nrhs in
+        let min_lwork = gelsy_min_lwork ~m ~n ~nrhs in
         if lwork < min_lwork then
           invalid_arg
             (sprintf "%s: lwork: valid=[%d..[ got=%d" loc min_lwork lwork)
@@ -474,7 +474,7 @@ let gelsd ?m ?n ?(rcond = -1.0) ?ofss ?s ?work ?iwork
     match work with
     | Some work ->
         let lwork = Array1.dim work in
-        let min_lwork = gelsd_min_lwork m n nrhs in
+        let min_lwork = gelsd_min_lwork ~m ~n ~nrhs in
         if lwork < min_lwork then
           invalid_arg
             (sprintf "%s: lwork: valid=[%d..[ got=%d" loc min_lwork lwork)
@@ -678,7 +678,6 @@ let gesdd_min_lwork_char jobz ~m ~n =
   gesdd_min_lwork ~jobz ~m ~n ()
 
 let gesdd_get_opt_lwork loc jobz ?iwork m n ar ac a s ur uc u vtr vtc vt =
-  let loc = "gesdd_get_opt_lwork" in
   let iwork = gesdd_get_iwork loc ~m ~n iwork in
   let lwork = -1 in
   let dummy_work = Vec.create 1 in
@@ -1114,32 +1113,25 @@ let syevr_get_opt_liwork
       loc ar ac a n jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz)
 
 let syevr_opt_l_li_work
-    ?n ?(vectors = false) ?(range = `A) ?(up = true) ?(abstol = 0.) ?work ?iwork
-    ?(ofsw = 1) ?w ?(zr = 1) ?(zc = 1) ?z ?isuppz ?(ar = 1) ?(ac = 1) a =
+    ?n ?(vectors = false) ?(range = `A) ?(up = true) ?(abstol = 0.)
+    ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.syevr_opt_l_li_work" in
   let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
-  let range, m, vl, vu, il, iu = syevr_get_params loc n range in
-  let w = Vec.empty in
+  let range, _m, vl, vu, il, iu = syevr_get_params loc n range in
+  let zr = 1 in
+  let zc = 1 in
   let z = Mat.empty in
+  let ofsw = 1 in
+  let w = Vec.empty in
   let isuppz = empty_int_vec in
   syevr_get_opt_l_li_work
     loc ar ac a n jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz
 
-let syevr_opt_lwork
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a =
-  fst (
-    syevr_opt_l_li_work
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a)
+let syevr_opt_lwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a =
+  fst (syevr_opt_l_li_work ?n ?vectors ?range ?up ?abstol ?ar ?ac a)
 
-let syevr_opt_liwork
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a =
-  snd (
-    syevr_opt_l_li_work
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a)
+let syevr_opt_liwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a =
+  snd (syevr_opt_l_li_work ?n ?vectors ?range ?up ?abstol ?ar ?ac a)
 
 let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
       ?ofsw ?w ?(zr = 1) ?(zc = 1) ?z ?isuppz ?(ar = 1) ?(ac = 1) a =

@@ -686,24 +686,14 @@ val syevr_opt_lwork :
   ?range : [ `A | `V of float * float | `I of int * int ] ->
   ?up : bool ->
   ?abstol : float ->
-  ?work : vec ->
-  ?iwork : int_vec ->
-  ?ofsw : int ->
-  ?w : vec ->
-  ?zr : int ->
-  ?zc : int ->
-  ?z : mat ->
-  ?isuppz : int_vec ->
   ?ar : int ->
   ?ac : int ->
   mat
   -> int
-(** [syevr_opt_lwork
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a] @return the optimum
-    length of the work-array used by the [syevr]-function given matrix
-    [a], optionally its logical dimension [n] and whether the eigenvectors
-    must be computed ([vectors]).
+(** [syevr_opt_lwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a] @return
+    the optimum length of the work-array used by the [syevr]-function
+    given matrix [a], optionally its logical dimension [n] and whether
+    the eigenvectors must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
     @param vectors default = false, i.e. eigenvectors are not computed
     @param up default = true, i.e. upper triangle of [a] is stored *)
@@ -714,24 +704,14 @@ val syevr_opt_liwork :
   ?range : [ `A | `V of float * float | `I of int * int ] ->
   ?up : bool ->
   ?abstol : float ->
-  ?work : vec ->
-  ?iwork : int_vec ->
-  ?ofsw : int ->
-  ?w : vec ->
-  ?zr : int ->
-  ?zc : int ->
-  ?z : mat ->
-  ?isuppz : int_vec ->
   ?ar : int ->
   ?ac : int ->
   mat
   -> int
-(** [syevr_opt_liwork
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a] @return the optimum
-    length of the iwork-array used by the [syevr]-function given matrix
-    [a], optionally its logical dimension [n] and whether the eigenvectors
-    must be computed ([vectors]).
+(** [syevr_opt_liwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a] @return
+    the optimum length of the iwork-array used by the [syevr]-function
+    given matrix [a], optionally its logical dimension [n] and whether
+    the eigenvectors must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
     @param vectors default = false, i.e. eigenvectors are not computed
     @param up default = true, i.e. upper triangle of [a] is stored *)
@@ -742,25 +722,15 @@ val syevr_opt_l_li_work :
   ?range : [ `A | `V of float * float | `I of int * int ] ->
   ?up : bool ->
   ?abstol : float ->
-  ?work : vec ->
-  ?iwork : int_vec ->
-  ?ofsw : int ->
-  ?w : vec ->
-  ?zr : int ->
-  ?zc : int ->
-  ?z : mat ->
-  ?isuppz : int_vec ->
   ?ar : int ->
   ?ac : int ->
   mat
   -> int * int
-(** [syevr_opt_l_li_iwork
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a] @return the tuple
-    of optimum lengths of the work- and iwork-arrays respectively,
-    used by the [syevr]-function given matrix [a], optionally its
-    logical dimension [n] and whether the eigenvectors must be computed
-    ([vectors]).
+(** [syevr_opt_l_li_iwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a]
+    @return the tuple of optimum lengths of the work- and iwork-arrays
+    respectively, used by the [syevr]-function given matrix [a],
+    optionally its logical dimension [n] and whether the eigenvectors
+    must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
     @param vectors default = false, i.e. eigenvectors are not computed
     @param up default = true, i.e. upper triangle of [a] is stored *)

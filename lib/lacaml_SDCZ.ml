@@ -328,7 +328,7 @@ let lange ?m ?n ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml_NPREClange" in
   let m, n = xlange_get_params loc m n ar ac a in
   let norm_char = get_norm_char norm in
-  let work, lwork =
+  let work =
     match work with
     | Some work ->
         let lwork = Array1.dim work in
@@ -336,10 +336,11 @@ let lange ?m ?n ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
         if lwork < min_lwork then
           invalid_arg
             (sprintf "%s: lwork: valid=[%d..[ got=%d" loc min_lwork lwork)
-        else work, lwork
+        else work
     | None ->
         let lwork = lange_min_lwork m norm in
-        RVec.create lwork, lwork in
+        RVec.create lwork
+  in
   direct_lange norm_char m n ar ac a work
 
 
@@ -519,7 +520,7 @@ let sytri ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.sytri" in
   let uplo_char = get_uplo_char up in
   let n = get_n_of_a loc ar ac a n in
-  let work, lwork =
+  let work, _lwork =
     get_work
       loc Vec.create work
       (sytri_min_lwork n) (sytri_min_lwork n) "lwork" in
@@ -548,7 +549,7 @@ let potrf ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
   let info = direct_potrf uplo_char n ar ac a in
   if info <> 0 then
     if info > 0 then potrf_chol_err loc info
-    else potrf_err loc up n a info
+    else potrf_err loc n a info
 
 (* POTRS *)
 
@@ -614,7 +615,7 @@ let gesv ?n ?ipiv ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
   let info = direct_gesv ar ac a n ipiv nrhs br bc b in
   match info with
   | 0 -> ()
-  | i when i > 0 -> xxsv_lu_err loc n nrhs b info
+  | i when i > 0 -> xxsv_lu_err loc info
   | -4 -> xxsv_a_err loc a n
   | _ -> xxsv_err loc n nrhs b info
 
@@ -642,7 +643,7 @@ let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
   let info = direct_gbsv abr abc ab n kl ku ipiv nrhs br bc b in
   match info with
   | 0 -> ()
-  | i when i > 0 -> xxsv_lu_err loc n nrhs b info
+  | i when i > 0 -> xxsv_lu_err loc info
   | -1 -> xxsv_err loc n nrhs b info
   | -2 -> invalid_arg (sprintf "%s: kl: valid=[0..[ got=%d" loc kl)
   | -3 -> invalid_arg (sprintf "%s: ku: valid=[0..[ got=%d" loc ku)
@@ -679,8 +680,9 @@ let gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?(br = 1) ?(bc = 1) b =
   check_vec loc "dl" dl (ofsdl + n - 2);
   check_vec loc "du" du (ofsdu + n - 2);
   let info = direct_gtsv ofsdl dl ofsd d ofsdu du n nrhs br bc b in
-  if info <> 0 then
-    (if info > 0 then xxsv_lu_err else xxsv_err) loc n nrhs b info
+  if info <> 0 then (
+    if info > 0 then xxsv_lu_err loc info
+    else xxsv_err loc n nrhs b info)
 
 (* POSV *)
 
@@ -702,7 +704,7 @@ let posv ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
   let info = direct_posv ar ac a n (get_uplo_char up) nrhs br bc b in
   match info with
   | 0 -> ()
-  | i when i > 0 -> xxsv_pos_err loc n nrhs b info
+  | i when i > 0 -> xxsv_pos_err loc info
   | -5 -> xxsv_a_err loc a n
   | _ -> xxsv_err loc n nrhs b (info + 1)
 
@@ -726,7 +728,7 @@ let ppsv ?n ?(up = true) ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   let info = direct_ppsv ofsap ap n (get_uplo_char up) nrhs br bc b in
   if info <> 0 then
-    if info > 0 then xxsv_pos_err loc n nrhs b info
+    if info > 0 then xxsv_pos_err loc info
     else xxsv_err loc n nrhs b (info - 1) (* only: LDB *)
 
 (* PBSV *)
@@ -754,7 +756,7 @@ let pbsv ?n ?(up = true) ?kd ?(abr = 1) ?(abc = 1) ab
   let info = direct_pbsv abr abc ab n kd (get_uplo_char up) nrhs br bc b in
   match info with
   | 0 -> ()
-  | i when i > 0 -> xxsv_pos_err loc n nrhs b info
+  | i when i > 0 -> xxsv_pos_err loc info
   | -2 -> xxsv_err loc n nrhs b info
   | -3 -> invalid_arg (sprintf "%s: kd: valid=[0..[ got=%d" loc kd)
   | -6 ->
@@ -787,7 +789,7 @@ let ptsv ?n ?ofsd d ?ofse e ?nrhs ?(br = 1) ?(bc = 1) b =
   check_vec loc "e" e (ofse + n - 2);
   let info = direct_ptsv ofsd d ofse e n nrhs br bc b in
   if info <> 0 then
-    if info > 0 then xxsv_pos_err loc n nrhs b info
+    if info > 0 then xxsv_pos_err loc info
     else xxsv_err loc n nrhs b (info - 1)
 
 (* SYSV *)
@@ -836,7 +838,7 @@ let sysv ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a
   let info = direct_sysv ar ac a n uplo ipiv work lwork nrhs br bc b in
   match info with
   | 0 -> ()
-  | i when i > 0 -> xxsv_ind_err loc n nrhs b info
+  | i when i > 0 -> xxsv_ind_err loc info
   | -10 -> xxsv_work_err loc lwork
   | _ -> xxsv_err loc n nrhs b (info + 1)
 
@@ -862,7 +864,7 @@ let spsv ?n ?(up = true) ?ipiv ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
   let ipiv = xxsv_get_ipiv loc ipiv n in
   let info = direct_spsv ofsap ap n (get_uplo_char up) ipiv nrhs br bc b in
   if info <> 0 then
-    if info > 0 then xxsv_ind_err loc n nrhs b info
+    if info > 0 then xxsv_ind_err loc info
     else xxsv_err loc n nrhs b (info - 1) (* only possibility: LDB *)
 
 
