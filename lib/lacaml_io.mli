@@ -109,6 +109,9 @@ val pp_float_el_default : float pp_el_default
 val pp_complex_el_default : Complex.t pp_el_default
 (** fprintf ppf "(%G, %Gi)" el.re el.im *)
 
+val pp_print_int32 : formatter -> int32 -> unit
+(** fprintf ppf "%ld" el *)
+
 
 (** {6 Pretty-printing in standard style} *)
 
@@ -122,10 +125,10 @@ type ('el, 'elt) pp_vec =
 
 val pp_fvec : (float, 'elt) pp_vec
 val pp_cvec : (Complex.t, 'elt) pp_vec
-val pp_ivec : (int, 'elt) pp_vec
+val pp_ivec : (int32, 'elt) pp_vec
 val pp_rfvec : (float, 'elt) pp_vec
 val pp_rcvec : (Complex.t, 'elt) pp_vec
-val pp_rivec : (int, 'elt) pp_vec
+val pp_rivec : (int32, 'elt) pp_vec
 
 (** Type of standard pretty-printers for matrices *)
 type ('el, 'elt) pp_mat =
@@ -137,7 +140,7 @@ type ('el, 'elt) pp_mat =
 
 val pp_fmat : (float, 'elt) pp_mat
 val pp_cmat : (Complex.t, 'elt) pp_mat
-val pp_imat : (int, 'elt) pp_mat
+val pp_imat : (int32, 'elt) pp_mat
 
 
 (** {7 Labeled pretty-printing} *)
@@ -166,17 +169,17 @@ type ('el, 'elt) pp_labeled_vec =
 
     @param pp_head default = no default (= no printing)
     @param pp_foot default = no default (= no printing)
-    @param pp_left default = [Some pp_print_int] for vector rows/cols
+    @param pp_left default = [Some pp_print_int32] for vector rows/cols
                              (= not in header/footer row/col)
     @param pp_right default = no default (= no printing)
 *)
 
 val pp_labeled_fvec : (float, 'elt) pp_labeled_vec
 val pp_labeled_cvec : (Complex.t, 'elt) pp_labeled_vec
-val pp_labeled_ivec : (int, 'elt) pp_labeled_vec
+val pp_labeled_ivec : (int32, 'elt) pp_labeled_vec
 val pp_labeled_rfvec : (float, 'elt) pp_labeled_vec
 val pp_labeled_rcvec : (Complex.t, 'elt) pp_labeled_vec
-val pp_labeled_rivec : (int, 'elt) pp_labeled_vec
+val pp_labeled_rivec : (int32, 'elt) pp_labeled_vec
 
 (** Type of pretty-printers for string labeled vectors *)
 type ('el, 'elt) pp_lvec =
@@ -216,10 +219,10 @@ type ('el, 'elt) pp_lvec =
 
 val pp_lfvec : (float, 'elt) pp_lvec
 val pp_lcvec : (Complex.t, 'elt) pp_lvec
-val pp_livec : (int, 'elt) pp_lvec
+val pp_livec : (int32, 'elt) pp_lvec
 val pp_rlfvec : (float, 'elt) pp_lvec
 val pp_rlcvec : (Complex.t, 'elt) pp_lvec
-val pp_rlivec : (int, 'elt) pp_lvec
+val pp_rlivec : (int32, 'elt) pp_lvec
 
 
 (** {8 Matrices} *)
@@ -244,17 +247,17 @@ type ('el, 'elt) pp_labeled_mat =
     If [None] is passed as argument for the default printers, the
     corresponding labels will not be printed.
 
-    @param pp_head default = [Some pp_print_int]
-    @param pp_foot default = [Some pp_print_int]
-    @param pp_left default = [Some pp_print_int] for matrix rows
+    @param pp_head default = [Some pp_print_int32]
+    @param pp_foot default = [Some pp_print_int32]
+    @param pp_left default = [Some pp_print_int32] for matrix rows
                              (= not in header/footer row)
-    @param pp_right default = [Some pp_print_int] for matrix rows
+    @param pp_right default = [Some pp_print_int32] for matrix rows
                              (= not in header/footer row)
 *)
 
 val pp_labeled_fmat : (float, 'elt) pp_labeled_mat
 val pp_labeled_cmat : (Complex.t, 'elt) pp_labeled_mat
-val pp_labeled_imat : (int, 'elt) pp_labeled_mat
+val pp_labeled_imat : (int32, 'elt) pp_labeled_mat
 
 (** Type of pretty-printers for string labeled matrices *)
 type ('el, 'elt) pp_lmat =
@@ -292,7 +295,7 @@ type ('el, 'elt) pp_lmat =
 
 val pp_lfmat : (float, 'elt) pp_lmat
 val pp_lcmat : (Complex.t, 'elt) pp_lmat
-val pp_limat : (int, 'elt) pp_lmat
+val pp_limat : (int32, 'elt) pp_lmat
 
 
 (** {6 Pretty-printing in OCaml-style} *)
@@ -324,11 +327,11 @@ type ('el, 'elt) pp_ovec =
 
 val pp_ofvec : (float, 'elt) pp_ovec
 val pp_ocvec : (Complex.t, 'elt) pp_ovec
-val pp_oivec : (int, 'elt) pp_ovec
+val pp_oivec : (int32, 'elt) pp_ovec
 
 val pp_rofvec : (float, 'elt) pp_ovec
 val pp_rocvec : (Complex.t, 'elt) pp_ovec
-val pp_roivec : (int, 'elt) pp_ovec
+val pp_roivec : (int32, 'elt) pp_ovec
 
 val pp_omat :
   formatter ->
@@ -348,4 +351,4 @@ type ('el, 'elt) pp_omat =
 
 val pp_ofmat : (float, 'elt) pp_omat
 val pp_ocmat : (Complex.t, 'elt) pp_omat
-val pp_oimat : (int, 'elt) pp_omat
+val pp_oimat : (int32, 'elt) pp_omat

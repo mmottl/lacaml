@@ -319,6 +319,8 @@ let pp_complex_el_default = ref pp_complex_el_default_fun
 let pp_float_el ppf el = !pp_float_el_default ppf el
 let pp_complex_el ppf el = !pp_complex_el_default ppf el
 
+let pp_print_int32 ppf n = fprintf ppf "%ld" n
+
 
 (* Pretty-printing in standard style *)
 
@@ -331,7 +333,7 @@ type ('el, 'elt) pp_vec =
 
 let pp_fvec ppf vec = pp_mat_gen pp_float_el ppf (from_col_vec vec)
 let pp_cvec ppf vec = pp_mat_gen pp_complex_el ppf (from_col_vec vec)
-let pp_ivec ppf vec = pp_mat_gen pp_print_int ppf (from_col_vec vec)
+let pp_ivec ppf vec = pp_mat_gen pp_print_int32 ppf (from_col_vec vec)
 
 let pp_rfvec ppf vec =
   let mat = from_row_vec vec in
@@ -343,7 +345,7 @@ let pp_rcvec ppf vec =
 
 let pp_rivec ppf vec =
   let mat = from_row_vec vec in
-  pp_mat_gen ~pp_end_row:pp_end_row_space ~pad:None pp_print_int ppf mat
+  pp_mat_gen ~pp_end_row:pp_end_row_space ~pad:None pp_print_int32 ppf mat
 
 (* Matrices *)
 
@@ -354,7 +356,7 @@ type ('el, 'elt) pp_mat =
 
 let pp_fmat ppf mat = pp_mat_gen pp_float_el ppf mat
 let pp_cmat ppf mat = pp_mat_gen pp_complex_el ppf mat
-let pp_imat ppf mat = pp_mat_gen pp_print_int ppf mat
+let pp_imat ppf mat = pp_mat_gen pp_print_int32 ppf mat
 
 
 (* Labeled pretty-printing *)
@@ -395,7 +397,7 @@ let pp_labeled_mat_gen
 
 let pp_labeled_fmat ?pp_head = pp_labeled_mat_gen pp_float_el ?pp_head
 let pp_labeled_cmat ?pp_head = pp_labeled_mat_gen pp_complex_el ?pp_head
-let pp_labeled_imat ?pp_head = pp_labeled_mat_gen pp_print_int ?pp_head
+let pp_labeled_imat ?pp_head = pp_labeled_mat_gen pp_print_int32 ?pp_head
 
 (* String-labeled matrices *)
 
@@ -486,7 +488,7 @@ let pp_labeled_vec_gen
 
 let pp_labeled_fvec ?pp_head = pp_labeled_vec_gen pp_float_el ?pp_head
 let pp_labeled_cvec ?pp_head = pp_labeled_vec_gen pp_complex_el ?pp_head
-let pp_labeled_ivec ?pp_head = pp_labeled_vec_gen pp_print_int ?pp_head
+let pp_labeled_ivec ?pp_head = pp_labeled_vec_gen pp_print_int32 ?pp_head
 
 let some_pp_print_int = Some pp_print_int
 
@@ -510,7 +512,7 @@ let pp_labeled_rvec_gen
 
 let pp_labeled_rfvec ?pp_head = pp_labeled_rvec_gen pp_float_el ?pp_head
 let pp_labeled_rcvec ?pp_head = pp_labeled_rvec_gen pp_complex_el ?pp_head
-let pp_labeled_rivec ?pp_head = pp_labeled_rvec_gen pp_print_int ?pp_head
+let pp_labeled_rivec ?pp_head = pp_labeled_rvec_gen pp_print_int32 ?pp_head
 
 (* String-labeled vectors *)
 
@@ -632,11 +634,11 @@ let pp_rovec ppf pp_el vec =
 
 let pp_ofvec ppf vec = pp_ovec ppf pp_float_el vec
 let pp_ocvec ppf vec = pp_ovec ppf pp_complex_el vec
-let pp_oivec ppf vec = pp_ovec ppf pp_print_int vec
+let pp_oivec ppf vec = pp_ovec ppf pp_print_int32 vec
 
 let pp_rofvec ppf vec = pp_rovec ppf pp_float_el vec
 let pp_rocvec ppf vec = pp_rovec ppf pp_complex_el vec
-let pp_roivec ppf vec = pp_rovec ppf pp_print_int vec
+let pp_roivec ppf vec = pp_rovec ppf pp_print_int32 vec
 
 (* Matrices *)
 
@@ -678,4 +680,4 @@ let pp_omat ppf pp_el mat =
 
 let pp_ofmat ppf mat = pp_omat ppf pp_float_el mat
 let pp_ocmat ppf mat = pp_omat ppf pp_complex_el mat
-let pp_oimat ppf mat = pp_omat ppf pp_print_int mat
+let pp_oimat ppf mat = pp_omat ppf pp_print_int32 mat
