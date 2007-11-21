@@ -1,6 +1,6 @@
 /* File: lacaml_SDCZ_c.c
 
-   Copyright (C) 2001-2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com

@@ -1,6 +1,6 @@
 /* File: vec_CZ_c.c
 
-   Copyright (C) 2003-2005
+   Copyright (C) 2003-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -276,7 +276,7 @@ CAMLprim value LFUN(fold_stub)(
     last = X_data + INCX;
   };
 
-  while  (start != last) {
+  while (start != last) {
     value v_start = copy_two_doubles(start->r, start->i);
     acc = caml_callback2(vClosure, acc, v_start);
     start += INCX;

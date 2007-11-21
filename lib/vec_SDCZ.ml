@@ -1,6 +1,6 @@
 (* File: vec_SDCZ.ml
 
-   Copyright (C) 2001-2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -155,28 +155,28 @@ let logspace ?y a b ?(base = 10.0) n =
 
 (* Iterators over vectors *)
 
+let get_i_ref_last ~incx ~ofsx ~n =
+  if incx > 0 then ref ofsx, ofsx + n * incx
+  else ref (ofsx - (n - 1) * incx), ofsx + incx
+
 let iter f ?n ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom "Vec.iter" "x" ofsx incx in
   let n = get_dim_vec "Vec.iter" "x" ofsx incx x "n" n in
-  let n_ref = ref n in
-  let i_ref = ref ofsx in
-  while !n_ref > 0 do
+  let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
+  while !i_ref <> last_i do
     let i = !i_ref in
     f x.{i};
     i_ref := i + incx;
-    decr n_ref
   done
 
 let iteri f ?n ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom "Vec.iteri" "x" ofsx incx in
   let n = get_dim_vec "Vec.iteri" "x" ofsx incx x "n" n in
-  let n_ref = ref n in
-  let i_ref = ref ofsx in
-  while !n_ref > 0 do
+  let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
+  while !i_ref <> last_i do
     let i = !i_ref in
     f i x.{i};
     i_ref := i + incx;
-    decr n_ref
   done
 
 external direct_fold :

@@ -1,6 +1,6 @@
 (* File: mat_SD.mli
 
-   Copyright (C) 2003-2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com

@@ -1,6 +1,6 @@
 /* File: fold2_col.c
 
-   Copyright (C) 2001-2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -61,14 +61,14 @@ CAMLprim value NAME(
     last1 = start1 + N*INCX;
   }
   else {
-    last1 = X_data - 1;
-    start1 = last1 + N*INCX;
+    start1 = X_data - (N - 1)*INCX;
+    last1 = X_data + INCX;
   };
 
   if (INCY > 0) start2 = Y_data;
-  else start2 = Y_data - 1 + N*INCY;
+  else start2 = Y_data - (N - 1)*INCY;
 
-  while  (start1 != last1) {
+  while (start1 != last1) {
     NUMBER x = *start1,
            y = *start2;
 

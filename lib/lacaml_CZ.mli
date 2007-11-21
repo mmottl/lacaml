@@ -1,6 +1,6 @@
 (* File: lacaml_CZ.mli
 
-   Copyright (C) 2005
+   Copyright (C) 2005-
 
      Egbert Ammicht
      email: eammicht@lucent.com

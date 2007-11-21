@@ -1,6 +1,6 @@
 /* File: lacaml_SDCZ_c.c
 
-   Copyright (C) 2003-2005
+   Copyright (C) 2001-
 
      Egbert Ammicht
      email: eammicht@lucent.com

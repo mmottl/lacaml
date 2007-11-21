@@ -1,6 +1,6 @@
 (* File: mat_SDCZ.mli
 
-   Copyright (C) 2002-2005
+   Copyright (C) 2002-
 
      Markus Mottl
      email: markus.mottl@gmail.com

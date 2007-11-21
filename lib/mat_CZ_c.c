@@ -1,6 +1,6 @@
 /* File: mat_SD_c.c
 
-   Copyright (C) 2005
+   Copyright (C) 2005-
 
      Markus Mottl
      email: markus.mottl@gmail.com

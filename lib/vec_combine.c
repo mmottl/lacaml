@@ -1,6 +1,6 @@
 /* File: vec_combine.c
 
-   Copyright (C) 2001-2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -64,17 +64,17 @@ CAMLprim value NAME(
     last_src1 = start_src1 + N*INCX;
   }
   else {
-    last_src1 = X_data - 1;
-    start_src1 = last_src1 + N*INCX;
+    start_src1 = X_data - (N - 1)*INCX;
+    last_src1 = X_data + INCX;
   };
 
   if (INCY > 0) start_src2 = Y_data;
-  else start_src2 = Y_data - 1 + N*INCY;
+  else start_src2 = Y_data - (N - 1)*INCY;
 
   if (INCZ > 0) dst = Z_data;
-  else dst = Z_data - 1 + N*INCZ;
+  else dst = Z_data - (N - 1)*INCZ;
 
-  while  (start_src1 != last_src1) {
+  while (start_src1 != last_src1) {
     NUMBER x = *start_src1;
     NUMBER y = *start_src2;
     FUNC(dst, x, y);

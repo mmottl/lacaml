@@ -1,6 +1,6 @@
 /* File: fold_col.c
 
-   Copyright (C) 2001-2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -57,11 +57,11 @@ CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
     last = start + N*INCX;
   }
   else {
-    last = X_data - 1;
-    start = last + N*INCX;
+    start = X_data - (N - 1)*INCX;
+    last = X_data + INCX;
   };
 
-  while  (start != last) {
+  while (start != last) {
     NUMBER x = *start;
     FUNC(acc, x);
     start += INCX;
