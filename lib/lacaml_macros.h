@@ -27,6 +27,17 @@
 
 /* $Id: lacaml_macros.h,v 1.14 2006/01/18 15:03:40 mottl Exp $ */
 
+#ifndef LACAML_MACROS
+
+#define CAML_NAME_SPACE
+
+#include <caml/mlvalues.h>
+#include <caml/alloc.h>
+#include <caml/memory.h>
+#include <caml/fail.h>
+#include <caml/callback.h>
+#include <caml/bigarray.h>
+#include <caml/signals.h>
 
 /* Defines precision-dependent macros */
 #ifndef LACAML_DOUBLE           /* Single precision */
@@ -112,7 +123,7 @@
 
 /* Fetch matrix parameters from bigarray */
 #define MAT_PARAMS(M) \
-  struct caml_bigarray * big_##M = Bigarray_val(v ## M); \
+  struct caml_ba_array * big_##M = Caml_ba_array_val(v ## M); \
   long *dims_ ## M = big_##M->dim; \
   integer M##R = Int_val(v##M##R); \
   integer M##C = Int_val(v##M##C); \
@@ -122,31 +133,31 @@
 
 /* Fetch vector parameters from bigarray */
 #define VEC_PARAMS(V) \
-  struct caml_bigarray * big_##V = Bigarray_val(v##V); \
+  struct caml_ba_array * big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
   NUMBER * V##_data = ((NUMBER *) big_##V->data) + (Int_val(vOFS##V) - 1)
 
 /* Fetch vector parameters from real bigarray */
 #define RVEC_PARAMS(V) \
-  struct caml_bigarray * big_##V = Bigarray_val(v##V); \
+  struct caml_ba_array * big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
   REAL * V##_data = ((REAL *) big_##V->data) + (Int_val(vOFS##V) - 1)
 
 /* Fetch vector parameters from bigarray with offset 1 */
 #define VEC_PARAMS1(V) \
-  struct caml_bigarray * big_##V = Bigarray_val(v##V); \
+  struct caml_ba_array * big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
   NUMBER * V##_data = big_##V->data
 
 /* Fetch vector parameters from bigarray with offset 1 */
 #define RVEC_PARAMS1(V) \
-  struct caml_bigarray * big_##V = Bigarray_val(v##V); \
+  struct caml_ba_array * big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
   REAL * V##_data = big_##V->data
 
 /* Fetch vector parameters from integer bigarray */
 #define INT_VEC_PARAMS(V) \
-  struct caml_bigarray * big_##V = Bigarray_val(v##V); \
+  struct caml_ba_array * big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
   integer * V##_data = big_##V->data
 
@@ -154,3 +165,5 @@
 #define INT_COUPLE(V) \
   integer V##1 = Int_val(Field(v##V, 0)); \
   integer V##2 = Int_val(Field(v##V, 1))
+
+#endif  /* LACAML_MACROS */

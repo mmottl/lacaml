@@ -1,14 +1,10 @@
-/* File: mat_SD_c.c
+/* File: mat_SDCZ_c.c
 
-   Copyright (C) 2005-
+   Copyright (C) 2007-
 
      Markus Mottl
      email: markus.mottl@gmail.com
      WWW: http://www.ocaml.info
-
-     Liam Stewart
-     email: liam@cs.toronto.edu
-     WWW: http://www.cs.toronto.edu/~liam
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -27,52 +23,45 @@
 
 /* $Id: mat_SD_c.c,v 1.5 2005/03/22 16:18:06 mottl Exp $ */
 
-#include <math.h>
+#include <string.h>
 #include "lacaml_macros.h"
 #include "f2c.h"
 
-CAMLprim value LFUN(map_stub)(
+CAMLprim value LFUN(copy_mat_stub)(
   value vM, value vN,
-  value vAR, value vAC,
-  value vA,
-  value vCR, value vCC,
-  value vC,
-  value vClosure)
+  value vYR, value vYC,
+  value vY,
+  value vXR, value vXC,
+  value vX)
 {
-  CAMLparam3(vA, vC, vClosure);
-  CAMLlocal1(v_res);
+  CAMLparam2(vX, vY);
 
   int GET_INT(M), GET_INT(N);
 
-  MAT_PARAMS(A);
-  MAT_PARAMS(C);
+  MAT_PARAMS(X);
+  MAT_PARAMS(Y);
 
-  REAL *entry_a, *col_a;
-  REAL *entry_c, *col_c;
-  REAL *col_end = A_data + N*M, *entry_end;
-
-  int cnt;
-
-  for (col_a = A_data, col_c = C_data;
-       col_a < col_end;
-       col_a += rows_A, col_c += rows_C)
-  {
-    for (entry_a = col_a, entry_end = col_a + M, entry_c = col_c;
-         entry_a < entry_end;
-         entry_a++, entry_c++)
-    {
-      value v_entry_a = caml_copy_double(*entry_a);
-      v_res = caml_callback(vClosure, v_entry_a);
-      *entry_c = Double_val(v_res);
+  caml_enter_blocking_section();
+    if (rows_X == M && rows_Y == M)
+      memcpy(Y_data, X_data, M * N * sizeof(NUMBER));
+    else {
+      int col_size = M * sizeof(NUMBER);
+      NUMBER *X_src = X_data + rows_X * (N - 1);
+      NUMBER *Y_dst = Y_data + rows_Y * (N - 1);
+      while (X_src >= X_data) {
+        memcpy(Y_dst, X_src, col_size);
+        X_src -= rows_X;
+        Y_dst -= rows_Y;
+      }
     }
-  }
+  caml_leave_blocking_section();
 
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(map_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(copy_mat_stub_bc)(value *argv, int argn)
 {
-  return LFUN(map_stub)(
+  return LFUN(copy_mat_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+    argv[5], argv[6], argv[7]);
 }

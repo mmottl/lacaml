@@ -27,15 +27,7 @@
 
 /* $Id: fold_col.c,v 1.17 2006/01/18 15:03:39 mottl Exp $ */
 
-#include <caml/mlvalues.h>
-#include <caml/alloc.h>
-#include <caml/memory.h>
-#include <caml/fail.h>
-#include <caml/callback.h>
-#include <caml/bigarray.h>
-
 #include "f2c.h"
-
 #include "lacaml_macros.h"
 #include "lacaml_utils_c.h"
 

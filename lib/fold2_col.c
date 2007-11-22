@@ -27,15 +27,7 @@
 
 /* $Id: fold2_col.c,v 1.13 2006/01/18 15:03:38 mottl Exp $ */
 
-#include <caml/mlvalues.h>
-#include <caml/alloc.h>
-#include <caml/memory.h>
-#include <caml/fail.h>
-#include <caml/callback.h>
-#include <caml/bigarray.h>
-
 #include "f2c.h"
-
 #include "lacaml_macros.h"
 
 CAMLprim value NAME(

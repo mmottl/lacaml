@@ -50,6 +50,17 @@ external direct_copy :
   vec (* X *)
   -> unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
 
+external direct_copy_mat :
+  int -> (* M *)
+  int -> (* N *)
+  int -> (* YR *)
+  int -> (* YC *)
+  mat -> (* Y *)
+  int -> (* XR *)
+  int -> (* XC *)
+  mat (* X *)
+  -> unit = "lacaml_NPRECcopy_mat_stub_bc" "lacaml_NPRECcopy_mat_stub"
+
 let copy ?m ?n ?(yr = 1) ?(yc = 1) ?y ?(xr = 1) ?(xc = 1) x =
   let loc = "Mat.copy" in
   let x_name = "x" in
@@ -62,12 +73,9 @@ let copy ?m ?n ?(yr = 1) ?(yc = 1) ?y ?(xr = 1) ?(xc = 1) x =
         check_dim1_mat loc y_name y yr "yr" m;
         check_dim2_mat loc y_name y yc "yc" n;
         y, yr, yc
-    | None -> create m n, 1, 1 in
-  for i = 0 to n - 1 do
-    let src = Array2.slice_right x (xc + i) in
-    let dst = Array2.slice_right y (yc + i) in
-    direct_copy m yr 1 dst xr 1 src
-  done;
+    | None -> create m n, 1, 1
+  in
+  direct_copy_mat m n yr yc y xr xc x;
   y
 
 let of_array ar = Array2.of_array prec fortran_layout ar
@@ -97,23 +105,16 @@ let make_mvec m x = make m 1 x
 let mvec_of_array ar =
   let n = Array.length ar in
   let mat = create_mvec n in
-  if n = 0 then mat
-  else
-    let vec = Array2.slice_right mat 1 in
-    for row = 1 to n do
-      vec.{row} <- ar.(row - 1)
-    done;
-    mat
+  if n <> 0 then
+    for row = 1 to n do mat.{row, 1} <- ar.(row - 1) done;
+  mat
 
-let mvec_to_array mat =
+let mvec_to_array (mat : mat) =
   let n = Array2.dim1 mat in
   if n = 0 then [||]
   else
-    let vec = Array2.slice_right mat 1 in
-    let ar = Array.make n vec.{1} in
-    for row = 2 to n do
-      ar.(row - 1) <- vec.{row}
-    done;
+    let ar = Array.make n mat.{1, 1} in
+    for row = 2 to n do ar.(row - 1) <- mat.{row, 1} done;
     ar
 
 let from_col_vec vec = reshape_2 (genarray_of_array1 vec) (Array1.dim vec) 1
@@ -123,9 +124,7 @@ let empty = create 0 0
 
 let identity n =
   let mat = make n n zero in
-  for i = 1 to n do
-    mat.{i, i} <- one
-  done;
+  for i = 1 to n do mat.{i, i} <- one done;
   mat
 
 let of_diag vec =
@@ -134,24 +133,19 @@ let of_diag vec =
   for i = 1 to n do mat.{i, i} <- vec.{i} done;
   mat
 
-let dim1 m = Array2.dim1 m
-
-let dim2 m = Array2.dim2 m
+let dim1 (mat : mat) = Array2.dim1 mat
+let dim2 (mat : mat) = Array2.dim2 mat
 
 let to_array mat =
-  let d1 = dim1 mat in
-  let d2 = dim2 mat in
-  if d1 = 0 then [||]
-  else if d2 = 0 then
-    Array.make d1 [||]
+  let m = dim1 mat in
+  let n = dim2 mat in
+  if m = 0 then [||]
+  else if n = 0 then Array.make m [||]
   else
-    let ar = Array.make_matrix d1 d2 mat.{1, 1}in
-    for col = 1 to d2 do
-      let vec = Array2.slice_right mat col in
-      let col_1 = col - 1 in
-      for row = 1 to d1 do
-        ar.(row - 1).(col_1) <- vec.{row}
-      done;
+    let ar = Array.make_matrix m n mat.{1, 1} in
+    for row = 1 to m do
+      let row_ar = ar.(row - 1) in
+      for col = 1 to n do row_ar.(col - 1) <- mat.{row, col} done;
     done;
     ar
 
@@ -163,7 +157,7 @@ let diag mat =
   for i = 1 to n_diag do vec.{i} <- mat.{i, i} done;
   vec
 
-let col mat c = Array2.slice_right mat c
+let col (mat : mat) c = Array2.slice_right mat c
 
 let copy_row ?vec mat r =
   let n = dim2 mat in
@@ -192,13 +186,11 @@ let of_col_vecs ar =
     mat
 
 let to_col_vecs mat =
-  let dim2 = dim2 mat in
-  if dim2 = 0 then [||]
+  let n = dim2 mat in
+  if n = 0 then [||]
   else
-    let ar = Array.make dim2 (col mat 1) in
-    for i = 2 to dim2 do
-      ar.(i - 1) <- col mat i
-    done;
+    let ar = Array.make n (col mat 1) in
+    for i = 2 to n do ar.(i - 1) <- col mat i done;
     ar
 
 let transpose mat =
@@ -206,10 +198,7 @@ let transpose mat =
   let cols = dim2 mat in
   let res = create cols rows in
   for col = 1 to cols do
-    let vec = Array2.slice_right mat col in
-    for row = 1 to rows do
-      res.{col, row} <- vec.{row}
-    done
+    for row = 1 to rows do res.{col, row} <- mat.{row, col} done
   done;
   res
 
@@ -244,7 +233,6 @@ let fold_cols coll ?n ?(ac = 1) acc a =
   let n = get_dim2_mat loc "a" a ac "n" n in
   let acc_ref = ref acc in
   for i = 0 to n - 1 do
-    let col = Array2.slice_right a (ac + i) in
-    acc_ref := coll !acc_ref col
+    acc_ref := coll !acc_ref (col a (ac + i))
   done;
   !acc_ref

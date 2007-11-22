@@ -1,5 +1,9 @@
 2007-11-21:  Fixed a bug in vector iteration functions related to
-             negative index increments.
+             negative index increments.  Thanks to Fabrice Pardo
+             <Fabrice.Pardo@lpn.cnrs.fr> for reporting!
+
+             Greatly improved performance of matrix copying.  Cleaned up
+             some code.
 
 2007-03-30:  Added lacaml_utils to installed interfaces.
 

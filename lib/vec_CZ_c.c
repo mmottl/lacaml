@@ -23,19 +23,9 @@
 
 /* $Id: vec_CZ_c.c,v 1.14 2005/03/22 16:51:45 mottl Exp $ */
 
-#include <caml/mlvalues.h>
-#include <caml/alloc.h>
-#include <caml/memory.h>
-#include <caml/fail.h>
-#include <caml/callback.h>
-#include <caml/bigarray.h>
-#include <caml/signals.h>
-
 #include <math.h>
-
-#include "f2c.h"
-
 #include "lacaml_macros.h"
+#include "f2c.h"
 
 static REAL LACAML_INF = 1. / 0.;
 static COMPLEX LACAML_COMPLEX_INF = { 1. / 0., 1. / 0. };

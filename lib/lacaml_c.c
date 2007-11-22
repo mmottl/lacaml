@@ -23,16 +23,8 @@
 
 /* $Id: lacaml_c.c,v 1.9 2005/03/02 21:54:05 mottl Exp $ */
 
-
-#include <caml/mlvalues.h>
-#include <caml/alloc.h>
-#include <caml/memory.h>
-#include <caml/fail.h>
-#include <caml/callback.h>
-
-#include "f2c.h"
-
 #include "lacaml_macros.h"
+#include "f2c.h"
 
 /** ILAENV: fetch problem-dependent parameters for LAPACK-functions */
 
@@ -54,8 +46,8 @@ CAMLprim value lacaml_ilaenv_stub(
   char *NAME = String_val(vNAME),
        *OPTS = String_val(vOPTS);
 
-  ftnlen NAME_LEN = string_length(vNAME),
-         OPTS_LEN = string_length(vOPTS);
+  ftnlen NAME_LEN = caml_string_length(vNAME),
+         OPTS_LEN = caml_string_length(vOPTS);
 
   return Val_int (ilaenv_(&ISPEC, NAME, OPTS,
                           &N1, &N2, &N3, &N4, NAME_LEN, OPTS_LEN));

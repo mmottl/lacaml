@@ -26,6 +26,8 @@ STUBS := \
 	vec2_C_c.c vec2_Z_c.c \
 	mat2_S_c.c mat2_D_c.c \
 	mat2_C_c.c mat2_Z_c.c \
+	mat4_S_c.c mat4_D_c.c \
+	mat4_C_c.c mat4_Z_c.c \
 	lacaml4_S_c.c lacaml4_D_c.c \
 	lacaml4_C_c.c lacaml4_Z_c.c \
 	lacaml2_S_c.c lacaml2_D_c.c \
