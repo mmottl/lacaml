@@ -3,7 +3,8 @@
              <Fabrice.Pardo@lpn.cnrs.fr> for reporting!
 
              Greatly improved performance of matrix copying.  Cleaned up
-             some code.
+             some code.  Removed dependency on F2C library (gfortran
+             should nowadays be linked implicitly).
 
 2007-03-30:  Added lacaml_utils to installed interfaces.
 

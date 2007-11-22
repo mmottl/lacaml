@@ -3,7 +3,6 @@
 ifeq ($(shell uname),Darwin)
   BLAS =
   LAPACK =
-  F2C =
   STATIC = y
   NO_CUSTOM =
   EXP10 = exp10.c
@@ -73,7 +72,7 @@ SOURCES := \
 OCAMLFLAGS := -w A -warn-error A
 #CFLAGS	:= -fPIC -DPIC -Wall -Werror -pedantic -Wno-unused -Wno-long-long
 CFLAGS := -O2 -fPIC -DPIC
-CLIBS := $(LAPACK) $(BLAS) $(F2C)
+CLIBS := $(LAPACK) $(BLAS)
 RESULT := lacaml
 
 PREMAKE := \
