@@ -1,3 +1,5 @@
+2007-11-22:  Added Mat.scal and Mat.axpy.
+
 2007-11-21:  Fixed a bug in vector iteration functions related to
              negative index increments.  Thanks to Fabrice Pardo
              <Fabrice.Pardo@lpn.cnrs.fr> for reporting!

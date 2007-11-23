@@ -36,7 +36,7 @@ CAMLprim value LFUN(copy_mat_stub)(
 {
   CAMLparam2(vX, vY);
 
-  int GET_INT(M), GET_INT(N);
+  integer GET_INT(M), GET_INT(N);
 
   MAT_PARAMS(X);
   MAT_PARAMS(Y);
@@ -45,7 +45,7 @@ CAMLprim value LFUN(copy_mat_stub)(
     if (rows_X == M && rows_Y == M)
       memcpy(Y_data, X_data, M * N * sizeof(NUMBER));
     else {
-      int col_size = M * sizeof(NUMBER);
+      integer col_size = M * sizeof(NUMBER);
       NUMBER *X_src = X_data + rows_X * (N - 1);
       NUMBER *Y_dst = Y_data + rows_Y * (N - 1);
       while (X_src >= X_data) {
@@ -64,4 +64,83 @@ CAMLprim value LFUN(copy_mat_stub_bc)(value *argv, int argn)
   return LFUN(copy_mat_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
     argv[5], argv[6], argv[7]);
+}
+
+static integer ONE = 1;
+
+CAMLprim value LFUN(scal_mat_stub)(
+  value vM, value vN,
+  value vALPHA,
+  value vAR, value vAC, value vA)
+{
+  CAMLparam1(vA);
+
+  integer GET_INT(M), GET_INT(N);
+  CREATE_NUMBERP(ALPHA);
+
+  MAT_PARAMS(A);
+
+  INIT_NUMBER(ALPHA);
+
+  caml_enter_blocking_section();
+    if (rows_A == M) {
+      integer MN = M * N;
+      FUN(scal)(&MN, pALPHA, A_data, &ONE);
+    } else {
+      NUMBER *A_src = A_data + rows_A * (N - 1);
+      while (A_src >= A_data) {
+        FUN(scal)(&M, pALPHA, A_src, &ONE);
+        A_src -= rows_A;
+      }
+    }
+  caml_leave_blocking_section();
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int argn)
+{
+  return LFUN(scal_mat_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+}
+
+CAMLprim value LFUN(axpy_mat_stub)(
+  value vM, value vN,
+  value vALPHA,
+  value vXR, value vXC, value vX,
+  value vYR, value vYC, value vY)
+{
+  CAMLparam2(vX, vY);
+
+  integer GET_INT(M), GET_INT(N);
+  CREATE_NUMBERP(ALPHA);
+
+  MAT_PARAMS(X);
+  MAT_PARAMS(Y);
+
+  INIT_NUMBER(ALPHA);
+
+  caml_enter_blocking_section();
+    if (rows_X == M && rows_Y == M) {
+      integer MN = M * N;
+      FUN(axpy)(&MN, pALPHA, X_data, &ONE, Y_data, &ONE);
+    } else {
+      NUMBER *X_src = X_data + rows_X * (N - 1);
+      NUMBER *Y_dst = Y_data + rows_Y * (N - 1);
+      while (X_src >= X_data) {
+        FUN(axpy)(&M, pALPHA, X_src, &ONE, Y_dst, &ONE);
+        X_src -= rows_X;
+        Y_dst -= rows_Y;
+      }
+    }
+  caml_leave_blocking_section();
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(axpy_mat_stub_bc)(value *argv, int argn)
+{
+  return LFUN(axpy_mat_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4],
+    argv[5], argv[6], argv[7], argv[8]);
 }

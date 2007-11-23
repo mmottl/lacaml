@@ -143,6 +143,27 @@ val transpose : mat -> mat
 (** [transpose m] @return the transpose of matrix [m]. *)
 
 
+(** {6 Arithmetic operations} *)
+
+val scal :
+  ?m : int -> ?n : int -> num_type -> ?ar : int -> ?ac : int -> mat -> unit
+(** [scal ?m ?n alpha ?ar ?ac a] BLAS [scal] function for matrices. *)
+
+val axpy :
+  ?m : int ->
+  ?n : int ->
+  ?alpha : num_type ->
+  ?xr : int ->
+  ?xc : int ->
+  x : mat ->
+  ?yr : int ->
+  ?yc : int ->
+  mat
+  -> unit
+(** [axpy ?m ?n ?alpha ?xr ?xc ~x ?yr ?yc y] BLAS [axpy] function for
+    matrices. *)
+
+
 (** {6 Iterators over matrices} *)
 
 val map :

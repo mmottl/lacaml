@@ -64,15 +64,11 @@ external direct_copy_mat :
 let copy ?m ?n ?(yr = 1) ?(yc = 1) ?y ?(xr = 1) ?(xc = 1) x =
   let loc = "Mat.copy" in
   let x_name = "x" in
-  let m = get_dim1_mat loc x_name x xr "xr" m in
-  let n = get_dim2_mat loc x_name x xc "xc" n in
+  let m = get_dim1_mat loc x_name x xr "m" m in
+  let n = get_dim2_mat loc x_name x xc "n" n in
   let y, yr, yc =
     match y with
-    | Some y ->
-        let y_name = "y" in
-        check_dim1_mat loc y_name y yr "yr" m;
-        check_dim2_mat loc y_name y yc "yc" n;
-        y, yr, yc
+    | Some y -> check_dim_mat loc "y" yr yc y m n; y, yr, yc
     | None -> create m n, 1, 1
   in
   direct_copy_mat m n yr yc y xr xc x;
@@ -202,6 +198,42 @@ let transpose mat =
   done;
   res
 
+external direct_scal_mat :
+  int -> (* M *)
+  int -> (* N *)
+  num_type -> (* ALPHA *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat (* A *)
+  -> unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
+
+let scal ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
+  let loc = "Mat.scal" in
+  let a_name = "a" in
+  let m = get_dim1_mat loc a_name a ar "m" m in
+  let n = get_dim2_mat loc a_name a ac "n" n in
+  direct_scal_mat m n alpha ar ac a
+
+external direct_axpy_mat :
+  int -> (* M *)
+  int -> (* N *)
+  num_type -> (* ALPHA *)
+  int -> (* XR *)
+  int -> (* XC *)
+  mat -> (* X *)
+  int -> (* YR *)
+  int -> (* YC *)
+  mat (* Y *)
+  -> unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
+
+let axpy ?m ?n ?(alpha = one) ?(xr = 1) ?(xc = 1) ~x ?(yr = 1) ?(yc = 1) y =
+  let loc = "Mat.axpy" in
+  let x_name = "x" in
+  let m = get_dim1_mat loc x_name x xr "m" m in
+  let n = get_dim2_mat loc x_name x xc "n" n in
+  check_dim_mat loc "y" yr yc y m n;
+  direct_axpy_mat m n alpha xr xc x yr yc y
+
 external direct_map :
   int -> (* M *)
   int -> (* N *)
@@ -221,10 +253,8 @@ let map f ?m ?n ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a =
   let c, cr, cc =
     match c with
     | None -> create m n, 1, 1
-    | Some c ->
-        check_dim1_mat loc "c" c cr "m" m;
-        check_dim2_mat loc "c" c cc "n" n;
-        c, cr, cc in
+    | Some c -> check_dim_mat loc "c" cr cc c m n; c, cr, cc
+  in
   direct_map m n ar ac a cr cc c f;
   c
 

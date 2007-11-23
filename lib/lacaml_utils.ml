@@ -115,12 +115,13 @@ let check_dim2_mat loc mat_name mat mat_c n_name n =
       sprintf "%s: %s(%s): valid=[0..%d] got=%d"
         loc n_name mat_name dim2_rest n)
 
+let check_dim_mat loc mat_name r c mat m n =
+  check_dim1_mat loc mat_name mat r "m" m;
+  check_dim2_mat loc mat_name mat c "n" n
+
 let get_mat loc mat_name mat_create r c mat m n =
   match mat with
-  | Some mat ->
-      check_dim1_mat loc mat_name mat r "m" m;
-      check_dim2_mat loc mat_name mat c "n" n;
-      mat
+  | Some mat -> check_dim_mat loc mat_name r c mat m n; mat
   | None -> mat_create m n
 
 (* ??MV auxiliary functions *)
