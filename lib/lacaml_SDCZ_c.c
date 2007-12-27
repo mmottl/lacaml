@@ -351,7 +351,68 @@ CAMLprim value LFUN(gbmv_stub_bc)(value *argv, int argn)
 }
 
 
-/** TODO: SYMV */
+/** SYMV */
+
+extern void FUN(symv)(
+  char *UPLO,
+  integer *N,
+  NUMBER *ALPHA,
+  NUMBER *A, integer *LDA,
+  NUMBER *X, integer *INCX,
+  NUMBER *BETA,
+  NUMBER *Y, integer *INCY);
+
+CAMLprim value LFUN(symv_stub)(
+  value vOFSY, value vINCY, value vY,
+  value vAR,
+  value vAC,
+  value vA,
+  value vN,
+  value vUPLO,
+  value vALPHA,
+  value vBETA,
+  value vOFSX, value vINCX, value vX)
+{
+  CAMLparam3(vA, vX, vY);
+
+  char GET_INT(UPLO);
+
+  integer GET_INT(N),
+          GET_INT(INCX),
+          GET_INT(INCY);
+
+  CREATE_NUMBERP(ALPHA);
+  CREATE_NUMBERP(BETA);
+
+  MAT_PARAMS(A);
+  VEC_PARAMS(X);
+  VEC_PARAMS(Y);
+
+  INIT_NUMBER(ALPHA);
+  INIT_NUMBER(BETA);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(symv)(
+    &UPLO,
+    &N,
+    pALPHA,
+    A_data, &rows_A,
+    X_data, &INCX,
+    pBETA,
+    Y_data, &INCY);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(symv_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(symv_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+}
+
 
 /** TODO: SPMV */
 

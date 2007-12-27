@@ -312,6 +312,21 @@ let gXmv_get_params loc vec_create ar ac a m n ofsx incx x ofsy incy y trans =
   let y = get_vec loc "y" y ofsy incy ly vec_create in
   m, n, ofsx, incx, ofsy, incy, y, trans_char
 
+(* symv -- auxiliary functions *)
+let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
+  let a_str = "a" in
+  let x_str = "x" in
+  let y_str = "y" in
+  let n_str = "n" in
+  let n = get_dim1_mat loc a_str a ar n_str n in
+  check_dim2_mat loc a_str a ac n_str n;
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom loc y_str ofsy incy in
+  check_vec loc x_str x (ofsx + (n - 1) * abs incx);
+  let y = get_vec loc y_str y ofsy incy n vec_create in
+  check_vec loc y_str y (ofsy + (n - 1) * abs incy);
+  n, ofsx, incx, ofsy, incy, y, get_uplo_char up
+
 (* gemm -- auxiliary functions *)
 
 let get_c loc mat_create cr cc c m n = get_mat loc "c" mat_create cr cc c m n

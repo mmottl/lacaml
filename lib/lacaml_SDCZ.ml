@@ -218,6 +218,33 @@ let gbmv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
   y
 
 
+(* SYMV *)
+
+external direct_symv :
+  int -> (* OFSY *)
+  int -> (* INCY *)
+  vec -> (* Y *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  int -> (* N *)
+  char -> (* TRANS *)
+  float -> (* ALPHA *)
+  float -> (* BETA *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec (* X *)
+  -> unit = "lacaml_NPRECsymv_stub_bc" "lacaml_NPRECsymv_stub"
+
+let symv ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(up = true) ?(alpha = 1.0)
+      ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
+  let loc = "Lacaml.NPREC.symv" in
+  let n, ofsx, incx, ofsy, incy, y, uplo_char =
+    symv_get_params loc Vec.make0 ar ac a n ofsx incx x ofsy incy y up in
+  direct_symv ofsy incy y ar ac a n uplo_char alpha beta ofsx incx x;
+  y
+
+
 (* BLAS-3 *)
 
 (* GEMM *)

@@ -1,3 +1,7 @@
+2007-12-27:  Added new LAPACK function:
+
+               * symv
+
 2007-11-22:  Added Mat.scal and Mat.axpy.
 
 2007-11-21:  Fixed a bug in vector iteration functions related to

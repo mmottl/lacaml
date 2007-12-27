@@ -185,6 +185,36 @@ val gbmv :
     @param ofsx default = 1
     @param incx default = 1 *)
 
+val symv :
+  ?n : int ->
+  ?beta : float ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?up : bool ->
+  ?alpha : float ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [symv ?n ?beta ?ofsy ?incy ?y ?up ?alpha ?ar ?ac a ?ofsx ?incx x]
+    see BLAS documentation!
+    @return vector [y], which is overwritten.
+    @param n default = dimension of symmetric matrix [a]
+    @param beta default = 0.0
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = vect with minimal required length (see BLAS)
+    @param up default = true (upper triangular portion of [a] is accessed)
+    @param alpha default = 1.0
+    @param ar default = 1
+    @param ac default = 1
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
 
 (** {6 BLAS-3 interface} *)
 
