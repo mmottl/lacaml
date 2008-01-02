@@ -1,4 +1,4 @@
-/* File: lacaml_SDCZ_c.c
+/* File: impl_CZ_c.c
 
    Copyright (C) 2001-
 
@@ -31,8 +31,6 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
-/* $Id: lacaml_CZ_c.c,v 1.13 2006/01/18 15:03:39 mottl Exp $ */
 
 #include "lacaml_macros.h"
 #include "f2c.h"

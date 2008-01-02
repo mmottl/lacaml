@@ -1,4 +1,4 @@
-(* File: lacaml_complex64.ml
+(* File: complex32.ml
 
    Copyright (C) 2005-
 
@@ -21,21 +21,19 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lacaml_complex64.ml,v 1.7 2005/03/02 21:54:05 mottl Exp $ *)
-
 open Bigarray
 
-type prec = complex64_elt
+type prec = complex32_elt
 type num_type = Complex.t
 type vec = (Complex.t, prec, fortran_layout) Array1.t
-type rvec = (float, float64_elt, fortran_layout) Array1.t
+type rvec = (float, float32_elt, fortran_layout) Array1.t
 type mat = (Complex.t, prec, fortran_layout) Array2.t
 
 type trans2 = [ `N | `C ]
 type trans3 = [ `N | `T | `C ]
 
-let prec = complex64
+let prec = complex32
 let zero = Complex.zero
 let one = Complex.one
 
-let int_of_complex64 z = int_of_float z.Complex.re
+let int_of_complex32 z = int_of_float z.Complex.re

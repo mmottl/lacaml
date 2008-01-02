@@ -38,34 +38,34 @@ VERSION              - Current version number of release
 
 examples/            - Various linear algebra examples.
 
-lib/lacaml.ml        - The global interface to LACAML, which collects
+lib/impl.ml          - The global interface to LACAML, which collects
                        modules for real and complex transforms in single
                        or double precision.
 
-lib/lacaml_common.ml - Globally visible utility-functions and definitions.
+lib/common.ml        - Globally visible utility-functions and definitions.
 
-lib/lacaml_float32.mli   - Modules that specialize for real/complex and
-lib/lacaml_float32.ml      single/double precision (globally visible through
-lib/lacaml_float64.mli     lacaml.ml).
-lib/lacaml_float64.ml
-lib/lacaml_complex32.mli
-lib/lacaml_complex32.ml
-lib/lacaml_complex64.mli
-lib/lacaml_complex64.ml
+lib/float32.mli      - Modules that specialize for real/complex and
+lib/float32.ml         single/double precision (globally visible through
+lib/float64.mli        lacaml.ml).
+lib/float64.ml
+lib/complex32.mli
+lib/complex32.ml
+lib/complex64.mli
+lib/complex64.ml
 
-lib/lacaml_SDCZ.mli    These implement the OCaml-interface to BLAS (or
-lib/lacaml_SDCZ.ml     its more efficient ATLAS-implementation) and
-lib/lacaml_SD.mli      LAPACK and only look like valid OCaml-files. In
-lib/lacaml_SD.ml       fact four modules are generated from the SDCZ-files:
-lib/lacaml_CZ.mli      two for single-precision operations, another
-lib/lacaml_CZ.ml       two for double-precision, for real and complex
+lib/impl_SDCZ.mli    - These implement the OCaml-interface to BLAS (or
+lib/impl_SDCZ.ml       its more efficient ATLAS-implementation) and
+lib/impl_SD.mli        LAPACK and only look like valid OCaml-files. In
+lib/impl_SD.ml         fact four modules are generated from the SDCZ-files:
+lib/impl_CZ.mli        two for single-precision operations, another
+lib/impl_CZ.ml         two for double-precision, for real and complex
                        transforms respectively. The SD- and CZ-files handle
                        special functions that are only available for either
                        real or complex transformations.
 
-lib/lacaml_SDCZ_c.c  - The C-interface to BLAS and LAPACK that works as a
-lib/lacaml_SD_c.c      wrapper for the OCaml-interface, which cannot
-lib/lacaml_CZ_c.c      interface FORTRAN directly.
+lib/impl_SDCZ_c.c    - The C-interface to BLAS and LAPACK that works as a
+lib/impl_SD_c.c        wrapper for the OCaml-interface, which cannot
+lib/impl_CZ_c.c        interface FORTRAN directly.
 
 lib/vec_SDCZ.mli     - Implementation of commonly useful vector operations.
 lib/vec_SDCZ.ml
@@ -85,10 +85,10 @@ lib/mat_CZ.ml
 lib/mat_SD_c.c
 lib/mat_CZ_c.c
 
-lib/lacaml_utils.ml  - Internal auxiliary functions needed by other modules.
+lib/utils.ml         - Internal auxiliary functions needed by other modules.
 
-lib/lacaml_c.c       - Auxiliary C-routines needed in the C-interface.
-lib/lacaml_utils_c.c
+lib/impl_c.c         - Auxiliary C-routines needed in the C-interface.
+lib/utils_c.c
 
 lib/lacaml_macros.h  - C-header with macro definitions for writing
                        precision independent and convenient interfaces
@@ -156,15 +156,15 @@ Here is a list of features:
 You can make use of this library by referring to the corresponding module you
 need for your precision and number type:
 
-  open Lacaml.S
-  open Lacaml.D
-  open Lacaml.C
-  open Lacaml.Z
+  open Lacaml.Impl.S
+  open Lacaml.Impl.D
+  open Lacaml.Impl.C
+  open Lacaml.Impl.Z
 
 These modules become available if you link against the "lacaml"-library,
-which is produced by this distribution. You also need to link against the
-"bigarray"-library provided by the OCaml-distribution and do not use
-findlib to resolve dependencies automatically. The "Lacaml.?"-modules
+which is produced by this distribution. You also need to link against
+the "bigarray"-library provided by the OCaml-distribution and do not use
+findlib to resolve dependencies automatically. The "Lacaml.Impl.?"-modules
 implement the BLAS/LAPACK-interface, and their corresponding submodules
 "Vec" and "Mat" provide for vector and matrix operations that relate to
 the given precision and number type.
@@ -198,7 +198,7 @@ dependent parameters):
     ...
   done
 
-Take a look at files "lacaml_SDCZ.mli", "lacaml_SD.mli", ... etc., to see,
+Take a look at files "impl_SDCZ.mli", "impl_SD.mli", ... etc., to see,
 which ways exists to pass parameters and to learn about the defaults.
 
 All matrices can be accessed in a restricted way, i.e. you can specify
@@ -232,7 +232,7 @@ distribution vendor's site.
 
 Enjoy!
 
-New York, 2005-06-17
+New York, 2008-01-02
 Markus Mottl
 
 e-mail: markus.mottl@gmail.com

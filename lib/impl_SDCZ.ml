@@ -1,4 +1,4 @@
-(* File: lacaml_SDCZ.ml
+(* File: impl_SDCZ.ml
 
    Copyright (C) 2001-
 
@@ -29,13 +29,11 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lacaml_SDCZ.ml,v 1.24 2006/01/18 15:03:40 mottl Exp $ *)
-
 open Printf
 open Bigarray
-open Lacaml_numberxx
-open Lacaml_common
-open Lacaml_utils
+open Numberxx
+open Common
+open Utils
 
 module Vec = Vec4_NPREC
 module Mat = Mat4_NPREC
@@ -58,7 +56,7 @@ external direct_swap :
   -> unit = "lacaml_NPRECswap_stub_bc" "lacaml_NPRECswap_stub"
 
 let swap ?n ?ofsx ?incx ~x ?ofsy ?incy y =
-  let loc = "Lacaml.NPREC.swap" in
+  let loc = "Lacaml.Impl.NPREC.swap" in
   let ofsx, incx = get_vec_geom loc "x" ofsx incx in
   let ofsy, incy = get_vec_geom loc "y" ofsy incy in
   let n = get_dim_vec loc "x" ofsx incx x "n" n in
@@ -77,7 +75,7 @@ external direct_scal :
   -> unit = "lacaml_NPRECscal_stub"
 
 let scal ?n alpha ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.scal" in
+  let loc = "Lacaml.Impl.NPREC.scal" in
   let ofsx, incx = get_vec_geom loc "x" ofsx incx in
   let n = get_dim_vec loc "x" ofsx incx x "n" n in
   direct_scal n alpha ofsx incx x
@@ -96,7 +94,7 @@ external direct_copy :
   -> unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
 
 let copy ?n ?ofsy ?incy ?y ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.copy" in
+  let loc = "Lacaml.Impl.NPREC.copy" in
   let ofsx, incx = get_vec_geom loc "x" ofsx incx in
   let ofsy, incy = get_vec_geom loc "y" ofsy incy in
   let n = get_dim_vec loc "x" ofsx incx x "n" n in
@@ -123,7 +121,7 @@ external direct_axpy :
   -> unit = "lacaml_NPRECaxpy_stub_bc" "lacaml_NPRECaxpy_stub"
 
 let axpy ?n ?(alpha = one) ?ofsx ?incx ~x ?ofsy ?incy y =
-  let loc = "Lacaml.NPREC.axpy" in
+  let loc = "Lacaml.Impl.NPREC.axpy" in
   let ofsx, incx = get_vec_geom loc "x" ofsx incx in
   let ofsy, incy = get_vec_geom loc "y" ofsy incy in
   let n = get_dim_vec loc "x" ofsx incx x "n" n in
@@ -141,13 +139,13 @@ external direct_iamax :
   -> int = "lacaml_NPRECiamax_stub"
 
 let iamax ?n ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.iamax" in
+  let loc = "Lacaml.Impl.NPREC.iamax" in
   let ofsx, incx = get_vec_geom loc "x" ofsx incx in
   let n = get_dim_vec loc "x" ofsx incx x "n" n in
   direct_iamax n ofsx incx x
 
 let amax ?n ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.amax" in
+  let loc = "Lacaml.Impl.NPREC.amax" in
   let ofsx, incx = get_vec_geom loc "x" ofsx incx in
   let n = get_dim_vec loc "x" ofsx incx x "n" n in
   x.{direct_iamax n ofsx incx x}
@@ -176,7 +174,7 @@ external direct_gemv :
 
 let gemv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.gemv" in
+  let loc = "Lacaml.Impl.NPREC.gemv" in
   let m, n, ofsx, incx, ofsy, incy, y, trans_char =
     gXmv_get_params loc Vec.make0 ar ac a m n ofsx incx x ofsy incy y trans in
   direct_gemv ofsy incy y ar ac a m n trans_char alpha beta ofsx incx x;
@@ -206,7 +204,7 @@ external direct_gbmv :
 
 let gbmv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
       ?(ar = 1) ?(ac = 1) a kl ku ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.gbmv" in
+  let loc = "Lacaml.Impl.NPREC.gbmv" in
   check_var_ltz loc "kl" kl;
   check_var_ltz loc "ku" ku;
   let m, n, ofsx, incx, ofsy, incy, y, trans_char =
@@ -238,7 +236,7 @@ external direct_symv :
 
 let symv ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(up = true) ?(alpha = 1.0)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
-  let loc = "Lacaml.NPREC.symv" in
+  let loc = "Lacaml.Impl.NPREC.symv" in
   let n, ofsx, incx, ofsy, incy, y, uplo_char =
     symv_get_params loc Vec.make0 ar ac a n ofsx incx x ofsy incy y up in
   direct_symv ofsy incy y ar ac a n uplo_char alpha beta ofsx incx x;
@@ -271,7 +269,7 @@ external direct_gemm :
 let gemm ?m ?n ?k ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(transa = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a
       ?(transb = `N) ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.gemm" in
+  let loc = "Lacaml.Impl.NPREC.gemm" in
   let m, n, k, transa_char, transb_char, c =
     gemm_get_params loc Mat.make0 ar ac a transa br bc b cr transb cc c m n k in
   direct_gemm transa_char transb_char m n k ar ac a br bc b cr cc c alpha beta;
@@ -301,7 +299,7 @@ external direct_symm :
 let symm ?m ?n ?(left = true) ?(up = true)
       ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.symm" in
+  let loc = "Lacaml.Impl.NPREC.symm" in
   let m, n, side_char, uplo_char, c =
     symm_get_params loc Mat.make0 ar ac a br bc b cr cc c m n left up in
   direct_symm side_char uplo_char m n ar ac a br bc b cr cc c alpha beta;
@@ -326,7 +324,7 @@ external direct_syrk :
 
 let syrk ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(trans = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.syrk" in
+  let loc = "Lacaml.Impl.NPREC.syrk" in
   let n, k, uplo_char, trans_char, c =
     syrk_get_params loc Mat.make0 ar ac a cr cc c n k up trans in
   direct_syrk uplo_char trans_char n k ar ac a cr cc c alpha beta;
@@ -352,7 +350,7 @@ external direct_lange :
 let lange_min_lwork m = function `I -> m | _ -> 0
 
 let lange ?m ?n ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml_NPREClange" in
+  let loc = "Lacaml.Impl.NPREC.lange" in
   let m, n = xlange_get_params loc m n ar ac a in
   let norm_char = get_norm_char norm in
   let work =
@@ -385,7 +383,7 @@ external direct_getrf :
   -> int = "lacaml_NPRECgetrf_stub_bc" "lacaml_NPRECgetrf_stub"
 
 let getrf ?m ?n ?ipiv ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.getrf" in
+  let loc = "Lacaml.Impl.NPREC.getrf" in
   let m, n = getrf_get_params loc m n ar ac a in
   let ipiv = getrf_get_ipiv loc ipiv m n in
   let info = direct_getrf m n ar ac a ipiv in
@@ -411,7 +409,7 @@ external direct_getrs :
 
 let getrs
     ?n ?ipiv ?(trans = `N) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.getrs" in
+  let loc = "Lacaml.Impl.NPREC.getrs" in
   let trans_char = get_trans_char trans in
   let n, nrhs = xxtrs_get_params loc ar ac a n br bc b nrhs in
   let ipiv =
@@ -441,12 +439,12 @@ let getri_get_opt_lwork loc n ar ac a =
   else getri_err loc getri_min_lwork n a 1 info
 
 let getri_opt_lwork ?n ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.getri_opt_lwork" in
+  let loc = "Lacaml.Impl.NPREC.getri_opt_lwork" in
   let n = get_n_of_a loc ar ac a n in
   getri_get_opt_lwork loc n ar ac a
 
 let getri ?n ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.getri" in
+  let loc = "Lacaml.Impl.NPREC.getri" in
   let n = get_n_of_a loc ar ac a n in
   let work, lwork =
     get_work
@@ -480,7 +478,7 @@ let sytrf_get_opt_lwork loc uplo n ar ac a =
   else sytrf_err loc n a info
 
 let sytrf_opt_lwork ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.sytrf_opt_lwork" in
+  let loc = "Lacaml.Impl.NPREC.sytrf_opt_lwork" in
   let uplo_char = get_uplo_char up in
   let n = get_n_of_a loc ar ac a n in
   sytrf_get_opt_lwork loc uplo_char n ar ac a
@@ -488,7 +486,7 @@ let sytrf_opt_lwork ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
 let sytrf_min_lwork () = 1
 
 let sytrf ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.sytrf" in
+  let loc = "Lacaml.Impl.NPREC.sytrf" in
   let uplo_char = get_uplo_char up in
   let n = get_n_of_a loc ar ac a n in
   let ipiv = sytrf_get_ipiv loc ipiv n in
@@ -520,7 +518,7 @@ external direct_sytrs :
 
 let sytrs
       ?n ?(up = true) ?ipiv ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.sytrs" in
+  let loc = "Lacaml.Impl.NPREC.sytrs" in
   let uplo_char = get_uplo_char up in
   let n, nrhs = xxtrs_get_params loc ar ac a n br bc b nrhs in
   let ipiv =
@@ -544,7 +542,7 @@ external direct_sytri :
 let sytri_min_lwork n = n
 
 let sytri ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.sytri" in
+  let loc = "Lacaml.Impl.NPREC.sytri" in
   let uplo_char = get_uplo_char up in
   let n = get_n_of_a loc ar ac a n in
   let work, _lwork =
@@ -570,7 +568,7 @@ external direct_potrf :
   -> int = "lacaml_NPRECpotrf_stub"
 
 let potrf ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.potrf" in
+  let loc = "Lacaml.Impl.NPREC.potrf" in
   let uplo_char = get_uplo_char up in
   let n = get_n_of_a loc ar ac a n in
   let info = direct_potrf uplo_char n ar ac a in
@@ -593,7 +591,7 @@ external direct_potrs :
   -> int = "lacaml_NPRECpotrs_stub_bc" "lacaml_NPRECpotrs_stub"
 
 let potrs ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.potrs" in
+  let loc = "Lacaml.Impl.NPREC.potrs" in
   let uplo_char = get_uplo_char up in
   let n, nrhs = xxtrs_get_params loc ar ac a n br bc b nrhs in
   let info = direct_potrs uplo_char n nrhs ar ac a br bc b in
@@ -610,7 +608,7 @@ external direct_potri :
   -> int = "lacaml_NPRECpotri_stub"
 
 let potri ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.potri" in
+  let loc = "Lacaml.Impl.NPREC.potri" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let info = direct_potri uplo_char n ar ac a in
@@ -636,7 +634,7 @@ external direct_gesv :
   -> int = "lacaml_NPRECgesv_stub_bc" "lacaml_NPRECgesv_stub"
 
 let gesv ?n ?ipiv ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.gesv" in
+  let loc = "Lacaml.Impl.NPREC.gesv" in
   let n, nrhs = xxsv_get_params loc ar ac a n br bc b nrhs in
   let ipiv = xxsv_get_ipiv loc ipiv n in
   let info = direct_gesv ar ac a n ipiv nrhs br bc b in
@@ -663,7 +661,7 @@ external direct_gbsv :
   -> int = "lacaml_NPRECgbsv_stub_bc" "lacaml_NPRECgbsv_stub"
 
 let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.gbsv" in
+  let loc = "Lacaml.Impl.NPREC.gbsv" in
   let n = get_n_of_square "ab" loc abr abc ab n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   let ipiv = xxsv_get_ipiv loc ipiv n in
@@ -698,7 +696,7 @@ external direct_gtsv :
   -> int = "lacaml_NPRECgtsv_stub_bc" "lacaml_NPRECgtsv_stub"
 
 let gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.gtsv" in
+  let loc = "Lacaml.Impl.NPREC.gtsv" in
   let ofsdl = get_ofs loc "dl" ofsdl in
   let ofsd = get_ofs loc "d" ofsd in
   let ofsdu = get_ofs loc "du" ofsdu in
@@ -726,7 +724,7 @@ external direct_posv :
   -> int = "lacaml_NPRECposv_stub_bc" "lacaml_NPRECposv_stub"
 
 let posv ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.posv" in
+  let loc = "Lacaml.Impl.NPREC.posv" in
   let n, nrhs = xxsv_get_params loc ar ac a n br bc b nrhs in
   let info = direct_posv ar ac a n (get_uplo_char up) nrhs br bc b in
   match info with
@@ -749,7 +747,7 @@ external direct_ppsv :
   -> int = "lacaml_NPRECppsv_stub_bc" "lacaml_NPRECppsv_stub"
 
 let ppsv ?n ?(up = true) ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.ppsv" in
+  let loc = "Lacaml.Impl.NPREC.ppsv" in
   let ofsap = get_ofs loc "ap" ofsap in
   let n = get_dim_mat_packed loc "ap" ofsap ap "n" n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
@@ -775,7 +773,7 @@ external direct_pbsv :
 
 let pbsv ?n ?(up = true) ?kd ?(abr = 1) ?(abc = 1) ab
       ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.pbsv" in
+  let loc = "Lacaml.Impl.NPREC.pbsv" in
   (* [a] is a band matrix of size [k+1]*[n]. *)
   let n = get_dim2_mat loc "ab" ab abc "n" n in
   let kd = get_k_mat_sb loc "ab" ab abr "kd" kd in
@@ -808,7 +806,7 @@ external direct_ptsv :
   -> int = "lacaml_NPRECptsv_stub_bc" "lacaml_NPRECptsv_stub"
 
 let ptsv ?n ?ofsd d ?ofse e ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.ptsv" in
+  let loc = "Lacaml.Impl.NPREC.ptsv" in
   let ofsd = get_ofs loc "d" ofsd in
   let ofse = get_ofs loc "e" ofse in
   let n = get_dim_vec loc "d" ofsd 1 d "n" n in
@@ -845,14 +843,14 @@ let sysv_get_opt_lwork loc ar ac a n uplo nrhs br bc b =
 
 let sysv_opt_lwork ?n ?(up = true) ?(ar = 1) ?(ac = 1) a
       ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.sysv_opt_lwork" in
+  let loc = "Lacaml.Impl.NPREC.sysv_opt_lwork" in
   let n, nrhs = xxsv_get_params loc ar ac a n br bc b nrhs in
   let uplo = get_uplo_char up in
   sysv_get_opt_lwork loc ar ac a n uplo nrhs br bc b
 
 let sysv ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a
       ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.sysv" in
+  let loc = "Lacaml.Impl.NPREC.sysv" in
   let n, nrhs = xxsv_get_params loc ar ac a n br bc b nrhs in
   let uplo = get_uplo_char up in
   let ipiv = xxsv_get_ipiv loc ipiv n in
@@ -884,7 +882,7 @@ external direct_spsv :
   -> int = "lacaml_NPRECspsv_stub_bc" "lacaml_NPRECspsv_stub"
 
 let spsv ?n ?(up = true) ?ipiv ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.spsv" in
+  let loc = "Lacaml.Impl.NPREC.spsv" in
   let ofsap = get_ofs loc "ap" ofsap in
   let n = get_dim_mat_packed loc "ap" ofsap ap "n" n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
@@ -951,14 +949,14 @@ let gels_get_opt_lwork loc ar ac a m n trans_char nrhs br bc b =
 
 let gels_opt_lwork ?m ?n ?(trans = `N) ?(ar = 1) ?(ac = 1) a
       ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.gels_opt_lwork" in
+  let loc = "Lacaml.Impl.NPREC.gels_opt_lwork" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   gels_get_opt_lwork loc ar ac a m n
     (get_trans_char trans) nrhs br bc b
 
 let gels ?m ?n ?work ?(trans = `N) ?(ar = 1) ?(ac = 1) a
       ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.NPREC.gels" in
+  let loc = "Lacaml.Impl.NPREC.gels" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   let trans_char = get_trans_char trans in
   let work, lwork =

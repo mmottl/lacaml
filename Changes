@@ -1,3 +1,7 @@
+2007-01-02:  New major release due to restructuring.  The library is now
+             packed into a separate namespace (Lacaml), and the previously
+             visible Lacaml-module is now called "Impl".
+
 2007-12-27:  Added new LAPACK function:
 
                * symv

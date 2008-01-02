@@ -1,4 +1,4 @@
-/* File: lacaml_utils_c.c
+(* File: complex64.ml
 
    Copyright (C) 2005-
 
@@ -19,17 +19,21 @@
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+*)
 
-/* $Id: lacaml_utils_c.c,v 1.2 2005/03/02 21:54:05 mottl Exp $ */
+open Bigarray
 
-#include <caml/mlvalues.h>
-#include <caml/alloc.h>
+type prec = complex64_elt
+type num_type = Complex.t
+type vec = (Complex.t, prec, fortran_layout) Array1.t
+type rvec = (float, float64_elt, fortran_layout) Array1.t
+type mat = (Complex.t, prec, fortran_layout) Array2.t
 
-value copy_two_doubles(double d0, double d1)
-{
-  value res = caml_alloc_small(2 * Double_wosize, Double_array_tag);
-  Store_double_field(res, 0, d0);
-  Store_double_field(res, 1, d1);
-  return res;
-}
+type trans2 = [ `N | `C ]
+type trans3 = [ `N | `T | `C ]
+
+let prec = complex64
+let zero = Complex.zero
+let one = Complex.one
+
+let int_of_complex64 z = int_of_float z.Complex.re

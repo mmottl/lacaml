@@ -1,4 +1,4 @@
-(* File: lacaml_CZ.mli
+(* File: impl_CZ.mli
 
    Copyright (C) 2005-
 
@@ -33,8 +33,8 @@
 *)
 
 open Bigarray
-open Lacaml_common
-open Lacaml_complexxx
+open Common
+open Complexxx
 
 (* LANSY *)
 

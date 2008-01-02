@@ -1,4 +1,4 @@
-(* File: lacaml_SDCZ.mli
+(* File: impl_SDCZ.mli
 
    Copyright (C) 2001-
 
@@ -29,13 +29,11 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lacaml_SDCZ.mli,v 1.18 2006/01/18 15:03:40 mottl Exp $ *)
-
 (** Interface to BLAS/LAPACK *)
 
 open Bigarray
-open Lacaml_common
-open Lacaml_numberxx
+open Common
+open Numberxx
 
 (** {6 BLAS-1 interface} *)
 

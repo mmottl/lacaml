@@ -25,8 +25,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* $Id: vec_combine.c,v 1.13 2006/01/18 15:03:40 mottl Exp $ */
-
 #include "lacaml_macros.h"
 #include "f2c.h"
 

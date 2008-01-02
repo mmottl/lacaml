@@ -1,5 +1,5 @@
 name="lacaml"
-version="3.0.28"
+version="4.0.0"
 description="LACAML - BLAS/LAPACK-interface for OCaml"
 
 requires="lacaml.core"

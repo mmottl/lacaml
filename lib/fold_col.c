@@ -25,11 +25,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* $Id: fold_col.c,v 1.17 2006/01/18 15:03:39 mottl Exp $ */
-
 #include "f2c.h"
 #include "lacaml_macros.h"
-#include "lacaml_utils_c.h"
+#include "utils_c.h"
 
 CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
 {

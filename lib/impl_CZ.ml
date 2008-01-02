@@ -1,4 +1,4 @@
-(* File: lacaml_CZ.ml
+(* File: impl_CZ.ml
 
    Copyright (C) 2005-
 
@@ -35,11 +35,11 @@
 open Printf
 open Bigarray
 open Complex
-open Lacaml_floatxx
-open Lacaml_complexxx
-open Lacaml_common
-open Lacaml_utils
-open Lacaml4_CPREC
+open Floatxx
+open Complexxx
+open Common
+open Utils
+open Impl4_CPREC
 
 module Vec = Vec4_CPREC
 module Mat = Mat4_CPREC
@@ -61,7 +61,7 @@ external direct_lansy :
 let lansy_min_lwork n = function `I -> n | _ -> 0
 
 let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.lansy" in
+  let loc = "Lacaml.Impl.CPREC.lansy" in
   let n = get_n_of_a loc ar ac a n in
   let norm_char = get_norm_char norm in
   let uplo_char = get_uplo_char up in
@@ -90,7 +90,7 @@ let gecon_min_lwork n = 2 * n
 let gecon_min_lrwork n = 2 * n
 
 let gecon ?n ?(norm = `O) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.gecon" in
+  let loc = "Lacaml.Impl.CPREC.gecon" in
   let n = get_n_of_a loc ar ac a n in
   let norm_char = get_norm_char norm in
   let work, _lwork =
@@ -124,7 +124,7 @@ external direct_sycon :
 let sycon_min_lwork n = 2 * n
 
 let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.sycon" in
+  let loc = "Lacaml.Impl.CPREC.sycon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let work, _lwork =
@@ -159,7 +159,7 @@ let pocon_min_lwork n = 3 * n
 let pocon_min_lrwork n = n
 
 let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.pocon" in
+  let loc = "Lacaml.Impl.CPREC.pocon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
   let min_lwork, min_lrwork = pocon_min_lwork n, pocon_min_lrwork n in
@@ -220,7 +220,7 @@ let gesvd_opt_lwork
     ?(jobu = `A) ?(jobvt = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u
     ?(vtr = 1) ?(vtc = 1) ?vt ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.gesvd_opt_lwork" in
+  let loc = "Lacaml.Impl.CPREC.gesvd_opt_lwork" in
   let jobu, jobvt, m, n, s, u, vt =
     gesvd_get_params
       loc RVec.create Mat.create jobu jobvt m n ar ac a s ur uc u vtr vtc vt in
@@ -231,7 +231,7 @@ let gesvd
     ?(jobu = `A) ?(jobvt = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u
     ?(vtr = 1) ?(vtc = 1) ?vt ?work ?rwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.gesvd" in
+  let loc = "Lacaml.Impl.CPREC.gesvd" in
   let jobu, jobvt, m, n, s, u, vt =
     gesvd_get_params
       loc RVec.create Mat.create jobu jobvt m n ar ac a s ur uc u vtr vtc vt in
@@ -318,7 +318,7 @@ let geev_opt_lwork
     ?(rightr = 1) ?(rightc = 1) ?right
     ?(ofsw = 1) ?w
     ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.geev_opt_lwork" in
+  let loc = "Lacaml.Impl.CPREC.geev_opt_lwork" in
   let (n, leftr, leftc, vl, jobvl, rightr, rightc, vr, jobvr, _), (ofsw, w) =
     geev_get_params loc ar ac a n leftr leftc left rightr rightc right ofsw w in
   geev_get_opt_lwork
@@ -330,7 +330,7 @@ let geev
     ?(rightr = 1) ?(rightc = 1) ?right
     ?(ofsw = 1) ?w
     ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.CPREC.geev" in
+  let loc = "Lacaml.Impl.CPREC.geev" in
   let (n, leftr, leftc, vl, jobvl, rightr, rightc, vr, jobvr, _), (ofsw, w) =
     geev_get_params loc ar ac a n leftr leftc left rightr rightc right ofsw w in
 

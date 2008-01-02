@@ -25,10 +25,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: vec_SDCZ.mli,v 1.12 2006/01/18 15:03:40 mottl Exp $ *)
-
 open Bigarray
-open Lacaml_numberxx
+open Numberxx
 
 (** {6 Creation/conversion of vectors and dimension accessor} *)
 

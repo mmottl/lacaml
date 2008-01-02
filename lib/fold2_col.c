@@ -25,8 +25,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* $Id: fold2_col.c,v 1.13 2006/01/18 15:03:38 mottl Exp $ */
-
 #include "f2c.h"
 #include "lacaml_macros.h"
 

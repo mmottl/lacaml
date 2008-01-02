@@ -25,11 +25,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* $Id: mat_CZ_c.c,v 1.3 2005/03/22 16:18:06 mottl Exp $ */
-
 #include <math.h>
 #include "lacaml_macros.h"
-#include "lacaml_utils_c.h"
+#include "utils_c.h"
 #include "f2c.h"
 
 CAMLprim value LFUN(map_stub)(

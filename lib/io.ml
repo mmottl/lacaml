@@ -1,4 +1,4 @@
-(* File: lacaml_io.ml
+(* File: io.ml
 
    Copyright (C) 2005
 
@@ -21,8 +21,6 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
-
-(* $Id: lacaml_io.ml,v 1.8 2005/11/03 17:21:01 mottl Exp $ *)
 
 open Format
 open Bigarray
@@ -438,7 +436,7 @@ let pp_lmat_gen
     | Some col_labels when print_head ->
         if Array.length col_labels <> Array2.dim2 mat then
           invalid_arg
-            "Lacaml_io.pp_lmat_gen: dim(col_labels) <> dim2(mat)";
+            "Io.pp_lmat_gen: dim(col_labels) <> dim2(mat)";
         let pp_head = get_some_pp_head_foot_mat col_labels in
         let pp_foot = if print_foot then pp_head else None in
         pp_head, pp_foot
@@ -451,7 +449,7 @@ let pp_lmat_gen
         let m = Array2.dim1 mat in
         if Array.length row_labels <> m then
           invalid_arg
-            "Lacaml_io.pp_lmat_gen: dim(row_labels) <> dim1(mat)";
+            "Io.pp_lmat_gen: dim(row_labels) <> dim1(mat)";
         let pp_left = get_pp_left_right_mat print_left m row_labels in
         let pp_right = get_pp_left_right_mat print_right m row_labels in
         pp_left, pp_right

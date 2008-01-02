@@ -1,4 +1,4 @@
-(* File: lacaml_io.mli
+(* File: io.mli
 
    Copyright (C) 2005
 
@@ -21,8 +21,6 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
-
-(* $Id: lacaml_io.mli,v 1.7 2005/11/03 17:21:01 mottl Exp $ *)
 
 open Format
 open Bigarray

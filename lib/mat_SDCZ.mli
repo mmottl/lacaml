@@ -28,7 +28,7 @@
 (** Matrix operations *)
 
 open Bigarray
-open Lacaml_numberxx
+open Numberxx
 
 (** {6 Creation of matrices and accessors} *)
 

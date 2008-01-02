@@ -25,13 +25,11 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lacaml.ml,v 1.9 2006/01/18 15:03:39 mottl Exp $ *)
-
 module S = struct
-  include Lacaml_float32
+  include Float32
 
-  include Lacaml2_S
-  include Lacaml4_S
+  include Impl2_S
+  include Impl4_S
 
   module Vec = struct
     include Vec2_S
@@ -45,10 +43,10 @@ module S = struct
 end
 
 module D = struct
-  include Lacaml_float64
+  include Float64
 
-  include Lacaml2_D
-  include Lacaml4_D
+  include Impl2_D
+  include Impl4_D
 
   module Vec = struct
     include Vec2_D
@@ -62,10 +60,10 @@ module D = struct
 end
 
 module C = struct
-  include Lacaml_complex32
+  include Complex32
 
-  include Lacaml2_C
-  include Lacaml4_C
+  include Impl2_C
+  include Impl4_C
 
   module Vec = struct
     include Vec2_C
@@ -79,10 +77,10 @@ module C = struct
 end
 
 module Z = struct
-  include Lacaml_complex64
+  include Complex64
 
-  include Lacaml2_Z
-  include Lacaml4_Z
+  include Impl2_Z
+  include Impl4_Z
 
   module Vec = struct
     include Vec2_Z

@@ -32,11 +32,11 @@
 
 open Format
 open Bigarray
-open Lacaml_io
+open Lacaml.Io
 
 (* REAL GESVD DEMO *)
 
-open Lacaml.D
+open Lacaml.Impl.D
 
 let () =
   let n = 3 in
@@ -50,7 +50,7 @@ let () =
 
 (* COMPLEX GESVD DEMO *)
 
-open Lacaml.C
+open Lacaml.Impl.C
 open Complex
 
 let () =

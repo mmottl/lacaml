@@ -28,7 +28,7 @@
 (** Vector operations *)
 
 open Bigarray
-open Lacaml_complexxx
+open Complexxx
 
 (** {6 Creation of vectors} *)
 

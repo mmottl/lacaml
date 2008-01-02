@@ -25,12 +25,10 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: vec_SDCZ.ml,v 1.15 2006/01/18 15:03:40 mottl Exp $ *)
-
 open Bigarray
 open Printf
-open Lacaml_utils
-open Lacaml_numberxx
+open Utils
+open Numberxx
 
 (* Creation of vectors and dimension accessor *)
 

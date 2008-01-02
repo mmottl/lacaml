@@ -34,8 +34,8 @@
 open Format
 open Bigarray
 
-open Lacaml.D
-open Lacaml_io
+open Lacaml.Impl.D
+open Lacaml.Io
 
 let () = Random.self_init ()
 
@@ -87,7 +87,7 @@ let () =
 
 (* CGEEV DEMO *)
 
-open Lacaml.C
+open Lacaml.Impl.C
 open Complex
 
 let () =

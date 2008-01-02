@@ -25,8 +25,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* $Id: lacaml_macros.h,v 1.14 2006/01/18 15:03:40 mottl Exp $ */
-
 #ifndef LACAML_MACROS
 
 #define CAML_NAME_SPACE

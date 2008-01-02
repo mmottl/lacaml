@@ -27,7 +27,7 @@
 
 open Bigarray
 open Vec4_FPREC
-open Lacaml_floatxx
+open Floatxx
 
 let random ?rnd_state ?(from = -1.) ?(range = 2.) n =
   let vec = create n in

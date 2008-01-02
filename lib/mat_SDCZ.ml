@@ -26,8 +26,8 @@
 *)
 
 open Bigarray
-open Lacaml_numberxx
-open Lacaml_utils
+open Numberxx
+open Utils
 
 (* Creation of matrices *)
 
@@ -62,7 +62,7 @@ external direct_copy_mat :
   -> unit = "lacaml_NPRECcopy_mat_stub_bc" "lacaml_NPRECcopy_mat_stub"
 
 let copy ?m ?n ?(yr = 1) ?(yc = 1) ?y ?(xr = 1) ?(xc = 1) x =
-  let loc = "Mat.copy" in
+  let loc = "Lacaml.Impl.NPREC.Mat.copy" in
   let x_name = "x" in
   let m = get_dim1_mat loc x_name x xr "m" m in
   let n = get_dim2_mat loc x_name x xc "n" n in
@@ -208,7 +208,7 @@ external direct_scal_mat :
   -> unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
 
 let scal ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
-  let loc = "Mat.scal" in
+  let loc = "Lacaml.Impl.NPREC.Mat.scal" in
   let a_name = "a" in
   let m = get_dim1_mat loc a_name a ar "m" m in
   let n = get_dim2_mat loc a_name a ac "n" n in
@@ -227,7 +227,7 @@ external direct_axpy_mat :
   -> unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
 
 let axpy ?m ?n ?(alpha = one) ?(xr = 1) ?(xc = 1) ~x ?(yr = 1) ?(yc = 1) y =
-  let loc = "Mat.axpy" in
+  let loc = "Lacaml.Impl.NPREC.Mat.axpy" in
   let x_name = "x" in
   let m = get_dim1_mat loc x_name x xr "m" m in
   let n = get_dim2_mat loc x_name x xc "n" n in
@@ -247,7 +247,7 @@ external direct_map :
   -> unit = "lacaml_NPRECmap_stub_bc" "lacaml_NPRECmap_stub"
 
 let map f ?m ?n ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a =
-  let loc = "Mat.map" in
+  let loc = "Lacaml.Impl.NPREC.Mat.map" in
   let m = get_dim1_mat loc "a" a ar "m" m in
   let n = get_dim2_mat loc "a" a ac "n" n in
   let c, cr, cc =
@@ -259,7 +259,7 @@ let map f ?m ?n ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a =
   c
 
 let fold_cols coll ?n ?(ac = 1) acc a =
-  let loc = "Mat.fold_cols" in
+  let loc = "Lacaml.Impl.NPREC.Mat.fold_cols" in
   let n = get_dim2_mat loc "a" a ac "n" n in
   let acc_ref = ref acc in
   for i = 0 to n - 1 do

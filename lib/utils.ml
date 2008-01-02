@@ -1,4 +1,4 @@
-(* File: lacaml_utils.ml
+(* File: utils.ml
 
    Copyright (C) 2001-
 
@@ -29,13 +29,11 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lacaml_utils.ml,v 1.24 2006/01/18 15:03:40 mottl Exp $ *)
-
 (** General auxiliary functions *)
 
 open Printf
 open Bigarray
-open Lacaml_common
+open Common
 
 (* Zero-sized dummy vector (int) *)
 let empty_int_vec = create_int_vec 0

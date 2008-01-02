@@ -1,4 +1,4 @@
-/* File: lacaml_c.c
+/* File: impl_c.c
 
    Copyright (C) 2001-
 
@@ -20,8 +20,6 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
-/* $Id: lacaml_c.c,v 1.9 2005/03/02 21:54:05 mottl Exp $ */
 
 #include "lacaml_macros.h"
 #include "f2c.h"

@@ -30,8 +30,8 @@
 open Format
 open Bigarray
 
-open Lacaml.D
-open Lacaml_io
+open Lacaml.Impl.D
+open Lacaml.Io
 
 let () =
   let x = Vec.of_array [| 1.; 2.; 4.; 2. |] in

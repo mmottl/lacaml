@@ -1,4 +1,4 @@
-(* File: lacaml_float64.ml
+(* File: float64.ml
 
    Copyright (C) 2005
 
@@ -20,8 +20,6 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
-
-(* $Id: lacaml_float64.ml,v 1.7 2005/07/11 18:45:12 mottl Exp $ *)
 
 open Bigarray
 

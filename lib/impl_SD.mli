@@ -1,4 +1,4 @@
-(* File: lacaml_SD.mli
+(* File: impl_SD.mli
 
    Copyright (C) 2001-
 
@@ -33,11 +33,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lacaml_SD.mli,v 1.30 2006/01/18 15:03:39 mottl Exp $ *)
-
 open Bigarray
-open Lacaml_common
-open Lacaml_floatxx
+open Common
+open Floatxx
 
 (** {6 BLAS-1 interface} *)
 

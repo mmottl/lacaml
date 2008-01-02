@@ -28,7 +28,7 @@
 (** Matrix operations *)
 
 open Bigarray
-open Lacaml_floatxx
+open Floatxx
 
 (** {6 Creation of matrices} *)
 
