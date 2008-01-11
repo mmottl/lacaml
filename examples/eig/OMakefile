@@ -1,0 +1,3 @@
+OCamlMakeProjDefaults(eig.exe)
+
+InstantiateOCamlEnv()

@@ -1,0 +1,3 @@
+OCamlMakeProjDefaults(svd.exe)
+
+InstantiateOCamlEnv()

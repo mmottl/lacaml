@@ -1,0 +1,3 @@
+OCAML_LIBRARIES = lacaml
+
+.SUBDIRS: blas eig lin_eq lin_eq_comp lin_reg svd
