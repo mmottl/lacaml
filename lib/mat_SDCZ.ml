@@ -198,6 +198,26 @@ let transpose mat =
   done;
   res
 
+let detri ?(up = true) ?(ar = 1) ?(ac = 1) ?n a =
+  let loc = "Lacaml.Impl.NPREC.Mat.detri" in
+  let n = get_n_of_square "a" loc ar ac a n in
+  if up then
+    for c = 1 to n - 1 do
+      let ar_c = ar + c in
+      let ac_c = ac + c in
+      for r = 0 to c - 1 do
+        a.{ar_c, ac + r} <- a.{ar + r, ac_c}
+      done
+    done
+  else
+    for c = 1 to n - 1 do
+      let ar_c = ar + c in
+      let ac_c = ac + c in
+      for r = 0 to c - 1 do
+        a.{ar + r, ac_c} <- a.{ar_c, ac + r}
+      done
+    done
+
 external direct_scal_mat :
   int -> (* M *)
   int -> (* N *)

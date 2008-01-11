@@ -142,6 +142,18 @@ val copy_row : ?vec : vec -> mat -> int -> vec
 val transpose : mat -> mat
 (** [transpose m] @return the transpose of matrix [m]. *)
 
+val detri : ?up : bool -> ?ar : int -> ?ac : int -> ?n : int -> mat -> unit
+(** [detri ?up ?ar ?ac ?n a] takes a triangular (sub-)matrix [a], i.e. one
+    where only the upper (iff [up] is true) or lower triangle is defined,
+    and makes it a symmetric matrix by mirroring the defined triangle
+    along the diagonal.
+
+    @param up default = [true]
+    @param ar default = [1]
+    @param ac default = [1]
+    @param n default = [Mat.dim1 a]
+*)
+
 
 (** {6 Arithmetic operations} *)
 

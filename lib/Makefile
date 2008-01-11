@@ -98,6 +98,7 @@ LIBINSTALL_FILES := \
   mat_SDCZ.mli mat_SD.mli mat_CZ.mli \
   float32.ml float64.ml \
   complex32.ml complex64.ml \
+  io.cmi utils.cmi common.cmi \
   lacaml.cmi lacaml.cma lacaml_top.cma lacaml.cmxa lacaml.a \
   liblacaml_stubs.a $(INSTALL_DLL)
 
