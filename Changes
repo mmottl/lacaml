@@ -1,3 +1,11 @@
+2008-02-13:  Fixed a bug when implicitly allocating result matrices
+             with user-specified offsets.  It may cause segfaults and
+             affects many functions (though it is presumably very rarely
+             triggered).
+
+             Thanks to Shun Sakuraba <shun.sakuraba@gmail.com> for
+             contributing this patch!
+
 2008-01-11:  Fixed installation of new release.  Added new function:
 
                * Mat.detri

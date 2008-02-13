@@ -120,7 +120,7 @@ let check_dim_mat loc mat_name r c mat m n =
 let get_mat loc mat_name mat_create r c mat m n =
   match mat with
   | Some mat -> check_dim_mat loc mat_name r c mat m n; mat
-  | None -> mat_create m n
+  | None -> mat_create (m + r - 1) (n + c - 1)
 
 (* ??MV auxiliary functions *)
 
