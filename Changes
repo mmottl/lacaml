@@ -1,3 +1,9 @@
+2008-04-11:  Added new BLAS function:
+
+               * trmv
+
+             Thanks to Martin Willensdorfer <ma.wi@gmx.at> for the patch!
+
 2008-02-13:  Fixed a bug when implicitly allocating result matrices
              with user-specified offsets.  It may cause segfaults and
              affects many functions (though it is presumably very rarely
@@ -14,7 +20,7 @@
              packed into a separate namespace (Lacaml), and the previously
              visible Lacaml-module is now called "Impl".
 
-2007-12-27:  Added new LAPACK function:
+2007-12-27:  Added new BLAS function:
 
                * symv
 

@@ -412,9 +412,61 @@ CAMLprim value LFUN(symv_stub_bc)(value *argv, int argn)
 }
 
 
-/** TODO: SPMV */
+/** TRMV */
 
-/** TODO: TRMV */
+extern void FUN(trmv)(
+  char *UPLO,
+  char *TRANS,
+  char *DIAG,
+  integer *N,
+  NUMBER *A, integer *LDA,
+  NUMBER *X, integer *INCX);
+
+CAMLprim value LFUN(trmv_stub)(
+  value vAR,
+  value vAC,
+  value vA,
+  value vN,
+  value vUPLO,
+  value vTRANS,
+  value vDIAG,
+  value vOFSX, value vINCX, value vX)
+{
+  CAMLparam2(vA, vX);
+
+  char GET_INT(UPLO),
+       GET_INT(TRANS),
+       GET_INT(DIAG);
+
+  integer GET_INT(N),
+          GET_INT(INCX);
+
+  MAT_PARAMS(A);
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(trmv)(
+    &UPLO,
+    &TRANS,
+    &DIAG,
+    &N,
+    A_data, &rows_A,
+    X_data, &INCX);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(trmv_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(trmv_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8], argv[9]);
+}
+
+
+/** TODO: SPMV */
 
 /** TODO: TBMV */
 

@@ -38,6 +38,9 @@ open Common
 (* Zero-sized dummy vector (int) *)
 let empty_int_vec = create_int_vec 0
 
+(* Char indicating if matrix is unit triangular *)
+let get_diag_char = function true -> 'U' | false -> 'N'
+
 (* Char indicating type of norm to retrieve for XlanYY routines *)
 let get_norm_char = function `M -> 'M' | `O -> 'O' | `I -> 'I' | `F -> 'F'
 
@@ -324,6 +327,19 @@ let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
   let y = get_vec loc y_str y ofsy incy n vec_create in
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
   n, ofsx, incx, ofsy, incy, y, get_uplo_char up
+
+(* trmv -- auxiliary functions *)
+let trmv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
+  let a_str = "a" in
+  let x_str = "x" in
+  let n_str = "n" in
+  let n = get_dim1_mat loc a_str a ar n_str n in
+  check_dim2_mat loc a_str a ac n_str n;
+  let trans_char = get_trans_char trans in
+  let diag_char = get_diag_char unit_triangular in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  check_vec loc x_str x (ofsx + (n - 1) * abs incx);
+  n, ofsx, incx, get_uplo_char up, trans_char, diag_char
 
 (* gemm -- auxiliary functions *)
 

@@ -175,7 +175,7 @@ val gbmv :
     @param beta default = 0.0
     @param ofsy default = 1
     @param incy default = 1
-    @param y default = vect with minimal required length (see BLAS)
+    @param y default = vector with minimal required length (see BLAS)
     @param trans default = `N
     @param alpha default = 1.0
     @param ar default = 1
@@ -205,9 +205,32 @@ val symv :
     @param beta default = 0.0
     @param ofsy default = 1
     @param incy default = 1
-    @param y default = vect with minimal required length (see BLAS)
+    @param y default = vector with minimal required length (see BLAS)
     @param up default = true (upper triangular portion of [a] is accessed)
     @param alpha default = 1.0
+    @param ar default = 1
+    @param ac default = 1
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
+val trmv :
+  ?n : int ->
+  ?trans : trans3 ->
+  ?unit_triangular : bool ->
+  ?up : bool ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> unit
+(** [trmv ?n ?trans ?unit_triangular ?up ?ar ?ac a ?ofsx ?incx x]
+    see BLAS documentation!
+    @param n default = dimension of triangular matrix [a]
+    @param trans default = `N
+    @param unit_triangular default = false (not a unit triangular matrix)
+    @param up default = true (upper triangular portion of [a] is accessed)
     @param ar default = 1
     @param ac default = 1
     @param ofsx default = 1

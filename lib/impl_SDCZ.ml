@@ -243,6 +243,30 @@ let symv ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(up = true) ?(alpha = 1.0)
   y
 
 
+(* TRMV *)
+
+external direct_trmv :
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  int -> (* N *)
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  char -> (* DIAG *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec (* X *)
+  -> unit = "lacaml_NPRECtrmv_stub_bc" "lacaml_NPRECtrmv_stub"
+
+let trmv
+      ?n ?(trans = `N) ?(unit_triangular = false) ?(up = true)
+      ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.NPREC.trmv" in
+  let n, ofsx, incx, uplo_char, trans_char, diag_char =
+    trmv_get_params loc ar ac a n ofsx incx x up trans unit_triangular in
+  direct_trmv ar ac a n uplo_char trans_char diag_char ofsx incx x
+
+
 (* BLAS-3 *)
 
 (* GEMM *)
