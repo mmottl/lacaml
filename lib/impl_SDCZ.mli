@@ -329,7 +329,7 @@ val syrk :
     @return matrix [c], which is overwritten.
     @param n default = number of rows of [a] (or [a]'), [c]
     @param k default = number of columns of [a] (or [a]')
-    @param up default = true (upper triangular portion of [a] is accessed)
+    @param up default = true (upper triangular portion of [c] is accessed)
     @param beta default = 0.0
     @param cr default = 1
     @param cc default = 1
