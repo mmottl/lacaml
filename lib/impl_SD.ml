@@ -1118,7 +1118,7 @@ let syevr_opt_l_li_work
   let range, _m, vl, vu, il, iu = syevr_get_params loc n range in
   let zr = 1 in
   let zc = 1 in
-  let z = Mat.empty in
+  let z = Mat.create n 0 in
   let ofsw = 1 in
   let w = Vec.empty in
   let isuppz = empty_int_vec in
