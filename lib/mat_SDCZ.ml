@@ -189,12 +189,14 @@ let to_col_vecs mat =
     for i = 2 to n do ar.(i - 1) <- col mat i done;
     ar
 
-let transpose mat =
-  let rows = dim1 mat in
-  let cols = dim2 mat in
-  let res = create cols rows in
-  for col = 1 to cols do
-    for row = 1 to rows do res.{col, row} <- mat.{row, col} done
+let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.Mat.transpose" in
+  let x_name = "a" in
+  let m = get_dim1_mat loc x_name a ar "m" m in
+  let n = get_dim2_mat loc x_name a ac "n" n in
+  let res = create n m in
+  for col = 1 to n do
+    for row = 1 to m do res.{col, row} <- a.{ar + row - 1, ac + col - 1} done
   done;
   res
 

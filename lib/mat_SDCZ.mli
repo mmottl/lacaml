@@ -139,8 +139,8 @@ val copy_row : ?vec : vec -> mat -> int -> vec
 
 (** {6 Matrix transformations} *)
 
-val transpose : mat -> mat
-(** [transpose m] @return the transpose of matrix [m]. *)
+val transpose : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> mat
+(** [transpose a] @return the transpose of matrix [a]. *)
 
 val detri : ?up : bool -> ?ar : int -> ?ac : int -> ?n : int -> mat -> unit
 (** [detri ?up ?ar ?ac ?n a] takes a triangular (sub-)matrix [a], i.e. one

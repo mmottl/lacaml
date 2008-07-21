@@ -1,3 +1,5 @@
+2008-07-21:  Generalized Mat.transpose to support specifying sub-matrices.
+
 2008-04-23:  Fixed a parameter checking bug for syevr-related functions.
 
 2008-04-11:  Added new BLAS function:
