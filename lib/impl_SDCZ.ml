@@ -614,10 +614,13 @@ external direct_potrs :
   mat (* B *)
   -> int = "lacaml_NPRECpotrs_stub_bc" "lacaml_NPRECpotrs_stub"
 
-let potrs ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
+let potrs
+      ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1)
+      ?(factorize = true) b =
   let loc = "Lacaml.Impl.NPREC.potrs" in
   let uplo_char = get_uplo_char up in
   let n, nrhs = xxtrs_get_params loc ar ac a n br bc b nrhs in
+  if factorize then potrf ~n ~up ~ar ~ac a;
   let info = direct_potrs uplo_char n nrhs ar ac a br bc b in
   if info <> 0 then potrs_err loc n nrhs a b info
 
@@ -631,10 +634,11 @@ external direct_potri :
   mat (* A *)
   -> int = "lacaml_NPRECpotri_stub"
 
-let potri ?n ?(up = true) ?(ar = 1) ?(ac = 1) a =
+let potri ?n ?(up = true) ?(ar = 1) ?(ac = 1) ?(factorize = true) a =
   let loc = "Lacaml.Impl.NPREC.potri" in
   let n = get_n_of_a loc ar ac a n in
   let uplo_char = get_uplo_char up in
+  if factorize then potrf ~n ~up ~ar ~ac a;
   let info = direct_potri uplo_char n ar ac a in
   if info <> 0 then
     if info > 0 then xxtri_lu_err loc info

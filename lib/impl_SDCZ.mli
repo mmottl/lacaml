@@ -547,9 +547,10 @@ val potrs :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
+  ?factorize : bool ->
   mat
   -> unit
-(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc b]
+(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize b]
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true
@@ -557,21 +558,24 @@ val potrs :
     @param ac default = 1
     @param nrhs default = available number of columns in matrix [b]
     @param br default = 1
-    @param bc default = 1 *)
+    @param bc default = 1
+    @param factorize default = true (calls potrf implicitly) *)
 
 val potri :
   ?n : int ->
   ?up : bool ->
   ?ar : int ->
   ?ac : int ->
+  ?factorize : bool ->
   mat
   -> unit
-(** [potri ?n ?up ?ar ?ac a]
+(** [potri ?n ?up ?ar ?ac ?factorize a]
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true (upper triangel stored in [a])
     @param ar default = 1
-    @param ac default = 1 *)
+    @param ac default = 1
+    @param factorize default = true (calls potrf implicitly) *)
 
 (** Linear equations (simple drivers) *)
 

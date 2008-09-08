@@ -1,3 +1,15 @@
+2008-09-08:  !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING !!!
+
+             potri and potrs now implicitly call potrf by default!
+             This will break previous code depending on these functions,
+             but should be trivial to fix.  This change was deemed
+             necessary, because otherwise switching between sytri/potri
+             and sytrs/potrs would cause surprises: the purely symmetric
+             functions do already implicitly call the factorization
+             unless a default parameter (ipiv) is overridden.
+
+             Sorry for the inconvenience.
+
 2008-07-21:  Generalized Mat.transpose to support specifying sub-matrices.
 
 2008-04-23:  Fixed a parameter checking bug for syevr-related functions.
