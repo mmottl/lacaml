@@ -35,5 +35,6 @@ type trans3 = [ `N | `T ]
 let prec = float64
 let zero = 0.0
 let one = 1.0
+let add = (+.)
 
 let int_of_float64 = int_of_float

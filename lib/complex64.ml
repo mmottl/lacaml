@@ -35,5 +35,6 @@ type trans3 = [ `N | `T | `C ]
 let prec = complex64
 let zero = Complex.zero
 let one = Complex.one
+let add = Complex.add
 
 let int_of_complex64 z = int_of_float z.Complex.re

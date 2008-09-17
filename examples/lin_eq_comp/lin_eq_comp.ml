@@ -97,7 +97,7 @@ let () =
   printf "chol(B) = @[%a@]@\n@\n" pp_fmat chol;
 
   let inv = Mat.copy chol in
-  potri inv;
+  potri ~factorize:false inv;
   printf "inv(B) = @[%a@]@\n@\n" pp_fmat inv;
 
   let normM = lange ~norm:`M b in

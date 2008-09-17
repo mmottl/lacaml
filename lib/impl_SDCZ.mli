@@ -529,14 +529,29 @@ val potrf :
   ?up : bool ->
   ?ar : int ->
   ?ac : int ->
+  ?jitter : num_type ->
   mat
   -> unit
-(** [potrf ?n ?up ?ar ?ac a]
+(** [potrf ?n ?up ?ar ?ac ?jitter a] factorizes symmetric positive
+    definite matrix [a] (or the designated submatrix) using Cholesky
+    factorization.
+
+    Due to rounding errors ill-conditioned matrices may actually appear
+    as if they were not positive definite, thus leading to an exception.
+    One remedy for this problem is to add a small [jitter] to the
+    diagonal of the matrix, which will usually allow Cholesky to complete
+    successfully (though at a small bias).  For extremely ill-conditioned
+    matrices it is recommended to use (symmetric) eigenvalue decomposition
+    instead of this function for a numerically more stable factorization.
+
     @raise Failure if the matrix is singular.
+
     @param n default = number of columns in matrix [a]
     @param up default = true (store upper triangle in [a])
     @param ar default = 1
-    @param ac default = 1 *)
+    @param ac default = 1
+    @param jitter default = nothing
+*)
 
 val potrs :
   ?n : int ->
@@ -548,10 +563,13 @@ val potrs :
   ?br : int ->
   ?bc : int ->
   ?factorize : bool ->
+  ?jitter : num_type ->
   mat
   -> unit
-(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize b]
+(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b]
+
     @raise Failure if the matrix is singular.
+
     @param n default = number of columns in matrix [a]
     @param up default = true
     @param ar default = 1
@@ -559,7 +577,9 @@ val potrs :
     @param nrhs default = available number of columns in matrix [b]
     @param br default = 1
     @param bc default = 1
-    @param factorize default = true (calls potrf implicitly) *)
+    @param factorize default = true (calls potrf implicitly)
+    @param jitter default = nothing
+*)
 
 val potri :
   ?n : int ->
@@ -567,15 +587,21 @@ val potri :
   ?ar : int ->
   ?ac : int ->
   ?factorize : bool ->
+  ?jitter : num_type ->
   mat
   -> unit
-(** [potri ?n ?up ?ar ?ac ?factorize a]
+(** [potri ?n ?up ?ar ?ac ?factorize ?jitter a]
+
     @raise Failure if the matrix is singular.
+
     @param n default = number of columns in matrix [a]
     @param up default = true (upper triangel stored in [a])
     @param ar default = 1
     @param ac default = 1
-    @param factorize default = true (calls potrf implicitly) *)
+    @param factorize default = true (calls potrf implicitly)
+    @param jitter default = nothing
+*)
+
 
 (** Linear equations (simple drivers) *)
 
