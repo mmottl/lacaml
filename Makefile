@@ -1,6 +1,6 @@
 -include Makefile.conf
 
-EXAMPLES = $(filter-out examples/CVS examples/Makefile.examples, $(wildcard examples/*))
+EXAMPLES = $(filter-out examples/OMakefile examples/CVS examples/Makefile.examples, $(wildcard examples/*))
 
 .PHONY: all
 all:
