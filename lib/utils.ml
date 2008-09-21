@@ -53,7 +53,10 @@ let get_uplo_char up = if up then 'U' else 'L'
 let get_trans_char = function `N -> 'N' | `T -> 'T' | `C -> 'C'
 
 (* Char indicating which side of the matrix B matrix A should be on *)
-let get_side_char left = if left then 'L' else 'R'
+let get_side_char = function `L -> 'L' | `R -> 'R'
+
+(* Char indicating whether a diagonal is unit or non-unit *)
+let get_diag_char = function `U -> 'U' | `N -> 'N'
 
 (* Char indicating whether/how the left/right singular vectors
    should be computed *)
@@ -63,6 +66,23 @@ let get_s_d_job_char = function `A -> 'A' | `S -> 'S' | `O -> 'O' | `N -> 'N'
 let get_job_char = function true -> 'V' | _ -> 'N'
 let job_char_true = get_job_char true
 let job_char_false = get_job_char false
+
+(* Name information *)
+let a_str = "a"
+let b_str = "b"
+let c_str = "c"
+let k_str = "k"
+let m_str = "m"
+let n_str = "n"
+let s_str = "s"
+let u_str = "u"
+let um_str = "um"
+let un_str = "un"
+let vm_str = "vm"
+let vn_str = "vn"
+let vt_str = "vt"
+let x_str = "x"
+let y_str = "y"
 
 (* Get a work array *)
 let get_work loc vec_create work min_lwork opt_lwork lwork_str =
@@ -117,8 +137,8 @@ let check_dim2_mat loc mat_name mat mat_c n_name n =
         loc n_name mat_name dim2_rest n)
 
 let check_dim_mat loc mat_name r c mat m n =
-  check_dim1_mat loc mat_name mat r "m" m;
-  check_dim2_mat loc mat_name mat c "n" n
+  check_dim1_mat loc mat_name mat r m_str m;
+  check_dim2_mat loc mat_name mat c n_str n
 
 let get_mat loc mat_name mat_create r c mat m n =
   match mat with
@@ -213,17 +233,15 @@ let get_vec_geom loc var ofs inc = get_ofs loc var ofs, get_inc loc var inc
 
 (* Makes sure that [mat] is a square matrix and [n] is within range *)
 let get_n_of_square mat_name loc r c mat n =
-  let n_str = "n" in
   let n = get_dim2_mat loc mat_name mat c n_str n in
   check_dim1_mat loc mat_name mat r n_str n;
   n
 
-let get_n_of_a loc ar ac a n = get_n_of_square "a" loc ar ac a n
+let get_n_of_a loc ar ac a n = get_n_of_square a_str loc ar ac a n
 
 let get_nrhs_of_b loc n br bc b nrhs =
-  let b_str = "b" in
   let nrhs = get_dim2_mat loc b_str b bc "nrhs" nrhs in
-  check_dim1_mat loc b_str b br "n" n;
+  check_dim1_mat loc b_str b br n_str n;
   nrhs
 
 
@@ -261,10 +279,10 @@ let gelsX_get_s vec_create loc min_dim ofss = function
   | None -> vec_create min_dim
 
 let gelsX_get_params loc ar ac a m n nrhs br bc b =
-  let m = get_dim1_mat loc "a" a ar "m" m in
-  let n = get_dim2_mat loc "a" a ac "n" n in
-  let nrhs = get_dim2_mat loc "b" b bc "nrhs" nrhs in
-  check_dim1_mat loc "b" b br "m" (max m n);
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let nrhs = get_dim2_mat loc b_str b bc "nrhs" nrhs in
+  check_dim1_mat loc b_str b br m_str (max m n);
   m, n, nrhs
 
 
@@ -282,7 +300,6 @@ let geev_get_job_side loc mat_empty mat_create mat_name n r c = function
   | None -> 1, 1, mat_create n n, job_char_true, true
   | Some None -> 1, 1, mat_empty, job_char_false, false
   | Some (Some mat) ->
-      let n_str = "n" in
       check_dim1_mat loc mat_name mat r n_str n;
       check_dim2_mat loc mat_name mat c n_str n;
       r, c, mat, job_char_true, true
@@ -300,25 +317,19 @@ let geev_gen_get_params loc mat_empty mat_create ar ac a n
 (* g?mv -- auxiliary functions *)
 
 let gXmv_get_params loc vec_create ar ac a m n ofsx incx x ofsy incy y trans =
-  let a_str = "a" in
-  let x_str = "x" in
-  let m = get_dim1_mat loc a_str a ar "m" m in
-  let n = get_dim2_mat loc a_str a ac "n" n in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
-  let ofsy, incy = get_vec_geom loc "y" ofsy incy in
+  let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let lx, ly, trans_char =
     let trans_char = get_trans_char trans in
     if trans = `N then n, m, trans_char else m, n, trans_char in
   check_vec loc x_str x (ofsx + (lx - 1) * abs incx);
-  let y = get_vec loc "y" y ofsy incy ly vec_create in
+  let y = get_vec loc y_str y ofsy incy ly vec_create in
   m, n, ofsx, incx, ofsy, incy, y, trans_char
 
 (* symv -- auxiliary functions *)
 let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
-  let a_str = "a" in
-  let x_str = "x" in
-  let y_str = "y" in
-  let n_str = "n" in
   let n = get_dim1_mat loc a_str a ar n_str n in
   check_dim2_mat loc a_str a ac n_str n;
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
@@ -330,9 +341,6 @@ let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
 
 (* trmv -- auxiliary functions *)
 let trmv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
-  let a_str = "a" in
-  let x_str = "x" in
-  let n_str = "n" in
   let n = get_dim1_mat loc a_str a ar n_str n in
   check_dim2_mat loc a_str a ac n_str n;
   let trans_char = get_trans_char trans in
@@ -343,7 +351,7 @@ let trmv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
 
 (* gemm -- auxiliary functions *)
 
-let get_c loc mat_create cr cc c m n = get_mat loc "c" mat_create cr cc c m n
+let get_c loc mat_create cr cc c m n = get_mat loc c_str mat_create cr cc c m n
 
 let get_rows_mat_tr loc mat_str mat mat_r mat_c transp dim_str dim =
   match transp with
@@ -365,41 +373,49 @@ let get_inner_dim loc mat1_str mat1 mat1_r mat1_c tr1
         loc k1 k2)
   else k1
 
-let gemm_get_params loc mat_create ar ac a tra br bc b cr trb cc c m n k =
-  let a_str = "a" in
-  let b_str = "b" in
-  let m = get_rows_mat_tr loc a_str a ar ac tra "m" m in
-  let n = get_cols_mat_tr loc b_str b br bc trb "n" n in
-  let k = get_inner_dim loc a_str a ar ac tra b_str b br bc trb "k" k in
-  let tra_char, trb_char = get_trans_char tra, get_trans_char trb in
+let gemm_get_params loc mat_create ar ac a transa br bc b cr transb cc c m n k =
+  let m = get_rows_mat_tr loc a_str a ar ac transa m_str m in
+  let n = get_cols_mat_tr loc b_str b br bc transb n_str n in
+  let k = get_inner_dim loc a_str a ar ac transa b_str b br bc transb k_str k in
+  let transa_char = get_trans_char transa in
+  let transb_char = get_trans_char transb in
   let c = get_c loc mat_create cr cc c m n in
-  m, n, k, tra_char, trb_char, c
+  m, n, k, transa_char, transb_char, c
 
 (* symm -- auxiliary functions *)
 
 let check_mat_square loc mat_str mat mat_r mat_c n =
-  let n_str = "n" in
   check_dim1_mat loc mat_str mat mat_r n_str n;
   check_dim2_mat loc mat_str mat mat_c n_str n
 
-let symm_get_params loc mat_create ar ac a br bc b cr cc c m n left up =
-  let a_str = "a" in
-  let b_str = "b" in
-  let m = get_dim1_mat loc b_str b br "m" m in
-  let n = get_dim2_mat loc b_str b bc "n" n in
-  if left then check_mat_square loc a_str a ar ac m
+let symm_get_params loc mat_create ar ac a br bc b cr cc c m n side up =
+  let m = get_dim1_mat loc b_str b br m_str m in
+  let n = get_dim2_mat loc b_str b bc n_str n in
+  if side = `L then check_mat_square loc a_str a ar ac m
   else check_mat_square loc a_str a ar ac n;
-  let side_char = get_side_char left in
+  let side_char = get_side_char side in
   let uplo_char = get_uplo_char up in
   let c = get_c loc mat_create cr cc c m n in
   m, n, side_char, uplo_char, c
 
+(* trmm -- auxiliary functions *)
+
+let trmm_get_params loc ar ac a br bc b m n side up transa diag =
+  let m = get_dim1_mat loc b_str b br m_str m in
+  let n = get_dim2_mat loc b_str b bc n_str n in
+  if side = `L then check_mat_square loc a_str a ar ac m
+  else check_mat_square loc a_str a ar ac n;
+  let side_char = get_side_char side in
+  let uplo_char = get_uplo_char up in
+  let transa_char = get_trans_char transa in
+  let diag_char = get_diag_char diag in
+  m, n, side_char, uplo_char, transa_char, diag_char
+
 (* syrk -- auxiliary functions *)
 
 let syrk_get_params loc mat_create ar ac a cr cc c n k up trans =
-  let a_str = "a" in
-  let n = get_rows_mat_tr loc a_str a ar ac trans "n" n in
-  let k = get_cols_mat_tr loc a_str a ar ac trans "k" k in
+  let n = get_rows_mat_tr loc a_str a ar ac trans n_str n in
+  let k = get_cols_mat_tr loc a_str a ar ac trans k_str k in
   let trans_char = get_trans_char trans in
   let uplo_char = get_uplo_char up in
   let c = get_c loc mat_create cr cc c n n in
@@ -408,8 +424,8 @@ let syrk_get_params loc mat_create ar ac a cr cc c n k up trans =
 (* ?lange -- auxiliary functions *)
 
 let xlange_get_params loc m n ar ac a =
-  let m = get_dim1_mat loc "a" a ar "m" m in
-  let n = get_dim2_mat loc "a" a ac "n" n in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
   m, n
 
 (* ??trs -- auxiliary functions *)
@@ -431,8 +447,8 @@ let xxtrs_err loc n nrhs a b err =
 
 (* ??tri -- auxiliary functions *)
 
-let xxtri_lu_err loc err =
-  failwith (sprintf "%s: U(%i,%i)=0 in the LU factorization" loc err err)
+let xxtri_singular_err loc err =
+  failwith (sprintf "%s: singular on index %i" loc err)
 
 let xxtri_err loc n a err =
   let msg =
@@ -474,8 +490,8 @@ let getrf_get_ipiv loc ipiv m n =
       ipiv
 
 let getrf_get_params loc m n ar ac a =
-  let m = get_dim1_mat loc "a" a ar "m" m in
-  let n = get_dim2_mat loc "a" a ac "n" n in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
   m, n
 
 (* sytrf -- auxiliary functions *)
@@ -524,6 +540,18 @@ let potrs_err loc n nrhs a b err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+(* trtrs -- auxiliary functions *)
+
+let trtrs_err loc n nrhs a b err =
+  let msg =
+    match err with
+    | -4 -> sprintf "n: valid=[0..[ got=%d" n
+    | -5 -> sprintf "nrhs: valid=[0..[ got=%d" nrhs
+    | -7 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
+    | -9 -> sprintf "dim1(b): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 b)
+    | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
+  invalid_arg (sprintf "%s: %s" loc msg)
+
 (* getri -- auxiliary functions *)
 
 let getri_err loc getri_min_lwork n a lwork err =
@@ -537,18 +565,13 @@ let getri_err loc getri_min_lwork n a lwork err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
-(* sytri -- auxiliary functions *)
+(* trtri -- auxiliary functions *)
 
-let sytri_fact_err loc err =
-  failwith (sprintf "%s: D(%i,%i)=0 in the factorization" loc err err)
-
-(* potri -- auxiliary functions *)
-
-let potri_err loc n a err =
+let trtri_err loc n a err =
   let msg =
     match err with
-    | -2 -> sprintf "n: valid=[0..[ got=%d" n
-    | -4 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
+    | -3 -> sprintf "n: valid=[0..[ got=%d" n
+    | -5 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
@@ -595,9 +618,9 @@ let gesvd_err loc jobu jobvt m n a u vt lwork err =
 
 let gesvd_get_params
     loc vec_create mat_create jobu jobvt m n ar ac a s ur uc u vtr vtc vt =
-  let m = get_dim1_mat loc "a" a ar "m" m in
-  let n = get_dim2_mat loc "a" a ac "n" n in
-  let s = get_vec loc "s" s 1 1 (min m n) vec_create in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let s = get_vec loc s_str s 1 1 (min m n) vec_create in
   let um, un =
     match jobu with
     | `A -> m, m
@@ -606,8 +629,8 @@ let gesvd_get_params
   let u =
     match u with
     | Some u ->
-        check_dim1_mat loc "u" u ur "um" um;
-        check_dim2_mat loc "u" u uc "un" un;
+        check_dim1_mat loc u_str u ur um_str um;
+        check_dim2_mat loc u_str u uc un_str un;
         u
     | None -> mat_create um un in
   let vm, vn =
@@ -618,8 +641,8 @@ let gesvd_get_params
   let vt =
     match vt with
     | Some vt ->
-        check_dim1_mat loc "vt" vt vtr "vm" vm;
-        check_dim2_mat loc "vt" vt vtc "vn" vn;
+        check_dim1_mat loc vt_str vt vtr vm_str vm;
+        check_dim2_mat loc vt_str vt vtc vn_str vn;
         vt
     | None -> mat_create vm vn in
   let jobu_c = get_s_d_job_char jobu in
@@ -661,10 +684,10 @@ let gesdd_err loc jobz m n a u vt lwork err =
 
 let gesdd_get_params
       loc vec_create mat_create jobz m n ar ac a s ur uc u vtr vtc vt =
-  let m = get_dim1_mat loc "a" a ar "m" m in
-  let n = get_dim2_mat loc "a" a ac "n" n in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
   let min_m_n = min m n in
-  let s = get_vec loc "s" s 1 1 min_m_n vec_create in
+  let s = get_vec loc s_str s 1 1 min_m_n vec_create in
   let um, un, vm, vn =
     match jobz with
     | `A -> m, m, n, n
@@ -674,15 +697,15 @@ let gesdd_get_params
   let u =
     match u with
     | Some u ->
-        check_dim1_mat loc "u" u ur "um" um;
-        check_dim2_mat loc "u" u uc "un" un;
+        check_dim1_mat loc u_str u ur um_str um;
+        check_dim2_mat loc u_str u uc un_str un;
         u
     | None -> mat_create um un in
   let vt =
     match vt with
     | Some vt ->
-        check_dim1_mat loc "vt" vt vtr "vm" vm;
-        check_dim2_mat loc "vt" vt vtc "vn" vn;
+        check_dim1_mat loc vt_str vt vtr vm_str vm;
+        check_dim2_mat loc vt_str vt vtc vn_str vn;
         vt
     | None -> mat_create vm vn in
   let jobz_c = get_s_d_job_char jobz in

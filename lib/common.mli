@@ -31,6 +31,12 @@
 
 open Bigarray
 
+type side = [ `L | `R ]
+(** Side parameter (left or right) *)
+
+type diag = [ `U | `N ]
+(** Diagonal parameter (unit or non-unit) *)
+
 type norm2 = [ `O | `I ]
 (** Type of 1-norm ([`O]) and infinity norm ([`I]) *)
 

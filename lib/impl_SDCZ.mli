@@ -216,7 +216,7 @@ val symv :
 val trmv :
   ?n : int ->
   ?trans : trans3 ->
-  ?unit_triangular : bool ->
+  ?diag : diag ->
   ?up : bool ->
   ?ar : int ->
   ?ac : int ->
@@ -225,11 +225,11 @@ val trmv :
   ?incx : int ->
   vec
   -> unit
-(** [trmv ?n ?trans ?unit_triangular ?up ?ar ?ac a ?ofsx ?incx x]
+(** [trmv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x]
     see BLAS documentation!
     @param n default = dimension of triangular matrix [a]
     @param trans default = `N
-    @param unit_triangular default = false (not a unit triangular matrix)
+    @param diag default = false (not a unit triangular matrix)
     @param up default = true (upper triangular portion of [a] is accessed)
     @param ar default = 1
     @param ac default = 1
@@ -279,7 +279,7 @@ val gemm :
 val symm :
   ?m : int ->
   ?n : int ->
-  ?left : bool ->
+  ?side : side ->
   ?up : bool ->
   ?beta : float ->
   ?cr : int ->
@@ -293,17 +293,47 @@ val symm :
   ?bc : int ->
   mat
   -> mat
-(** [symm ?m ?n ?left ?up ?beta ?cr ?cc ?c ?alpha ?ar ?ac a ?br ?bc b]
+(** [symm ?m ?n ?side ?up ?beta ?cr ?cc ?c ?alpha ?ar ?ac a ?br ?bc b]
     see BLAS documentation!
     @return matrix [c], which is overwritten.
     @param m default = number of rows of [c]
     @param n default = number of columns of [c]
-    @param left default = true (multiplication is [a][b])
+    @param side default = `L (left - multiplication is [a][b])
     @param up default = true (upper triangular portion of [a] is accessed)
     @param beta default = 0.0
     @param cr default = 1
     @param cc default = 1
     @param c default = matrix with minimal required dimension
+    @param alpha default = 1.0
+    @param ar default = 1
+    @param ac default = 1
+    @param br default = 1
+    @param bc default = 1 *)
+
+val trmm :
+  ?m : int ->
+  ?n : int ->
+  ?side : side ->
+  ?up : bool ->
+  ?trans : trans3 ->
+  ?diag : diag ->
+  ?br : int ->
+  ?bc : int ->
+  b : mat ->
+  ?alpha : float ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> unit
+(** [trmm ?m ?n ?side ?up ?trans ?diag ?br ?bc ~b ?alpha ?ar ?ac a]
+    see BLAS documentation!
+    @return matrix [c], which is overwritten.
+    @param m default = number of rows of [c]
+    @param n default = number of columns of [c]
+    @param side default = `L (left - multiplication is [a][b])
+    @param up default = true (upper triangular portion of [a] is accessed)
+    @param trans default = `N
+    @param diag default = `N (non-unit)
     @param alpha default = 1.0
     @param ar default = 1
     @param ac default = 1
@@ -595,11 +625,58 @@ val potri :
     @raise Failure if the matrix is singular.
 
     @param n default = number of columns in matrix [a]
-    @param up default = true (upper triangel stored in [a])
+    @param up default = true (upper triangle stored in [a])
     @param ar default = 1
     @param ac default = 1
     @param factorize default = true (calls potrf implicitly)
     @param jitter default = nothing
+*)
+
+val trtrs :
+  ?n : int ->
+  ?up : bool ->
+  ?trans : trans3 ->
+  ?diag : diag ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?nrhs : int ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> unit
+(** [trtrs ?n ?up ?trans ?diag ?ar ?ac a ?nrhs ?br ?bc b]
+
+    @raise Failure if the matrix is singular.
+
+    @param n default = number of columns in matrix [a]
+    @param up default = true
+    @param trans default = `N
+    @param diag default = `N
+    @param ar default = 1
+    @param ac default = 1
+    @param nrhs default = available number of columns in matrix [b]
+    @param br default = 1
+    @param bc default = 1
+*)
+
+val trtri :
+  ?n : int ->
+  ?up : bool ->
+  ?diag : diag ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> unit
+(** [trtri ?n ?up ?diag ?ar ?ac a]
+
+    @raise Failure if the matrix is singular.
+
+    @param n default = number of columns in matrix [a]
+    @param up default = true (upper triangle stored in [a])
+    @param diag default = `N
+    @param ar default = 1
+    @param ac default = 1
 *)
 
 

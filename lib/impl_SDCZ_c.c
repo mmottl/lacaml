@@ -595,6 +595,54 @@ CAMLprim value LFUN(symm_stub_bc)(value *argv, int argn)
       argv[14]);
 }
 
+/** TRMM */
+
+extern void FUN(trmm)(
+  char *SIDE, char *UPLO, char *TRANS, char *DIAG,
+  integer *M, integer *N,
+  NUMBER *ALPHA,
+  NUMBER *A, integer *LDA,
+  NUMBER *B, integer *LDB);
+
+CAMLprim value LFUN(trmm_stub)(
+  value vSIDE, value vUPLO, value vTRANS, value vDIAG,
+  value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB,
+  value vALPHA)
+{
+  CAMLparam2(vA, vB);
+
+  char GET_INT(SIDE), GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  integer GET_INT(M), GET_INT(N);
+
+  CREATE_NUMBERP(ALPHA);
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+
+  INIT_NUMBER(ALPHA);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(trmm)(
+    &SIDE, &UPLO, &TRANS, &DIAG,
+    &M, &N,
+    pALPHA,
+    A_data, &rows_A,
+    B_data, &rows_B);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(trmm_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(trmm_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+}
+
 /** SYRK */
 
 extern void FUN(syrk)(
@@ -1021,15 +1069,10 @@ extern void FUN(potrs)(
   integer *INFO);
 
 CAMLprim value LFUN(potrs_stub)(
-  value vUPLO,
-  value vN,
+  value vUPLO, value vN,
   value vNRHS,
-  value vAR,
-  value vAC,
-  value vA,
-  value vBR,
-  value vBC,
-  value vB)
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
@@ -1069,9 +1112,7 @@ extern void FUN(potri)(
 CAMLprim value LFUN(potri_stub)(
   value vUPLO,
   value vN,
-  value vAR,
-  value vAC,
-  value vA)
+  value vAR, value vAC, value vA)
 {
   CAMLparam1(vA);
 
@@ -1086,6 +1127,82 @@ CAMLprim value LFUN(potri_stub)(
 
   CAMLreturn(Val_int(INFO));
 }
+
+/** TRTRS */
+
+extern void FUN(trtrs)(
+  char *UPLO, char *TRANS, char *DIAG,
+  integer *N, integer *NRHS,
+  NUMBER *A, integer *LDA,
+  NUMBER *B, integer *LDB,
+  integer *INFO);
+
+CAMLprim value LFUN(trtrs_stub)(
+  value vUPLO, value vTRANS, value vDIAG,
+  value vN, value vNRHS,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB)
+{
+  CAMLparam2(vA, vB);
+
+  char GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  integer GET_INT(N), GET_INT(NRHS), INFO;
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(trtrs)(
+    &UPLO, &TRANS, &DIAG,
+    &N, &NRHS,
+    A_data, &rows_A,
+    B_data, &rows_B,
+    &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_int(INFO));
+}
+
+CAMLprim value LFUN(trtrs_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(trtrs_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
+      argv[6], argv[7], argv[8], argv[9], argv[10]);
+}
+
+/** TRTRI */
+
+extern void FUN(trtri)(
+  char *UPLO, char *DIAG,
+  integer *N,
+  NUMBER *A, integer *LDA,
+  integer *INFO);
+
+CAMLprim value LFUN(trtri_stub)(
+  value vUPLO, value vDIAG,
+  value vN,
+  value vAR, value vAC, value vA)
+{
+  CAMLparam1(vA);
+
+  char GET_INT(UPLO), GET_INT(DIAG);
+  integer GET_INT(N), INFO;
+
+  MAT_PARAMS(A);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(trtri)(&UPLO, &DIAG, &N, A_data, &rows_A, &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_int(INFO));
+}
+
+CAMLprim value LFUN(trtri_stub_bc)(value *argv, int argn)
+{
+  return LFUN(trtri_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+}
+
 
 /* Linear Equations (simple drivers)
 ************************************************************************/

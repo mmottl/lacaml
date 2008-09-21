@@ -40,6 +40,8 @@ let create_int_vec n = Array1.create int32 fortran_layout n
 let mat_of_vec v =
   array2_of_genarray (reshape (genarray_of_array1 v) [| Array1.dim v; 1 |])
 
+type side = [ `L | `R ]
+type diag = [ `U | `N ]
 type norm2 = [ `O | `I ]
 type norm4 = [ `M | `O | `I | `F ]
 

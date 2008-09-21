@@ -1,3 +1,11 @@
+2008-09-21:  Added new BLAS and LAPACK functions:
+
+               * trmm
+               * trtrs
+               * trtri
+
+             Some minor API cleanups and internal improvements.
+
 2008-09-17:  Added optional jitter argument to potrf, potrs, and potri.
 
 2008-09-08:  !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING !!!

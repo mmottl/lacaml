@@ -259,11 +259,12 @@ external direct_trmv :
   -> unit = "lacaml_NPRECtrmv_stub_bc" "lacaml_NPRECtrmv_stub"
 
 let trmv
-      ?n ?(trans = `N) ?(unit_triangular = false) ?(up = true)
+      ?n ?(trans = `N) ?(diag = `N) ?(up = true)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.trmv" in
   let n, ofsx, incx, uplo_char, trans_char, diag_char =
-    trmv_get_params loc ar ac a n ofsx incx x up trans unit_triangular in
+    trmv_get_params loc ar ac a n ofsx incx x up trans diag
+  in
   direct_trmv ar ac a n uplo_char trans_char diag_char ofsx incx x
 
 
@@ -320,14 +321,42 @@ external direct_symm :
   float (* BETA *)
   -> unit = "lacaml_NPRECsymm_stub_bc" "lacaml_NPRECsymm_stub"
 
-let symm ?m ?n ?(left = true) ?(up = true)
+let symm ?m ?n ?(side = `L) ?(up = true)
       ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.symm" in
   let m, n, side_char, uplo_char, c =
-    symm_get_params loc Mat.make0 ar ac a br bc b cr cc c m n left up in
+    symm_get_params loc Mat.make0 ar ac a br bc b cr cc c m n side up in
   direct_symm side_char uplo_char m n ar ac a br bc b cr cc c alpha beta;
   c
+
+
+(* TRMM *)
+
+external direct_trmm :
+  char -> (* SIDE *)
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  char -> (* DIAG *)
+  int -> (* M *)
+  int -> (* N *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  int -> (* BR *)
+  int -> (* BC *)
+  mat -> (* B *)
+  float (* ALPHA *)
+  -> unit = "lacaml_NPRECtrmm_stub_bc" "lacaml_NPRECtrmm_stub"
+
+let trmm ?m ?n ?(side = `L) ?(up = true) ?(trans = `N) ?(diag = `N)
+      ?(br = 1) ?(bc = 1) ~b ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.trmm" in
+  let m, n, side_char, uplo_char, trans_char, diag_char =
+    trmm_get_params loc ar ac a br bc b m n side up trans diag
+  in
+  direct_trmm side_char uplo_char trans_char diag_char m n ar ac a br bc b alpha
+
 
 (* SYRK *)
 
@@ -479,7 +508,7 @@ let getri ?n ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
     else getrf_get_ipiv loc ipiv n n in
   let info = direct_getri n ar ac a ipiv work lwork in
   if info <> 0 then
-    if info > 0 then xxtri_lu_err loc info
+    if info > 0 then xxtri_singular_err loc info
     else getri_err loc getri_min_lwork n a lwork info
 
 (* SYTRF *)
@@ -578,7 +607,7 @@ let sytri ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
     else sytrf_get_ipiv loc ipiv n in
   let info = direct_sytri uplo_char n ar ac a ipiv work in
   if info <> 0 then
-    if info > 0 then sytri_fact_err loc info
+    if info > 0 then xxtri_singular_err loc info
     else xxtri_err loc n a info
 
 (* POTRF *)
@@ -655,8 +684,58 @@ let potri ?n ?(up = true) ?(ar = 1) ?(ac = 1) ?(factorize = true) ?jitter a =
   if factorize then potrf ~n ~up ~ar ~ac ?jitter a;
   let info = direct_potri uplo_char n ar ac a in
   if info <> 0 then
-    if info > 0 then xxtri_lu_err loc info
+    if info > 0 then xxtri_singular_err loc info
     else xxtri_err loc n a info
+
+(* TRTRS *)
+
+external direct_trtrs :
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  char -> (* DIAG *)
+  int -> (* N *)
+  int -> (* NRHS *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  int -> (* BR *)
+  int -> (* BC *)
+  mat (* B *)
+  -> int = "lacaml_NPRECtrtrs_stub_bc" "lacaml_NPRECtrtrs_stub"
+
+let trtrs
+      ?n ?(up = true) ?(trans = `N) ?(diag = `N)
+      ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.trtrs" in
+  let uplo_char = get_uplo_char up in
+  let trans_char = get_trans_char trans in
+  let diag_char = get_diag_char diag in
+  let n, nrhs = xxtrs_get_params loc ar ac a n br bc b nrhs in
+  let info =
+    direct_trtrs uplo_char trans_char diag_char n nrhs ar ac a br bc b
+  in
+  if info <> 0 then trtrs_err loc n nrhs a b info
+
+(* TRTRI *)
+
+external direct_trtri :
+  char -> (* UPLO *)
+  char -> (* DIAG *)
+  int -> (* N *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat (* A *)
+  -> int = "lacaml_NPRECtrtri_stub_bc" "lacaml_NPRECtrtri_stub"
+
+let trtri ?n ?(up = true) ?(diag = `N) ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.trtri" in
+  let n = get_n_of_a loc ar ac a n in
+  let uplo_char = get_uplo_char up in
+  let diag_char = get_diag_char diag in
+  let info = direct_trtri uplo_char diag_char n ar ac a in
+  if info <> 0 then
+    if info > 0 then xxtri_singular_err loc info
+    else trtri_err loc n a info
 
 
 (* Linear equations (simple drivers) *)

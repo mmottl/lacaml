@@ -1,0 +1,11 @@
+*.cm*
+*.annot
+._*
+examples/blas/blas
+examples/eig/eig
+examples/lin_eq_comp/lin_eq_comp
+examples/eig/eig
+examples/lin_eq/lin_eq
+examples/lin_reg/lin_reg
+examples/svd/svd
+RE:lib/.*[012345678]_[SDCZ]*\.mli?
