@@ -468,6 +468,13 @@ let xxcon_err loc n a err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+(* geXrf -- auxiliary functions *)
+
+let geXrf_get_params loc m n ar ac a =
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  m, n
+
 (* getrf -- auxiliary functions *)
 
 let getrf_err loc m n a err =
@@ -488,11 +495,6 @@ let getrf_get_ipiv loc ipiv m n =
   | Some ipiv ->
       check_vec loc "ipiv" ipiv (min m n);
       ipiv
-
-let getrf_get_params loc m n ar ac a =
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  m, n
 
 (* sytrf -- auxiliary functions *)
 

@@ -437,7 +437,7 @@ external direct_getrf :
 
 let getrf ?m ?n ?ipiv ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.getrf" in
-  let m, n = getrf_get_params loc m n ar ac a in
+  let m, n = geXrf_get_params loc m n ar ac a in
   let ipiv = getrf_get_ipiv loc ipiv m n in
   let info = direct_getrf m n ar ac a ipiv in
   if info = 0 then ipiv
@@ -736,6 +736,52 @@ let trtri ?n ?(up = true) ?(diag = `N) ?(ar = 1) ?(ac = 1) a =
   if info <> 0 then
     if info > 0 then xxtri_singular_err loc info
     else trtri_err loc n a info
+
+(* GEQRF *)
+
+external direct_geqrf :
+  int -> (* M *)
+  int -> (* N *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  vec -> (* TAU *)
+  vec -> (* WORK *)
+  int (* LWORK *)
+  -> unit = "lacaml_NPRECgeqrf_stub_bc" "lacaml_NPRECgeqrf_stub"
+
+let geqrf_get_opt_lwork m n ar ac a =
+  let dummy_work = Vec.create 1 in
+  direct_geqrf m n ar ac a dummy_work dummy_work (-1);
+  int_of_numberxx dummy_work.{1}
+
+let geqrf_opt_lwork ?m ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.geqrf_opt_lwork" in
+  let m, n = geXrf_get_params loc m n ar ac a in
+  geqrf_get_opt_lwork m n ar ac a
+
+let geqrf_min_lwork ~n = max 1 n
+
+let geqrf ?m ?n ?work ?tau ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.geqrf" in
+  let m, n = geXrf_get_params loc m n ar ac a in
+  let tau =
+    let min_m_n = min m n in
+    match tau with
+    | None -> Vec.create min_m_n
+    | Some tau ->
+        if Vec.dim tau < min_m_n then
+          invalid_arg (sprintf "%s: dim(tau): valid=[1..[ got=%d" loc min_m_n)
+        else tau
+  in
+  let work, lwork =
+    get_work
+      loc Vec.create work
+      (geqrf_min_lwork ~n)
+      (geqrf_get_opt_lwork m n ar ac a) "lwork"
+  in
+  direct_geqrf m n ar ac a tau work lwork;
+  tau
 
 
 (* Linear equations (simple drivers) *)

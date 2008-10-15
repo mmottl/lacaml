@@ -1,3 +1,7 @@
+2008-10-15:  Added new LAPACK function:
+
+               * geqrf
+
 2008-09-21:  Added new BLAS and LAPACK functions:
 
                * trmm

@@ -679,6 +679,45 @@ val trtri :
     @param ac default = 1
 *)
 
+val geqrf_opt_lwork :
+  ?m : int ->
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> int
+(** [geqrf_opt_lwork ?m ?n ?ar ?ac a] @return the optimum
+    length of the work-array used by the [geqrf]-function given matrix
+    [a] and optionally its logical dimensions [m] and [n].
+
+    @param m default = number of rows in matrix [a]
+    @param n default = number of columns in matrix [a]
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val geqrf_min_lwork : n : int -> int
+(** [geqrf_min_lwork ~n] @return the minimum length of the
+    work-array used by the [geqrf]-function if the matrix has [n]
+    columns. *)
+
+val geqrf :
+  ?m : int ->
+  ?n : int ->
+  ?work : vec ->
+  ?tau : vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> vec
+(** [geqrf ?m ?n ?work ?tau ?ar ?ac a] @return [tau].
+    @param m default = number of rows in matrix [a]
+    @param n default = number of columns in matrix [a]
+    @param work default = vec of optimum length
+    @param tau default = vec of required length
+    @param ar default = 1
+    @param ac default = 1 *)
+
 
 (** Linear equations (simple drivers) *)
 

@@ -1203,6 +1203,49 @@ CAMLprim value LFUN(trtri_stub_bc)(value *argv, int argn)
   return LFUN(trtri_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
 }
 
+/** GEQRF */
+
+extern void FUN(geqrf)(
+  integer *M,
+  integer *N,
+  NUMBER *A, integer *LDA,
+  NUMBER *TAU,
+  NUMBER *WORK, integer *LWORK,
+  integer *INFO);
+
+CAMLprim value LFUN(geqrf_stub)(
+  value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vTAU,
+  value vWORK, value vLWORK)
+{
+  CAMLparam3(vA, vTAU, vWORK);
+
+  integer GET_INT(M), GET_INT(N), GET_INT(LWORK), INFO;
+
+  MAT_PARAMS(A);
+  VEC_PARAMS1(TAU);
+  VEC_PARAMS1(WORK);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(geqrf)(
+    &M, &N,
+    A_data, &rows_A,
+    TAU_data,
+    WORK_data, &LWORK,
+    &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(geqrf_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(geqrf_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+}
+
 
 /* Linear Equations (simple drivers)
 ************************************************************************/
