@@ -1,3 +1,8 @@
+2008-10-26:  Added two new matrix functions:
+
+               * packed
+               * unpacked
+
 2008-10-15:  Added new LAPACK function:
 
                * geqrf

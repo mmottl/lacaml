@@ -25,6 +25,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
+open Printf
 open Bigarray
 open Numberxx
 open Utils
@@ -200,7 +201,7 @@ let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
   done;
   res
 
-let detri ?(up = true) ?(ar = 1) ?(ac = 1) ?n a =
+let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.detri" in
   let n = get_n_of_square "a" loc ar ac a n in
   if up then
@@ -219,6 +220,52 @@ let detri ?(up = true) ?(ar = 1) ?(ac = 1) ?n a =
         a.{ar + r, ac_c} <- a.{ar_c, ac + r}
       done
     done
+
+let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.Mat.packed" in
+  let n = get_n_of_square "a" loc ar ac a n in
+  let dst = Array1.create prec fortran_layout n in
+  let pos_ref = ref 1 in
+  if up then
+    for c = 1 to n do
+      for r = 1 to c do
+        dst.{!pos_ref} <- a.{r, c};
+        incr pos_ref;
+      done
+    done
+  else
+    for c = 1 to n do
+      for r = c to n do
+        dst.{!pos_ref} <- a.{r, c};
+        incr pos_ref;
+      done
+    done;
+  dst
+
+let unpacked ?(up = true) src =
+  let n_vec = Array1.dim src in
+  let n = truncate (sqrt (float (8 * n_vec + 1)) /. 2.) in
+  if n * n + n <> n_vec then
+    let loc = "Lacaml.Impl.NPREC.Mat.unpacked" in
+    failwith (sprintf "%s: illegal vector length: %d" loc n_vec)
+  else
+    let a = make0 n n in
+    let pos_ref = ref 1 in
+    if up then
+      for c = 1 to n do
+        for r = 1 to c do
+          a.{r, c} <- src.{!pos_ref};
+          incr pos_ref;
+        done
+      done
+    else
+      for c = 1 to n do
+        for r = c to n do
+          a.{r, c} <- src.{!pos_ref};
+          incr pos_ref;
+        done
+      done;
+    a
 
 external direct_scal_mat :
   int -> (* M *)

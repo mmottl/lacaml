@@ -140,18 +140,42 @@ val copy_row : ?vec : vec -> mat -> int -> vec
 (** {6 Matrix transformations} *)
 
 val transpose : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> mat
-(** [transpose a] @return the transpose of matrix [a]. *)
+(** [transpose a] @return the transpose of (sub-)matrix [a].
 
-val detri : ?up : bool -> ?ar : int -> ?ac : int -> ?n : int -> mat -> unit
-(** [detri ?up ?ar ?ac ?n a] takes a triangular (sub-)matrix [a], i.e. one
+    @param m default = [Mat.dim1 a]
+    @param n default = [Mat.dim2 a]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
+val detri : ?up : bool -> ?n : int -> ?ar : int -> ?ac : int -> mat -> unit
+(** [detri ?up ?n ?ar ?ac a] takes a triangular (sub-)matrix [a], i.e. one
     where only the upper (iff [up] is true) or lower triangle is defined,
     and makes it a symmetric matrix by mirroring the defined triangle
     along the diagonal.
 
     @param up default = [true]
+    @param n default = [Mat.dim1 a]
     @param ar default = [1]
     @param ac default = [1]
-    @param n default = [Mat.dim1 a]
+*)
+
+val packed : ?up : bool -> ?n : int -> ?ar : int -> ?ac : int -> mat -> vec
+(** [packed ?up ?n ?ar ?ac a] @return (sub-)matrix [a] in packed
+    storage format.
+
+    @param up default = [true]
+    @param n default = [Mat.dim2 a]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
+val unpacked : ?up : bool -> vec -> mat
+(** [packed ?up x] @return an upper or lower (depending on [up])
+    triangular matrix from packed representation [vec].  The other
+    triangle of the matrix will be filled with zeros.
+
+    @param up default = [true]
 *)
 
 
