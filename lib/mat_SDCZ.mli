@@ -171,7 +171,7 @@ val packed : ?up : bool -> ?n : int -> ?ar : int -> ?ac : int -> mat -> vec
 *)
 
 val unpacked : ?up : bool -> vec -> mat
-(** [packed ?up x] @return an upper or lower (depending on [up])
+(** [unpacked ?up x] @return an upper or lower (depending on [up])
     triangular matrix from packed representation [vec].  The other
     triangle of the matrix will be filled with zeros.
 

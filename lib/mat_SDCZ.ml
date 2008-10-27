@@ -224,7 +224,7 @@ let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
 let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.packed" in
   let n = get_n_of_square "a" loc ar ac a n in
-  let dst = Array1.create prec fortran_layout n in
+  let dst = Array1.create prec fortran_layout ((n * n + n) / 2) in
   let pos_ref = ref 1 in
   if up then
     for c = 1 to n do
@@ -245,7 +245,7 @@ let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
 let unpacked ?(up = true) src =
   let n_vec = Array1.dim src in
   let n = truncate (sqrt (float (8 * n_vec + 1)) /. 2.) in
-  if n * n + n <> n_vec then
+  if (n * n + n) / 2 <> n_vec then
     let loc = "Lacaml.Impl.NPREC.Mat.unpacked" in
     failwith (sprintf "%s: illegal vector length: %d" loc n_vec)
   else
