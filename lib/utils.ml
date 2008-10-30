@@ -339,8 +339,8 @@ let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
   n, ofsx, incx, ofsy, incy, y, get_uplo_char up
 
-(* trmv -- auxiliary functions *)
-let trmv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
+(* tr?v -- auxiliary functions *)
+let trXv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
   let n = get_dim1_mat loc a_str a ar n_str n in
   check_dim2_mat loc a_str a ac n_str n;
   let trans_char = get_trans_char trans in

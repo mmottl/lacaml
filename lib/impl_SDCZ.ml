@@ -263,9 +263,34 @@ let trmv
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.trmv" in
   let n, ofsx, incx, uplo_char, trans_char, diag_char =
-    trmv_get_params loc ar ac a n ofsx incx x up trans diag
+    trXv_get_params loc ar ac a n ofsx incx x up trans diag
   in
   direct_trmv ar ac a n uplo_char trans_char diag_char ofsx incx x
+
+
+(* TRSV *)
+
+external direct_trsv :
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  int -> (* N *)
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  char -> (* DIAG *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec (* X *)
+  -> unit = "lacaml_NPRECtrsv_stub_bc" "lacaml_NPRECtrsv_stub"
+
+let trsv
+      ?n ?(trans = `N) ?(diag = `N) ?(up = true)
+      ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.NPREC.trsv" in
+  let n, ofsx, incx, uplo_char, trans_char, diag_char =
+    trXv_get_params loc ar ac a n ofsx incx x up trans diag
+  in
+  direct_trsv ar ac a n uplo_char trans_char diag_char ofsx incx x
 
 
 (* BLAS-3 *)
