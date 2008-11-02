@@ -747,6 +747,63 @@ CAMLprim value LFUN(syrk_stub_bc)(value *argv, int argn)
       argv[7], argv[8], argv[9], argv[10], argv[11]);
 }
 
+/** SYR2K */
+
+extern void FUN(syr2k)(
+  char *UPLO, char *TRANS,
+  integer *N, integer *K,
+  NUMBER *ALPHA,
+  NUMBER *A, integer *LDA,
+  NUMBER *B, integer *LDB,
+  NUMBER *BETA,
+  NUMBER *C, integer *LDC);
+
+CAMLprim value LFUN(syr2k_stub)(
+  value vUPLO, value vTRANS,
+  value vN, value vK,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB,
+  value vCR, value vCC, value vC,
+  value vALPHA, value vBETA)
+{
+  CAMLparam2(vA, vC);
+
+  char GET_INT(UPLO), GET_INT(TRANS);
+  integer GET_INT(N), GET_INT(K);
+
+  CREATE_NUMBERP(ALPHA);
+  CREATE_NUMBERP(BETA);
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+  MAT_PARAMS(C);
+
+  INIT_NUMBER(ALPHA);
+  INIT_NUMBER(BETA);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(syr2k)(
+    &UPLO, &TRANS,
+    &N, &K,
+    pALPHA,
+    A_data, &rows_A,
+    B_data, &rows_B,
+    pBETA,
+    C_data, &rows_C);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(syr2k_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(syr2k_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12],
+      argv[13], argv[14]);
+}
+
 
 /*** LAPACK */
 

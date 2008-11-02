@@ -409,6 +409,36 @@ let syrk ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
   c
 
 
+(* SYR2K *)
+
+external direct_syr2k :
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  int -> (* N *)
+  int -> (* K *)
+  int -> (* AR *)
+  int -> (* AC *)
+  mat -> (* A *)
+  int -> (* BR *)
+  int -> (* BC *)
+  mat -> (* B *)
+  int -> (* CR *)
+  int -> (* CC *)
+  mat -> (* C *)
+  float -> (* ALPHA *)
+  float (* BETA *)
+  -> unit = "lacaml_NPRECsyr2k_stub_bc" "lacaml_NPRECsyr2k_stub"
+
+let syr2k ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
+      ?(trans = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.syr2k" in
+  let n, k, uplo_char, trans_char, c =
+    syr2k_get_params loc Mat.make0 ar ac a br bc b cr cc c n k up trans
+  in
+  direct_syr2k uplo_char trans_char n k ar ac a br bc b cr cc c alpha beta;
+  c
+
+
 (* LAPACK *)
 
 (* Auxiliary routines *)

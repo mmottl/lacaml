@@ -392,6 +392,41 @@ val syrk :
     @param ar default = 1
     @param ac default = 1 *)
 
+val syr2k :
+  ?n : int ->
+  ?k : int ->
+  ?up : bool ->
+  ?beta : float ->
+  ?cr : int ->
+  ?cc : int ->
+  ?c : mat ->
+  ?trans : trans3 ->
+  ?alpha : float ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> mat
+(** [syr2k ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a ?br ?bc b]
+    see BLAS documentation!
+    @return matrix [c], which is overwritten.
+    @param n default = number of rows of [a] (or [a]'), [c]
+    @param k default = number of columns of [a] (or [a]')
+    @param up default = true (upper triangular portion of [c] is accessed)
+    @param beta default = 0.0
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = matrix with minimal required dimension
+    @param trans default = `N
+    @param alpha default = 1.0
+    @param ar default = 1
+    @param ac default = 1
+    @param br default = 1
+    @param bc default = 1
+*)
+
 
 (** {6 LAPACK interface} *)
 

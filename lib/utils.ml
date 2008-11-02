@@ -421,6 +421,24 @@ let syrk_get_params loc mat_create ar ac a cr cc c n k up trans =
   let c = get_c loc mat_create cr cc c n n in
   n, k, uplo_char, trans_char, c
 
+(* syr2k -- auxiliary functions *)
+
+let syr2k_get_params loc mat_create ar ac a br bc b cr cc c n k up trans =
+  let n = get_rows_mat_tr loc a_str a ar ac trans n_str n in
+  let k = get_cols_mat_tr loc a_str a ar ac trans k_str k in
+  begin match trans with
+  | `N ->
+      check_dim1_mat loc b_str b br n_str n;
+      check_dim2_mat loc b_str b bc k_str k;
+  | _ ->
+      check_dim1_mat loc b_str b br k_str k;
+      check_dim2_mat loc b_str b bc n_str n;
+  end;
+  let trans_char = get_trans_char trans in
+  let uplo_char = get_uplo_char up in
+  let c = get_c loc mat_create cr cc c n n in
+  n, k, uplo_char, trans_char, c
+
 (* ?lange -- auxiliary functions *)
 
 let xlange_get_params loc m n ar ac a =
