@@ -1,3 +1,8 @@
+2008-11-02:  Added new BLAS functions:
+
+               * tpmv
+               * tpsv
+
 2008-11-01:  Added new BLAS function:
 
                * syr2k

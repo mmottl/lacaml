@@ -170,12 +170,13 @@ val packed : ?up : bool -> ?n : int -> ?ar : int -> ?ac : int -> mat -> vec
     @param ac default = [1]
 *)
 
-val unpacked : ?up : bool -> vec -> mat
+val unpacked : ?up : bool -> ?n : int -> vec -> mat
 (** [unpacked ?up x] @return an upper or lower (depending on [up])
     triangular matrix from packed representation [vec].  The other
     triangle of the matrix will be filled with zeros.
 
     @param up default = [true]
+    @param n default = [Vec.dim x]
 *)
 
 

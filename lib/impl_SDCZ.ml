@@ -293,6 +293,50 @@ let trsv
   direct_trsv ar ac a n uplo_char trans_char diag_char ofsx incx x
 
 
+(* TPMV *)
+
+external direct_tpmv :
+  int -> (* OFSAP *)
+  vec -> (* AP *)
+  int -> (* N *)
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  char -> (* DIAG *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec (* X *)
+  -> unit = "lacaml_NPRECtpmv_stub_bc" "lacaml_NPRECtpmv_stub"
+
+let tpmv ?n ?(trans = `N) ?(diag = `N) ?(up = true) ?ofsap ap ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.NPREC.tpmv" in
+  let n, ofsap, ofsx, incx, uplo_char, trans_char, diag_char =
+    tpXv_get_params loc ofsap ap ?n ofsx incx x up trans diag
+  in
+  direct_tpmv ofsap ap n uplo_char trans_char diag_char ofsx incx x
+
+
+(* TPSV *)
+
+external direct_tpsv :
+  int -> (* OFSAP *)
+  vec -> (* AP *)
+  int -> (* N *)
+  char -> (* UPLO *)
+  char -> (* TRANS *)
+  char -> (* DIAG *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec (* X *)
+  -> unit = "lacaml_NPRECtpsv_stub_bc" "lacaml_NPRECtpsv_stub"
+
+let tpsv ?n ?(trans = `N) ?(diag = `N) ?(up = true) ?ofsap ap ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.NPREC.tpsv" in
+  let n, ofsap, ofsx, incx, uplo_char, trans_char, diag_char =
+    tpXv_get_params loc ofsap ap ?n ofsx incx x up trans diag
+  in
+  direct_tpsv ofsap ap n uplo_char trans_char diag_char ofsx incx x
+
+
 (* BLAS-3 *)
 
 (* GEMM *)

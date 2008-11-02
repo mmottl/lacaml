@@ -259,6 +259,48 @@ val trsv :
     @param ofsx default = 1
     @param incx default = 1 *)
 
+val tpmv :
+  ?n : int ->
+  ?trans : trans3 ->
+  ?diag : diag ->
+  ?up : bool ->
+  ?ofsap : int ->
+  vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> unit
+(** [tpmv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x]
+    see BLAS documentation!
+    @param n default = dimension of packed triangular matrix [ap]
+    @param trans default = `N
+    @param diag default = false (not a unit triangular matrix)
+    @param up default = true (upper triangular portion of [ap] is accessed)
+    @param ofsap default = 1
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
+val tpsv :
+  ?n : int ->
+  ?trans : trans3 ->
+  ?diag : diag ->
+  ?up : bool ->
+  ?ofsap : int ->
+  vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> unit
+(** [tpsv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x]
+    see BLAS documentation!
+    @param n default = dimension of packed triangular matrix [ap]
+    @param trans default = `N
+    @param diag default = false (not a unit triangular matrix)
+    @param up default = true (upper triangular portion of [ap] is accessed)
+    @param ofsap default = 1
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
 
 (** {6 BLAS-3 interface} *)
 

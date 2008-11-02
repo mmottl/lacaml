@@ -242,30 +242,26 @@ let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
     done;
   dst
 
-let unpacked ?(up = true) src =
-  let n_vec = Array1.dim src in
-  let n = truncate (sqrt (float (8 * n_vec + 1)) /. 2.) in
-  if (n * n + n) / 2 <> n_vec then
-    let loc = "Lacaml.Impl.NPREC.Mat.unpacked" in
-    failwith (sprintf "%s: illegal vector length: %d" loc n_vec)
-  else
-    let a = make0 n n in
-    let pos_ref = ref 1 in
-    if up then
-      for c = 1 to n do
-        for r = 1 to c do
-          a.{r, c} <- src.{!pos_ref};
-          incr pos_ref;
-        done
+let unpacked ?(up = true) ?n src =
+  let loc = "Lacaml.Impl.NPREC.Mat.unpacked" in
+  let n = get_unpacked_dim loc ?n (Array1.dim src) in
+  let a = make0 n n in
+  let pos_ref = ref 1 in
+  if up then
+    for c = 1 to n do
+      for r = 1 to c do
+        a.{r, c} <- src.{!pos_ref};
+        incr pos_ref;
       done
-    else
-      for c = 1 to n do
-        for r = c to n do
-          a.{r, c} <- src.{!pos_ref};
-          incr pos_ref;
-        done
-      done;
-    a
+    done
+  else
+    for c = 1 to n do
+      for r = c to n do
+        a.{r, c} <- src.{!pos_ref};
+        incr pos_ref;
+      done
+    done;
+  a
 
 external direct_scal_mat :
   int -> (* M *)

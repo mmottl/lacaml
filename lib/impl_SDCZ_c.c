@@ -520,15 +520,117 @@ CAMLprim value LFUN(trsv_stub_bc)(value *argv, int argn)
 }
 
 
+/** TPMV */
+
+extern void FUN(tpmv)(
+  char *UPLO,
+  char *TRANS,
+  char *DIAG,
+  integer *N,
+  NUMBER *AP,
+  NUMBER *X, integer *INCX);
+
+CAMLprim value LFUN(tpmv_stub)(
+  value vOFSAP,
+  value vAP,
+  value vN,
+  value vUPLO,
+  value vTRANS,
+  value vDIAG,
+  value vOFSX, value vINCX, value vX)
+{
+  CAMLparam2(vAP, vX);
+
+  char GET_INT(UPLO),
+       GET_INT(TRANS),
+       GET_INT(DIAG);
+
+  integer GET_INT(N),
+          GET_INT(INCX);
+
+  VEC_PARAMS(AP);
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(tpmv)(
+    &UPLO,
+    &TRANS,
+    &DIAG,
+    &N,
+    AP_data,
+    X_data, &INCX);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(tpmv_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(tpmv_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8]);
+}
+
+
+/** TPSV */
+
+extern void FUN(tpsv)(
+  char *UPLO,
+  char *TRANS,
+  char *DIAG,
+  integer *N,
+  NUMBER *AP,
+  NUMBER *X, integer *INCX);
+
+CAMLprim value LFUN(tpsv_stub)(
+  value vOFSAP,
+  value vAP,
+  value vN,
+  value vUPLO,
+  value vTRANS,
+  value vDIAG,
+  value vOFSX, value vINCX, value vX)
+{
+  CAMLparam2(vAP, vX);
+
+  char GET_INT(UPLO),
+       GET_INT(TRANS),
+       GET_INT(DIAG);
+
+  integer GET_INT(N),
+          GET_INT(INCX);
+
+  VEC_PARAMS(AP);
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(tpsv)(
+    &UPLO,
+    &TRANS,
+    &DIAG,
+    &N,
+    AP_data,
+    X_data, &INCX);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(tpsv_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(tpsv_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8]);
+}
+
+
 /** TODO: SPMV */
 
 /** TODO: TBMV */
 
-/** TODO: TPMV */
-
 /** TODO: TBSV */
-
-/** TODO: TPSV */
 
 
 /*** BLAS-3 */

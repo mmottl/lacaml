@@ -69,6 +69,7 @@ let job_char_false = get_job_char false
 
 (* Name information *)
 let a_str = "a"
+let ap_str = "ap"
 let b_str = "b"
 let c_str = "c"
 let k_str = "k"
@@ -94,6 +95,22 @@ let get_work loc vec_create work min_lwork opt_lwork lwork_str =
           sprintf "%s: %s: valid=[%d..[ got=%d" loc lwork_str min_lwork lwork)
       else work, lwork
   | None -> vec_create opt_lwork, opt_lwork
+
+let calc_unpacked_dim loc n_vec =
+  let n = truncate (sqrt (float (8 * n_vec + 1)) /. 2.) in
+  if (n * n + n) / 2 <> n_vec then
+    failwith (sprintf "%s: illegal vector length: %d" loc n_vec)
+  else n
+
+(* Calculate the dimension of a packed square matrix given the vector length *)
+let get_unpacked_dim loc ?n n_vec =
+  match n with
+  | None -> calc_unpacked_dim loc n_vec
+  | Some n ->
+      let n_unpacked = calc_unpacked_dim loc n_vec in
+      if n < 0 || n > n_unpacked then
+        invalid_arg (sprintf "%s: n: valid=[0..%d] got=%d" loc n_unpacked n)
+      else n
 
 (* Fetches problem-dependent parameters for LAPACK-functions *)
 external ilaenv : int -> string -> string -> int -> int -> int -> int -> int
@@ -348,6 +365,16 @@ let trXv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   check_vec loc x_str x (ofsx + (n - 1) * abs incx);
   n, ofsx, incx, get_uplo_char up, trans_char, diag_char
+
+(* tp?v -- auxiliary functions *)
+let tpXv_get_params loc ofsap ap ?n ofsx incx x up trans unit_triangular =
+  let ofsap = get_ofs loc ap_str ofsap in
+  let n = get_unpacked_dim loc ?n (Array1.dim ap - ofsap + 1) in
+  let trans_char = get_trans_char trans in
+  let diag_char = get_diag_char unit_triangular in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  check_vec loc x_str x (ofsx + (n - 1) * abs incx);
+  n, ofsap, ofsx, incx, get_uplo_char up, trans_char, diag_char
 
 (* gemm -- auxiliary functions *)
 
