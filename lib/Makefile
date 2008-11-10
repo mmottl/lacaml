@@ -9,7 +9,7 @@ ifeq ($(shell uname),Darwin)
   LIBDIRS = /sw/lib
   OCAMLMKLIB_FLAGS = -framework vecLib
   OCAMLBLDFLAGS = -ccopt "-framework vecLib"
-  INSTALL_DLL =
+  INSTALL_DLL = dlllacaml_stubs.so
 else
   EXP10 =
   NO_CUSTOM = y

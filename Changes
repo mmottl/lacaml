@@ -1,3 +1,5 @@
+2008-11-10:  Fixed dynamic linking problem on Mac OS X.
+
 2008-11-02:  Added new BLAS functions:
 
                * tpmv
