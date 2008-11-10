@@ -1,19 +1,16 @@
 -include ../Makefile.conf
 
-ifeq ($(shell uname),Darwin)
+NO_CUSTOM = y
+
+ifeq ($(shell uname), Darwin)
   BLAS =
   LAPACK =
-  STATIC = y
-  NO_CUSTOM =
   EXP10 = exp10.c
   LIBDIRS = /sw/lib
   OCAMLMKLIB_FLAGS = -framework vecLib
   OCAMLBLDFLAGS = -ccopt "-framework vecLib"
-  INSTALL_DLL = dlllacaml_stubs.so
 else
   EXP10 =
-  NO_CUSTOM = y
-  INSTALL_DLL = dlllacaml_stubs.so
 endif
 
 OCAMLMAKEFILE := ../OCamlMakefile
@@ -100,7 +97,7 @@ LIBINSTALL_FILES := \
   complex32.ml complex64.ml \
   io.cmi utils.cmi common.cmi \
   lacaml.cmi lacaml.cma lacaml_top.cma lacaml.cmxa lacaml.a \
-  liblacaml_stubs.a $(INSTALL_DLL)
+  liblacaml_stubs.a dlllacaml_stubs.so
 
 TRASH := \
   $(PREMAKE) \
