@@ -104,10 +104,30 @@ export TRASH
 
 ####################  variables depending on your OCaml-installation
 
+SYSTEM=$(shell ocamlc -config 2>/dev/null|grep system|sed 's/system: //')
+    # This may be
+    # - mingw
+    # - win32
+    # - cygwin
+    # - some other string means Unix
+    # - empty means ocamlc does not support -config
+
+ifeq ($(SYSTEM),mingw)
+  MINGW=1
+endif
+ifeq ($(SYSTEM),win32)
+  MSVC=1
+endif
+
 ifdef MINGW
   export MINGW
   WIN32   := 1
   CFLAGS_WIN32 := -mno-cygwin
+  # The default value 'cc' makes 'ocamlc -cc "cc"' raises the error 'The 
+  # NTVDM CPU has encountered an illegal instruction'.
+  CC := gcc
+  # The OCaml C header files use this flag:
+  CFLAGS += -D__MINGW32__
 endif
 ifdef MSVC
   export MSVC
@@ -892,15 +912,17 @@ ifdef MINGW
 $(DLLSONAME):		$(OBJ_LINK)
 			$(CC) $(CFLAGS) $(CFLAGS_WIN32) $(OBJ_LINK) -shared -o $@ \
 			-Wl,--whole-archive $(wildcard $(foreach dir,$(LIBDIRS),$(CLIBS:%=$(dir)/lib%.a))) \
-			 $(OCAMLLIBPATH)/ocamlrun.a \
+			 '$(OCAMLLIBPATH)/ocamlrun.a' \
 			-Wl,--export-all-symbols \
-			-Wl,--no-whole-archive
+			-Wl,--no-whole-archive \
+			-Wl,--allow-multiple-definition \
+			-Wl,--enable-auto-import
 else
 ifdef MSVC
 $(DLLSONAME):		$(OBJ_LINK)
 			link /NOLOGO /DLL /OUT:$@ $(OBJ_LINK) \
 			 $(wildcard $(foreach dir,$(LIBDIRS),$(CLIBS:%=$(dir)/%.lib))) \
-			 $(OCAMLLIBPATH)/ocamlrun.lib
+			 '$(OCAMLLIBPATH)/ocamlrun.lib'
 
 else
 $(DLLSONAME):		$(OBJ_LINK)

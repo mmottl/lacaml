@@ -9,3 +9,5 @@ examples/lin_eq/lin_eq
 examples/lin_reg/lin_reg
 examples/svd/svd
 RE:lib/.*[012345678]_[SDCZ]*\.mli?
+*.exe
+*.dll

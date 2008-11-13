@@ -2,6 +2,8 @@
 
 NO_CUSTOM = y
 
+SYSTEM=$(shell ocamlc -config 2>/dev/null|grep system|sed 's/system: //')
+
 ifeq ($(shell uname), Darwin)
   BLAS =
   LAPACK =
@@ -10,7 +12,15 @@ ifeq ($(shell uname), Darwin)
   OCAMLMKLIB_FLAGS = -framework vecLib
   OCAMLBLDFLAGS = -ccopt "-framework vecLib"
 else
+ifeq ($(SYSTEM), mingw)
+  # exp10 does not exists under cywin-mingw
+  EXP10 = exp10.c
+  NO_CUSTOM =
+  # Useless for now:
+  INSTALL_DLL = lacaml_stubs.dll
+else
   EXP10 =
+endif
 endif
 
 OCAMLMAKEFILE := ../OCamlMakefile
@@ -119,34 +129,34 @@ uninstall:	libuninstall
 
 # Generation rules for precision-dependent C-code
 %2_S_c.o:	%_SD_c.c
-	$(CC) -c $(CFLAGS) $(CINCFLAGS) -I$(OCAMLLIBPATH) $< -o $@
+	$(CC) -c $(CFLAGS) $(CINCFLAGS) -I'$(OCAMLLIBPATH)' $< -o $@
 
 %2_D_c.o:	%_SD_c.c
-	$(CC) -c -DLACAML_DOUBLE $(CFLAGS) $(CINCFLAGS) -I$(OCAMLLIBPATH) \
+	$(CC) -c -DLACAML_DOUBLE $(CFLAGS) $(CINCFLAGS) -I'$(OCAMLLIBPATH)' \
 		$< -o $@
 
 %2_C_c.o:	%_CZ_c.c
 	$(CC) -c -DLACAML_COMPLEX $(CFLAGS) $(CINCFLAGS) \
-		-I$(OCAMLLIBPATH) $< -o $@
+		-I'$(OCAMLLIBPATH)' $< -o $@
 
 %2_Z_c.o:	%_CZ_c.c
 	$(CC) -c -DLACAML_COMPLEX -DLACAML_DOUBLE $(CFLAGS) $(CINCFLAGS) \
-		-I$(OCAMLLIBPATH) $< -o $@
+		-I'$(OCAMLLIBPATH)' $< -o $@
 
 %4_S_c.o:	%_SDCZ_c.c
-	$(CC) -c $(CFLAGS) $(CINCFLAGS) -I$(OCAMLLIBPATH) $< -o $@
+	$(CC) -c $(CFLAGS) $(CINCFLAGS) -I'$(OCAMLLIBPATH)' $< -o $@
 
 %4_D_c.o:	%_SDCZ_c.c
-	$(CC) -c -DLACAML_DOUBLE $(CFLAGS) $(CINCFLAGS) -I$(OCAMLLIBPATH) \
+	$(CC) -c -DLACAML_DOUBLE $(CFLAGS) $(CINCFLAGS) -I'$(OCAMLLIBPATH)' \
 		$< -o $@
 
 %4_C_c.o:	%_SDCZ_c.c
 	$(CC) -c -DLACAML_COMPLEX $(CFLAGS) $(CINCFLAGS) \
-		-I$(OCAMLLIBPATH) $< -o $@
+		-I'$(OCAMLLIBPATH)' $< -o $@
 
 %4_Z_c.o:	%_SDCZ_c.c
 	$(CC) -c -DLACAML_COMPLEX -DLACAML_DOUBLE $(CFLAGS) $(CINCFLAGS) \
-		-I$(OCAMLLIBPATH) $< -o $@
+		-I'$(OCAMLLIBPATH)' $< -o $@
 
 # Generation rules for precision-dependent OCaml-code
 %2_S.mli:	%_SD.mli
