@@ -32,9 +32,7 @@ OCamlMakefile        - Makefile for easy handling of compilation of not
                        generates native- or byte-code, as executable or
                        as library - with thread-support if you want!
 
-README               - This file
-
-VERSION              - Current version number of release
+README.txt           - This file
 
 examples/            - Various linear algebra examples.
 
