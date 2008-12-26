@@ -130,7 +130,8 @@ endif
 ifdef MINGW
   export MINGW
   WIN32   := 1
-  CFLAGS_WIN32 := -mno-cygwin
+  # We are compiling with cywin tools:
+  CFLAGS_WIN32 := -mno-cygwin -I /usr/include
   # The default value 'cc' makes 'ocamlc -cc "cc"' raises the error 'The
   # NTVDM CPU has encountered an illegal instruction'.
   CC := gcc
@@ -501,7 +502,7 @@ ifneq ($(strip $(OBJ_LINK)),)
 endif
 
 ifdef WIN32
-DLLSONAME := $(CLIB_BASE).dll
+DLLSONAME := dll$(CLIB_BASE).dll
 else
 DLLSONAME := dll$(CLIB_BASE).so
 endif
@@ -960,14 +961,24 @@ endif
 
 ifndef STATIC
 ifdef MINGW
+# From OCaml 3.11.0, ocamlmklib is available on windows
+OCAMLMLIB_EXISTS = $(shell which $(OCAMLMKLIB))
+ifeq ($(strip $(OCAMLMLIB_EXISTS)),)
 $(DLLSONAME):		$(OBJ_LINK)
 			$(CC) $(CFLAGS) $(CFLAGS_WIN32) $(OBJ_LINK) -shared -o $@ \
-			-Wl,--whole-archive $(wildcard $(foreach dir,$(LIBDIRS),$(CLIBS:%=$(dir)/lib%.a))) \
+			$(wildcard $(foreach dir,$(LIBDIRS),$(CLIBS:%=$(dir)/lib%.a))) \
 			 '$(OCAMLLIBPATH)/ocamlrun.a' \
+			-Wl,--whole-archive \
 			-Wl,--export-all-symbols \
-			-Wl,--no-whole-archive \
 			-Wl,--allow-multiple-definition \
 			-Wl,--enable-auto-import
+else
+$(DLLSONAME):		$(OBJ_LINK)
+			$(OCAMLMKLIB) $(INCFLAGS) $(CLIBFLAGS) \
+				-o $(CLIB_BASE) $(OBJ_LINK) $(CLIBS:%=-l%) \
+				$(CFRAMEWORKS:%=-framework %) \
+				$(OCAMLMKLIB_FLAGS)
+endif
 else
 ifdef MSVC
 $(DLLSONAME):		$(OBJ_LINK)

@@ -1,6 +1,7 @@
 -include ../Makefile.conf
 
 NO_CUSTOM = y
+INSTALL_DLL = dlllacaml_stubs.so
 
 SYSTEM=$(shell ocamlc -config 2>/dev/null|grep system|sed 's/system: //')
 
@@ -13,11 +14,11 @@ ifeq ($(shell uname), Darwin)
   OCAMLBLDFLAGS = -ccopt "-framework vecLib"
 else
 ifeq ($(SYSTEM), mingw)
-  # exp10 does not exists under cywin-mingw
+  # exp10 does not exists under cygwin-mingw
   EXP10 = exp10.c
   NO_CUSTOM =
-  # Useless for now:
-  INSTALL_DLL = lacaml_stubs.dll
+  # For ocaml >= 3.11.0
+  INSTALL_DLL = dlllacaml_stubs.dll
 else
   EXP10 =
 endif
@@ -107,7 +108,7 @@ LIBINSTALL_FILES := \
   complex32.ml complex64.ml \
   io.cmi utils.cmi common.cmi \
   lacaml.cmi lacaml.cma lacaml_top.cma lacaml.cmxa lacaml.a \
-  liblacaml_stubs.a dlllacaml_stubs.so
+  liblacaml_stubs.a $(INSTALL_DLL)
 
 TRASH := \
   $(PREMAKE) \

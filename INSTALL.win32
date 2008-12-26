@@ -6,9 +6,12 @@ In addition to the cygwin packages recommended for the standard OCaml
 installation (http://camlcvs.inria.fr/cgi-bin/cvsweb/ocaml/README.win32),
 download "make" and "lapack".
 
-Modify Makefile.conf to include the full path of the lapack libraries, e.g.:
+For OCaml <= 3.10.2, modify Makefile.conf to include the full path of
+the lapack libraries, e.g.:
 
   export LIBDIRS := c:/cygwin/lib
+
+For OCaml >= 3.11.0, the default configuration should work.
 
 Open a cygwin shell, go to the directory where you downloaded Lacaml
 and type "make".
