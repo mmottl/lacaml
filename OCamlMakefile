@@ -130,7 +130,7 @@ endif
 ifdef MINGW
   export MINGW
   WIN32   := 1
-  # We are compiling with cywin tools:
+  # We are compiling with cygwin tools:
   CFLAGS_WIN32 := -mno-cygwin -I /usr/include
   # The default value 'cc' makes 'ocamlc -cc "cc"' raises the error 'The
   # NTVDM CPU has encountered an illegal instruction'.
