@@ -1,6 +1,6 @@
 (* File: io.mli
 
-   Copyright (C) 2005
+   Copyright (C) 2005-
 
      Jane Street Holding, LLC
      Author: Markus Mottl
@@ -27,6 +27,25 @@ open Bigarray
 
 (** {6 Generic matrix printing function} *)
 
+module Context : sig
+  type t
+
+  val create : int -> t
+
+  val ellipsis_default : string ref
+  (* [ellipsis_default] := "..." *)
+
+  val vertical_default : t option ref
+  (* [vertical_default] := None *)
+
+  val horizontal_default : t option ref
+  (* [horizontal_default] := None *)
+
+  val set_dim_defaults : t option -> unit
+  (* [set_dim_defaults def] sets both vertical and horizontal context
+     default to [def]. *)
+end
+
 val pp_mat_gen :
   ?pp_open : (formatter -> unit) ->
   ?pp_close : (formatter -> unit) ->
@@ -37,6 +56,9 @@ val pp_mat_gen :
   ?pp_left : (formatter -> int -> unit) ->
   ?pp_right : (formatter -> int -> unit) ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   (formatter -> 'el -> unit) ->
   formatter ->
   ('el, 'a, fortran_layout) Array2.t
@@ -78,6 +100,20 @@ val pp_mat_gen :
     them appropriately.  If it is set to [None], no alignment will
     be performed.
 
+    [ellipsis] is used as a filler when elements need to be skipped in
+    the case of printing with contexts.
+
+    [vertical_context] determines the number of initial and final
+    rows to be printed.  Intermediate row will be skipped, and one row
+    containing ellipsis elements will be printed in their place instead.
+    [None] chooses no context, [Some v] sets the vertical context to [v].
+
+    [horizontal_context] determines the number of initial and final
+    columns to be printed.  Intermediate columns will be skipped,
+    and one columns containing ellipsis elements will be printed in
+    their place instead.  [None] chooses no context, [Some h] sets the
+    horizontal context to [h].
+
     [pp_el other_ppf el] is called on formatter [other_ppf] (not
     [ppf]!) and each matrix element.
 
@@ -92,7 +128,10 @@ val pp_mat_gen :
     @param pp_end_row default = print newline (within pretty-printing box)
     @param pp_end_col default = print space
     @param pp_left default = no default
-    @param pad default = Some ' '
+    @param pad default = [Some ' ']
+    @param ellipsis default = [!Context.ellipsis]
+    @param vertical_context default = [Some !Context.vertical_default]
+    @param horizontal_context default = [Some !Context.horizontal_default]
 *)
 
 
@@ -152,15 +191,20 @@ type ('el, 'elt) pp_labeled_vec =
   ?pp_left : (formatter -> int -> unit) option ->
   ?pp_right : (formatter -> int -> unit) ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array1.t
   -> unit
-(** [pp_labeled_vec ?pp_head ?pp_foot ?pp_left ?pp_right ?pad () ppf vec]
+(** [pp_labeled_vec ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+      ?ellipsis ?vertical_context ?horizontal_context () ppf vec]
     prints vector [vec] to formatter [ppf] labeling the header using
     function [pp_head], the footer using [pp_foot], the left side (of
     rows for column vectors; of columns for row vectors) using [pp_left],
-    and the right side using [pp_right].  A [pad]-option can be passed.
+    and the right side using [pp_right].  A [pad]-option and context
+    options can be passed.
 
     For column vectors the labels on the left side are right-aligned
     while those on the right side are left-aligned.
@@ -188,18 +232,23 @@ type ('el, 'elt) pp_lvec =
   ?labels : string array ->
   ?name : string ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array1.t
   -> unit
 (** [pp_lvec ?print_head ?print_foot ?print_left ?print_right
-      ?labels ?name ?pad () ppf vec]
+      ?labels ?name ?pad ?ellipsis ?vertical_context ?horizontal_context
+      () ppf vec]
     prints vector [vec] to formatter [ppf] labeling the header with [name]
     if provided and if [print_head] is true, and labeling the footer with
     [name] if [print_foot] is true.  The left side (of rows for column
     vectors; of columns for row vectors) is labeled with [labels] if
     provided and if [print_left] is true, and the right side is labeled
-    with [labels] if [print_right] is true.  A [pad]-option can be passed.
+    with [labels] if [print_right] is true.  A [pad]-option and context
+    options can be passed.
 
     For columns vectors the labels on the left side are right-aligned
     while those on the right side are left-aligned.
@@ -232,15 +281,19 @@ type ('el, 'elt) pp_labeled_mat =
   ?pp_left : (formatter -> int -> unit) option ->
   ?pp_right : (formatter -> int -> unit) option ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array2.t
   -> unit
-(** [pp_labeled_mat ?pp_head ?pp_foot ?pp_left ?pp_right ?pad () ppf mat]
+(** [pp_labeled_mat ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+      ?ellipsis ?vertical_context ?horizontal_context () ppf mat]
     prints a matrix [mat] to formatter [ppf] labeling the header using
     function [pp_head], the footer using [pp_foot], the left side of rows
     using [pp_left], and the right one using [pp_right].  A [pad]-option
-    can be passed.
+    and context options can be passed.
 
     If [None] is passed as argument for the default printers, the
     corresponding labels will not be printed.
@@ -266,19 +319,23 @@ type ('el, 'elt) pp_lmat =
   ?row_labels : string array ->
   ?col_labels : string array ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array2.t
   -> unit
 (** [pp_lmat ?print_head ?print_foot ?print_left ?print_right
-      ?row_labels ?col_labels ?pad () ppf mat]
+      ?row_labels ?col_labels ?pad ?ellipsis
+      ?vertical_context ?horizontal_context () ppf mat]
     prints a matrix [mat] to formatter [ppf] labeling the header with
     the column labels in [col_labels] if provided and if [print_head] is
     true, and labeling the footer with the column labels if [print_foot]
     is true.  The left side of rows is labeled with the row labels
     [row_labels] if provided and if [print_left] is true, and the right
     side of rows is labeled with the row labels if [print_right] is true.
-    A [pad]-option can be passed.
+    A [pad]-option and context options can be passed.
 
     It is the duty of the user to make sure that the arrays containing the
     row- and column labels are sufficiently large for the given matrix.

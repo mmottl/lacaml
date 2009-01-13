@@ -1,6 +1,6 @@
 (* File: io.ml
 
-   Copyright (C) 2005
+   Copyright (C) 2005-
 
      Jane Street Holding, LLC
      Author: Markus Mottl
@@ -38,14 +38,17 @@ let pp_end_row_newline ppf _ = pp_newline ppf
 let pp_end_row_space ppf _ = pp_space ppf
 let pp_end_col_space ppf ~row:_ ~col:_ = pp_space ppf
 
-let pp_padded_str ppf pad_c max_len str =
+let pad_str pad_c max_len str =
   let str_len = String.length str in
   let diff = max_len - str_len in
-  if diff = 0 then pp_print_string ppf str
+  if diff = 0 then str
   else
-    let out_str = String.make max_len pad_c in
-    String.blit str 0 out_str diff str_len;
-    pp_print_string ppf out_str
+    let res = String.make max_len pad_c in
+    String.blit str 0 res diff str_len;
+    res
+
+let pp_padded_str ppf pad_c max_len str =
+  pp_print_string ppf (pad_str pad_c max_len str)
 
 let some_space = Some ' '
 
@@ -65,6 +68,26 @@ let pp_buf pp buf buf_ppf =
 
 let ignore2 _ _ = ()
 
+module Context = struct
+  type t = int
+
+  let create n =
+    if n < 1 then failwith "Lacaml.Io.Context.create: n < 1"
+    else n
+
+  let ellipsis_default = ref "..."
+  let vertical_default = ref None
+  let horizontal_default = ref None
+
+  let set_dim_defaults opt_n =
+    vertical_default := opt_n;
+    horizontal_default := opt_n
+
+  let get_disp real = function
+    | None -> real, real
+    | Some virt -> min real (2 * virt), virt
+end
+
 let pp_mat_gen
     ?(pp_open = pp_open)
     ?(pp_close = pp_close)
@@ -75,11 +98,16 @@ let pp_mat_gen
     ?pp_left
     ?pp_right
     ?(pad = some_space)
+    ?(ellipsis = !Context.ellipsis_default)
+    ?(vertical_context = !Context.vertical_default)
+    ?(horizontal_context = !Context.horizontal_default)
     pp_el ppf mat =
   let m = Array2.dim1 mat in
   if m > 0 then (
     let n = Array2.dim2 mat in
     if n > 0 then (
+      let disp_m, vertical_context = Context.get_disp m vertical_context in
+      let disp_n, horizontal_context = Context.get_disp n horizontal_context in
       pp_open ppf;
       let do_pp_right =
         match pp_right with
@@ -92,215 +120,222 @@ let pp_mat_gen
                 pp_buf (fun ppf -> pp_right ppf row) buf buf_ppf in
               if n_str <> 0 then (
                 pp_end_col ppf ~row ~col:n;
-                pp_print_string ppf str)) in
+                pp_print_string ppf str))
+      in
+      let has_ver = disp_m < m in
+      let ver_stop = if has_ver then vertical_context - 1 else m - 1 in
+      let has_hor = disp_n < n in
+      let hor_stop = if has_hor then horizontal_context - 1 else n - 1 in
+      let src_col_ofs = n - horizontal_context + 1 in
+      let dst_col_ofs = horizontal_context in
+      let src_row_ofs = m - vertical_context + 1 in
+      let dst_row_ofs = vertical_context in
+      let gen_fmt_row_body ~pp_nth ?(ellipsis = ellipsis)
+            ?(dst_col_ofs = dst_col_ofs) src_r =
+        pp_nth 0;
+        for c = 1 to hor_stop do
+          pp_end_col ppf ~row:src_r ~col:c;
+          pp_nth c;
+        done;
+        if has_hor then begin
+          pp_end_col ppf ~row:src_r ~col:horizontal_context;
+          pp_print_string ppf ellipsis;
+          for c = 0 to horizontal_context - 1 do
+            pp_end_col ppf ~row:src_r ~col:(src_col_ofs + c);
+            pp_nth (dst_col_ofs + c)
+          done
+        end
+      in
+      let fmt_label ~src_r label =
+        pp_print_string ppf label;
+        pp_end_col ppf ~row:src_r ~col:0
+      in
       (match pad with
       | Some pad_c ->
           let buf = Buffer.create 32 in
           let buf_ppf = formatter_of_buffer buf in
-          let heads, foots, max_lens =
+          let ellipsis_len = String.length ellipsis in
+          let max_lens =
+            Array.make disp_n (if has_ver then ellipsis_len else 0)
+          in
+          let fmt_head_foot pp =
+            let heads_foots = Array.make disp_n "" in
+            let fmt_col ~src_ofs ~dst_ofs c =
+              let head_foot, head_foot_len =
+                pp_buf (fun ppf -> pp ppf (src_ofs + c)) buf buf_ppf
+              in
+              let dst_ofs_c = dst_ofs + c in
+              heads_foots.(dst_ofs_c) <- head_foot;
+              max_lens.(dst_ofs_c) <- max max_lens.(dst_ofs_c) head_foot_len;
+            in
+            for c = 0 to hor_stop do fmt_col ~src_ofs:1 ~dst_ofs:0 c done;
+            if has_hor then begin
+              let src_ofs = n - horizontal_context + 1 in
+              let dst_ofs = horizontal_context in
+              for c = 0 to horizontal_context - 1 do
+                fmt_col ~src_ofs ~dst_ofs c
+              done;
+            end;
+            heads_foots
+          in
+          let heads, foots =
             match pp_head, pp_foot with
-            | None, None -> [||], [||], Array.make n 0
-            | Some pp_head, None ->
-                let heads = Array.make n "" in
-                let make_max_init ix =
-                  let head, head_len =
-                    pp_buf (fun ppf -> pp_head ppf (ix + 1)) buf buf_ppf in
-                  heads.(ix) <- head;
-                  head_len in
-                heads, [||], Array.init n make_max_init
-            | None, Some pp_foot ->
-                let foots = Array.make n "" in
-                let make_max_init ix =
-                  let foot, foot_len =
-                    pp_buf (fun ppf -> pp_foot ppf (ix + 1)) buf buf_ppf in
-                  foots.(ix) <- foot;
-                  foot_len in
-                [||], foots, Array.init n make_max_init
+            | None, None -> [||], [||]
+            | Some pp_head, None -> fmt_head_foot pp_head, [||]
+            | None, Some pp_foot -> [||], fmt_head_foot pp_foot
             | Some pp_head, Some pp_foot ->
-                let heads = Array.make n "" in
-                let foots = Array.make n "" in
-                let make_max_init ix =
-                  let head, head_len =
-                    pp_buf (fun ppf -> pp_head ppf (ix + 1)) buf buf_ppf in
-                  let foot, foot_len =
-                    pp_buf (fun ppf -> pp_foot ppf (ix + 1)) buf buf_ppf in
-                  heads.(ix) <- head;
-                  foots.(ix) <- foot;
-                  max head_len foot_len in
-                heads, foots, Array.init n make_max_init in
-          let many_strs =
-            Array.init m (fun row ->
-              Array.init n (fun col ->
-                let str, str_len =
-                  pp_el_buf pp_el buf buf_ppf mat.{row + 1, col + 1} in
-                if str_len > max_lens.(col) then max_lens.(col) <- str_len;
-                str)) in
-          let n_1 = n - 1 in
-          (match pp_left with
-          | None ->
-              let max_len0 = max_lens.(0) in
-              if pp_head <> None then (
-                pp_padded_str ppf pad_c max_len0 heads.(0);
-                for col_ix = 1 to n_1 do
-                  pp_end_col ppf ~row:0 ~col:col_ix;
-                  pp_padded_str ppf pad_c max_lens.(col_ix) heads.(col_ix)
-                done;
-                do_pp_right ppf 0;
-                pp_end_row ppf 0);
-              let strs0 = many_strs.(0) in
-              pp_padded_str ppf pad_c max_len0 strs0.(0);
-              for col_ix = 1 to n_1 do
-                pp_end_col ppf ~row:1 ~col:col_ix;
-                pp_padded_str ppf pad_c max_lens.(col_ix) strs0.(col_ix)
-              done;
-              for row_ix = 1 to m - 1 do
-                do_pp_right ppf row_ix;
-                pp_end_row ppf row_ix;
-                let strs = many_strs.(row_ix) in
-                pp_padded_str ppf pad_c max_len0 strs.(0);
-                let row = row_ix + 1 in
-                for col_ix = 1 to n_1 do
-                  pp_end_col ppf ~row ~col:col_ix;
-                  pp_padded_str ppf pad_c max_lens.(col_ix) strs.(col_ix)
-                done
-              done;
-              do_pp_right ppf m;
-              if pp_foot <> None then (
-                pp_end_row ppf m;
-                pp_padded_str ppf pad_c max_len0 foots.(0);
-                let m1 = m + 1 in
-                for col_ix = 1 to n_1 do
-                  pp_end_col ppf ~row:m1 ~col:col_ix;
-                  pp_padded_str ppf pad_c max_lens.(col_ix) foots.(col_ix)
-                done;
-                do_pp_right ppf m1)
-          | Some pp_left ->
-              let max_len_row_labels_ref = ref 0 in
-              let row_labels =
-                Array.init m
-                  (fun ix ->
-                     let label, len =
-                       pp_buf (fun ppf -> pp_left ppf (ix + 1)) buf buf_ppf in
-                     max_len_row_labels_ref := max !max_len_row_labels_ref len;
-                     label) in
-              let foot0 =
-                if pp_foot <> None then
-                  let foot0, foot0_len =
-                    pp_buf (fun ppf -> pp_left ppf (m + 1)) buf buf_ppf in
-                  max_len_row_labels_ref :=
-                    max !max_len_row_labels_ref foot0_len;
-                  foot0
-                else "" in
-              let max_len_row_labels =
-                if pp_head <> None then
-                  let row_label0, row_label0_len =
-                    pp_buf (fun ppf -> pp_left ppf 0) buf buf_ppf in
-                  max_len_row_labels_ref :=
-                    max !max_len_row_labels_ref row_label0_len;
-                  let max_len_row_labels = !max_len_row_labels_ref in
-                  pp_padded_str ppf pad_c max_len_row_labels row_label0;
-                  for col_ix = 0 to n_1 do
-                    pp_end_col ppf ~row:0 ~col:(col_ix + 1);
-                    pp_padded_str ppf pad_c max_lens.(col_ix) heads.(col_ix)
-                  done;
-                  do_pp_right ppf 0;
-                  pp_end_row ppf 0;
-                  max_len_row_labels
-                else !max_len_row_labels_ref in
-              pp_padded_str ppf pad_c max_len_row_labels row_labels.(0);
-              let strs0 = many_strs.(0) in
-              for col_ix = 0 to n_1 do
-                pp_end_col ppf ~row:1 ~col:col_ix;
-                pp_padded_str ppf pad_c max_lens.(col_ix) strs0.(col_ix)
-              done;
-              for row_ix = 1 to m - 1 do
-                do_pp_right ppf row_ix;
-                pp_end_row ppf row_ix;
-                pp_padded_str ppf pad_c max_len_row_labels row_labels.(row_ix);
-                let strs = many_strs.(row_ix) in
-                let row = row_ix + 1 in
-                for col_ix = 0 to n_1 do
-                  pp_end_col ppf ~row ~col:col_ix;
-                  pp_padded_str ppf pad_c max_lens.(col_ix) strs.(col_ix)
-                done
-              done;
-              do_pp_right ppf m;
-              if pp_foot <> None then (
-                pp_end_row ppf m;
-                pp_padded_str ppf pad_c max_len_row_labels foot0;
-                let m1 = m + 1 in
-                for col_ix = 0 to n_1 do
-                  pp_end_col ppf ~row:m1 ~col:col_ix;
-                  pp_padded_str ppf pad_c max_lens.(col_ix) foots.(col_ix)
-                done;
-                do_pp_right ppf m1))
+                fmt_head_foot pp_head, fmt_head_foot pp_foot
+          in
+          let many_strs = Array.make_matrix disp_m disp_n "" in
+          let fmt_strs ~src_row_ofs ~dst_row_ofs r =
+            let row = many_strs.(dst_row_ofs + r) in
+            let src_r = src_row_ofs + r in
+            let fmt_col ~src_col_ofs ~dst_col_ofs c =
+              let str, str_len =
+                pp_el_buf pp_el buf buf_ppf mat.{src_r, src_col_ofs + c}
+              in
+              let dst_c = dst_col_ofs + c in
+              row.(dst_c) <- str;
+              if str_len > max_lens.(dst_c) then max_lens.(dst_c) <- str_len
+            in
+            for c = 0 to hor_stop do
+              fmt_col ~src_col_ofs:1 ~dst_col_ofs:0 c
+            done;
+            if has_hor then begin
+              for c = 0 to horizontal_context - 1 do
+                fmt_col ~src_col_ofs ~dst_col_ofs c
+              done
+            end
+          in
+          for r = 0 to ver_stop do
+            fmt_strs ~src_row_ofs:1 ~dst_row_ofs:0 r
+          done;
+          if has_ver then begin
+            for r = 0 to vertical_context - 1 do
+              fmt_strs ~src_row_ofs ~dst_row_ofs r
+            done
+          end;
+          let head_label, row_labels, foot_label =
+            match pp_left with
+            | None -> "", [||], ""
+            | Some pp_left ->
+                let max_len_row_labels_ref = ref 0 in
+                let row_labels = Array.make disp_m "" in
+                let get_label i =
+                  let label, len =
+                    pp_buf (fun ppf -> pp_left ppf i) buf buf_ppf
+                  in
+                  max_len_row_labels_ref := max !max_len_row_labels_ref len;
+                  label
+                in
+                let set_labels ~src_r ~dst_r =
+                  for i = 0 to ver_stop do
+                    row_labels.(dst_r + i) <- get_label (src_r + i)
+                  done
+                in
+                set_labels ~src_r:1 ~dst_r:0;
+                if has_ver then
+                  set_labels ~src_r:src_row_ofs ~dst_r:vertical_context;
+                let head0 = if pp_head <> None then get_label 0 else "" in
+                let foot0 = if pp_foot <> None then get_label (m + 1) else "" in
+                let max_len_row_labels = !max_len_row_labels_ref in
+                let padded_row_labels =
+                  Array.map (pad_str pad_c max_len_row_labels) row_labels
+                in
+                let padded_head0 = pad_str pad_c max_len_row_labels head0 in
+                let padded_foot0 = pad_str pad_c max_len_row_labels foot0 in
+                padded_head0, padded_row_labels, padded_foot0
+          in
+          let fmt_row_body ?ellipsis ~src_r row =
+            let pp_nth c = pp_padded_str ppf pad_c max_lens.(c) row.(c) in
+            gen_fmt_row_body ~pp_nth ?ellipsis src_r
+          in
+          let fmt_row_label ?ellipsis ~src_r row label =
+            if pp_left <> None then fmt_label ~src_r label;
+            fmt_row_body ?ellipsis ~src_r row
+          in
+          let fmt_row_labels ?ellipsis ~src_r rows labels i =
+            if pp_left <> None then fmt_label ~src_r labels.(i);
+            fmt_row_body ?ellipsis ~src_r rows.(i)
+          in
+          let head_foot_ellipsis = String.make (String.length ellipsis) pad_c in
+          if pp_head <> None then (
+            fmt_row_label
+              ~ellipsis:head_foot_ellipsis ~src_r:0 heads head_label;
+            do_pp_right ppf 0);
+          for r = 0 to ver_stop do
+            pp_end_row ppf r;
+            let src_r = r + 1 in
+            fmt_row_labels ~src_r many_strs row_labels r;
+            do_pp_right ppf src_r;
+          done;
+          if has_ver then begin
+            pp_end_row ppf vertical_context;
+            let v1 = vertical_context + 1 in
+            fmt_row_label ~src_r:v1 (Array.make disp_n ellipsis)
+              (String.make (String.length head_label) pad_c);
+            for r = 0 to vertical_context - 1 do
+              let src_r = src_row_ofs + r in
+              pp_end_row ppf (src_r - 1);
+              let dst_r = dst_row_ofs + r in
+              fmt_row_labels ~src_r many_strs row_labels dst_r;
+              do_pp_right ppf src_r;
+            done;
+          end;
+          if pp_foot <> None then (
+            pp_end_row ppf m;
+            let m1 = m + 1 in
+            fmt_row_label
+              ~ellipsis:head_foot_ellipsis ~src_r:m1 foots foot_label;
+            do_pp_right ppf m1)
       | None ->
+          let maybe_pp_label row =
+            match pp_left with
+            | None -> ()
+            | Some pp_left ->
+                pp_left ppf row;
+                pp_end_col ppf ~row ~col:0
+          in
+          let fmt_head_foot ~src_r pp_head_foot =
+            maybe_pp_label src_r;
+            let pp_nth c = pp_head_foot ppf c in
+            gen_fmt_row_body ~pp_nth ~ellipsis:"" src_r;
+            do_pp_right ppf src_r
+          in
           (match pp_head with
           | None -> ()
           | Some pp_head ->
-              (match pp_left with
-              | None ->
-                  pp_head ppf 1;
-                  for col_ix = 1 to n - 1 do
-                    pp_end_col ppf ~row:0 ~col:col_ix;
-                    pp_head ppf (col_ix + 1)
-                  done
-              | Some pp_left ->
-                  pp_left ppf 0;
-                  for col_ix = 0 to n - 1 do
-                    pp_end_col ppf ~row:0 ~col:col_ix;
-                    pp_head ppf (col_ix + 1)
-                  done);
-              do_pp_right ppf 0;
+              fmt_head_foot ~src_r:0 pp_head;
               pp_end_row ppf 0);
-          (match pp_left with
-          | None ->
-              pp_el ppf mat.{1, 1};
-              for col = 2 to n do
-                pp_end_col ppf ~row:1 ~col:(col - 1);
-                pp_el ppf mat.{1, col}
-              done;
-              for row = 2 to m do
-                let row_1 = row - 1 in
-                do_pp_right ppf row_1;
-                pp_end_row ppf row_1;
-                pp_el ppf mat.{row, 1};
-                for col = 2 to n do
-                  pp_end_col ppf ~row ~col:(col - 1);
-                  pp_el ppf mat.{row, col}
-                done
-              done
-          | Some pp_left ->
-              pp_left ppf 1;
-              for col = 1 to n do
-                pp_end_col ppf ~row:1 ~col:(col - 1);
-                pp_el ppf mat.{1, col}
-              done;
-              for row = 2 to m do
-                let row_1 = row - 1 in
-                do_pp_right ppf row_1;
-                pp_end_row ppf row_1;
-                pp_left ppf row;
-                for col = 1 to n do
-                  pp_end_col ppf ~row ~col:(col - 1);
-                  pp_el ppf mat.{row, col}
-                done
-              done);
-          do_pp_right ppf m;
+          let fmt_row_body src_r =
+            maybe_pp_label src_r;
+            let pp_nth c = pp_el ppf mat.{src_r, c + 1} in
+            gen_fmt_row_body ~dst_col_ofs:(src_col_ofs - 1) ~pp_nth src_r
+          in
+          for r = 0 to ver_stop do
+            let src_r = r + 1 in
+            fmt_row_body src_r;
+            do_pp_right ppf src_r;
+          done;
+          if has_ver then begin
+            pp_end_row ppf vertical_context;
+            let v1 = vertical_context + 1 in
+            for c = 0 to horizontal_context - 1 do
+              pp_print_string ppf ellipsis;
+              pp_end_col ppf ~row:v1 ~col:(src_col_ofs + c);
+            done;
+            for r = 0 to vertical_context - 1 do
+              let src_r = src_row_ofs + r in
+              pp_end_row ppf (src_r - 1);
+              fmt_row_body src_r;
+              do_pp_right ppf src_r;
+            done;
+          end;
           match pp_foot with
           | None -> ()
           | Some pp_foot ->
               pp_end_row ppf m;
-              let m1 = m + 1 in
-              let col_start =
-                match pp_left with
-                | None -> pp_foot ppf 1; 1
-                | Some pp_left -> pp_left ppf 0; 0 in
-              for col_ix = col_start to n - 1 do
-                pp_end_col ppf ~row:m1 ~col:col_ix;
-                pp_foot ppf (col_ix + 1)
-              done;
-              do_pp_right ppf m1);
+              fmt_head_foot ~src_r:(m + 1) pp_foot);
       pp_close ppf))
 
 
@@ -367,6 +402,9 @@ type ('el, 'elt) pp_labeled_mat =
   ?pp_left : (formatter -> int -> unit) option ->
   ?pp_right : (formatter -> int -> unit) option ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array2.t
@@ -385,13 +423,15 @@ let get_pp_left_right m = function
   | Some pp_left -> pp_left
 
 let pp_labeled_mat_gen
-    pp_el ?pp_head ?pp_foot ?pp_left ?pp_right ?pad () ppf mat =
+    pp_el ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+    ?ellipsis ?vertical_context ?horizontal_context () ppf mat =
   let pp_head = get_pp_head_foot_mat pp_head in
   let pp_foot = get_pp_head_foot_mat pp_foot in
   let m = Array2.dim1 mat in
   let pp_left = get_pp_left_right m pp_left in
   let pp_right = get_pp_left_right m pp_right in
-  pp_mat_gen ?pp_head ?pp_foot ?pp_left ?pp_right ?pad pp_el ppf mat
+  pp_mat_gen ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+    ?ellipsis ?vertical_context ?horizontal_context pp_el ppf mat
 
 let pp_labeled_fmat ?pp_head = pp_labeled_mat_gen pp_float_el ?pp_head
 let pp_labeled_cmat ?pp_head = pp_labeled_mat_gen pp_complex_el ?pp_head
@@ -407,6 +447,9 @@ type ('el, 'elt) pp_lmat =
   ?row_labels : string array ->
   ?col_labels : string array ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array2.t
@@ -430,6 +473,7 @@ let pp_lmat_gen
       ?row_labels
       ?col_labels
       ?pad
+      ?ellipsis ?vertical_context ?horizontal_context
       () ppf mat =
   let pp_head, pp_foot =
     match col_labels with
@@ -454,7 +498,9 @@ let pp_lmat_gen
         let pp_right = get_pp_left_right_mat print_right m row_labels in
         pp_left, pp_right
     | None -> None, None in
-  pp_labeled_mat ~pp_head ~pp_foot ~pp_left ~pp_right ?pad () ppf mat
+  pp_labeled_mat
+    ~pp_head ~pp_foot ~pp_left ~pp_right ?pad
+    ?ellipsis ?vertical_context ?horizontal_context () ppf mat
 
 let pp_lfmat ?print_head = pp_lmat_gen pp_labeled_fmat ?print_head
 let pp_lcmat ?print_head = pp_lmat_gen pp_labeled_cmat ?print_head
@@ -468,13 +514,18 @@ type ('el, 'elt) pp_labeled_vec =
   ?pp_left : (formatter -> int -> unit) option ->
   ?pp_right : (formatter -> int -> unit) ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array1.t
   -> unit
 
 let pp_labeled_vec_gen
-      pp_el ?pp_head ?pp_foot ?pp_left ?pp_right ?pad () ppf vec =
+      pp_el ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+      ?ellipsis ?vertical_context ?horizontal_context
+      () ppf vec =
   let m = Array1.dim vec in
   let pp_left =
     match pp_left with
@@ -482,7 +533,9 @@ let pp_labeled_vec_gen
     | Some None -> None
     | Some (Some pp_left) -> Some pp_left in
   let mat = from_col_vec vec in
-  pp_mat_gen ?pp_head ?pp_foot ?pp_left ?pp_right ?pad pp_el ppf mat
+  pp_mat_gen ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+    ?ellipsis ?vertical_context ?horizontal_context
+    pp_el ppf mat
 
 let pp_labeled_fvec ?pp_head = pp_labeled_vec_gen pp_float_el ?pp_head
 let pp_labeled_cvec ?pp_head = pp_labeled_vec_gen pp_complex_el ?pp_head
@@ -496,7 +549,9 @@ let pp_labeled_rvec_gen
       ?pp_foot:this_pp_foot
       ?pp_left:this_pp_left
       ?pp_right:this_pp_right
-      ?pad () ppf vec =
+      ?pad
+      ?ellipsis ?vertical_context ?horizontal_context
+      () ppf vec =
   let pp_head =
     match this_pp_left with
     | None -> some_pp_print_int
@@ -506,7 +561,9 @@ let pp_labeled_rvec_gen
   let pp_left = this_pp_head in
   let pp_right = this_pp_foot in
   let mat = from_row_vec vec in
-  pp_mat_gen ?pp_head ?pp_foot ?pp_left ?pp_right ?pad pp_el ppf mat
+  pp_mat_gen ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
+    ?ellipsis ?vertical_context ?horizontal_context
+    pp_el ppf mat
 
 let pp_labeled_rfvec ?pp_head = pp_labeled_rvec_gen pp_float_el ?pp_head
 let pp_labeled_rcvec ?pp_head = pp_labeled_rvec_gen pp_complex_el ?pp_head
@@ -522,6 +579,9 @@ type ('el, 'elt) pp_lvec =
   ?labels : string array ->
   ?name : string ->
   ?pad : char option ->
+  ?ellipsis : string ->
+  ?vertical_context : Context.t option ->
+  ?horizontal_context : Context.t option ->
   unit ->
   formatter ->
   ('el, 'elt, fortran_layout) Array1.t
@@ -534,12 +594,15 @@ let get_lvec_name = function
 let pp_lvec_gen
       (pp_lmat : ('el, 'elt) pp_lmat)
       ?print_head ?print_foot ?print_left ?(print_right = false)
-      ?labels:row_labels ?name ?pad () ppf vec =
+      ?labels:row_labels ?name ?pad
+      ?ellipsis ?vertical_context ?horizontal_context
+      () ppf vec =
   let mat = from_col_vec vec in
   let col_labels = get_lvec_name name in
   pp_lmat
     ?print_head ?print_foot ?print_left ~print_right
-    ?row_labels ?col_labels ?pad () ppf mat
+    ?row_labels ?col_labels ?pad ?ellipsis ?vertical_context
+    ?horizontal_context () ppf mat
 
 let pp_lfvec ?print_head = pp_lvec_gen pp_lfmat ?print_head
 let pp_lcvec ?print_head = pp_lvec_gen pp_lcmat ?print_head
@@ -551,7 +614,9 @@ let pp_rlvec_gen
       ?print_foot:print_right
       ?print_left:print_head
       ?print_right:this_print_right
-      ?labels:col_labels ?name ?pad () ppf vec =
+      ?labels:col_labels ?name ?pad
+      ?ellipsis ?vertical_context ?horizontal_context
+      () ppf vec =
   let mat = from_row_vec vec in
   let row_labels = get_lvec_name name in
   let print_foot =
@@ -560,7 +625,8 @@ let pp_rlvec_gen
     | Some this_print_right -> this_print_right in
   pp_lmat
     ?print_head ~print_foot ?print_left ?print_right
-    ?row_labels ?col_labels ?pad () ppf mat
+    ?row_labels ?col_labels ?pad
+    ?ellipsis ?vertical_context ?horizontal_context () ppf mat
 
 let pp_rlfvec ?print_head = pp_rlvec_gen pp_lfmat ?print_head
 let pp_rlcvec ?print_head = pp_rlvec_gen pp_lcmat ?print_head

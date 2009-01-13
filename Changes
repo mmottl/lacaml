@@ -1,3 +1,7 @@
+2009-01-13:  Added context printing options to matrices.  This feature
+             allows human-readable printing of huge matrices by only
+             emitting specified horizontal and vertical contexts.
+
 2008-11-12:  Improved Windows portability.
 
 2008-11-10:  Fixed dynamic linking problem on Mac OS X.
