@@ -20,3 +20,5 @@
   lock be kept, and also provide for default heuristics that choose to
   keep it if some value computed from the function parameters does not
   exceed a certain value (e.g. matrix size, etc.).
+
+* Add new features from LAPACK 3.2.
