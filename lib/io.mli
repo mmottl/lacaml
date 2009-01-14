@@ -146,7 +146,7 @@ val pp_float_el_default : float pp_el_default
 val pp_complex_el_default : Complex.t pp_el_default
 (** fprintf ppf "(%G, %Gi)" el.re el.im *)
 
-val pp_print_int32 : formatter -> int32 -> unit
+val pp_int32_el : formatter -> int32 -> unit
 (** fprintf ppf "%ld" el *)
 
 
@@ -211,7 +211,7 @@ type ('el, 'elt) pp_labeled_vec =
 
     @param pp_head default = no default (= no printing)
     @param pp_foot default = no default (= no printing)
-    @param pp_left default = [Some pp_print_int32] for vector rows/cols
+    @param pp_left default = [Some pp_int32_el] for vector rows/cols
                              (= not in header/footer row/col)
     @param pp_right default = no default (= no printing)
 *)
@@ -298,11 +298,11 @@ type ('el, 'elt) pp_labeled_mat =
     If [None] is passed as argument for the default printers, the
     corresponding labels will not be printed.
 
-    @param pp_head default = [Some pp_print_int32]
-    @param pp_foot default = [Some pp_print_int32]
-    @param pp_left default = [Some pp_print_int32] for matrix rows
+    @param pp_head default = [Some pp_int32_el]
+    @param pp_foot default = [Some pp_int32_el]
+    @param pp_left default = [Some pp_int32_el] for matrix rows
                              (= not in header/footer row)
-    @param pp_right default = [Some pp_print_int32] for matrix rows
+    @param pp_right default = [Some pp_int32_el] for matrix rows
                              (= not in header/footer row)
 *)
 
@@ -407,3 +407,20 @@ type ('el, 'elt) pp_omat =
 val pp_ofmat : (float, 'elt) pp_omat
 val pp_ocmat : (Complex.t, 'elt) pp_omat
 val pp_oimat : (int32, 'elt) pp_omat
+
+
+(** {6 Good pretty-printers for toplevels} *)
+
+(** These pretty-printers will use index labels for easier identification
+    of rows and columns. *)
+
+val pp_top_fvec : (float, 'elt) pp_vec
+val pp_top_cvec : (Complex.t, 'elt) pp_vec
+val pp_top_ivec : (int32, 'elt) pp_vec
+val pp_top_rfvec : (float, 'elt) pp_vec
+val pp_top_rcvec : (Complex.t, 'elt) pp_vec
+val pp_top_rivec : (int32, 'elt) pp_vec
+
+val pp_top_fmat : (float, 'elt) pp_mat
+val pp_top_cmat : (Complex.t, 'elt) pp_mat
+val pp_top_imat : (int32, 'elt) pp_mat

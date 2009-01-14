@@ -1,3 +1,5 @@
+2009-01-14:  Greatly improved defaults for printing in toplevels.
+
 2009-01-13:  Added context printing options to matrices.  This feature
              allows human-readable printing of huge matrices by only
              emitting specified horizontal and vertical contexts.

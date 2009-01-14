@@ -1,11 +1,11 @@
 let printers =
   [
-    "Lacaml.Io.pp_rfvec";
-    "Lacaml.Io.pp_rcvec";
-    "Lacaml.Io.pp_rivec";
-    "Lacaml.Io.pp_fmat";
-    "Lacaml.Io.pp_cmat";
-    "Lacaml.Io.pp_imat";
+    "Lacaml.Io.pp_top_rfvec";
+    "Lacaml.Io.pp_top_rcvec";
+    "Lacaml.Io.pp_top_rivec";
+    "Lacaml.Io.pp_top_fmat";
+    "Lacaml.Io.pp_top_cmat";
+    "Lacaml.Io.pp_top_imat";
   ]
 
 let eval_string
@@ -21,7 +21,7 @@ let rec install_printers = function
       eval_string cmd && install_printers printers
 
 let set_contexts () =
-  let cmd = 
+  let cmd =
     "Lacaml.Io.Context.set_dim_defaults (Some (Lacaml.Io.Context.create 3));;"
   in
   eval_string cmd
