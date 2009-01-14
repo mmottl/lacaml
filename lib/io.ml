@@ -751,30 +751,34 @@ let pp_oimat ppf mat = pp_omat ppf pp_int32_el mat
 
 (* Good pretty-printers for toplevels *)
 
-(* Vectors *)
+module Toplevel = struct
+  (* Vectors *)
 
-let pp_labeled_col ppf c = if c > 0 then fprintf ppf "C%d" c
-let pp_labeled_row ppf r = if r > 0 then fprintf ppf "R%d" r
+  let pp_labeled_col ppf c = if c > 0 then fprintf ppf "C%d" c
+  let pp_labeled_row ppf r = if r > 0 then fprintf ppf "R%d" r
 
-let gen_pp_top_vec pp_el ppf vec =
-  pp_mat_gen ~pp_left:pp_labeled_row pp_el ppf (from_col_vec vec)
+  let gen_pp_vec pp_el ppf vec =
+    pp_mat_gen ~pp_left:pp_labeled_row pp_el ppf (from_col_vec vec)
 
-let pp_top_fvec ppf vec = gen_pp_top_vec pp_float_el ppf vec
-let pp_top_cvec ppf vec = gen_pp_top_vec pp_complex_el ppf vec
-let pp_top_ivec ppf vec = gen_pp_top_vec pp_int32_el ppf vec
+  let pp_fvec ppf vec = gen_pp_vec pp_float_el ppf vec
+  let pp_cvec ppf vec = gen_pp_vec pp_complex_el ppf vec
+  let pp_ivec ppf vec = gen_pp_vec pp_int32_el ppf vec
 
-let gen_pp_top_rvec pp_el ppf vec =
-  pp_mat_gen ~pp_head:pp_labeled_row pp_el ppf (from_row_vec vec)
+  let gen_pp_rvec pp_el ppf vec =
+    pp_mat_gen ~pp_head:pp_labeled_row pp_el ppf (from_row_vec vec)
 
-let pp_top_rfvec ppf vec = gen_pp_top_rvec pp_float_el ppf vec
-let pp_top_rcvec ppf vec = gen_pp_top_rvec pp_complex_el ppf vec
-let pp_top_rivec ppf vec = gen_pp_top_rvec pp_int32_el ppf vec
+  let pp_rfvec ppf vec = gen_pp_rvec pp_float_el ppf vec
+  let pp_rcvec ppf vec = gen_pp_rvec pp_complex_el ppf vec
+  let pp_rivec ppf vec = gen_pp_rvec pp_int32_el ppf vec
 
-(* Matrices *)
+  (* Matrices *)
 
-let gen_pp_top_mat pp_el ppf mat =
-  pp_mat_gen ~pp_head:pp_labeled_col ~pp_left:pp_labeled_row pp_el ppf mat
+  let gen_pp_mat pp_el ppf mat =
+    pp_mat_gen ~pp_head:pp_labeled_col ~pp_left:pp_labeled_row pp_el ppf mat
 
-let pp_top_fmat ppf mat = gen_pp_top_mat pp_float_el ppf mat
-let pp_top_cmat ppf mat = gen_pp_top_mat pp_complex_el ppf mat
-let pp_top_imat ppf mat = gen_pp_top_mat pp_int32_el ppf mat
+  let pp_fmat ppf mat = gen_pp_mat pp_float_el ppf mat
+  let pp_cmat ppf mat = gen_pp_mat pp_complex_el ppf mat
+  let pp_imat ppf mat = gen_pp_mat pp_int32_el ppf mat
+
+  let lsc n = Context.set_dim_defaults (Some (Context.create n))
+end

@@ -1,11 +1,11 @@
 let printers =
   [
-    "Lacaml.Io.pp_top_rfvec";
-    "Lacaml.Io.pp_top_rcvec";
-    "Lacaml.Io.pp_top_rivec";
-    "Lacaml.Io.pp_top_fmat";
-    "Lacaml.Io.pp_top_cmat";
-    "Lacaml.Io.pp_top_imat";
+    "Lacaml.Io.Toplevel.pp_rfvec";
+    "Lacaml.Io.Toplevel.pp_rcvec";
+    "Lacaml.Io.Toplevel.pp_rivec";
+    "Lacaml.Io.Toplevel.pp_fmat";
+    "Lacaml.Io.Toplevel.pp_cmat";
+    "Lacaml.Io.Toplevel.pp_imat";
   ]
 
 let eval_string

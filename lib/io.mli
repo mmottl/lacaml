@@ -414,13 +414,18 @@ val pp_oimat : (int32, 'elt) pp_omat
 (** These pretty-printers will use index labels for easier identification
     of rows and columns. *)
 
-val pp_top_fvec : (float, 'elt) pp_vec
-val pp_top_cvec : (Complex.t, 'elt) pp_vec
-val pp_top_ivec : (int32, 'elt) pp_vec
-val pp_top_rfvec : (float, 'elt) pp_vec
-val pp_top_rcvec : (Complex.t, 'elt) pp_vec
-val pp_top_rivec : (int32, 'elt) pp_vec
+module Toplevel : sig
+  val lsc : int -> unit
+  (* Shortcut for setting both the horizontal and vertical context. *)
 
-val pp_top_fmat : (float, 'elt) pp_mat
-val pp_top_cmat : (Complex.t, 'elt) pp_mat
-val pp_top_imat : (int32, 'elt) pp_mat
+  val pp_fvec : (float, 'elt) pp_vec
+  val pp_cvec : (Complex.t, 'elt) pp_vec
+  val pp_ivec : (int32, 'elt) pp_vec
+  val pp_rfvec : (float, 'elt) pp_vec
+  val pp_rcvec : (Complex.t, 'elt) pp_vec
+  val pp_rivec : (int32, 'elt) pp_vec
+
+  val pp_fmat : (float, 'elt) pp_mat
+  val pp_cmat : (Complex.t, 'elt) pp_mat
+  val pp_imat : (int32, 'elt) pp_mat
+end
