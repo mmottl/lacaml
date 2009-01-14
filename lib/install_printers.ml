@@ -20,14 +20,6 @@ let rec install_printers = function
       let cmd = Printf.sprintf "#install_printer %s;;" printer in
       eval_string cmd && install_printers printers
 
-let set_defaults () =
-  let cmd =
-    "let lsc = \
-      Lacaml.Io.Context.set_dim_defaults (Some (Lacaml.Io.Context.create 3)); \
-      Lacaml.Io.Toplevel.lsc;;"
-  in
-  eval_string cmd
-
 let () =
-  if not (install_printers printers && set_defaults ()) then
+  if not (install_printers printers) then
     Format.eprintf "Problem installing LACAML-printers@."
