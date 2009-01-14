@@ -416,7 +416,9 @@ val pp_oimat : (int32, 'elt) pp_omat
 
 module Toplevel : sig
   val lsc : int -> unit
-  (* Shortcut for setting both the horizontal and vertical context. *)
+  (* Shortcut for setting both the horizontal and vertical context.
+     Remember as "Lacaml set contexts".  This function is automatically
+     bound as [lsc] in toplevels for quick access. *)
 
   val pp_fvec : (float, 'elt) pp_vec
   val pp_cvec : (Complex.t, 'elt) pp_vec
