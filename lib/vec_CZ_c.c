@@ -118,6 +118,32 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   CAMLreturn(Val_unit);
 }
 
+extern real scnrm2_(integer *N, complex *X, integer *INCX);
+extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
+
+CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+{
+  CAMLparam1(vX);
+
+  int GET_INT(N),
+      GET_INT(INCX);
+
+  REAL res;
+
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+#ifndef LACAML_DOUBLE
+  res = scnrm2_(&N, X_data, &INCX);
+#else
+  res = dznrm2_(&N, X_data, &INCX);
+#endif
+  res *= res;
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(caml_copy_double(res));
+}
+
 #define COPY_NUMBER(c) copy_two_doubles(c.r, c.i)
 
 #define NAME LFUN(max_stub)

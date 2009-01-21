@@ -35,6 +35,36 @@
 #include "lacaml_macros.h"
 #include "f2c.h"
 
+/*** BLAS-1 */
+
+/** NRM2 */
+
+extern real scnrm2_(integer *N, complex *X, integer *INCX);
+extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
+
+CAMLprim value LFUN(nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+{
+  CAMLparam1(vX);
+
+  int GET_INT(N),
+      GET_INT(INCX);
+
+  REAL res;
+
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+#ifndef LACAML_DOUBLE
+  res = scnrm2_(&N, X_data, &INCX);
+#else
+  res = dznrm2_(&N, X_data, &INCX);
+#endif
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(caml_copy_double(res));
+}
+
+
 /*** BLAS-2 */
 
 /** TODO: HEMV */

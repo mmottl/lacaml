@@ -261,6 +261,21 @@ let prod ?n ?ofsx ?incx x =
   let n = get_dim_vec "Vec.prod" "x" ofsx incx x "n" n in
   direct_prod n ofsx incx x
 
+(* SQR_NRM2 *)
+
+external direct_sqr_nrm2 :
+  int -> (* N *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec    (* X *)
+  -> float = "lacaml_NPRECsqr_nrm2_stub"
+
+let sqr_nrm2 ?n ?ofsx ?incx x =
+  let loc = "Vec.sqr_nrm2" in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let n = get_dim_vec loc x_str ofsx incx x n_str n in
+  direct_sqr_nrm2 n ofsx incx x
+
 (* SSQR *)
 
 external direct_ssqr :

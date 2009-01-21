@@ -102,6 +102,27 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   CAMLreturn(Val_unit);
 }
 
+extern REAL FUN(nrm2)(integer *N, REAL *X, integer *INCX);
+
+CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+{
+  CAMLparam1(vX);
+
+  int GET_INT(N),
+      GET_INT(INCX);
+
+  doublereal res;
+
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  res = FUN(nrm2)(&N, X_data, &INCX);
+  res *= res;
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(caml_copy_double(res));
+}
+
 #define COPY_NUMBER(acc) caml_copy_double(acc)
 
 #define NAME LFUN(max_stub)

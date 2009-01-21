@@ -36,6 +36,19 @@ open Bigarray
 open Common
 open Complexxx
 
+(** {6 BLAS-1 interface} *)
+
+(*
+val nrm2 : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
+(** [nrm2 ?n ?ofsx ?incx x] see BLAS documentation!
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1 *)
+*)
+
+
+(** {6 LAPACK interface} *)
+
 (* LANSY *)
 
 val lansy_min_lwork : int -> norm4 -> int

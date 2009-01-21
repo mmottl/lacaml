@@ -163,6 +163,15 @@ val prod : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
     @param ofsx default = 1
     @param incx default = 1 *)
 
+val sqr_nrm2 : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
+(** [sqr_nrm2 ?n ?c ?ofsx ?incx x] computes the square of the 2-norm
+    (Euclidean norm) of vector [x] separated by [incx] incremental steps.
+    This is equivalent to squaring the result of calling the BLAS-function
+    [nrm2].
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
 val ssqr :
   ?n : int ->
   ?c : num_type ->
@@ -171,8 +180,10 @@ val ssqr :
   vec
   -> num_type
 (** [ssqr ?n ?c ?ofsx ?incx x] computes the sum of squared differences of
-    the [n] elements in vector [x] from constant [c], separated by [incx]
-    incremental steps.
+    the [n] elements in vector [x] from constant [c], separated by
+    [incx] incremental steps.  Please do not confuse with {sqr_nrm2}!
+    The current function returns a different result for complex numbers
+    and is less numerically stable for real numbers!
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param c default = zero
     @param ofsx default = 1

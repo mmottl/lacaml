@@ -46,6 +46,24 @@ module Mat = Mat4_CPREC
 
 module RVec = Vec4_CBPREC
 
+(* BLAS-1 interface *)
+
+(* NRM2 *)
+
+external direct_nrm2 :
+  int -> (* N *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec    (* X *)
+  -> float = "lacaml_CPRECnrm2_stub"
+
+let nrm2 ?n ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.CPREC.nrm2" in
+  let ofsx, incx = get_vec_geom loc "x" ofsx incx in
+  let n = get_dim_vec loc "x" ofsx incx x "n" n in
+  direct_nrm2 n ofsx incx x
+
+
 (* Auxiliary routines *)
 
 external direct_lansy :

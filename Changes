@@ -1,3 +1,6 @@
+2009-01-21:  Added Vec.sqr_nrm2, which is numerically more stable than
+             Vec.ssqr.  Added nrm2 for complex numbers (BLAS-1 function).
+
 2009-01-14:  Greatly improved defaults for printing in toplevels.
 
 2009-01-13:  Added context printing options to matrices.  This feature
