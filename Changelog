@@ -1,3 +1,7 @@
+2009-04-22:  Added new matrix function:
+
+               * scal_cols
+
 2009-01-21:  Added Vec.sqr_nrm2, which is numerically more stable than
              Vec.ssqr.  Added nrm2 for complex numbers (BLAS-1 function).
 

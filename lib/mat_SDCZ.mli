@@ -133,8 +133,9 @@ val col : mat -> int -> vec
 val copy_row : ?vec : vec -> mat -> int -> vec
 (** [copy_row ?vec mat int] @return a copy of the [n]th row of matrix [m]
     in vector [vec].
-    
-    @param vec default = fresh vector of length [dim2 mat] *)
+
+    @param vec default = fresh vector of length [dim2 mat]
+*)
 
 
 (** {6 Matrix transformations} *)
@@ -184,7 +185,15 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 
 val scal :
   ?m : int -> ?n : int -> num_type -> ?ar : int -> ?ac : int -> mat -> unit
-(** [scal ?m ?n alpha ?ar ?ac a] BLAS [scal] function for matrices. *)
+(** [scal ?m ?n alpha ?ar ?ac a] BLAS [scal] function for (sub-)matrices. *)
+
+val scal_cols :
+  ?m : int -> ?n : int ->
+  ?ofs : int -> vec ->
+  ?ar : int -> ?ac : int -> mat
+  -> unit
+(** [scal_cols ?m ?n ?ofs alphas ?ar ?ac a] column-wise [scal] function
+    for matrices. *)
 
 val axpy :
   ?m : int ->

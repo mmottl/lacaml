@@ -102,6 +102,38 @@ CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int argn)
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
 }
 
+CAMLprim value LFUN(scal_cols_stub)(
+  value vM, value vN,
+  value vOFSALPHAs,
+  value vALPHAs,
+  value vAR, value vAC, value vA)
+{
+  CAMLparam2(vALPHAs, vA);
+
+  integer GET_INT(M), GET_INT(N);
+
+  VEC_PARAMS(ALPHAs);
+  MAT_PARAMS(A);
+
+  caml_enter_blocking_section();
+    NUMBER *A_src = A_data + rows_A * (N - 1);
+    NUMBER *ALPHAs_src = ALPHAs_data + (N - 1);
+    while (A_src >= A_data) {
+      FUN(scal)(&M, ALPHAs_src, A_src, &ONE);
+      A_src -= rows_A;
+      ALPHAs_src--;
+    }
+  caml_leave_blocking_section();
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(scal_cols_stub_bc)(value *argv, int argn)
+{
+  return LFUN(scal_cols_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+}
+
 CAMLprim value LFUN(axpy_mat_stub)(
   value vM, value vN,
   value vALPHA,

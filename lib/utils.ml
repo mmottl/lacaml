@@ -69,6 +69,7 @@ let job_char_false = get_job_char false
 
 (* Name information *)
 let a_str = "a"
+let alphas_str = "alphas"
 let ap_str = "ap"
 let b_str = "b"
 let c_str = "c"
