@@ -104,7 +104,8 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
 
 extern REAL FUN(nrm2)(integer *N, REAL *X, integer *INCX);
 
-CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+inline CAMLprim value LFUN(sqr_nrm2_stub)(
+  value vN, value vOFSX, value vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -145,10 +146,11 @@ CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
 #define FUNC(acc, x) acc *= x
 #include "fold_col.c"
 
-#define NAME LFUN(ssqr_zero_stub)
-#define INIT 0.0
-#define FUNC(acc, x) acc += x*x
-#include "fold_col.c"
+CAMLprim value LFUN(ssqr_zero_stub)(
+  value vN, value vOFSX, value vINCX, value vX)
+{
+  return LFUN(sqr_nrm2_stub(vN, vOFSX, vINCX, vX));
+}
 
 CAMLprim value LFUN(ssqr_stub)(
   value vN,

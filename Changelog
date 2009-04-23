@@ -1,3 +1,6 @@
+2009-04-23:  Improved numerical stability of Vec.ssqr for real numbers
+             and zero mean.
+
 2009-04-22:  Added new matrix function:
 
                * scal_cols
