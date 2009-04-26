@@ -315,7 +315,7 @@ let ssqr ?n ?c ?ofsx ?incx x =
       if c = zero then direct_ssqr_zero n ofsx incx x
       else direct_ssqr n c ofsx incx x
 
-(* TODO *)
+(* MAP *)
 (* SORT *)
 
 

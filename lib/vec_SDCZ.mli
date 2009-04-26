@@ -110,13 +110,13 @@ val iteri :
     as second argument. *)
 
 val fold :
-  (num_type -> num_type -> num_type) ->
-  num_type ->
+  ('a -> num_type -> 'a) ->
+  'a ->
   ?n : int ->
   ?ofsx : int ->
   ?incx : int ->
   vec
-  -> num_type
+  -> 'a
 (** [fold f a ?n ?ofsx ?incx x] is
     [f (... (f (f a x.{ofsx}) x.{ofsx + incx}) ...) x.{ofsx + (n-1)*incx}]
     if [incx > 0] and the same in the reverse order of appearance of the

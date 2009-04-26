@@ -13,6 +13,10 @@
                * lacpy (also copies triangular matrices)
                * larnv (random number generation)
 
+             Fixed Mac OS X build problems.
+
+             Lots of internal cleanups.
+
 2009-04-23:  Improved numerical stability of Vec.ssqr for real numbers
              and zero mean.
 
