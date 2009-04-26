@@ -1,3 +1,6 @@
-(^|/)\.bzr($|/)
 (^|/)\.hg($|/)
 (^|/)\.hgtags($|/)
+\.(cm(i|o|x|a|xa)|o|so|annot|a)$
+\._(b|n)cdi/.*$
+\._d/.*$
+lib/(impl|mat|vec)(2|4)_.*$
