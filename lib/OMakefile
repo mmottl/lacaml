@@ -29,10 +29,6 @@ LIB_CNAMES[] =
   vec2_D_c
   vec2_C_c
   vec2_Z_c
-  mat2_S_c
-  mat2_D_c
-  mat2_C_c
-  mat2_Z_c
   mat4_S_c
   mat4_D_c
   mat4_C_c

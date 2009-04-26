@@ -69,11 +69,21 @@ let job_char_false = get_job_char false
 
 (* Name information *)
 let a_str = "a"
+let ab_str = "ab"
 let alphas_str = "alphas"
 let ap_str = "ap"
 let b_str = "b"
 let c_str = "c"
+let d_str = "d"
+let dl_str = "dl"
+let du_str = "du"
+let e_str = "e"
+let ipiv_str = "ipiv"
+let iseed_str = "iseed"
 let k_str = "k"
+let kd_str = "kd"
+let kl_str = "kl"
+let ku_str = "ku"
 let m_str = "m"
 let n_str = "n"
 let s_str = "s"
@@ -83,8 +93,12 @@ let un_str = "un"
 let vm_str = "vm"
 let vn_str = "vn"
 let vt_str = "vt"
+let w_str = "w"
+let wi_str = "wi"
+let wr_str = "wr"
 let x_str = "x"
 let y_str = "y"
+let z_str = "z"
 
 (* Get a work array *)
 let get_work loc vec_create work min_lwork opt_lwork lwork_str =
@@ -118,7 +132,7 @@ external ilaenv : int -> string -> string -> int -> int -> int -> int -> int
   = "lacaml_ilaenv_stub_bc" "lacaml_ilaenv_stub" "noalloc"
 
 let check_var_ltz loc var_name var =
-  if var < 0 then invalid_arg (sprintf "%s: %s < 0" loc var_name)
+  if var < 0 then invalid_arg (sprintf "%s: %s < 0: %d" loc var_name var)
 
 let check_vec loc vec_name vec min_dim =
   let dim = Array1.dim vec in
@@ -539,7 +553,7 @@ let getrf_get_ipiv loc ipiv m n =
   match ipiv with
   | None -> create_int_vec (min m n)
   | Some ipiv ->
-      check_vec loc "ipiv" ipiv (min m n);
+      check_vec loc ipiv_str ipiv (min m n);
       ipiv
 
 (* sytrf -- auxiliary functions *)
@@ -548,7 +562,7 @@ let sytrf_get_ipiv loc ipiv n =
   match ipiv with
   | None -> create_int_vec n
   | Some ipiv ->
-      check_vec loc "ipiv" ipiv n;
+      check_vec loc ipiv_str ipiv n;
       ipiv
 
 let sytrf_err loc n a err =
@@ -798,7 +812,7 @@ let xxsv_get_ipiv loc ipiv n =
   match ipiv with
   | None -> create_int_vec n
   | Some ipiv ->
-      check_vec loc "ipiv" ipiv n;
+      check_vec loc ipiv_str ipiv n;
       ipiv
 
 let xxsv_get_params loc ar ac a n br bc b nrhs =

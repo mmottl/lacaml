@@ -41,39 +41,6 @@ let make m n x =
 
 let make0 m n = make m n zero
 
-external direct_copy :
-  int -> (* N *)
-  int -> (* OFSY *)
-  int -> (* INCY *)
-  vec -> (* Y *)
-  int -> (* OFSX *)
-  int -> (* INCX *)
-  vec (* X *)
-  -> unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
-
-external direct_copy_mat :
-  int -> (* M *)
-  int -> (* N *)
-  int -> (* YR *)
-  int -> (* YC *)
-  mat -> (* Y *)
-  int -> (* XR *)
-  int -> (* XC *)
-  mat (* X *)
-  -> unit = "lacaml_NPRECcopy_mat_stub_bc" "lacaml_NPRECcopy_mat_stub"
-
-let copy ?m ?n ?(yr = 1) ?(yc = 1) ?y ?(xr = 1) ?(xc = 1) x =
-  let loc = "Lacaml.Impl.NPREC.Mat.copy" in
-  let m = get_dim1_mat loc x_str x xr m_str m in
-  let n = get_dim2_mat loc x_str x xc n_str n in
-  let y, yr, yc =
-    match y with
-    | Some y -> check_dim_mat loc y_str yr yc y m n; y, yr, yc
-    | None -> create m n, 1, 1
-  in
-  direct_copy_mat m n yr yc y xr xc x;
-  y
-
 let of_array ar = Array2.of_array prec fortran_layout ar
 
 let init_rows m n f =
@@ -167,6 +134,16 @@ let copy_row ?vec mat r =
   for c = 1 to n do vec.{c} <- mat.{r, c} done;
   vec
 
+external direct_copy :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
+
 let of_col_vecs ar =
   let n = Array.length ar in
   if n = 0 then create 0 0
@@ -177,7 +154,7 @@ let of_col_vecs ar =
       let vec = ar.(c - 1) in
       if Array1.dim vec <> m then
         failwith "of_col_vecs: vectors not of same length";
-      direct_copy m 1 1 (col mat c) 1 1 vec
+      direct_copy ~n:m ~ofsy:1 ~incy:1 ~y:(col mat c) ~ofsx:1 ~incx:1 ~x:vec
     done;
     mat
 
@@ -262,29 +239,29 @@ let unpacked ?(up = true) ?n src =
   a
 
 external direct_scal_mat :
-  int -> (* M *)
-  int -> (* N *)
-  num_type -> (* ALPHA *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat (* A *)
-  -> unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
+  m : int ->
+  n : int ->
+  alpha : num_type ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
 
 let scal ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.scal" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_scal_mat m n alpha ar ac a
+  direct_scal_mat ~m ~n ~alpha ~ar ~ac ~a
 
 external direct_scal_cols :
-  int -> (* M *)
-  int -> (* N *)
-  int -> (* OFS *)
-  vec -> (* ALPHAs *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat (* A *)
-  -> unit = "lacaml_NPRECscal_cols_stub_bc" "lacaml_NPRECscal_cols_stub"
+  m : int ->
+  n : int ->
+  ofs : int ->
+  alphas : vec ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  unit = "lacaml_NPRECscal_cols_stub_bc" "lacaml_NPRECscal_cols_stub"
 
 let scal_cols ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.scal_cols" in
@@ -292,56 +269,45 @@ let scal_cols ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some n));
-  direct_scal_cols m n ofs alphas ar ac a
+  direct_scal_cols ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
 external direct_axpy_mat :
-  int -> (* M *)
-  int -> (* N *)
-  num_type -> (* ALPHA *)
-  int -> (* XR *)
-  int -> (* XC *)
-  mat -> (* X *)
-  int -> (* YR *)
-  int -> (* YC *)
-  mat (* Y *)
-  -> unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
+  m : int ->
+  n : int ->
+  alpha : num_type ->
+  xr : int ->
+  xc : int ->
+  x : mat ->
+  yr : int ->
+  yc : int ->
+  y : mat ->
+  unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
 
 let axpy ?m ?n ?(alpha = one) ?(xr = 1) ?(xc = 1) ~x ?(yr = 1) ?(yc = 1) y =
   let loc = "Lacaml.Impl.NPREC.Mat.axpy" in
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
-  direct_axpy_mat m n alpha xr xc x yr yc y
+  direct_axpy_mat ~m ~n ~alpha ~xr ~xc ~x ~yr ~yc ~y
 
-external direct_map :
-  int -> (* M *)
-  int -> (* N *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat -> (* A *)
-  int -> (* BR *)
-  int -> (* BC *)
-  mat -> (* B *)
-  (num_type -> num_type)
-  -> unit = "lacaml_NPRECmap_stub_bc" "lacaml_NPRECmap_stub"
-
-let map f ?m ?n ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a =
+let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.map" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let c, cr, cc =
-    match c with
+  let b, br, bc =
+    match b with
     | None -> create m n, 1, 1
-    | Some c -> check_dim_mat loc c_str cr cc c m n; c, cr, cc
+    | Some b -> check_dim_mat loc c_str br bc b m n; b, br, bc
   in
-  direct_map m n ar ac a cr cc c f;
-  c
+  let max_row = m - 1 in
+  for i = 0 to n - 1 do
+    for j = 0 to max_row do b.{br + j, bc + i} <- f a.{ar + j, ac + i} done;
+  done;
+  b
 
 let fold_cols coll ?n ?(ac = 1) acc a =
   let loc = "Lacaml.Impl.NPREC.Mat.fold_cols" in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let acc_ref = ref acc in
-  for i = 0 to n - 1 do
-    acc_ref := coll !acc_ref (col a (ac + i))
-  done;
+  for i = 0 to n - 1 do acc_ref := coll !acc_ref (col a (ac + i)) done;
   !acc_ref

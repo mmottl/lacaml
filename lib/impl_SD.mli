@@ -484,16 +484,16 @@ val geev_min_lwork : ?vectors : bool -> int -> int
 
 val geev_opt_lwork :
   ?n : int ->
-  ?leftr : int -> ?leftc : int -> ?left : mat option ->
-  ?rightr : int -> ?rightc : int -> ?right : mat option ->
+  ?vlr : int -> ?vlc : int -> ?vl : mat option ->
+  ?vrr : int -> ?vrc : int -> ?vr : mat option ->
   ?ofswr : int -> ?wr : vec ->
   ?ofswi : int -> ?wi : vec ->
   ?ar : int -> ?ac : int -> mat ->
   int
  (** [geev_opt_lwork
        ?n
-       ?leftr ?leftc ?left
-       ?rightr ?rightc ?right
+       ?vlr ?vlc ?vl
+       ?vrr ?vrc ?vr
        ?ofswr wr
        ?ofswi wi
        ?ar ?ac a]
@@ -503,33 +503,33 @@ val geev_opt_lwork :
 val geev :
   ?n : int ->
   ?work : vec ->
-  ?leftr : int -> ?leftc  : int -> ?left : mat option ->
-  ?rightr : int -> ?rightc : int -> ?right : mat option ->
+  ?vlr : int -> ?vlc  : int -> ?vl : mat option ->
+  ?vrr : int -> ?vrc : int -> ?vr : mat option ->
   ?ofswr : int -> ?wr : vec ->
   ?ofswi : int -> ?wi : vec ->
   ?ar : int -> ?ac : int -> mat ->
   mat * vec * vec * mat
 (** [geev ?work ?n
-      ?leftr ?leftc ?left
-      ?rightr ?rightc ?right
+      ?vlr ?vlc ?vl
+      ?vrr ?vrc ?vr
       ?ofswr wr ?ofswi wi
       ?ar ?ac a]
     @return ([lv], [wr], [wi], [rv]), where [wr] and [wv] are the real
       and imaginary components of the eigenvalues, and [lv] and [rv]
       are the left and right eigenvectors. [lv] ([rv]) is the empty
-      matrix if [left] ([right]) is set to [None].
+      matrix if [vl] ([vr]) is set to [None].
     @raise Failure if the function fails to converge
     @param n default = available number of columns of matrix [a]
     @param work default = automatically allocated workspace
-    @param left default = Automatically allocated left eigenvectors.
-                          Pass [None] if you do not want to compute them,
-                          [Some lv] if you want to provide the storage.
-                          You can set [leftr], [leftc] in the last case.
+    @param vl default = Automatically allocated left eigenvectors.
+                        Pass [None] if you do not want to compute them,
+                        [Some lv] if you want to provide the storage.
+                        You can set [vlr], [vlc] in the last case.
     (See LAPACK GEEV docs for details about storage of complex eigenvectors)
-    @param right default = Automatically allocated right eigenvectors.
-                           Pass [None] if you do not want to compute them,
-                           [Some rv] if you want to provide the storage.
-                           You can set [rightr], [rightc] in the last case.
+    @param vr default = Automatically allocated right eigenvectors.
+                        Pass [None] if you do not want to compute them,
+                        [Some rv] if you want to provide the storage.
+                        You can set [vrr], [vrc] in the last case.
     @param wr default = vector of size [n]; real components of the eigenvalues
     @param wi default = vector of size [n];
                         imaginary components of the eigenvalues

@@ -43,12 +43,10 @@ let make0 n = make n zero
 
 let init n f =
   let v = create n in
-  for i = 1 to n do
-    v.{i} <- f i
-  done;
+  for i = 1 to n do v.{i} <- f i done;
   v
 
-let dim v = Array1.dim v
+let dim (v : vec) = Array1.dim v
 
 let of_array ar =
   let n = Array.length ar in
@@ -103,8 +101,8 @@ external direct_copy :
   vec -> (* Y *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec (* X *)
-  -> unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
+  vec (* X *) ->
+  unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
 
 let concat vs =
   let res = create (coll_size 0 vs) in
@@ -122,13 +120,13 @@ external direct_linspace :
   vec ->      (* Y *)
   num_type -> (* A *)
   num_type -> (* B *)
-  int         (* N *)
-  -> unit = "lacaml_NPREClinspace_stub"
+  int         (* N *) ->
+  unit = "lacaml_NPREClinspace_stub"
 
 let linspace ?y a b n =
   let y =
     match y with
-    | Some y -> check_vec "Vec.linspace" "y" y n; y
+    | Some y -> check_vec "Vec.linspace" y_str y n; y
     | None -> create n in
   direct_linspace y a b n;
   y
@@ -138,14 +136,14 @@ external direct_logspace :
   num_type -> (* A *)
   num_type -> (* B *)
   float ->    (* BASE *)
-  int         (* N *)
-  -> unit = "lacaml_NPREClogspace_stub"
+  int         (* N *) ->
+  unit = "lacaml_NPREClogspace_stub"
 
 let logspace ?y a b ?(base = 10.0) n =
   if base <= 0.0 then invalid_arg "Vec.logspace: base <= 0.0";
   let y =
     match y with
-    | Some y -> check_vec "Vec.logspace" "y" y n; y
+    | Some y -> check_vec "Vec.logspace" y_str y n; y
     | None -> create n in
   direct_logspace y a b base n;
   y
@@ -157,9 +155,11 @@ let get_i_ref_last ~incx ~ofsx ~n =
   if incx > 0 then ref ofsx, ofsx + n * incx
   else ref (ofsx - (n - 1) * incx), ofsx + incx
 
-let iter f ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.iter" "x" ofsx incx in
-  let n = get_dim_vec "Vec.iter" "x" ofsx incx x "n" n in
+let vec_iter_str = "Vec.iter"
+
+let iter f ?n ?ofsx ?incx (x : vec) =
+  let ofsx, incx = get_vec_geom vec_iter_str x_str ofsx incx in
+  let n = get_dim_vec vec_iter_str x_str ofsx incx x n_str n in
   let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
   while !i_ref <> last_i do
     let i = !i_ref in
@@ -167,9 +167,11 @@ let iter f ?n ?ofsx ?incx x =
     i_ref := i + incx;
   done
 
-let iteri f ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.iteri" "x" ofsx incx in
-  let n = get_dim_vec "Vec.iteri" "x" ofsx incx x "n" n in
+let vec_iteri_str = "Vec.iteri"
+
+let iteri f ?n ?ofsx ?incx (x : vec) =
+  let ofsx, incx = get_vec_geom vec_iteri_str x_str ofsx incx in
+  let n = get_dim_vec vec_iteri_str x_str ofsx incx x n_str n in
   let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
   while !i_ref <> last_i do
     let i = !i_ref in
@@ -177,19 +179,20 @@ let iteri f ?n ?ofsx ?incx x =
     i_ref := i + incx;
   done
 
-external direct_fold :
-  num_type -> (* INIT *)
-  int ->      (* N *)
-  int ->      (* OFSX *)
-  int ->      (* INCX *)
-  vec ->      (* X *)
-  (num_type -> num_type -> num_type)
-  -> num_type = "lacaml_NPRECfold_stub_bc" "lacaml_NPRECfold_stub"
+let vec_fold_str = "Vec.fold"
 
-let fold f a ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.fold" "x" ofsx incx in
-  let n = get_dim_vec "Vec.fold" "x" ofsx incx x "n" n in
-  direct_fold a n ofsx incx x f
+let fold f acc ?n ?ofsx ?incx (x : vec) =
+  let ofsx, incx = get_vec_geom vec_fold_str x_str ofsx incx in
+  let n = get_dim_vec vec_fold_str x_str ofsx incx x n_str n in
+  let start, last =
+    if incx > 0 then ofsx, ofsx + n * incx
+    else ofsx - (n - 1)*incx, ofsx + incx
+  in
+  let rec loop acc i =
+    if i = last then acc
+    else loop (f acc x.{i}) (i + incx)
+  in
+  loop acc start
 
 
 (* Operations on one vector *)
@@ -211,26 +214,30 @@ external direct_max :
   int -> (* N *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> num_type = "lacaml_NPRECmax_stub"
+  vec    (* X *) ->
+  num_type = "lacaml_NPRECmax_stub"
+
+let vec_max_str = "Vec.max"
 
 let max ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.max" "x" ofsx incx in
-  let n = get_dim_vec "Vec.max" "x" ofsx incx x "n" n in
+  let ofsx, incx = get_vec_geom vec_max_str x_str ofsx incx in
+  let n = get_dim_vec vec_max_str x_str ofsx incx x n_str n in
   direct_max n ofsx incx x
 
 (* MIN *)
+
+let vec_min_str = "Vec.min"
 
 external direct_min :
   int -> (* N *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> num_type = "lacaml_NPRECmin_stub"
+  vec    (* X *) ->
+  num_type = "lacaml_NPRECmin_stub"
 
 let min ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.min" "x" ofsx incx in
-  let n = get_dim_vec "Vec.min" "x" ofsx incx x "n" n in
+  let ofsx, incx = get_vec_geom vec_min_str x_str ofsx incx in
+  let n = get_dim_vec vec_min_str x_str ofsx incx x n_str n in
   direct_min n ofsx incx x
 
 (* SUM *)
@@ -239,26 +246,30 @@ external direct_sum :
   int -> (* N *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> num_type = "lacaml_NPRECsum_stub"
+  vec    (* X *) ->
+  num_type = "lacaml_NPRECsum_stub"
+
+let vec_sum_str = "Vec.sum"
 
 let sum ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.sum" "x" ofsx incx in
-  let n = get_dim_vec "Vec.sum" "x" ofsx incx x "n" n in
+  let ofsx, incx = get_vec_geom vec_sum_str x_str ofsx incx in
+  let n = get_dim_vec vec_sum_str x_str ofsx incx x n_str n in
   direct_sum n ofsx incx x
 
 (* PROD *)
+
+let vec_prod_str = "Vec.prod"
 
 external direct_prod :
   int -> (* N *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> num_type = "lacaml_NPRECprod_stub"
+  vec    (* X *) ->
+  num_type = "lacaml_NPRECprod_stub"
 
 let prod ?n ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.prod" "x" ofsx incx in
-  let n = get_dim_vec "Vec.prod" "x" ofsx incx x "n" n in
+  let ofsx, incx = get_vec_geom vec_prod_str x_str ofsx incx in
+  let n = get_dim_vec vec_prod_str x_str ofsx incx x n_str n in
   direct_prod n ofsx incx x
 
 (* SQR_NRM2 *)
@@ -267,8 +278,8 @@ external direct_sqr_nrm2 :
   int -> (* N *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> float = "lacaml_NPRECsqr_nrm2_stub"
+  vec    (* X *) ->
+  float = "lacaml_NPRECsqr_nrm2_stub"
 
 let sqr_nrm2 ?n ?ofsx ?incx x =
   let loc = "Vec.sqr_nrm2" in
@@ -283,27 +294,28 @@ external direct_ssqr :
   num_type -> (* C *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> num_type = "lacaml_NPRECssqr_stub"
+  vec    (* X *) ->
+  num_type = "lacaml_NPRECssqr_stub"
 
 external direct_ssqr_zero :
   int -> (* N *)
   int -> (* OFSX *)
   int -> (* INCX *)
-  vec    (* X *)
-  -> num_type = "lacaml_NPRECssqr_zero_stub"
+  vec    (* X *) ->
+  num_type = "lacaml_NPRECssqr_zero_stub"
+
+let vec_ssqr_str = "Vec.ssqr"
 
 let ssqr ?n ?c ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom "Vec.ssqr" "x" ofsx incx in
-  let n = get_dim_vec "Vec.ssqr" "x" ofsx incx x "n" n in
+  let ofsx, incx = get_vec_geom vec_ssqr_str x_str ofsx incx in
+  let n = get_dim_vec vec_ssqr_str x_str ofsx incx x n_str n in
   match c with
   | None -> direct_ssqr_zero n ofsx incx x
   | Some c ->
       if c = zero then direct_ssqr_zero n ofsx incx x
       else direct_ssqr n c ofsx incx x
 
-(* MAP *)
-
+(* TODO *)
 (* SORT *)
 
 
@@ -321,19 +333,21 @@ external direct_add :
   vec -> (* X *)
   int -> (* OFSY *)
   int -> (* INCY *)
-  vec    (* Y *)
-  -> unit = "lacaml_NPRECadd_stub_bc" "lacaml_NPRECadd_stub"
+  vec    (* Y *) ->
+  unit = "lacaml_NPRECadd_stub_bc" "lacaml_NPRECadd_stub"
+
+let vec_add_str = "Vec.add"
 
 let add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
-  let ofsz, incz = get_vec_geom "Vec.add" "z" ofsz incz
-  and ofsx, incx = get_vec_geom "Vec.add" "x" ofsx incx
-  and ofsy, incy = get_vec_geom "Vec.add" "y" ofsy incy in
-  let n = get_dim_vec "Vec.add" "x" ofsx incx x "n" n in
-  check_vec "Vec.add" "y" y (ofsy + (n - 1) * abs incy);
+  let ofsz, incz = get_vec_geom vec_add_str z_str ofsz incz
+  and ofsx, incx = get_vec_geom vec_add_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_add_str y_str ofsy incy in
+  let n = get_dim_vec vec_add_str x_str ofsx incx x n_str n in
+  check_vec vec_add_str y_str y (ofsy + (n - 1) * abs incy);
   let z, ofsz, incz =
     let min_dim_z = ofsz + (n - 1) * abs incz in
     match z with
-    | Some z -> check_vec "Vec.add" "z" z min_dim_z; z, ofsz, incz
+    | Some z -> check_vec vec_add_str z_str z min_dim_z; z, ofsz, incz
     | None -> create min_dim_z, 1, 1 in
   direct_add n ofsz incz z ofsx incx x ofsy incy y;
   z
@@ -351,19 +365,21 @@ external direct_sub :
   vec -> (* X *)
   int -> (* OFSY *)
   int -> (* INCY *)
-  vec    (* Y *)
-  -> unit = "lacaml_NPRECsub_stub_bc" "lacaml_NPRECsub_stub"
+  vec    (* Y *) ->
+  unit = "lacaml_NPRECsub_stub_bc" "lacaml_NPRECsub_stub"
+
+let vec_sub_str = "Vec.sub"
 
 let sub ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
-  let ofsz, incz = get_vec_geom "Vec.sub" "z" ofsz incz
-  and ofsx, incx = get_vec_geom "Vec.sub" "x" ofsx incx
-  and ofsy, incy = get_vec_geom "Vec.sub" "y" ofsy incy in
-  let n = get_dim_vec "Vec.sub" "x" ofsx incx x "n" n in
-  check_vec "Vec.sub" "y" y (ofsy + (n - 1) * abs incy);
+  let ofsz, incz = get_vec_geom vec_sub_str z_str ofsz incz
+  and ofsx, incx = get_vec_geom vec_sub_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_sub_str y_str ofsy incy in
+  let n = get_dim_vec vec_sub_str x_str ofsx incx x n_str n in
+  check_vec vec_sub_str y_str y (ofsy + (n - 1) * abs incy);
   let z, ofsz, incz =
     let min_dim_z = ofsz + (n - 1) * abs incz in
     match z with
-    | Some z -> check_vec "Vec.sub" "z" z min_dim_z; z, ofsz, incz
+    | Some z -> check_vec vec_sub_str z_str z min_dim_z; z, ofsz, incz
     | None -> create min_dim_z, 1, 1 in
   direct_sub n ofsz incz z ofsx incx x ofsy incy y;
   z
@@ -381,19 +397,21 @@ external direct_mul :
   vec -> (* X *)
   int -> (* OFSY *)
   int -> (* INCY *)
-  vec    (* Y *)
-  -> unit = "lacaml_NPRECmul_stub_bc" "lacaml_NPRECmul_stub"
+  vec    (* Y *) ->
+  unit = "lacaml_NPRECmul_stub_bc" "lacaml_NPRECmul_stub"
+
+let vec_mul_str = "Vec.mul"
 
 let mul ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
-  let ofsz, incz = get_vec_geom "Vec.mul" "z" ofsz incz
-  and ofsx, incx = get_vec_geom "Vec.mul" "x" ofsx incx
-  and ofsy, incy = get_vec_geom "Vec.mul" "y" ofsy incy in
-  let n = get_dim_vec "Vec.mul" "x" ofsx incx x "n" n in
-  check_vec "Vec.mul" "y" y (ofsy + (n - 1) * abs incy);
+  let ofsz, incz = get_vec_geom vec_mul_str z_str ofsz incz
+  and ofsx, incx = get_vec_geom vec_mul_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_mul_str y_str ofsy incy in
+  let n = get_dim_vec vec_mul_str x_str ofsx incx x n_str n in
+  check_vec vec_mul_str y_str y (ofsy + (n - 1) * abs incy);
   let z, ofsz, incz =
     let min_dim_z = ofsz + (n - 1) * abs incz in
     match z with
-    | Some z -> check_vec "Vec.mul" "z" z min_dim_z; z, ofsz, incz
+    | Some z -> check_vec vec_mul_str z_str z min_dim_z; z, ofsz, incz
     | None -> create min_dim_z, 1, 1 in
   direct_mul n ofsz incz z ofsx incx x ofsy incy y;
   z
@@ -410,19 +428,21 @@ external direct_div :
   vec -> (* X *)
   int -> (* OFSY *)
   int -> (* INCY *)
-  vec    (* Y *)
-  -> unit = "lacaml_NPRECdiv_stub_bc" "lacaml_NPRECdiv_stub"
+  vec    (* Y *) ->
+  unit = "lacaml_NPRECdiv_stub_bc" "lacaml_NPRECdiv_stub"
+
+let vec_div_str = "Vec.div"
 
 let div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
-  let ofsz, incz = get_vec_geom "Vec.div" "z" ofsz incz
-  and ofsx, incx = get_vec_geom "Vec.div" "x" ofsx incx
-  and ofsy, incy = get_vec_geom "Vec.div" "y" ofsy incy in
-  let n = get_dim_vec "Vec.div" "x" ofsx incx x "n" n in
-  check_vec "Vec.div" "y" y (ofsy + (n - 1) * abs incy);
+  let ofsz, incz = get_vec_geom vec_div_str z_str ofsz incz
+  and ofsx, incx = get_vec_geom vec_div_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_div_str y_str ofsy incy in
+  let n = get_dim_vec vec_div_str x_str ofsx incx x n_str n in
+  check_vec vec_div_str y_str y (ofsy + (n - 1) * abs incy);
   let z, ofsz, incz =
     let min_dim_z = ofsz + (n - 1) * abs incz in
     match z with
-    | Some z -> check_vec "Vec.div" "z" z min_dim_z; z, ofsz, incz
+    | Some z -> check_vec vec_div_str z_str z min_dim_z; z, ofsz, incz
     | None -> create min_dim_z, 1, 1 in
   direct_div n ofsz incz z ofsx incx x ofsy incy y;
   z
@@ -436,12 +456,14 @@ external direct_ssqr_diff :
   vec -> (* X *)
   int -> (* OFSY *)
   int -> (* INCY *)
-  vec    (* Y *)
-  -> num_type = "lacaml_NPRECssqr_diff_stub_bc" "lacaml_NPRECssqr_diff_stub"
+  vec    (* Y *) ->
+  num_type = "lacaml_NPRECssqr_diff_stub_bc" "lacaml_NPRECssqr_diff_stub"
+
+let vec_ssqr_diff_str = "Vec.ssqr_diff"
 
 let ssqr_diff ?n ?ofsx ?incx x ?ofsy ?incy y =
-  let ofsx, incx = get_vec_geom "Vec.ssqr_diff" "x" ofsx incx
-  and ofsy, incy = get_vec_geom "Vec.ssqr_diff" "y" ofsy incy in
-  let n = get_dim_vec "Vec.ssqr_diff" "x" ofsx incx x "n" n in
-  check_vec "Vec.ssqr_diff" "y" y (ofsy + (n - 1) * abs incy);
+  let ofsx, incx = get_vec_geom vec_ssqr_diff_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_ssqr_diff_str y_str ofsy incy in
+  let n = get_dim_vec vec_ssqr_diff_str x_str ofsx incx x n_str n in
+  check_vec vec_ssqr_diff_str y_str y (ofsy + (n - 1) * abs incy);
   direct_ssqr_diff n ofsx incx x ofsy incy y

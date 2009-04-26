@@ -25,45 +25,6 @@
 #include "lacaml_macros.h"
 #include "f2c.h"
 
-CAMLprim value LFUN(copy_mat_stub)(
-  value vM, value vN,
-  value vYR, value vYC,
-  value vY,
-  value vXR, value vXC,
-  value vX)
-{
-  CAMLparam2(vX, vY);
-
-  integer GET_INT(M), GET_INT(N);
-
-  MAT_PARAMS(X);
-  MAT_PARAMS(Y);
-
-  caml_enter_blocking_section();
-    if (rows_X == M && rows_Y == M)
-      memcpy(Y_data, X_data, M * N * sizeof(NUMBER));
-    else {
-      integer col_size = M * sizeof(NUMBER);
-      NUMBER *X_src = X_data + rows_X * (N - 1);
-      NUMBER *Y_dst = Y_data + rows_Y * (N - 1);
-      while (X_src >= X_data) {
-        memcpy(Y_dst, X_src, col_size);
-        X_src -= rows_X;
-        Y_dst -= rows_Y;
-      }
-    }
-  caml_leave_blocking_section();
-
-  CAMLreturn(Val_unit);
-}
-
-CAMLprim value LFUN(copy_mat_stub_bc)(value *argv, int argn)
-{
-  return LFUN(copy_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7]);
-}
-
 static integer ONE = 1;
 
 CAMLprim value LFUN(scal_mat_stub)(

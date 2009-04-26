@@ -912,6 +912,85 @@ CAMLprim value LFUN(syr2k_stub_bc)(value *argv, int argn)
 /* Auxiliary Routines
 ************************************************************************/
 
+/** LARNV */
+
+extern void FUN(larnv)(
+  integer *IDIST,
+  integer *ISEED,
+  integer *N,
+  NUMBER *X);
+
+CAMLprim value LFUN(larnv_stub)(
+  value vIDIST,
+  value vOFSISEED,
+  value vISEED,
+  value vN,
+  value vOFSX,
+  value vX)
+{
+  CAMLparam2(vISEED, vX);
+
+  integer GET_INT(IDIST), GET_INT(ISEED), GET_INT(N);
+
+  INT_VEC_PARAMS(ISEED);
+  VEC_PARAMS(X);
+
+  caml_enter_blocking_section();
+  FUN(larnv)(&IDIST, ISEED_data, &N, X_data);
+  caml_leave_blocking_section();
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(larnv_stub_bc)(value *argv, int argn)
+{
+  return LFUN(larnv_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+}
+
+
+/** LACPY */
+
+extern void FUN(lacpy)(
+  char *UPLO,
+  integer *M,
+  integer *N,
+  NUMBER *A, integer *LDA,
+  NUMBER *B, integer *LDB);
+
+CAMLprim value LFUN(lacpy_stub)(
+  value vUPLO,
+  value vM, value vN,
+  value vAR, value vAC,
+  value vA,
+  value vBR, value vBC,
+  value vB)
+{
+  CAMLparam2(vA, vB);
+
+  integer GET_INT(M), GET_INT(N);
+  char GET_INT(UPLO);
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+
+  caml_enter_blocking_section();
+  FUN(lacpy)(
+    &UPLO, &M, &N,
+    A_data, &rows_A,
+    B_data, &rows_B);
+  caml_leave_blocking_section();
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(lacpy_stub_bc)(value *argv, int argn)
+{
+  return LFUN(lacpy_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4],
+    argv[5], argv[6], argv[7], argv[8]);
+}
+
+
 /** LANGE */
 
 extern REAL FUN(lange)(
@@ -955,6 +1034,7 @@ CAMLprim value LFUN(lange_stub_bc)(value *argv, int argn)
     LFUN(lange_stub)(
       argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
 }
+
 
 /* Linear Equations (computational routines)
 ************************************************************************/

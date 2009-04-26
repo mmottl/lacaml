@@ -264,46 +264,6 @@ CAMLprim value LFUN(ssqr_stub)(
   CAMLreturn(copy_two_doubles(acc.r, acc.i));
 }
 
-CAMLprim value LFUN(fold_stub)(
-  value vINIT,
-  value vN,
-  value vOFSX, value vINCX, value vX,
-  value vClosure)
-{
-  CAMLparam2(vX, vClosure);
-  CAMLlocal1(acc);
-
-  int GET_INT(N),
-      GET_INT(INCX);
-
-  VEC_PARAMS(X);
-
-  COMPLEX *start, *last;
-  acc = copy_two_doubles(Double_field(vINIT, 0), Double_field(vINIT, 1));
-
-  if (INCX > 0) {
-    start = X_data;
-    last = start + N*INCX;
-  }
-  else {
-    start = X_data - (N - 1)*INCX;
-    last = X_data + INCX;
-  };
-
-  while (start != last) {
-    value v_start = copy_two_doubles(start->r, start->i);
-    acc = caml_callback2(vClosure, acc, v_start);
-    start += INCX;
-  };
-
-  CAMLreturn(acc);
-}
-
-CAMLprim value LFUN(fold_stub_bc)(value *argv, int argn)
-{
-  return LFUN(fold_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
-}
-
 #define NAME LFUN(add_stub)
 #define BC_NAME LFUN(add_stub_bc)
 #define FUNC(dst, x, y) \

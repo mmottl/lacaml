@@ -43,19 +43,6 @@ val make0 : int -> int -> mat
 (** [make0 m n x] @return a matrix containing [m] rows and [n] columns
     initialized with the zero element. *)
 
-val copy :
-  ?m : int ->
-  ?n : int ->
-  ?yr : int ->
-  ?yc : int ->
-  ?y : mat ->
-  ?xr : int ->
-  ?xc : int ->
-  mat ->
-  mat
-(** [copy ?m ?n ?yr ?yc ?y ?xr ?xc x] copy a (sub-)matrix
-    (to an optional (sub-)matrix [y]). *)
-
 val of_array : num_type array array -> mat
 (** [of_array ar] @return a matrix initialized from the array of arrays
     [ar].  It is assumed that the OCaml matrix is in row major order
@@ -216,18 +203,18 @@ val map :
   (num_type -> num_type) ->
   ?m : int ->
   ?n : int ->
-  ?cr : int ->
-  ?cc : int ->
-  ?c : mat ->
+  ?br : int ->
+  ?bc : int ->
+  ?b : mat ->
   ?ar : int ->
   ?ac : int ->
   mat
   -> mat
-(** [map f ?m ?n ?cr ?cc ?c ?ar ?ac a]
+(** [map f ?m ?n ?br ?bc ?b ?ar ?ac a]
     @return matrix with [f] applied to each element of [a].
     @param m default = number of rows of [a]
     @param n default = number of columns of [a]
-    @param c default = fresh matrix of size m by n *)
+    @param b default = fresh matrix of size m by n *)
 
 val fold_cols : ('a -> vec -> 'a) -> ?n : int -> ?ac : int -> 'a -> mat -> 'a
 (** [fold_cols f ?n ?ac acc a]

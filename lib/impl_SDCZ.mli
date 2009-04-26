@@ -44,8 +44,8 @@ val swap :
   x : vec ->
   ?ofsy : int ->
   ?incy : int ->
-  vec
-  -> unit
+  vec ->
+  unit
 (** [swap ?n ?ofsx ?incx ~x ?ofsy ?incy y] see BLAS documentation!
     @param n default = 1
     @param ofsx default = 1
@@ -66,8 +66,8 @@ val copy :
   ?y : vec ->
   ?ofsx : int ->
   ?incx : int ->
+  vec ->
   vec
-  -> vec
 (** [copy ?n ?ofsy ?incy ?y ?ofsx ?incx x] see BLAS documentation!
     @return vector [y], which is overwritten.
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
@@ -85,8 +85,8 @@ val axpy :
   x : vec ->
   ?ofsy : int ->
   ?incy : int ->
-  vec
-  -> unit
+  vec ->
+  unit
 (** [axpy ?n ?alpha ?ofsx ?incx ~x ?ofsy ?incy y] see BLAS documentation!
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param alpha default = 1.0
@@ -105,8 +105,8 @@ val amax :
   ?n : int ->
   ?ofsx : int ->
   ?incx : int ->
-  vec
-  -> num_type
+  vec ->
+  num_type
 (** [amax ?n ?ofsx ?incx x] @return the greater of the absolute
     values of the elements of the vector [x].
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
@@ -130,8 +130,8 @@ val gemv :
   mat ->
   ?ofsx : int ->
   ?incx : int ->
+  vec ->
   vec
-  -> vec
 (** [gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x]
     see BLAS documentation!
     @return vector [y], which is overwritten.
@@ -164,8 +164,8 @@ val gbmv :
   int ->
   ?ofsx : int ->
   ?incx : int ->
+  vec ->
   vec
-  -> vec
 (** [gbmv
       ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a kl ku ?ofsx ?incx x]
     see BLAS documentation!
@@ -196,8 +196,8 @@ val symv :
   mat ->
   ?ofsx : int ->
   ?incx : int ->
+  vec ->
   vec
-  -> vec
 (** [symv ?n ?beta ?ofsy ?incy ?y ?up ?alpha ?ar ?ac a ?ofsx ?incx x]
     see BLAS documentation!
     @return vector [y], which is overwritten.
@@ -223,8 +223,8 @@ val trmv :
   mat ->
   ?ofsx : int ->
   ?incx : int ->
-  vec
-  -> unit
+  vec ->
+  unit
 (** [trmv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x]
     see BLAS documentation!
     @param n default = dimension of triangular matrix [a]
@@ -246,8 +246,8 @@ val trsv :
   mat ->
   ?ofsx : int ->
   ?incx : int ->
-  vec
-  -> unit
+  vec ->
+  unit
 (** [trsv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x]
     see BLAS documentation!
     @param n default = dimension of triangular matrix [a]
@@ -268,8 +268,8 @@ val tpmv :
   vec ->
   ?ofsx : int ->
   ?incx : int ->
-  vec
-  -> unit
+  vec ->
+  unit
 (** [tpmv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x]
     see BLAS documentation!
     @param n default = dimension of packed triangular matrix [ap]
@@ -289,8 +289,8 @@ val tpsv :
   vec ->
   ?ofsx : int ->
   ?incx : int ->
-  vec
-  -> unit
+  vec ->
+  unit
 (** [tpsv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x]
     see BLAS documentation!
     @param n default = dimension of packed triangular matrix [ap]
@@ -320,8 +320,8 @@ val gemm :
   ?transb : trans3 ->
   ?br : int ->
   ?bc : int ->
+  mat ->
   mat
-  -> mat
 (** [gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b]
     see BLAS documentation!
     @return matrix [c], which is overwritten.
@@ -356,8 +356,8 @@ val symm :
   mat ->
   ?br : int ->
   ?bc : int ->
+  mat ->
   mat
-  -> mat
 (** [symm ?m ?n ?side ?up ?beta ?cr ?cc ?c ?alpha ?ar ?ac a ?br ?bc b]
     see BLAS documentation!
     @return matrix [c], which is overwritten.
@@ -388,8 +388,8 @@ val trmm :
   ?alpha : float ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [trmm ?m ?n ?side ?up ?trans ?diag ?br ?bc ~b ?alpha ?ar ?ac a]
     see BLAS documentation!
     @return matrix [c], which is overwritten.
@@ -417,8 +417,8 @@ val syrk :
   ?alpha : float ->
   ?ar : int ->
   ?ac : int ->
+  mat ->
   mat
-  -> mat
 (** [syrk ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a]
     see BLAS documentation!
     @return matrix [c], which is overwritten.
@@ -449,8 +449,8 @@ val syr2k :
   mat ->
   ?br : int ->
   ?bc : int ->
+  mat ->
   mat
-  -> mat
 (** [syr2k ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a ?br ?bc b]
     see BLAS documentation!
     @return matrix [c], which is overwritten.
@@ -474,6 +474,44 @@ val syr2k :
 
 (** Auxiliary routines *)
 
+val lacpy :
+  ?uplo : [ `U | `L ] ->
+  ?m : int ->
+  ?n : int ->
+  ?br : int ->
+  ?bc : int ->
+  ?b : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  mat
+(** [lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a] copy a (triangular)
+    (sub-)matrix [a] (to an optional (sub-)matrix [b]).
+
+    @param uplo default = whole matrix
+*)
+
+val larnv :
+  ?idist : [ `Uniform0 | `Uniform1 | `Normal ] ->
+  ?ofsiseed : int ->
+  ?iseed : int_vec ->
+  ?n : int ->
+  ?ofsx : int ->
+  ?x : vec ->
+  unit ->
+  vec
+(** [larnv ?idist ?ofsiseed ?iseed ?n ?ofsx ?x ()] @return a random
+    vector with random distribution as specifified by [idist], random seed
+    [iseed], vector offset [ofsx] and optional vector [x].
+
+    @param idist default = [`Normal]
+    @param ofsiseed default = [1]
+    @param iseed default = integer vector of size 4 with all ones.
+    @param n default = length of [x] if [x] is provided, [1] otherwise.
+    @param ofsx default = [1]
+    @param x default = vector of length [n] if [n] is provided.
+*)
+
 val lange_min_lwork : int -> norm4 -> int
 (** [lange_min_lwork m norm]
     @return the minimum length of the work array used by the [lange]-function.
@@ -487,8 +525,8 @@ val lange :
   ?work : rvec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> float
+  mat ->
+  float
 (** [lange ?m ?n ?norm ?work ?ar ?ac a]
     @param m default = number of rows of matrix [a]
     @param n default = number of columns of matrix [a]
@@ -506,8 +544,8 @@ val getrf :
   ?ipiv : int_vec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> int_vec
+  mat ->
+  int_vec
 (** [getrf ?m ?n ?ipiv ?ar ?ac a] @return [ipiv].
     @raise Failure if the matrix is singular.
     @param m default = number of rows in matrix [a]
@@ -526,8 +564,8 @@ val getrs :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [getrs ?n ?ipiv ?trans ?ar ?ac a ?nrhs ?br ?bc b].  Note that matrix
     [a] will be passed to [getrf] if [ipiv] was not provided.
     @raise Failure if the matrix is singular.
@@ -548,8 +586,8 @@ val getri_opt_lwork :
   ?n : int ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> int
+  mat ->
+  int
 (** [getri_opt_lwork ?n ?ar ?ac a] @return the optimal size of the
     work array used by the [getri]-function.
     @param n default = number of columns of matrix [a]
@@ -562,8 +600,8 @@ val getri :
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [getri ?n ?ipiv ?work ?ar ?ac a]
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
@@ -581,8 +619,8 @@ val sytrf_opt_lwork :
   ?up : bool ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> int
+  mat ->
+  int
 (** [sytrf_opt_lwork ?n ?up ?ar ?ac a] @return the optimal size of the
     work array used by the [sytrf]-function.
     @param n default = number of columns of matrix [a]
@@ -598,8 +636,8 @@ val sytrf :
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> int_vec
+  mat ->
+  int_vec
 (** [sytrf ?n ?up ?ipiv ?work ?ar ?ac a]
     @raise Failure if D in A = U*D*U' or L*D*L' is singular.
     @param n default = number of columns in matrix [a]
@@ -619,8 +657,8 @@ val sytrs :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
@@ -643,8 +681,8 @@ val sytri :
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [sytri ?n ?up ?ipiv ?work ?ar ?ac a]
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
@@ -660,8 +698,8 @@ val potrf :
   ?ar : int ->
   ?ac : int ->
   ?jitter : num_type ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [potrf ?n ?up ?ar ?ac ?jitter a] factorizes symmetric positive
     definite matrix [a] (or the designated submatrix) using Cholesky
     factorization.
@@ -694,8 +732,8 @@ val potrs :
   ?bc : int ->
   ?factorize : bool ->
   ?jitter : num_type ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b]
 
     @raise Failure if the matrix is singular.
@@ -718,8 +756,8 @@ val potri :
   ?ac : int ->
   ?factorize : bool ->
   ?jitter : num_type ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [potri ?n ?up ?ar ?ac ?factorize ?jitter a]
 
     @raise Failure if the matrix is singular.
@@ -743,8 +781,8 @@ val trtrs :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [trtrs ?n ?up ?trans ?diag ?ar ?ac a ?nrhs ?br ?bc b]
 
     @raise Failure if the matrix is singular.
@@ -766,8 +804,8 @@ val trtri :
   ?diag : diag ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [trtri ?n ?up ?diag ?ar ?ac a]
 
     @raise Failure if the matrix is singular.
@@ -784,8 +822,8 @@ val geqrf_opt_lwork :
   ?n : int ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> int
+  mat ->
+  int
 (** [geqrf_opt_lwork ?m ?n ?ar ?ac a] @return the optimum
     length of the work-array used by the [geqrf]-function given matrix
     [a] and optionally its logical dimensions [m] and [n].
@@ -808,8 +846,8 @@ val geqrf :
   ?tau : vec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> vec
+  mat ->
+  vec
 (** [geqrf ?m ?n ?work ?tau ?ar ?ac a] @return [tau].
     @param m default = number of rows in matrix [a]
     @param n default = number of columns in matrix [a]
@@ -830,8 +868,8 @@ val gesv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [gesv ?n ?ipiv ?ar ?ac a ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [a]
@@ -853,8 +891,8 @@ val gbsv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [gbsv ?n ?ipiv ?abr ?abc ab kl ku ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [ab]
@@ -876,8 +914,8 @@ val gtsv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available length of vector [d]
@@ -897,8 +935,8 @@ val posv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [posv ?n ?up ?ar ?ac a ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [a]
@@ -917,8 +955,8 @@ val ppsv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [ppsv ?n ?up ?ofsap ap ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = the greater n s.t. n(n+1)/2 <= [Vec.dim ap]
@@ -938,8 +976,8 @@ val pbsv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [pbsv ?n ?up ?kd ?abr ?abc ab ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [ab]
@@ -960,8 +998,8 @@ val ptsv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [ptsv ?n ?ofsd d ?ofse e ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available length of vector [d]
@@ -980,8 +1018,8 @@ val sysv_opt_lwork :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> int
+  mat ->
+  int
 (** [sysv_opt_lwork ?n ?up ?ar ?ac a ?nrhs ?br ?bc b] @return the optimum
     length of the work-array used by the [sysv]-function given matrix
     [a], optionally its logical dimension [n] and given right hand side
@@ -1005,8 +1043,8 @@ val sysv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [sysv ?n ?up ?ipiv ?work ?ar ?ac a ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [a]
@@ -1028,8 +1066,8 @@ val spsv :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [spsv ?n ?up ?ipiv ?ofsap ap ?nrhs ?br ?bc b]
     @raise Failure if the matrix is singular.
     @param n default = the greater n s.t. n(n+1)/2 <= [Vec.dim ap]
@@ -1059,8 +1097,8 @@ val gels_opt_lwork :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> int
+  mat ->
+  int
 (** [gels_opt_lwork ?m ?n ?trans ?ar ?ac a ?nrhs ?br ?bc b] @return
     the optimum length of the work-array used by the [gels]-function given
     matrix [a], optionally its logical dimensions [m] and [n] and given
@@ -1085,8 +1123,8 @@ val gels :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  mat
-  -> unit
+  mat ->
+  unit
 (** [gels ?m ?n ?work ?trans ?ar ?ac a ?nrhs ?br ?bc b] see
     LAPACK documentation!
     @param m default = available number of rows in matrix [a]

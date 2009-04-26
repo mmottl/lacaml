@@ -1,6 +1,6 @@
 (* File: eig.ml
 
-   Copyright (C) 2004-2005
+   Copyright (C) 2004-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -45,7 +45,7 @@ let () =
   let n = 5 in
 
   let a = Mat.random ~from:(-500.) ~range:1000. n n in
-  let a_copy = Mat.copy a in
+  let a_copy = lacpy a in
 
   printf "@[<2>Symmetric real matrix A =@\n@\n@[%a@]@]@\n@\n" pp_fmat a;
 
@@ -70,11 +70,11 @@ let () =
   (* All unperturbed eigenvalues are zero *)
   a.{n, 1} <- 1e-5; (* perturbation, try this: n >> 1 *)
 
-  let a_copy = Mat.copy a in
+  let a_copy = lacpy a in
 
   printf "@[<2>General real matrix A =@\n@\n@[%a@]@]@\n@\n" pp_fmat a;
 
-  let _, wr, wi, right = geev ~left:None a_copy in
+  let _, wr, wi, right = geev ~vl:None a_copy in
 
   printf "@[<2>Eigenvalues: WR =@\n@\n@[%a@]@]@\n@\n" pp_rfvec wr;
   printf "@[<2>Eigenvalues: WI =@\n@\n@[%a@]@]@\n@\n" pp_rfvec wi;
@@ -98,7 +98,7 @@ let () =
       ~re_from:(-500.) ~re_range:1000.
       ~im_from:(-500.) ~im_range:1000.
       n n in
-  let a_copy = Mat.copy a in
+  let a_copy = lacpy a in
 
   printf "@[<2>General complex matrix A =@\n@\n@[%a@]@]@\n@\n" pp_cmat a;
 

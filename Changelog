@@ -1,3 +1,18 @@
+2009-04-25:  Major API changes:
+
+             Removed function:
+
+               * Mat.copy (use lacpy instead)
+
+             Modified function:
+
+               * geev (differently named arguments)
+
+             Added functions:
+
+               * lacpy (also copies triangular matrices)
+               * larnv (random number generation)
+
 2009-04-23:  Improved numerical stability of Vec.ssqr for real numbers
              and zero mean.
 

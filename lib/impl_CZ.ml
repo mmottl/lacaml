@@ -51,41 +51,41 @@ module RVec = Vec4_CBPREC
 (* NRM2 *)
 
 external direct_nrm2 :
-  int -> (* N *)
-  int -> (* OFSX *)
-  int -> (* INCX *)
-  vec    (* X *)
-  -> float = "lacaml_CPRECnrm2_stub"
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  float = "lacaml_CPRECnrm2_stub"
 
 let nrm2 ?n ?ofsx ?incx x =
   let loc = "Lacaml.Impl.CPREC.nrm2" in
-  let ofsx, incx = get_vec_geom loc "x" ofsx incx in
-  let n = get_dim_vec loc "x" ofsx incx x "n" n in
-  direct_nrm2 n ofsx incx x
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let n = get_dim_vec loc x_str ofsx incx x n_str n in
+  direct_nrm2 ~n ~ofsx ~incx ~x
 
 
 (* Auxiliary routines *)
 
 external direct_lansy :
-  char -> (* NORM *)
-  char -> (* UPLO *)
-  int -> (* N *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat -> (* A *)
-  rvec (* WORK *)
-  -> float = "lacaml_CPREClansy_stub_bc" "lacaml_CPREClansy_stub"
+  norm : char ->
+  uplo : char ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  work : rvec ->
+  float = "lacaml_CPREClansy_stub_bc" "lacaml_CPREClansy_stub"
 
 let lansy_min_lwork n = function `I -> n | _ -> 0
 
 let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.CPREC.lansy" in
   let n = get_n_of_a loc ar ac a n in
-  let norm_char = get_norm_char norm in
-  let uplo_char = get_uplo_char up in
+  let uplo = get_uplo_char up in
   let min_work = lansy_min_lwork n norm in
   let work, _lwork = get_work loc RVec.create work min_work min_work "lwork" in
-  direct_lansy norm_char uplo_char n ar ac a work
+  let norm = get_norm_char norm in
+  direct_lansy ~norm ~uplo ~n ~ar ~ac ~a ~work
 
 
 (* Linear equations (computational routines) *)
@@ -93,14 +93,14 @@ let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
 (* GECON *)
 
 external direct_gecon :
-  int -> (* N *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat -> (* A *)
-  vec -> (* WORK *)
-  rvec -> (* RWORK *)
-  char -> (* NORM *)
-  float -> (* ANORM *)
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  work : vec ->
+  rwork : rvec ->
+  norm : char ->
+  anorm : float ->
   int * float = "lacaml_CPRECgecon_stub_bc" "lacaml_CPRECgecon_stub"
 
 let gecon_min_lwork n = 2 * n
@@ -110,7 +110,6 @@ let gecon_min_lrwork n = 2 * n
 let gecon ?n ?(norm = `O) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.CPREC.gecon" in
   let n = get_n_of_a loc ar ac a n in
-  let norm_char = get_norm_char norm in
   let work, _lwork =
     get_work
       loc Vec.create work (gecon_min_lwork n) (gecon_min_lwork n) "lwork" in
@@ -121,22 +120,24 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let anorm =
     match anorm with
     | None -> lange ~norm:(norm :> norm4) ~m:n ~n ~work:rwork a
-    | Some anorm -> anorm in
-  let info, rcond = direct_gecon n ar ac a work rwork norm_char anorm in
+    | Some anorm -> anorm
+  in
+  let norm = get_norm_char norm in
+  let info, rcond = direct_gecon ~n ~ar ~ac ~a ~work ~rwork ~norm ~anorm in
   if info = 0 then rcond
-  else gecon_err loc norm_char n a info
+  else gecon_err loc norm n a info
 
 (* SYCON *)
 
 external direct_sycon :
-  char -> (* UPLO *)
-  int -> (* N *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat -> (* A *)
-  int_vec -> (* IPIV *)
-  vec -> (* WORK *)
-  float -> (* ANORM *)
+  uplo : char ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  ipiv : int_vec ->
+  work : vec ->
+  anorm : float ->
   int * float = "lacaml_CPRECsycon_stub_bc" "lacaml_CPRECsycon_stub"
 
 let sycon_min_lwork n = 2 * n
@@ -144,7 +145,7 @@ let sycon_min_lwork n = 2 * n
 let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.CPREC.sycon" in
   let n = get_n_of_a loc ar ac a n in
-  let uplo_char = get_uplo_char up in
+  let uplo = get_uplo_char up in
   let work, _lwork =
     get_work
       loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) "lwork" in
@@ -155,21 +156,21 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?(ar = 1) ?(ac = 1) a =
     match anorm with
     | None -> lange ~m:n ~n ~ar ~ac a
     | Some anorm -> anorm in
-  let info, rcond = direct_sycon uplo_char n ar ac a ipiv work anorm in
+  let info, rcond = direct_sycon ~uplo ~n ~ar ~ac ~a ~ipiv ~work ~anorm in
   if info = 0 then rcond
   else xxcon_err loc n a info
 
 (* POCON *)
 
 external direct_pocon :
-  char -> (* UPLO *)
-  int -> (* N *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat -> (* A *)
-  vec -> (* WORK *)
-  rvec -> (* RWORK *)
-  float -> (* ANORM *)
+  uplo : char ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  work : vec ->
+  rwork : rvec ->
+  anorm : float ->
   int * float = "lacaml_CPRECpocon_stub_bc" "lacaml_CPRECpocon_stub"
 
 let pocon_min_lwork n = 3 * n
@@ -179,7 +180,7 @@ let pocon_min_lrwork n = n
 let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.CPREC.pocon" in
   let n = get_n_of_a loc ar ac a n in
-  let uplo_char = get_uplo_char up in
+  let uplo = get_uplo_char up in
   let min_lwork, min_lrwork = pocon_min_lwork n, pocon_min_lrwork n in
   let work, _lwork =
     get_work loc Vec.create work min_lwork min_lwork "lwork" in
@@ -189,7 +190,7 @@ let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
     match anorm with
     | None -> lange ~m:n ~n ~ar ~ac a
     | Some anorm -> anorm in
-  let info, rcond = direct_pocon uplo_char n ar ac a work rwork anorm in
+  let info, rcond = direct_pocon ~uplo ~n ~ar ~ac ~a ~work ~rwork ~anorm in
   if info = 0 then rcond
   else xxcon_err loc n a info
 
@@ -199,24 +200,24 @@ let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
 (* GESVD *)
 
 external direct_gesvd :
-  char -> (* JOBU *)
-  char -> (* JOBVT *)
-  int -> (* M *)
-  int -> (* N *)
-  int -> (* AR *)
-  int -> (* AC *)
-  mat -> (* A *)
-  rvec -> (* S *)
-  int -> (* UR *)
-  int -> (* UC *)
-  mat -> (* U *)
-  int -> (* VTC *)
-  int -> (* VTR *)
-  mat -> (* VT *)
-  vec -> (* WORK *)
-  int -> (* LWORK *)
-  rvec (* RWORK *)
-  -> int = "lacaml_CPRECgesvd_stub_bc" "lacaml_CPRECgesvd_stub"
+  jobu : char ->
+  jobvt : char ->
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  s : rvec ->
+  ur : int ->
+  uc : int ->
+  u : mat ->
+  vtc : int ->
+  vtr : int ->
+  vt : mat ->
+  work : vec ->
+  lwork : int ->
+  rwork : rvec ->
+  int = "lacaml_CPRECgesvd_stub_bc" "lacaml_CPRECgesvd_stub"
 
 let gesvd_min_lwork ~m ~n =
   let min_m_n = min m n in
@@ -226,11 +227,13 @@ let gesvd_lrwork ~m ~n = 5 * min m n
 
 let gesvd_get_opt_lwork loc jobu jobvt m n ar ac a s ur uc u vtr vtc vt =
   let lwork = -1 in
-  let dummy_work = Vec.create 1 in
+  let work = Vec.create 1 in
   let info =
     direct_gesvd
-      jobu jobvt m n ar ac a s ur uc u vtr vtc vt dummy_work lwork RVec.empty in
-  if info = 0 then int_of_floatxx dummy_work.{1}.re
+      ~jobu ~jobvt ~m ~n ~ar ~ac ~a ~s ~ur ~uc ~u ~vtr ~vtc ~vt
+      ~work ~lwork ~rwork:RVec.empty
+  in
+  if info = 0 then int_of_floatxx work.{1}.re
   else gesvd_err loc jobu jobvt m n a u vt lwork info
 
 let gesvd_opt_lwork
@@ -272,7 +275,10 @@ let gesvd
             (sprintf "%s: lrwork: valid=[%d..[ got=%d" loc min_lrwork lrwork)
         else rwork in
   let info =
-    direct_gesvd jobu jobvt m n ar ac a s ur uc u vtc vtr vt work lwork rwork in
+    direct_gesvd
+      ~jobu ~jobvt ~m ~n ~ar ~ac ~a ~s ~ur ~uc ~u ~vtc ~vtr ~vt
+      ~work ~lwork ~rwork
+  in
   if info = 0 then s, u, vt
   else gesvd_err loc jobu jobvt m n a u vt lwork info
 
@@ -303,54 +309,63 @@ let geev_err loc min_work a n vl vr lwork err =
 (* GEEV *)
 
 external direct_geev :
-  int -> int -> mat -> (* AR, AC, A *)
-  int -> (* N *)
-  int -> vec -> (* OFSW, W *)
-  int -> int -> mat -> char -> (* VLR, VLC, VL, JOBVL *)
-  int -> int -> mat -> char -> (* VRR, VRC, VR, JOBVR *)
-  vec -> int -> (* WORK, LWORK *)
-  vec (* RWORK *)
-  -> int = "lacaml_CPRECgeev_stub_bc" "lacaml_CPRECgeev_stub"
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  n : int ->
+  ofsw : int -> w : vec ->
+  vlr : int ->
+  vlc : int ->
+  vl : mat ->
+  jobvl : char ->
+  vrr : int ->
+  vrc : int ->
+  vr : mat ->
+  jobvr : char ->
+  work : vec ->
+  lwork : int ->
+  rwork : vec ->
+  int = "lacaml_CPRECgeev_stub_bc" "lacaml_CPRECgeev_stub"
 
 let geev_min_lwork n = max 1 (n + n)
 let geev_min_lrwork n = n + n
 
-let geev_get_opt_lwork loc n leftr leftc vl jobvl rightr rightc vr jobvr
-    ofsw w ar ac a =
-  let dummy_work = Vec.create 1 in
+let geev_get_opt_lwork loc n vlr vlc vl jobvl vrr vrc vr jobvr ofsw w ar ac a =
+  let work = Vec.create 1 in
   let info =
-    direct_geev ar ac a n ofsw w leftr leftc vl jobvl rightr rightc vr jobvr
-      dummy_work (-1) Vec.empty in
-  if info = 0 then int_of_float dummy_work.{1}.re
-  else geev_err loc geev_min_lwork a n vl vr (-1) info
+    direct_geev ~ar ~ac ~a ~n ~ofsw ~w ~vlr ~vlc ~vl ~jobvl
+    ~vrr ~vrc ~vr ~jobvr ~work ~lwork:~-1 ~rwork:Vec.empty
+  in
+  if info = 0 then int_of_float work.{1}.re
+  else geev_err loc geev_min_lwork a n vl vr ~-1 info
 
-let geev_get_params loc ar ac a n leftr leftc left rightr rightc right ofsw w =
+let geev_get_params loc ar ac a n vlr vlc vl vrr vrc vr ofsw w =
   let n, _, _, _, _, _, _, _, _, _ as params =
     geev_gen_get_params
-      loc Mat.empty Mat.create ar ac a n leftr leftc left rightr rightc right in
-  params, xxev_get_wx Vec.create loc "w" ofsw w n
+      loc Mat.empty Mat.create ar ac a n vlr vlc vl vrr vrc vr in
+  params, xxev_get_wx Vec.create loc w_str ofsw w n
 
 let geev_opt_lwork
     ?n
-    ?(leftr = 1) ?(leftc = 1) ?left
-    ?(rightr = 1) ?(rightc = 1) ?right
+    ?(vlr = 1) ?(vlc = 1) ?vl
+    ?(vrr = 1) ?(vrc = 1) ?vr
     ?(ofsw = 1) ?w
     ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.CPREC.geev_opt_lwork" in
-  let (n, leftr, leftc, vl, jobvl, rightr, rightc, vr, jobvr, _), (ofsw, w) =
-    geev_get_params loc ar ac a n leftr leftc left rightr rightc right ofsw w in
-  geev_get_opt_lwork
-    loc n leftr leftc vl jobvl rightr rightc vr jobvr ofsw w ar ac a
+  let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, _), (ofsw, w) =
+    geev_get_params loc ar ac a n vlr vlc vl vrr vrc vr ofsw w
+  in
+  geev_get_opt_lwork loc n vlr vlc vl jobvl vrr vrc vr jobvr ofsw w ar ac a
 
 let geev
     ?n ?work ?rwork
-    ?(leftr = 1) ?(leftc = 1) ?left
-    ?(rightr = 1) ?(rightc = 1) ?right
+    ?(vlr = 1) ?(vlc = 1) ?vl
+    ?(vrr = 1) ?(vrc = 1) ?vr
     ?(ofsw = 1) ?w
     ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.CPREC.geev" in
-  let (n, leftr, leftc, vl, jobvl, rightr, rightc, vr, jobvr, _), (ofsw, w) =
-    geev_get_params loc ar ac a n leftr leftc left rightr rightc right ofsw w in
+  let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, _), (ofsw, w) =
+    geev_get_params loc ar ac a n vlr vlc vl vrr vrc vr ofsw w in
 
   let work, lwork =
     match work with
@@ -363,7 +378,7 @@ let geev
         else work, lwork
     | None ->
         let lwork =
-          geev_get_opt_lwork loc n leftr leftc vl jobvl rightr rightc vr jobvr
+          geev_get_opt_lwork loc n vlr vlc vl jobvl vrr vrc vr jobvr
             ofsw w ar ac a in
         Vec.create lwork, lwork in
 
@@ -379,8 +394,10 @@ let geev
         else rwork in
 
   let info =
-    direct_geev ar ac a n ofsw w leftr leftc vl jobvl rightr rightc vr jobvr
-      work lwork rwork in
+    direct_geev
+      ~ar ~ac ~a ~n ~ofsw ~w ~vlr ~vlc ~vl ~jobvl
+      ~vrr ~vrc ~vr ~jobvr ~work ~lwork ~rwork
+  in
 
   if info = 0 then vl, w, vr
   else geev_err loc geev_min_lwork a n vl vr lwork info

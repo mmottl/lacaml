@@ -1,6 +1,6 @@
 (* File: blas.ml
 
-   Copyright (C) 2004-2005
+   Copyright (C) 2004-
 
      Markus Mottl
      email: markus.mottl@gmail.com

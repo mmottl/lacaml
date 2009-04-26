@@ -31,8 +31,6 @@ STUBS := \
 	utils_c.c \
 	vec2_S_c.c vec2_D_c.c \
 	vec2_C_c.c vec2_Z_c.c \
-	mat2_S_c.c mat2_D_c.c \
-	mat2_C_c.c mat2_Z_c.c \
 	mat4_S_c.c mat4_D_c.c \
 	mat4_C_c.c mat4_Z_c.c \
 	impl4_S_c.c impl4_D_c.c \

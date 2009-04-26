@@ -64,8 +64,8 @@ val lansy :
   ?work : rvec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> float
+  mat ->
+  float
 (** [lansy ?n ?up ?norm ?work ?ar ?ac a] see LAPACK documentation!
     @param norm default = `O
     @param up default = true (reference upper triangular part of [a])
@@ -93,8 +93,8 @@ val gecon :
   ?rwork : rvec ->
   ?ar : int ->
   ?ac : int ->
-  mat
-  -> float
+  mat ->
+  float
 (** [gecon ?n ?norm ?anorm ?work ?rwork ?ar ?ac a]
     @return estimate of the reciprocal of the condition number of matrix [a]
     @param n default = available number of columns of matrix [a]
@@ -121,8 +121,8 @@ val sycon :
     ?work : vec ->
     ?ar : int ->
     ?ac : int ->
-    mat
-    -> float
+    mat ->
+    float
 (** [sycon ?n ?up ?ipiv ?anorm ?work ?ar ?ac a]
     @return estimate of the reciprocal of the
             condition number of symmetric matrix [a]
@@ -153,8 +153,8 @@ val pocon :
     ?rwork : rvec ->
     ?ar : int ->
     ?ac : int ->
-    mat
-    -> float
+    mat ->
+    float
 (** [pocon ?n ?up ?anorm ?work ?rwork ?ar ?ac a]
     @return estimate of the reciprocal of the condition number of
             complex Hermitian positive definite matrix [a]
@@ -184,8 +184,8 @@ val gesvd_opt_lwork :
   ?s : rvec ->
   ?ur : int -> ?uc : int -> ?u : mat ->
   ?vtr : int -> ?vtc : int -> ?vt : mat ->
-  ?ar : int -> ?ac : int -> mat
-  -> int
+  ?ar : int -> ?ac : int -> mat ->
+  int
 
 val gesvd :
   ?m : int -> ?n : int ->
@@ -196,8 +196,8 @@ val gesvd :
   ?vtr : int -> ?vtc : int -> ?vt : mat ->
   ?work : vec ->
   ?rwork : rvec ->
-  ?ar : int -> ?ac : int -> mat
-  -> rvec * mat * mat
+  ?ar : int -> ?ac : int -> mat ->
+  rvec * mat * mat
 
 
 (** General eigenvalue problem (simple drivers) *)
@@ -214,13 +214,13 @@ val geev_min_lrwork : int -> int
 
 val geev_opt_lwork :
   ?n : int ->
-  ?leftr : int -> ?leftc  : int -> ?left : mat option ->
-  ?rightr : int -> ?rightc : int -> ?right : mat option ->
+  ?vlr : int -> ?vlc  : int -> ?vl : mat option ->
+  ?vrr : int -> ?vrc : int -> ?vr : mat option ->
   ?ofsw : int -> ?w : vec ->
   ?ar : int -> ?ac : int -> mat ->
   int
- (** [geev ?work ?rwork ?n ?leftr ?leftc ?left
-       ?rightr ?rightc ?right ?ofsw w ?ar ?ac a]
+ (** [geev ?work ?rwork ?n ?vlr ?vlc ?vl
+       ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a]
     See [geev]-function for details about arguments.
     @return "optimal" work size *)
 
@@ -228,31 +228,31 @@ val geev :
   ?n : int ->
   ?work : vec ->
   ?rwork : vec ->
-  ?leftr : int -> ?leftc  : int -> ?left : mat option ->
-  ?rightr : int -> ?rightc : int -> ?right : mat option ->
+  ?vlr : int -> ?vlc  : int -> ?vl : mat option ->
+  ?vrr : int -> ?vrc : int -> ?vr : mat option ->
   ?ofsw : int -> ?w : vec ->
   ?ar : int -> ?ac : int -> mat ->
   mat * vec * mat
 (** [geev ?work ?rwork ?n
-      ?leftr ?leftc ?left
-      ?rightr ?rightc ?right
+      ?vlr ?vlc ?vl
+      ?vrr ?vrc ?vr
       ?ofsw w
       ?ar ?ac a]
     @return [(lv, w, rv)], where [lv] and [rv] correspond to the left and
       right eigenvectors respectively, [w] to the eigenvalues. [lv] ([rv])
-      is the empty matrix if [left] ([right]) is set to [None].
+      is the empty matrix if [vl] ([vr]) is set to [None].
     @raise Failure if the function fails to converge
     @param n default = available number of columns of matrix [a]
     @param work default = automatically allocated workspace
     @param rwork default = automatically allocated workspace
-    @param left default = Automatically allocated left eigenvectors.
-                          Pass [None] if you do not want to compute them,
-                          [Some lv] if you want to provide the storage.
-                          You can set [leftr], [leftc] in the last case.
+    @param vl default = Automatically allocated left eigenvectors.
+                        Pass [None] if you do not want to compute them,
+                        [Some lv] if you want to provide the storage.
+                        You can set [vlr], [vlc] in the last case.
     (See LAPACK GEEV docs for details about storage of complex eigenvectors)
-    @param right default = Automatically allocated right eigenvectors.
-                           Pass [None] if you do not want to compute them,
-                           [Some rv] if you want to provide the storage.
-                           You can set [rightr], [rightc] in the last case.
+    @param vr default = Automatically allocated right eigenvectors.
+                         Pass [None] if you do not want to compute them,
+                         [Some rv] if you want to provide the storage.
+                         You can set [vrr], [vrc] in the last case.
     @param w default = automatically allocate eigenvalues
     @param a the matrix whose eigensystem is computed *)

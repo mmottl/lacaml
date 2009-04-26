@@ -857,8 +857,8 @@ CAMLprim value LFUN(geev_stub)(
   /* weird GEEV requirement:
    * even when the arrays are not
    * referenced, LD's have to be >= 1 */
-  if(JOBVL == 'N') rows_VL = 1;
-  if(JOBVR == 'N') rows_VR = 1;
+  if (JOBVL == 'N') rows_VL = 1;
+  if (JOBVR == 'N') rows_VR = 1;
 
   caml_enter_blocking_section(); /* Allow other threads */
   FUN(geev)(

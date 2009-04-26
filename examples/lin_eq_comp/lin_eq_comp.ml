@@ -1,6 +1,6 @@
 (* File: lin_eq_comp.ml
 
-   Copyright (C) 2004-2005
+   Copyright (C) 2004-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -52,13 +52,13 @@ let () =
 
   printf "@[<2>General matrix A = @[%a@]@]@\n@\n" pp_fmat a;
 
-  let lu = Mat.copy a in
+  let lu = lacpy a in
   let ipiv = getrf lu in
   printf "lu(A) = @[%a@]@\n@\n" pp_fmat lu;
 
   printf "ipiv = @[%a@]@\n@\n" pp_rivec ipiv;
 
-  let inv = Mat.copy lu in
+  let inv = lacpy lu in
   let _ipiv = getri inv in
   printf "inv(A) = @[%a@]@\n@\n" pp_fmat inv;
   let aainv = gemm a inv in
@@ -92,11 +92,11 @@ let () =
 
   printf "@[<2>Symmetric matrix B = @[%a@]@]@\n@\n" pp_fmat b;
 
-  let chol = Mat.copy b in
+  let chol = lacpy b in
   potrf chol;
   printf "chol(B) = @[%a@]@\n@\n" pp_fmat chol;
 
-  let inv = Mat.copy chol in
+  let inv = lacpy chol in
   potri ~factorize:false inv;
   printf "inv(B) = @[%a@]@\n@\n" pp_fmat inv;
 

@@ -1,6 +1,6 @@
 (* File: lin_eq.ml
 
-   Copyright (C) 2004-2005
+   Copyright (C) 2004-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -48,8 +48,8 @@ let () =
   printf "@[<2>General matrix A =@\n@\n@[%a@]@]@\n@\n" pp_fmat a;
   printf "@[<2>Right hand side:@\n@\n@[%a@]@]@\n@\n" pp_rfvec (Mat.col b 1);
 
-  let a_copy = Mat.copy a in
-  let b_copy = Mat.copy b in
+  let a_copy = lacpy a in
+  let b_copy = lacpy b in
   gesv a_copy b_copy;
 
   let sol = Mat.col b_copy 1 in
