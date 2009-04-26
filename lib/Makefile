@@ -11,7 +11,7 @@ ifeq ($(shell uname), Darwin)
   EXP10 = exp10.c
   LIBDIRS = /sw/lib
   OCAMLMKLIB_FLAGS = -framework vecLib
-  OCAMLBLDFLAGS = -ccopt "-framework vecLib"
+  OCAMLLDFLAGS = -ccopt "-framework vecLib"
 else
 ifeq ($(SYSTEM), mingw)
   # exp10 does not exists under cygwin-mingw
