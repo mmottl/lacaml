@@ -176,7 +176,7 @@ let gemv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.gemv" in
   let m, n, ofsx, incx, ofsy, incy, y, trans =
-    gXmv_get_params loc Vec.make0 ar ac a m n ofsx incx x ofsy incy y trans
+    gXmv_get_params loc Vec.create ar ac a m n ofsx incx x ofsy incy y trans
   in
   direct_gemv
     ~ofsy ~incy ~y ~ar ~ac ~a ~m ~n ~trans ~alpha ~beta ~ofsx ~incx ~x;
@@ -210,7 +210,7 @@ let gbmv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
   check_var_ltz loc kl_str kl;
   check_var_ltz loc ku_str ku;
   let m, n, ofsx, incx, ofsy, incy, y, trans =
-    gXmv_get_params loc Vec.make0 ar ac a m n ofsx incx x ofsy incy y trans in
+    gXmv_get_params loc Vec.create ar ac a m n ofsx incx x ofsy incy y trans in
   let min_dim1 = kl + ku + 1 in
   if min_dim1 > m then
     invalid_arg (sprintf "%s: m: valid=[%d..[ got=%d" loc min_dim1 m);
@@ -241,7 +241,7 @@ let symv ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(up = true) ?(alpha = 1.0)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.symv" in
   let n, ofsx, incx, ofsy, incy, y, uplo =
-    symv_get_params loc Vec.make0 ar ac a n ofsx incx x ofsy incy y up in
+    symv_get_params loc Vec.create ar ac a n ofsx incx x ofsy incy y up in
   direct_symv ~ofsy ~incy ~y ~ar ~ac ~a ~n ~uplo ~alpha ~beta ~ofsx ~incx ~x;
   y
 
@@ -368,7 +368,7 @@ let gemm ?m ?n ?k ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(transb = `N) ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.gemm" in
   let m, n, k, transa, transb, c =
-    gemm_get_params loc Mat.make0 ar ac a transa br bc b cr transb cc c m n k in
+    gemm_get_params loc Mat.create ar ac a transa br bc b cr transb cc c m n k in
   direct_gemm
     ~transa ~transb ~m ~n ~k ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c
@@ -399,7 +399,7 @@ let symm ?m ?n ?(side = `L) ?(up = true)
       ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.symm" in
   let m, n, side, uplo, c =
-    symm_get_params loc Mat.make0 ar ac a br bc b cr cc c m n side up in
+    symm_get_params loc Mat.create ar ac a br bc b cr cc c m n side up in
   direct_symm ~side ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c
 
@@ -452,7 +452,7 @@ let syrk ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(trans = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.syrk" in
   let n, k, uplo, trans, c =
-    syrk_get_params loc Mat.make0 ar ac a cr cc c n k up trans in
+    syrk_get_params loc Mat.create ar ac a cr cc c n k up trans in
   direct_syrk ~uplo ~trans ~n ~k ~ar ~ac ~a ~cr ~cc ~c ~alpha ~beta;
   c
 
@@ -481,7 +481,7 @@ let syr2k ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
       ?(trans = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.syr2k" in
   let n, k, uplo, trans, c =
-    syr2k_get_params loc Mat.make0 ar ac a br bc b cr cc c n k up trans
+    syr2k_get_params loc Mat.create ar ac a br bc b cr cc c n k up trans
   in
   direct_syr2k ~uplo ~trans ~n ~k ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c

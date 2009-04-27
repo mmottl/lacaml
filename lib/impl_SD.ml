@@ -128,7 +128,7 @@ let sbmv ?ofsy ?incy ?y ?(ar = 1) ?(ac = 1) a ?n ?k ?(up = true) ?(alpha = 1.0)
   let k = get_k_mat_sb loc a_str a ar k_str k in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
-  let y = get_vec loc y_str y ofsy incy n Vec.make0 in
+  let y = get_vec loc y_str y ofsy incy n Vec.create in
   check_vec loc x_str x (ofsx + (n - 1) * abs incx);
   direct_sbmv
     ~ofsy ~incy ~y ~ar ~ac ~a ~n ~k ~uplo:(get_uplo_char up)
