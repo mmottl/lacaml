@@ -15,9 +15,9 @@
 
                    Files in this distribution
 
-AUTHORS              - Authors of Lacaml.
+Changelog            - History of code changes.
 
-Changes              - History of code changes.
+COPYRIGHT            - Copyright and authors of Lacaml.
 
 INSTALL              - Short notes on compiling and installing the library
 
@@ -80,8 +80,6 @@ lib/mat_SD.mli
 lib/mat_SD.ml
 lib/mat_CZ.mli
 lib/mat_CZ.ml
-lib/mat_SD_c.c
-lib/mat_CZ_c.c
 
 lib/utils.ml         - Internal auxiliary functions needed by other modules.
 
@@ -107,7 +105,7 @@ Subroutines) and LAPACK-library (Linear Algebra routines), which are
 written in FORTRAN.
 
 This allows people to write high-performance numerical code for
-applications that need linear algebra.
+applications that require linear algebra.
 
 ---------------------------------------------------------------------------
 
@@ -125,27 +123,27 @@ Here is a list of features:
     to labels and default arguments).
 
   * The code is precision-independent and supports both real and complex
-    transforms in a consistent way. There are four modules that
-    implement exactly the same interface modulo the precision type and
-    real/complex numbers/transforms. If you refer to elements in this
-    interface only, your code becomes precision- and (if meaningful)
-    real/complex independent, too: you can choose at anytime whether
-    you want to use single-precision or double-precision simply by
-    "open"ing the required module.
+    transforms in a consistent way.  There are four modules that
+    implement the same interface modulo the precision type and specialized
+    real/complex functions.  If you refer to elements in this interface
+    only, your code becomes precision- and (if meaningful) real/complex
+    independent, too: you can choose at anytime whether you want to
+    use single-precision or double-precision simply by "open"ing the
+    required module.
 
   * You can fully exploit the library within multithreaded programs: most
     numerical routines are likely to run for a long time, but they will
-    never block other threads. This also means that you can execute
+    never block other threads.  This also means that you can execute
     several routines at the same time on several processors if you use
     native threads.
 
   * To make things easy for people used to the "real" implementation
     in FORTRAN but also for beginners who need detailed documentation,
     both function- and argument names have been kept compatible to the
-    ones used in the BLAS- and LAPACK-documentation. Only exception: you
-    need not prefix functions with "s", "d", "c" or "z" to indicate the
-    precision and type of numbers, because OCaml gives us more powerful
-    means to choose them.
+    ones used in the BLAS- and LAPACK-documentation.  Only exception:
+    you need not prefix functions with "s", "d", "c" or "z" to indicate
+    the precision and type of numbers, because OCaml gives us more
+    convenient means of choosing them.
 
 ---------------------------------------------------------------------------
 
@@ -160,14 +158,14 @@ need for your precision and number type:
   open Lacaml.Impl.Z
 
 These modules become available if you link against the "lacaml"-library,
-which is produced by this distribution. You also need to link against
-the "bigarray"-library provided by the OCaml-distribution and do not use
-findlib to resolve dependencies automatically. The "Lacaml.Impl.?"-modules
-implement the BLAS/LAPACK-interface, and their corresponding submodules
-"Vec" and "Mat" provide for vector and matrix operations that relate to
-the given precision and number type.
+which is produced by this distribution.  You also need to link
+against the "bigarray"-library provided by the OCaml-distribution
+and do not use findlib to resolve dependencies automatically.
+The "Lacaml.Impl.?"-modules implement the BLAS/LAPACK-interface, and
+their corresponding submodules "Vec" and "Mat" provide for vector and
+matrix operations that relate to the given precision and number type.
 
-Most functions allow optional arguments (= default arguments). If you
+Most functions allow optional arguments (= default arguments).  If you
 do not provide them at the call-site, sane defaults will be used instead.
 
 Convenient way of calling a function, e.g.:
@@ -182,9 +180,9 @@ handle several response variables at once).  The result is the rank of
 the matrix, the matrices provided in the arguments will be overwritten
 with further results (here: the singular vectors and the solution matrix).
 
-If the above happened in a loop, this would be inefficient, because a
-work-array would have to be allocated (and later deallocated) at each
-call. You can hoist the creation of this array out of the loop:
+If the above happened in a loop, this would be inefficient, because
+a work-array would have to be allocated (and later deallocated) at
+each call.  You can hoist the creation of this array out of the loop:
 
 Efficient way of calling a function, e.g. (m, n, nrhs are problem
 dependent parameters):
@@ -200,11 +198,18 @@ Take a look at files "impl_SDCZ.mli", "impl_SD.mli", ... etc., to see,
 which ways exists to pass parameters and to learn about the defaults.
 
 All matrices can be accessed in a restricted way, i.e. you can specify
-submatrices for all matrix parameters. E.g. if some matrix is called "a"
+submatrices for all matrix parameters.  E.g. if some matrix is called "a"
 in the interface documentation, you can specify the left upper corner of
 the wanted submatrix for the operation by setting "ar" for the row and
-"ac" for the column (1 by default). A vector "y" would have an extra
+"ac" for the column (1 by default).  A vector "y" would have an extra
 optional parameter "ofsy" (also 1 by default).
+
+BLAS and LAPACK binary packages for Unix operating systems usually come
+with appropriate man-pages.  E.g. to quickly look up how to factorize
+a positive-definite, complex, single precision matrix, you might enter
+"man cpotrf", and the function in Lacaml would be "Lacaml.Impl.C.potrf".
+The naming conventions and additional documentation for BLAS and LAPACK
+can be found at the corresponding website (see below).
 
 ---------------------------------------------------------------------------
 
@@ -230,8 +235,8 @@ distribution vendor's site.
 
 Enjoy!
 
-New York, 2008-01-02
+New York, 2009-04-26
 Markus Mottl
 
-e-mail: markus.mottl@gmail.com
-WWW:    http://www.ocaml.info
+email: markus.mottl@gmail.com
+www:   http://www.ocaml.info
