@@ -69,7 +69,7 @@
   name.r = Double_field(v##name, 0); \
   name.i = Double_field(v##name, 1)
 
-#endif
+#endif  /* LACAML_COMPLEX */
 
 #else                           /* Double precision */
 
@@ -102,7 +102,7 @@
   name.r = Double_field(v##name, 0); \
   name.i = Double_field(v##name, 1)
 
-#endif
+#endif  /* LACAML_COMPLEX */
 
 #endif  /* LACAML_DOUBLE */
 
