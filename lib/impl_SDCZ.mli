@@ -140,7 +140,7 @@ val gemv :
     @param beta default = 0.0
     @param ofsy default = 1
     @param incy default = 1
-    @param y default = vec with minimal required length (see BLAS)
+    @param y default = vector with minimal required length (see BLAS)
     @param trans default = `N
     @param alpha default = 1.0
     @param ar default = 1
