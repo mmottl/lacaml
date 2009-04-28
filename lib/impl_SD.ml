@@ -166,10 +166,10 @@ let syr ?(alpha = 1.0) ?(up = true) ?ofsx ?incx x ?n ?(ar = 1) ?(ac = 1) a =
 external direct_lansy :
   norm : char ->
   uplo : char ->
-  n : int -> 
-  ar : int -> 
-  ac : int -> 
-  a : mat -> 
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
   work : vec
   -> float = "lacaml_FPREClansy_stub_bc" "lacaml_FPREClansy_stub"
 
@@ -325,18 +325,18 @@ let pocon ?n ?(up = true) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
 (* GELSY *)
 
 external direct_gelsy :
-  ar : int ->    
-  ac : int ->    
-  a : mat ->    
-  m : int ->    
-  n : int ->    
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  m : int ->
+  n : int ->
   jpvt : int_vec ->
-  rcond : float ->  
-  work : vec ->    
-  lwork : int ->    
-  nrhs : int ->    
-  br : int ->    
-  bc : int ->    
+  rcond : float ->
+  work : vec ->
+  lwork : int ->
+  nrhs : int ->
+  br : int ->
+  bc : int ->
   b : mat
   -> int * int = "lacaml_FPRECgelsy_stub_bc" "lacaml_FPRECgelsy_stub"
 
@@ -400,20 +400,20 @@ let gelsy ?m ?n ?(ar = 1) ?(ac = 1) a ?(rcond = -1.0)
 (* GELSD *)
 
 external direct_gelsd :
-  ar : int ->  
-  ac : int ->  
-  a : mat ->  
-  m : int ->  
-  n : int ->  
-  ofss : int ->  
-  s : vec ->  
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  m : int ->
+  n : int ->
+  ofss : int ->
+  s : vec ->
   rcond : float ->
-  work : vec ->  
-  lwork : int ->  
-  iwork : vec ->  
-  nrhs : int ->  
-  br : int ->  
-  bc : int ->  
+  work : vec ->
+  lwork : int ->
+  iwork : vec ->
+  nrhs : int ->
+  br : int ->
+  bc : int ->
   b : mat
   -> int * int = "lacaml_FPRECgelsd_stub_bc" "lacaml_FPRECgelsd_stub"
 
@@ -564,19 +564,19 @@ let gelss ?m ?n ?(rcond = -1.0) ?ofss ?s ?work
 external direct_gesvd :
   jobu : char ->
   jobvt : char ->
-  m : int -> 
-  n : int -> 
-  ar : int -> 
-  ac : int -> 
-  a : mat -> 
-  s : vec -> 
-  ur : int -> 
-  uc : int -> 
-  u : mat -> 
-  vtc : int -> 
-  vtr : int -> 
-  vt : mat -> 
-  work : vec -> 
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  s : vec ->
+  ur : int ->
+  uc : int ->
+  u : mat ->
+  vtc : int ->
+  vtr : int ->
+  vt : mat ->
+  work : vec ->
   lwork : int
   -> int = "lacaml_FPRECgesvd_stub_bc" "lacaml_FPRECgesvd_stub"
 
@@ -641,21 +641,21 @@ let gesvd
 (* GESDD *)
 
 external direct_gesdd :
-  jobz : char -> 
-  m : int ->  
-  n : int ->  
-  ar : int ->  
-  ac : int ->  
-  a : mat ->  
-  s : vec ->  
-  ur : int ->  
-  uc : int ->  
-  u : mat ->  
-  vtr : int ->  
-  vtc : int ->  
-  vt : mat ->  
-  work : vec ->  
-  lwork : int ->  
+  jobz : char ->
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  s : vec ->
+  ur : int ->
+  uc : int ->
+  u : mat ->
+  vtr : int ->
+  vtc : int ->
+  vt : mat ->
+  work : vec ->
+  lwork : int ->
   iwork : int_vec
   -> int = "lacaml_FPRECgesdd_stub_bc" "lacaml_FPRECgesdd_stub"
 
@@ -923,15 +923,15 @@ let syev_get_params loc ar ac a n vectors up =
 (* SYEV *)
 
 external direct_syev :
-  ar : int -> 
-  ac : int -> 
-  a : mat -> 
-  n : int -> 
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  n : int ->
   jobz : char ->
   uplo : char ->
-  ofsw : int -> 
-  w : vec -> 
-  work : vec -> 
+  ofsw : int ->
+  w : vec ->
+  work : vec ->
   lwork : int
   -> int = "lacaml_FPRECsyev_stub_bc" "lacaml_FPRECsyev_stub"
 
@@ -971,16 +971,16 @@ let syev ?n ?(vectors = false) ?(up = true) ?work ?ofsw ?w ?(ar = 1)
 (* SYEVD *)
 
 external direct_syevd :
-  ar : int ->    
-  ac : int ->    
-  a : mat ->    
-  n : int ->    
-  jobz : char ->   
-  uplo : char ->   
-  ofsw : int ->    
-  w : vec ->    
-  work : vec ->    
-  lwork : int ->    
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  n : int ->
+  jobz : char ->
+  uplo : char ->
+  ofsw : int ->
+  w : vec ->
+  work : vec ->
+  lwork : int ->
   iwork : int_vec ->
   liwork : int
   -> int = "lacaml_FPRECsyevd_stub_bc" "lacaml_FPRECsyevd_stub"
@@ -1073,26 +1073,26 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
 (* SYEVR *)
 
 external direct_syevr :
-  ar : int ->    
-  ac : int ->    
-  a : mat ->    
-  n : int ->    
-  jobz : char ->   
-  range : char ->   
-  uplo : char ->   
-  vl : float ->  
-  vu : float ->  
-  il : int ->    
-  iu : int ->    
-  abstol : float ->  
-  ofsw : int ->    
-  w : vec ->    
-  zr : int ->    
-  zc : int ->    
-  z : mat ->    
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  n : int ->
+  jobz : char ->
+  range : char ->
+  uplo : char ->
+  vl : float ->
+  vu : float ->
+  il : int ->
+  iu : int ->
+  abstol : float ->
+  ofsw : int ->
+  w : vec ->
+  zr : int ->
+  zc : int ->
+  z : mat ->
   isuppz : int_vec ->
-  work : vec ->    
-  lwork : int ->    
+  work : vec ->
+  lwork : int ->
   iwork : int_vec ->
   liwork : int
   -> int * int = "lacaml_FPRECsyevr_stub_bc" "lacaml_FPRECsyevr_stub"
