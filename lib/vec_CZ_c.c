@@ -144,8 +144,6 @@ CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
   CAMLreturn(caml_copy_double(res));
 }
 
-#define COPY_NUMBER(c) copy_two_doubles(c.r, c.i)
-
 #define NAME LFUN(max_stub)
 #define INIT LACAML_COMPLEX_NEG_INF; \
   REAL acc_big = 0., acc_nrm = 1., x_big, x_nrm, q, r, i

@@ -124,8 +124,6 @@ inline CAMLprim value LFUN(sqr_nrm2_stub)(
   CAMLreturn(caml_copy_double(res));
 }
 
-#define COPY_NUMBER(acc) caml_copy_double(acc)
-
 #define NAME LFUN(max_stub)
 #define INIT -LACAML_INF
 #define FUNC(acc, x) if (x > acc) acc = x

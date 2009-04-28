@@ -21,7 +21,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <caml/mlvalues.h>
+#include "utils_c.h"
 #include <caml/alloc.h>
 
 value copy_two_doubles(double d0, double d1)

@@ -22,4 +22,9 @@
 */
 
 /* Store two doubles in an OCaml-block (complex number) */
+#ifndef UTILS_C
+#define UTILS_C
+#include <caml/mlvalues.h>
+
 value copy_two_doubles(double d0, double d1);
+#endif /* UTILS_C */
