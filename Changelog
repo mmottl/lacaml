@@ -1,3 +1,8 @@
+2009-04-28:  Added new functions:
+
+               * Mat.prod_diag
+               * Mat.prod_trace
+
 2009-04-25:  Major API changes:
 
              Removed function:

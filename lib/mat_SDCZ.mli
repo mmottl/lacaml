@@ -168,7 +168,7 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 *)
 
 
-(** {6 Arithmetic operations} *)
+(** {6 Arithmetic and other matrix operations} *)
 
 val scal :
   ?m : int -> ?n : int -> num_type -> ?ar : int -> ?ac : int -> mat -> unit
@@ -195,6 +195,72 @@ val axpy :
   -> unit
 (** [axpy ?m ?n ?alpha ?xr ?xc ~x ?yr ?yc y] BLAS [axpy] function for
     matrices. *)
+
+val prod_diag :
+  ?n : int ->
+  ?k : int ->
+  ?beta : num_type ->
+  ?ofsy : int ->
+  ?y : vec ->
+  ?transa : trans3 ->
+  ?alpha : num_type ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  vec
+(** [prod_diag ?n ?k ?beta ?ofsy ?y ?transa ?alpha ?ar ?ac a ?br ?bc b]
+    computes the diagonal of the product of the (sub-)matrices [a]
+    and [b] (taking into account potential transposing), multiplying
+    it with [alpha] and adding [beta] times [y], storing the result in
+    [y] starting at the specified offset.  [n] elements of the diagonal
+    will be computed, and [k] elements of the matrices will be part of
+    the dot product associated with each diagonal element.
+
+    @param n default = number of rows of [a] (or tr [a]) and
+                       number of columns of [b]
+    @param k default = number of columns of [a] (or tr [a]) and
+                       number of rows of [b]
+    @param beta default = [0]
+    @param ofsy default = [1]
+    @param y default = fresh vector of size [n + ofsy - 1]
+    @param transa default = [`N]
+    @param alpha default = [1]
+    @param ar default = [1]
+    @param ac default = [1]
+    @param br default = [1]
+    @param bc default = [1]
+*)
+
+val prod_trace :
+  ?n : int ->
+  ?k : int ->
+  ?transa : trans3 ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  num_type
+(** [prod_trace ?n ?k ?transa ?ar ?ac a ?br ?bc b] computes the trace
+    of the product of the (sub-)matrices [a] and [b] (taking into account
+    potential transposing) [n] elements of the diagonal will be computed,
+    and [k] elements of the matrices will be part of the dot product
+    associated with each diagonal element.
+
+    @param n default = number of rows of [a] (or tr [a]) and
+                       number of columns of [b]
+    @param k default = number of columns of [a] (or tr [a]) and
+                       number of rows of [b]
+    @param transa default = [`N]
+    @param ar default = [1]
+    @param ac default = [1]
+    @param br default = [1]
+    @param bc default = [1]
+*)
 
 
 (** {6 Iterators over matrices} *)

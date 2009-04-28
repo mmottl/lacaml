@@ -271,7 +271,7 @@ let scal_cols ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some n));
   direct_scal_cols ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
-external direct_axpy_mat :
+external direct_mat_axpy :
   m : int ->
   n : int ->
   alpha : num_type ->
@@ -281,14 +281,67 @@ external direct_axpy_mat :
   yr : int ->
   yc : int ->
   y : mat ->
-  unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
+  unit = "lacaml_NPRECmat_axpy_stub_bc" "lacaml_NPRECmat_axpy_stub"
 
 let axpy ?m ?n ?(alpha = one) ?(xr = 1) ?(xc = 1) ~x ?(yr = 1) ?(yc = 1) y =
   let loc = "Lacaml.Impl.NPREC.Mat.axpy" in
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
-  direct_axpy_mat ~m ~n ~alpha ~xr ~xc ~x ~yr ~yc ~y
+  direct_mat_axpy ~m ~n ~alpha ~xr ~xc ~x ~yr ~yc ~y
+
+let vec_create n = Array1.create prec fortran_layout n
+
+external direct_prod_diag :
+  transa : char ->
+  n : int ->
+  k : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  ofsy : int ->
+  y : vec ->
+  alpha : num_type ->
+  beta : num_type ->
+  unit = "lacaml_NPRECprod_diag_stub_bc" "lacaml_NPRECprod_diag_stub"
+
+let prod_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
+  ?(transa = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.Mat.prod_diag" in
+  let n = get_rows_mat_tr loc a_str a ar ac transa n_str n in
+  let k = get_cols_mat_tr loc a_str a ar ac transa k_str k in
+  check_dim_mat loc b_str br bc b k n;
+  let transa = get_trans_char transa in
+  let y = get_vec loc y_str y ofsy 1 n vec_create in
+  direct_prod_diag ~transa ~n ~k ~ar ~ac ~a ~br ~bc ~b ~ofsy ~y ~alpha ~beta;
+  y
+
+external direct_prod_trace :
+  transa : char ->
+  n : int ->
+  k : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  num_type = "lacaml_NPRECprod_trace_stub_bc" "lacaml_NPRECprod_trace_stub"
+
+let prod_trace ?n ?k ?(transa = `N) ?(ar = 1) ?(ac = 1) a
+  ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.Mat.prod_trace" in
+  let n = get_rows_mat_tr loc a_str a ar ac transa n_str n in
+  let k = get_cols_mat_tr loc a_str a ar ac transa k_str k in
+  check_dim_mat loc b_str br bc b k n;
+  let transa = get_trans_char transa in
+  direct_prod_trace ~transa ~n ~k ~ar ~ac ~a ~br ~bc ~b
+
+
+(* Iterators over matrices *)
 
 let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.map" in
