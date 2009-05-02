@@ -11,7 +11,7 @@
      WWW: http://www.cs.toronto.edu/~liam
 
      Christophe Troestler
-     email: Christophe.Troestler@umh.ac.be
+     email: Christophe.Troestler@umons.ac.be
      WWW: http://math.umh.ac.be/an/
 
      Oleg Trott

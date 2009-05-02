@@ -7,7 +7,7 @@
      WWW: http://www.ocaml.info
 
      Christophe Troestler
-     email: Christophe.Troestler@umh.ac.be
+     email: Christophe.Troestler@umons.ac.be
      WWW: http://math.umh.ac.be/an/
 
    This library is free software; you can redistribute it and/or
