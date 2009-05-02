@@ -155,6 +155,26 @@ let get_i_ref_last ~incx ~ofsx ~n =
   if incx > 0 then ref ofsx, ofsx + n * incx
   else ref (ofsx - (n - 1) * incx), ofsx + incx
 
+let vec_map_str = "Vec.map"
+
+let map f ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_map_str x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_map_str y_str ofsy incy in
+  let n = get_dim_vec vec_map_str x_str ofsx incx x n_str n in
+  let min_dim_y = ofsy + (n - 1) * abs incy in
+  let y, ofsy, incy =
+    match y with
+    | Some y -> check_vec vec_map_str y_str y min_dim_y; y, ofsy, incy
+    | None -> create min_dim_y, 1, 1 in
+  let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
+  let j_ref = ref(if incy > 0 then ofsy else min_dim_y) in
+  while !i_ref <> last_i do
+    y.{!j_ref} <- f x.{!i_ref};
+    i_ref := !i_ref + incx;
+    j_ref := !j_ref + incy;
+  done;
+  y
+
 let vec_iter_str = "Vec.iter"
 
 let iter f ?n ?ofsx ?incx (x : vec) =
