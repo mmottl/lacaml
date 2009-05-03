@@ -335,9 +335,34 @@ let ssqr ?n ?c ?ofsx ?incx x =
       if c = zero then direct_ssqr_zero n ofsx incx x
       else direct_ssqr n c ofsx incx x
 
-(* MAP *)
 (* SORT *)
 
+
+(* NEG *)
+
+external direct_neg :
+  int -> (* N *)
+  int -> (* OFSY *)
+  int -> (* INCY *)
+  vec -> (* Y *)
+  int -> (* OFSX *)
+  int -> (* INCX *)
+  vec -> (* X *)
+  unit = "lacaml_NPRECneg_stub_bc" "lacaml_NPRECneg_stub"
+
+let vec_neg_str = "Vec.neg"
+
+let neg ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsy, incy = get_vec_geom vec_neg_str y_str ofsy incy
+  and ofsx, incx = get_vec_geom vec_neg_str x_str ofsx incx in
+  let n = get_dim_vec vec_neg_str x_str ofsx incx x n_str n in
+  let y, ofsy, incy =
+    let min_dim_y = ofsy + (n - 1) * abs incy in
+    match y with
+    | Some y -> check_vec vec_map_str y_str y min_dim_y; y, ofsy, incy
+    | None -> create min_dim_y, 1, 1 in
+  direct_neg n ofsy incy y ofsx incx x;
+  y
 
 (* Operations on two vectors *)
 

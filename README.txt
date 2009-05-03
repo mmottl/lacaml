@@ -73,6 +73,7 @@ lib/vec_CZ_c.c
 lib/fold_col.c       - These C-files contain generic implementations of
 lib/fold2_col.c        vector functions. They can be parameterized with
 lib/vec_combine.c      macros for special cases.
+lib/vec_map.c
 
 lib/mat_SDCZ.mli     - Implementation of commonly useful matrix operations.
 lib/mat_SDCZ.ml
