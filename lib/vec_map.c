@@ -34,9 +34,11 @@ CAMLprim value NAME(
   value vOFSX, value vINCX, value vX)
 {
   CAMLparam2(vX, vY);
+
   int GET_INT(N),
       GET_INT(INCX),
       GET_INT(INCY);
+
   VEC_PARAMS(X);
   VEC_PARAMS(Y);
 
@@ -47,8 +49,7 @@ CAMLprim value NAME(
   if (INCX > 0) {
     start1 = X_data;
     last1 = start1 + N*INCX;
-  }
-  else {
+  } else {
     start1 = X_data - (N - 1)*INCX;
     last1 = X_data + INCX;
   };

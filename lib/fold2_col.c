@@ -49,8 +49,7 @@ CAMLprim value NAME(
   if (INCX > 0) {
     start1 = X_data;
     last1 = start1 + N*INCX;
-  }
-  else {
+  } else {
     start1 = X_data - (N - 1)*INCX;
     last1 = X_data + INCX;
   };
