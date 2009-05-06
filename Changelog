@@ -1,3 +1,10 @@
+2009-05-03:  Added new functions:
+
+               * Vec.neg
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umh.ac.be>
+             for contributing the patch!
+
 2009-04-28:  Added new functions:
 
                * Mat.prod_diag
