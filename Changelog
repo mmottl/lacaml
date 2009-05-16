@@ -1,3 +1,12 @@
+2009-05-16:  Added new function:
+
+               * Mat.syrk_diag
+
+	     Renamed functions and changed API:
+
+               * Mat.prod_diag -> Mat.gemm_diag
+               * Mat.prod_trace -> Mat.gemm_trace
+
 2009-05-03:  Added new functions:
 
                * Vec.neg
