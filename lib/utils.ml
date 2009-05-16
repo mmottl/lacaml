@@ -419,10 +419,10 @@ let gemm_get_params loc mat_create ar ac a transa br bc b cr transb cc c m n k =
   let m = get_rows_mat_tr loc a_str a ar ac transa m_str m in
   let n = get_cols_mat_tr loc b_str b br bc transb n_str n in
   let k = get_inner_dim loc a_str a ar ac transa b_str b br bc transb k_str k in
-  let transa_char = get_trans_char transa in
-  let transb_char = get_trans_char transb in
+  let transa = get_trans_char transa in
+  let transb = get_trans_char transb in
   let c = get_c loc mat_create cr cc c m n in
-  m, n, k, transa_char, transb_char, c
+  m, n, k, transa, transb, c
 
 (* symm -- auxiliary functions *)
 
@@ -449,9 +449,9 @@ let trmm_get_params loc ar ac a br bc b m n side up transa diag =
   else check_mat_square loc a_str a ar ac n;
   let side_char = get_side_char side in
   let uplo_char = get_uplo_char up in
-  let transa_char = get_trans_char transa in
+  let transa = get_trans_char transa in
   let diag_char = get_diag_char diag in
-  m, n, side_char, uplo_char, transa_char, diag_char
+  m, n, side_char, uplo_char, transa, diag_char
 
 (* syrk -- auxiliary functions *)
 
