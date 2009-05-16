@@ -27,8 +27,8 @@
 #include "f2c.h"
 
 static integer integer_one = 1;
-static char transb_N = 'N';
 static NUMBER number_one = NUMBER_ONE;
+static char uplo_U = 'U';
 
 
 /* scal */
@@ -161,7 +161,7 @@ CAMLprim value LFUN(mat_axpy_stub_bc)(value *argv, int argn)
 }
 
 
-/* prod_diag */
+/* gemm_diag */
 
 extern void FUN(gemm)(
   char *TRANSA, char *TRANSB,
@@ -172,8 +172,9 @@ extern void FUN(gemm)(
   NUMBER *BETA,
   NUMBER *C, integer *LDC);
 
-CAMLprim value LFUN(prod_diag_stub)(
+CAMLprim value LFUN(gemm_diag_stub)(
   value vTRANSA,
+  value vTRANSB,
   value vN, value vK,
   value vAR, value vAC, value vA,
   value vBR, value vBC, value vB,
@@ -186,7 +187,7 @@ CAMLprim value LFUN(prod_diag_stub)(
   CAMLparam3(vA, vB, vY);
 
   integer GET_INT(N), GET_INT(K);
-  char GET_INT(TRANSA);
+  char GET_INT(TRANSA), GET_INT(TRANSB);
 
   CREATE_NUMBERP(ALPHA);
   CREATE_NUMBERP(BETA);
@@ -196,6 +197,7 @@ CAMLprim value LFUN(prod_diag_stub)(
   VEC_PARAMS(Y);
 
   int incr_A = (TRANSA == 'N') ? 1 : rows_A;
+  int incr_B = (TRANSB == 'N') ? rows_B : 1;
 
   INIT_NUMBER(ALPHA);
   INIT_NUMBER(BETA);
@@ -207,7 +209,7 @@ CAMLprim value LFUN(prod_diag_stub)(
        at each step, but hoisting all initializations and checks out of
        the loop. */
     FUN(gemm)(
-      &TRANSA, &transb_N,
+      &TRANSA, &TRANSB,
       &integer_one, &integer_one, &K,
       pALPHA,
       A_data, &rows_A,
@@ -215,7 +217,7 @@ CAMLprim value LFUN(prod_diag_stub)(
       pBETA,
       Y_data, &integer_one);
     A_data += incr_A;
-    B_data += rows_B;
+    B_data += incr_B;
     Y_data++;
   }
   caml_leave_blocking_section();  /* Disallow other threads */
@@ -223,17 +225,84 @@ CAMLprim value LFUN(prod_diag_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(prod_diag_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gemm_diag_stub_bc)(value *argv, int argn)
 {
-  return LFUN(prod_diag_stub)(
+  return LFUN(gemm_diag_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-    argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+    argv[7], argv[8], argv[9], argv[10], argv[11], argv[12], argv[13]);
 }
 
-/* prod_trace */
 
-CAMLprim value LFUN(prod_trace_stub)(
+/* syrk_diag */
+
+extern void FUN(syrk)(
+  char *UPLO, char *TRANS,
+  integer *N, integer *K,
+  NUMBER *ALPHA,
+  NUMBER *A, integer *LDA,
+  NUMBER *BETA,
+  NUMBER *C, integer *LDC);
+
+CAMLprim value LFUN(syrk_diag_stub)(
+  value vTRANS,
+  value vN, value vK,
+  value vAR, value vAC, value vA,
+  value vOFSY,
+  value vY,
+  value vALPHA,
+  value vBETA
+  )
+{
+  CAMLparam2(vA, vY);
+
+  integer GET_INT(N), GET_INT(K);
+  char GET_INT(TRANS);
+
+  CREATE_NUMBERP(ALPHA);
+  CREATE_NUMBERP(BETA);
+
+  MAT_PARAMS(A);
+  VEC_PARAMS(Y);
+
+  int incr_A = (TRANS == 'N') ? 1 : rows_A;
+
+  INIT_NUMBER(ALPHA);
+  INIT_NUMBER(BETA);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  while (N--) {
+    /* TODO: quite inefficient for small K (> factor 2 for ten elements).
+       Optimize by essentially reimplementing syrk, possibly using "dot"
+       at each step, but hoisting all initializations and checks out of
+       the loop. */
+    FUN(syrk)(
+      &uplo_U, &TRANS,
+      &integer_one, &K,
+      pALPHA,
+      A_data, &rows_A,
+      pBETA,
+      Y_data, &integer_one);
+    A_data += incr_A;
+    Y_data++;
+  }
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(syrk_diag_stub_bc)(value *argv, int argn)
+{
+  return LFUN(syrk_diag_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+    argv[7], argv[8], argv[9]);
+}
+
+
+/* gemm_trace */
+
+CAMLprim value LFUN(gemm_trace_stub)(
   value vTRANSA,
+  value vTRANSB,
   value vN, value vK,
   value vAR, value vAC, value vA,
   value vBR, value vBC, value vB)
@@ -241,12 +310,13 @@ CAMLprim value LFUN(prod_trace_stub)(
   CAMLparam2(vA, vB);
 
   integer GET_INT(N), GET_INT(K);
-  char GET_INT(TRANSA);
+  char GET_INT(TRANSA), GET_INT(TRANSB);
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
 
   int incr_A = (TRANSA == 'N') ? 1 : rows_A;
+  int incr_B = (TRANSB == 'N') ? rows_B : 1;
 
   NUMBER res = NUMBER_ZERO;
 
@@ -257,7 +327,7 @@ CAMLprim value LFUN(prod_trace_stub)(
        at each step, but hoisting all initializations and checks out of
        the loop. */
     FUN(gemm)(
-      &TRANSA, &transb_N,
+      &TRANSA, &TRANSB,
       &integer_one, &integer_one, &K,
       &number_one,
       A_data, &rows_A,
@@ -265,16 +335,16 @@ CAMLprim value LFUN(prod_trace_stub)(
       &number_one,
       &res, &integer_one);
     A_data += incr_A;
-    B_data += rows_B;
+    B_data += incr_B;
   }
   caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(COPY_NUMBER(res));
 }
 
-CAMLprim value LFUN(prod_trace_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gemm_trace_stub_bc)(value *argv, int argn)
 {
-  return LFUN(prod_trace_stub)(
+  return LFUN(gemm_trace_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+    argv[5], argv[6], argv[7], argv[8], argv[9]);
 }

@@ -196,7 +196,7 @@ val axpy :
 (** [axpy ?m ?n ?alpha ?xr ?xc ~x ?yr ?yc y] BLAS [axpy] function for
     matrices. *)
 
-val prod_diag :
+val gemm_diag :
   ?n : int ->
   ?k : int ->
   ?beta : num_type ->
@@ -207,11 +207,12 @@ val prod_diag :
   ?ar : int ->
   ?ac : int ->
   mat ->
+  ?transb : trans3 ->
   ?br : int ->
   ?bc : int ->
   mat ->
   vec
-(** [prod_diag ?n ?k ?beta ?ofsy ?y ?transa ?alpha ?ar ?ac a ?br ?bc b]
+(** [gemm_diag ?n ?k ?beta ?ofsy ?y ?transa ?transb ?alpha ?ar ?ac a ?br ?bc b]
     computes the diagonal of the product of the (sub-)matrices [a]
     and [b] (taking into account potential transposing), multiplying
     it with [alpha] and adding [beta] times [y], storing the result in
@@ -220,9 +221,9 @@ val prod_diag :
     the dot product associated with each diagonal element.
 
     @param n default = number of rows of [a] (or tr [a]) and
-                       number of columns of [b]
+                       number of columns of [b] (or tr [b])
     @param k default = number of columns of [a] (or tr [a]) and
-                       number of rows of [b]
+                       number of rows of [b] (or tr [b])
     @param beta default = [0]
     @param ofsy default = [1]
     @param y default = fresh vector of size [n + ofsy - 1]
@@ -230,34 +231,69 @@ val prod_diag :
     @param alpha default = [1]
     @param ar default = [1]
     @param ac default = [1]
+    @param transb default = [`N]
     @param br default = [1]
     @param bc default = [1]
 *)
 
-val prod_trace :
+val syrk_diag :
+  ?n : int ->
+  ?k : int ->
+  ?beta : num_type ->
+  ?ofsy : int ->
+  ?y : vec ->
+  ?trans : trans3 ->
+  ?alpha : num_type ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  vec
+(** [syrk_diag ?n ?k ?beta ?ofsy ?y ?trans ?alpha ?ar ?ac a] computes
+    the diagonal of the symmetric rank-k product of the (sub-)matrix
+    [a], multiplying it with [alpha] and adding [beta] times [y],
+    storing the result in [y] starting at the specified offset.
+    [n] elements of the diagonal will be computed, and [k] elements
+    of the matrix will be part of the dot product associated with
+    each diagonal element.
+
+    @param n default = number of rows of [a] (or tr[a])
+    @param k default = number of columns of [a] (or tr[a])
+    @param beta default = [0]
+    @param ofsy default = [1]
+    @param y default = fresh vector of size [n + ofsy - 1]
+    @param trans default = [`N]
+    @param alpha default = [1]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
+val gemm_trace :
   ?n : int ->
   ?k : int ->
   ?transa : trans3 ->
   ?ar : int ->
   ?ac : int ->
   mat ->
+  ?transb : trans3 ->
   ?br : int ->
   ?bc : int ->
   mat ->
   num_type
-(** [prod_trace ?n ?k ?transa ?ar ?ac a ?br ?bc b] computes the trace
-    of the product of the (sub-)matrices [a] and [b] (taking into account
-    potential transposing) [n] elements of the diagonal will be computed,
-    and [k] elements of the matrices will be part of the dot product
-    associated with each diagonal element.
+(** [gemm_trace ?n ?k ?transa ?ar ?ac a ?transb ?br ?bc b] computes
+    the trace of the product of the (sub-)matrices [a] and [b]
+    (taking into account potential transposing) [n] elements of the
+    diagonal will be computed, and [k] elements of the matrices
+    will be part of the dot product associated with each diagonal
+    element.
 
     @param n default = number of rows of [a] (or tr [a]) and
-                       number of columns of [b]
+                       number of columns of [b] (or tr [b])
     @param k default = number of columns of [a] (or tr [a]) and
-                       number of rows of [b]
+                       number of rows of [b] (or tr [b])
     @param transa default = [`N]
     @param ar default = [1]
     @param ac default = [1]
+    @param transb default = [`N]
     @param br default = [1]
     @param bc default = [1]
 *)
