@@ -86,6 +86,7 @@ let kl_str = "kl"
 let ku_str = "ku"
 let m_str = "m"
 let n_str = "n"
+let nrhs_str = "nrhs"
 let s_str = "s"
 let u_str = "u"
 let um_str = "um"
@@ -272,7 +273,7 @@ let get_n_of_square mat_name loc r c mat n =
 let get_n_of_a loc ar ac a n = get_n_of_square a_str loc ar ac a n
 
 let get_nrhs_of_b loc n br bc b nrhs =
-  let nrhs = get_dim2_mat loc b_str b bc "nrhs" nrhs in
+  let nrhs = get_dim2_mat loc b_str b bc nrhs_str nrhs in
   check_dim1_mat loc b_str b br n_str n;
   nrhs
 
@@ -313,7 +314,7 @@ let gelsX_get_s vec_create loc min_dim ofss = function
 let gelsX_get_params loc ar ac a m n nrhs br bc b =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let nrhs = get_dim2_mat loc b_str b bc "nrhs" nrhs in
+  let nrhs = get_dim2_mat loc b_str b bc nrhs_str nrhs in
   check_dim1_mat loc b_str b br m_str (max m n);
   m, n, nrhs
 

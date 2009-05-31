@@ -37,31 +37,85 @@
 
 /*** BLAS-1 */
 
-/** NRM2 */
+/** DOTU */
 
-extern real scnrm2_(integer *N, complex *X, integer *INCX);
-extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
+extern COMPLEX FUN(dotu)(
+  integer *N,
+  COMPLEX *X, integer *INCX,
+  COMPLEX *Y, integer *INCY);
 
-CAMLprim value LFUN(nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+CAMLprim value LFUN(dotu_stub)(
+  value vN,
+  value vOFSY, value vINCY, value vY,
+  value vOFSX, value vINCX, value vX)
 {
-  CAMLparam1(vX);
+  CAMLparam2(vX, vY);
 
-  int GET_INT(N),
-      GET_INT(INCX);
+  integer GET_INT(N),
+          GET_INT(INCX),
+          GET_INT(INCY);
 
-  REAL res;
+  COMPLEX res;
 
   VEC_PARAMS(X);
+  VEC_PARAMS(Y);
 
   caml_enter_blocking_section();  /* Allow other threads */
-#ifndef LACAML_DOUBLE
-  res = scnrm2_(&N, X_data, &INCX);
-#else
-  res = dznrm2_(&N, X_data, &INCX);
-#endif
+  res =
+    FUN(dotu)(
+      &N,
+      X_data, &INCX,
+      Y_data, &INCY);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(caml_copy_double(res));
+  CAMLreturn(copy_two_doubles(res.r, res.i));
+}
+
+CAMLprim value LFUN(dotu_stub_bc)(value *argv, int argn)
+{
+  return LFUN(dotu_stub)(argv[0], argv[1], argv[2], argv[3],
+                         argv[4], argv[5], argv[6]);
+}
+
+
+/** DOTC */
+
+extern COMPLEX FUN(dotc)(
+  integer *N,
+  COMPLEX *X, integer *INCX,
+  COMPLEX *Y, integer *INCY);
+
+CAMLprim value LFUN(dotc_stub)(
+  value vN,
+  value vOFSY, value vINCY, value vY,
+  value vOFSX, value vINCX, value vX)
+{
+  CAMLparam2(vX, vY);
+
+  integer GET_INT(N),
+          GET_INT(INCX),
+          GET_INT(INCY);
+
+  COMPLEX res;
+
+  VEC_PARAMS(X);
+  VEC_PARAMS(Y);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  res =
+    FUN(dotc)(
+      &N,
+      X_data, &INCX,
+      Y_data, &INCY);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(copy_two_doubles(res.r, res.i));
+}
+
+CAMLprim value LFUN(dotc_stub_bc)(value *argv, int argn)
+{
+  return LFUN(dotc_stub)(argv[0], argv[1], argv[2], argv[3],
+                         argv[4], argv[5], argv[6]);
 }
 
 
@@ -170,7 +224,7 @@ CAMLprim value LFUN(gecon_stub)(
 
   v_rcond = caml_copy_double(RCOND);
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 0) = Val_long(INFO);
   Field(v_res, 1) = v_rcond;
 
   CAMLreturn(v_res);
@@ -229,7 +283,7 @@ CAMLprim value LFUN(sycon_stub)(
 
   v_rcond = caml_copy_double(RCOND);
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 0) = Val_long(INFO);
   Field(v_res, 1) = v_rcond;
 
   CAMLreturn(v_res);
@@ -286,7 +340,7 @@ CAMLprim value LFUN(pocon_stub)(
 
   v_rcond = caml_copy_double(RCOND);
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 0) = Val_long(INFO);
   Field(v_res, 1) = v_rcond;
 
   CAMLreturn(v_res);
@@ -357,7 +411,7 @@ CAMLprim value LFUN(gesvd_stub)(
     &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(gesvd_stub_bc)(value *argv, int argn)
@@ -432,7 +486,7 @@ CAMLprim value LFUN(geev_stub)(
     &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(geev_stub_bc)(value *argv, int argn)

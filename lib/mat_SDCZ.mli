@@ -28,6 +28,7 @@
 (** Matrix operations *)
 
 open Bigarray
+open Common
 open Numberxx
 
 (** {6 Creation of matrices and accessors} *)
@@ -102,11 +103,6 @@ val identity : int -> mat
 val of_diag : vec -> mat
 (** [of_diag v] @return the diagonal matrix with diagonals elements from [v]. *)
 
-val diag : mat -> vec
-(** [diag m] @return the diagonal of matrix [m] as a vector.  If [m]
-    is not a square matrix, the longest possible sequence of diagonal
-    elements will be returned. *)
-
 val dim1 : mat -> int
 (** [dim1 m] @return the first dimension of matrix [m] (number of rows). *)
 
@@ -169,6 +165,16 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 
 
 (** {6 Arithmetic and other matrix operations} *)
+
+val copy_diag : mat -> vec
+(** [copy_diag m] @return the diagonal of matrix [m] as a vector.
+    If [m] is not a square matrix, the longest possible sequence
+    of diagonal elements will be returned. *)
+
+val trace : mat -> num_type
+(** [trace m] @return the trace of matrix [m].  If [m] is not a
+    square matrix, the sum of the longest possible sequence of
+    diagonal elements will be returned. *)
 
 val scal :
   ?m : int -> ?n : int -> num_type -> ?ar : int -> ?ac : int -> mat -> unit
@@ -242,19 +248,19 @@ val syrk_diag :
   ?beta : num_type ->
   ?ofsy : int ->
   ?y : vec ->
-  ?trans : trans3 ->
+  ?trans : trans2 ->
   ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
   vec
-(** [syrk_diag ?n ?k ?beta ?ofsy ?y ?trans ?alpha ?ar ?ac a] computes
-    the diagonal of the symmetric rank-k product of the (sub-)matrix
-    [a], multiplying it with [alpha] and adding [beta] times [y],
-    storing the result in [y] starting at the specified offset.
-    [n] elements of the diagonal will be computed, and [k] elements
-    of the matrix will be part of the dot product associated with
-    each diagonal element.
+(** [syrk_diag ?n ?k ?beta ?ofsy ?y ?trans ?alpha ?ar ?ac a]
+    computes the diagonal of the symmetric rank-k product of the
+    (sub-)matrix [a], multiplying it with [alpha] and adding [beta]
+    times [y], storing the result in [y] starting at the specified
+    offset.  [n] elements of the diagonal will be computed, and [k]
+    elements of the matrix will be part of the dot product associated
+    with each diagonal element.
 
     @param n default = number of rows of [a] (or tr[a])
     @param k default = number of columns of [a] (or tr[a])
@@ -281,10 +287,9 @@ val gemm_trace :
   num_type
 (** [gemm_trace ?n ?k ?transa ?ar ?ac a ?transb ?br ?bc b] computes
     the trace of the product of the (sub-)matrices [a] and [b]
-    (taking into account potential transposing) [n] elements of the
-    diagonal will be computed, and [k] elements of the matrices
-    will be part of the dot product associated with each diagonal
-    element.
+    (taking into account potential transposing).  [n] is the number
+    of rows (columns) to consider in [a], and [k] the number of
+    columns (rows) in [b].
 
     @param n default = number of rows of [a] (or tr [a]) and
                        number of columns of [b] (or tr [b])
@@ -294,6 +299,50 @@ val gemm_trace :
     @param ar default = [1]
     @param ac default = [1]
     @param transb default = [`N]
+    @param br default = [1]
+    @param bc default = [1]
+*)
+
+val syrk_trace :
+  ?n : int ->
+  ?k : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  num_type
+(** [syrk_trace ?n ?k ?ar ?ac a] computes the trace of either [a' * a]
+    or [a * a'], whichever is more efficient (results are identical),
+    of the (sub-)matrix [a] multiplied by its own transpose.  [n]
+    is the number of rows to consider in [a], and [k] the number
+    of columns to consider.
+
+    @param n default = number of rows of [a]
+    @param k default = number of columns of [a]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
+val symm2_trace :
+  ?n : int ->
+  ?upa : bool ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?upb : bool ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  num_type
+(** [symm2_trace ?n ?upa ?ar ?ac a ?upb ?br ?bc b] computes the
+    trace of the product of the symmetric (sub-)matrices [a] and
+    [b].  [n] is the number of rows and columns to consider in [a]
+    and [b].
+
+    @param n default = dimensions of [a] and [b]
+    @param upa default = true (upper triangular portion of [a] is accessed)
+    @param ar default = [1]
+    @param ac default = [1]
+    @param upb default = true (upper triangular portion of [b] is accessed)
     @param br default = [1]
     @param bc default = [1]
 *)

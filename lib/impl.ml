@@ -28,11 +28,27 @@
 (** Modules with functions specialized for (S)ingle and (D)ouble
     precision, and for (C)omplex and double complex (Z) numbers. *)
 
+open Io
+
+module Real_io = struct
+  let pp_num ppf n = !pp_float_el_default ppf n
+  let pp_vec = pp_fvec
+  let pp_mat = pp_fmat
+end
+
+module Complex_io = struct
+  let pp_num ppf n = !pp_complex_el_default ppf n
+  let pp_vec = pp_cvec
+  let pp_mat = pp_cmat
+end
+
 module S = struct
   include Float32
 
   include Impl2_S
   include Impl4_S
+
+  include Real_io
 
   module Vec = struct
     include Vec2_S
@@ -51,6 +67,8 @@ module D = struct
   include Impl2_D
   include Impl4_D
 
+  include Real_io
+
   module Vec = struct
     include Vec2_D
     include Vec4_D
@@ -68,6 +86,8 @@ module C = struct
   include Impl2_C
   include Impl4_C
 
+  include Complex_io
+
   module Vec = struct
     include Vec2_C
     include Vec4_C
@@ -81,6 +101,8 @@ end
 
 module Z = struct
   include Complex64
+
+  include Complex_io
 
   include Impl2_Z
   include Impl4_Z

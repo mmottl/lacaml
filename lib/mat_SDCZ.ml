@@ -112,14 +112,6 @@ let to_array mat =
     done;
     ar
 
-let diag mat =
-  let m = dim1 mat in
-  let n = dim2 mat in
-  let n_diag = min m n in
-  let vec = Array1.create prec fortran_layout n_diag in
-  for i = 1 to n_diag do vec.{i} <- mat.{i, i} done;
-  vec
-
 let col (mat : mat) c = Array2.slice_right mat c
 
 let copy_row ?vec mat r =
@@ -238,6 +230,24 @@ let unpacked ?(up = true) ?n src =
     done;
   a
 
+let copy_diag mat =
+  let m = dim1 mat in
+  let n = dim2 mat in
+  let n_diag = min m n in
+  let vec = Array1.create prec fortran_layout n_diag in
+  for i = 1 to n_diag do vec.{i} <- mat.{i, i} done;
+  vec
+
+let trace mat =
+  let m = dim1 mat in
+  let n = dim2 mat in
+  let n_diag = min m n in
+  let trace_ref = ref zero in
+  for i = 1 to n_diag do
+    trace_ref := add !trace_ref mat.{i, i}
+  done;
+  !trace_ref
+
 external direct_scal_mat :
   m : int ->
   n : int ->
@@ -324,7 +334,7 @@ let gemm_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
   y
 
 external direct_syrk_diag :
-  trans : trans3 ->
+  trans : char ->
   n : int ->
   k : int ->
   ar : int ->
@@ -342,6 +352,7 @@ let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
   let n = get_rows_mat_tr loc a_str a ar ac trans n_str n in
   let k = get_cols_mat_tr loc a_str a ar ac trans k_str k in
   let y = get_vec loc y_str y ofsy 1 n vec_create in
+  let trans = get_trans_char trans in
   direct_syrk_diag ~trans ~n ~k ~ar ~ac ~a ~ofsy ~y ~alpha ~beta;
   y
 
@@ -367,6 +378,43 @@ let gemm_trace ?n ?k ?(transa = `N) ?(ar = 1) ?(ac = 1) a
   let transa = get_trans_char transa in
   let transb = get_trans_char transb in
   direct_gemm_trace ~transa ~transb ~n ~k ~ar ~ac ~a ~br ~bc ~b
+
+external direct_syrk_trace :
+  n : int ->
+  k : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  num_type = "lacaml_NPRECsyrk_trace_stub"
+
+let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.Mat.syrk_trace" in
+  let n = get_dim1_mat loc a_str a ar n_str n in
+  let k = get_dim2_mat loc a_str a ac k_str k in
+  direct_syrk_trace ~n ~k ~ar ~ac ~a
+
+external direct_symm2_trace :
+  n : int ->
+  uploa : char ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  uplob : char ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  num_type = "lacaml_NPRECsymm2_trace_stub_bc" "lacaml_NPRECsymm2_trace_stub"
+
+let symm2_trace
+  ?n
+  ?(upa = true) ?(ar = 1) ?(ac = 1) a
+  ?(upb = true) ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.Mat.symm2_trace" in
+  let n = get_n_of_square a_str loc ar ac a n in
+  let n = get_n_of_square b_str loc br bc b (Some n) in
+  let uploa = get_uplo_char upa in
+  let uplob = get_uplo_char upb in
+  direct_symm2_trace ~n ~uploa ~ar ~ac ~a ~uplob ~br ~bc ~b
 
 
 (* Iterators over matrices *)

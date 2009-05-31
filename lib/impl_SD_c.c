@@ -75,29 +75,6 @@ CAMLprim value LFUN(dot_stub_bc)(value *argv, int argn)
 }
 
 
-/** NRM2 */
-
-extern REAL FUN(nrm2)(integer *N, REAL *X, integer *INCX);
-
-CAMLprim value LFUN(nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
-{
-  CAMLparam1(vX);
-
-  integer GET_INT(N),
-          GET_INT(INCX);
-
-  REAL res;
-
-  VEC_PARAMS(X);
-
-  caml_enter_blocking_section();  /* Allow other threads */
-  res = FUN(nrm2)(&N, X_data, &INCX);
-  caml_leave_blocking_section();  /* Disallow other threads */
-
-  CAMLreturn(caml_copy_double(res));
-}
-
-
 /** ASUM */
 
 extern REAL FUN(asum)(integer *N, REAL *X, integer *INCX);
@@ -183,6 +160,56 @@ CAMLprim value LFUN(sbmv_stub_bc)(value *argv, int argn)
       argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
       argv[7], argv[8], argv[9], argv[10], argv[11], argv[12], argv[13]);
 }
+
+
+/** GER */
+
+extern void FUN(ger)(
+  integer *M,
+  integer *N,
+  REAL *ALPHA,
+  REAL *X, integer *INCX,
+  REAL *Y, integer *INCY,
+  REAL *A, integer *LDA);
+
+CAMLprim value LFUN(ger_stub)(
+  value vM, value vN,
+  value vALPHA,
+  value vOFSX, value vINCX, value vX,
+  value vOFSY, value vINCY, value vY,
+  value vAR, value vAC, value vA)
+{
+  CAMLparam3(vA, vX, vY);
+
+  integer GET_INT(M), GET_INT(N), GET_INT(INCX), GET_INT(INCY);
+
+  REAL GET_DOUBLE(ALPHA);
+
+  MAT_PARAMS(A);
+  VEC_PARAMS(X);
+  VEC_PARAMS(Y);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(ger)(
+    &M,
+    &N,
+    &ALPHA,
+    X_data, &INCX,
+    Y_data, &INCY,
+    A_data, &rows_A);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(ger_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(ger_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8], argv[9], argv[10], argv[11]);
+}
+
 
 /** SYR */
 
@@ -334,7 +361,7 @@ CAMLprim value LFUN(gecon_stub)(
 
   v_rcond = caml_copy_double(RCOND);
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 0) = Val_long(INFO);
   Field(v_res, 1) = v_rcond;
 
   CAMLreturn(v_res);
@@ -395,7 +422,7 @@ CAMLprim value LFUN(sycon_stub)(
 
   v_rcond = caml_copy_double(RCOND);
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 0) = Val_long(INFO);
   Field(v_res, 1) = v_rcond;
 
   CAMLreturn(v_res);
@@ -452,7 +479,7 @@ CAMLprim value LFUN(pocon_stub)(
 
   v_rcond = caml_copy_double(RCOND);
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
+  Field(v_res, 0) = Val_long(INFO);
   Field(v_res, 1) = v_rcond;
 
   CAMLreturn(v_res);
@@ -524,8 +551,8 @@ CAMLprim value LFUN(gelsy_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
-  Field(v_res, 1) = Val_int(RANK);
+  Field(v_res, 0) = Val_long(INFO);
+  Field(v_res, 1) = Val_long(RANK);
 
   CAMLreturn(v_res);
 }
@@ -597,8 +624,8 @@ CAMLprim value LFUN(gelsd_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
-  Field(v_res, 1) = Val_int(RANK);
+  Field(v_res, 0) = Val_long(INFO);
+  Field(v_res, 1) = Val_long(RANK);
 
   CAMLreturn(v_res);
 }
@@ -667,8 +694,8 @@ CAMLprim value LFUN(gelss_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
-  Field(v_res, 1) = Val_int(RANK);
+  Field(v_res, 0) = Val_long(INFO);
+  Field(v_res, 1) = Val_long(RANK);
 
   CAMLreturn(v_res);
 }
@@ -733,7 +760,7 @@ CAMLprim value LFUN(gesvd_stub)(
     &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(gesvd_stub_bc)(value *argv, int argn)
@@ -798,7 +825,7 @@ CAMLprim value LFUN(gesdd_stub)(
     &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(gesdd_stub_bc)(value *argv, int argn)
@@ -872,7 +899,7 @@ CAMLprim value LFUN(geev_stub)(
     &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(geev_stub_bc)(value *argv, int argn)
@@ -930,7 +957,7 @@ CAMLprim value LFUN(syev_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(syev_stub_bc)(value *argv, int argn)
@@ -989,7 +1016,7 @@ CAMLprim value LFUN(syevd_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(syevd_stub_bc)(value *argv, int argn)
@@ -1096,8 +1123,8 @@ CAMLprim value LFUN(syevr_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   v_res = caml_alloc_small(2, 0);
-  Field(v_res, 0) = Val_int(INFO);
-  Field(v_res, 1) = Val_int(M);
+  Field(v_res, 0) = Val_long(INFO);
+  Field(v_res, 1) = Val_long(M);
 
   CAMLreturn(v_res);
 }

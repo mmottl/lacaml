@@ -29,7 +29,6 @@ type vec = (float, prec, fortran_layout) Array1.t
 type rvec = (float, float64_elt, fortran_layout) Array1.t
 type mat = (float, prec, fortran_layout) Array2.t
 
-type trans2 = [ `N | `T ]
 type trans3 = [ `N | `T ]
 
 let prec = float64

@@ -48,20 +48,35 @@ module RVec = Vec4_CBPREC
 
 (* BLAS-1 interface *)
 
-(* NRM2 *)
-
-external direct_nrm2 :
+external direct_dotu :
   n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
-  float = "lacaml_CPRECnrm2_stub"
+  num_type = "lacaml_CPRECdotu_stub_bc" "lacaml_CPRECdotu_stub"
 
-let nrm2 ?n ?ofsx ?incx x =
-  let loc = "Lacaml.Impl.CPREC.nrm2" in
+external direct_dotc :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  num_type = "lacaml_CPRECdotc_stub_bc" "lacaml_CPRECdotc_stub"
+
+let gen_dot loc dot_fun ?n ?ofsx ?incx ~x ?ofsy ?incy y =
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
-  direct_nrm2 ~n ~ofsx ~incx ~x
+  check_vec loc y_str y (ofsy + (n - 1) * abs incy);
+  dot_fun ~n ~ofsy ~incy ~y ~ofsx ~incx ~x
+
+let dotu = gen_dot "Lacaml.Impl.CPREC.dotu" direct_dotu
+let dotc = gen_dot "Lacaml.Impl.CPREC.dotc" direct_dotc
 
 
 (* Auxiliary routines *)

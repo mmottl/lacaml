@@ -37,6 +37,8 @@
 #include <caml/bigarray.h>
 #include <caml/signals.h>
 
+#include "utils_c.h"
+
 /* Defines precision-dependent macros */
 #ifndef LACAML_DOUBLE           /* Single precision */
 
@@ -45,36 +47,15 @@
 #define FABS fabsf
 
 #ifndef LACAML_COMPLEX          /* Real number */
-#define COPY_NUMBER(x) caml_copy_double(x)
-#define NUMBER_ZERO 0
-#define NUMBER_ONE 1
 #define FUN(name) s##name##_
 #define FUN2(prefix,name) prefix##s##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_S##name
-
-#define CREATE_NUMBERP(name) \
-  real name = Double_val(v##name); \
-  real *p##name = &name
-
-#define INIT_NUMBER(name)
-
+#define CREATE_NUMBER(name) real name = Double_val(v##name)
 #else                           /* Complex number */
-#define COPY_NUMBER(x) copy_two_doubles(x.r, x.i)
-#define NUMBER_ZERO { 0, 0 }
-#define NUMBER_ONE { 1, 0 }
-
 #define FUN(name) c##name##_
 #define FUN2(prefix,name) prefix##c##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_C##name
-
-#define CREATE_NUMBERP(name) \
-  complex name; \
-  complex *p##name = &name
-
-#define INIT_NUMBER(name) \
-  name.r = Double_field(v##name, 0); \
-  name.i = Double_field(v##name, 1)
-
+#define CREATE_NUMBER(name) complex name
 #endif  /* LACAML_COMPLEX */
 
 #else                           /* Double precision */
@@ -84,49 +65,58 @@
 #define FABS fabs
 
 #ifndef LACAML_COMPLEX          /* Real number */
-#define COPY_NUMBER(x) caml_copy_double(x)
-#define NUMBER_ZERO 0
-#define NUMBER_ONE 1
 #define FUN(name) d##name##_
 #define FUN2(prefix,name) prefix##d##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_D##name
-
-#define CREATE_NUMBERP(name) \
-  doublereal name; \
-  doublereal *p##name = &name
-
-#define INIT_NUMBER(name) \
-  name = Double_val(v##name)
-
+#define CREATE_NUMBER(name) doublereal name
 #else                           /* Complex number */
-#define COPY_NUMBER(x) copy_two_doubles(x.r, x.i)
-#define NUMBER_ZERO { 0, 0 }
-#define NUMBER_ONE { 1, 0 }
 #define FUN(name) z##name##_
 #define FUN2(prefix,name) prefix##z##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_Z##name
-
-#define CREATE_NUMBERP(name) \
-  doublecomplex name; \
-  doublecomplex *p##name = &name
-
-#define INIT_NUMBER(name) \
-  name.r = Double_field(v##name, 0); \
-  name.i = Double_field(v##name, 1)
-
+#define CREATE_NUMBER(name) doublecomplex name
 #endif  /* LACAML_COMPLEX */
 
 #endif  /* LACAML_DOUBLE */
 
-/* Defines kind of number */
+/* Real vs. imaginery */
 #ifndef LACAML_COMPLEX          /* Real number */
 #define NUMBER REAL
+#define COPY_NUMBER(x) caml_copy_double(x)
+#define NUMBER_ZERO 0
+#define NUMBER_ONE 1
+#define NUMBER_MINUS_ONE (-1)
+#define NUMBER_EQUAL(X, Y) (X == Y)
+#define INIT_NUMBER(name) name = Double_val(v##name)
+#define DOTU FUN(dot)
+#define ADD_NUMBER(X, Y) (X + Y)
+#define SUB_NUMBER(X, Y) (X - Y)
+#define MUL_NUMBER(X, Y) (X * Y)
+#define MUL_NUMBERP(X, Y) (*X * *Y)
+#define NEG_NUMBER(X) (-X)
 #else                           /* Complex number */
 #define NUMBER COMPLEX
-#endif  /* LACAML_COMPLEX */
+#define COPY_NUMBER(x) copy_two_doubles(x.r, x.i)
+#define NUMBER_ZERO { 0, 0 }
+#define NUMBER_ONE { 1, 0 }
+#define NUMBER_MINUS_ONE { -1, 0 }
+#define NUMBER_EQUAL(X, Y) (X.r == Y.r && X.i == Y.i)
+#define INIT_NUMBER(name) \
+  name.r = Double_field(v##name, 0); \
+  name.i = Double_field(v##name, 1)
+#define DOTU FUN(dotu)
+#define DOTC FUN(dotc)
+#define ADD_NUMBER(X, Y) ((NUMBER) { X.r + Y.r, X.i + Y.i })
+#define SUB_NUMBER(X, Y) ((NUMBER) { X.r - Y.r, X.i - Y.i })
+#define MUL_NUMBER(X, Y) \
+  ((NUMBER) { X.r * Y.r - X.i * Y.i, X.r * Y.i + X.i * Y.r })
+#define MUL_NUMBERP(X, Y) \
+  ((NUMBER) { X->r * Y->r - X->i * Y->i, X->r * Y->i + X->i * Y->r })
+#define NEG_NUMBER(X) ((NUMBER) { -X.r, -X.i })
+#define COMLEX_CONJ(X) ((NUMBER) { X.r, -X.i })
+#endif
 
 /* Fetch integer parameters */
-#define GET_INT(V) V = Int_val(v##V)
+#define GET_INT(V) V = Long_val(v##V)
 
 /* Fetch double parameters */
 #define GET_DOUBLE(V) V = Double_val(v##V)
@@ -135,8 +125,8 @@
 #define MAT_PARAMS(M) \
   struct caml_ba_array *big_##M = Caml_ba_array_val(v##M); \
   long *dims_##M = big_##M->dim; \
-  integer M##R = Int_val(v##M##R); \
-  integer M##C = Int_val(v##M##C); \
+  integer M##R = Long_val(v##M##R); \
+  integer M##C = Long_val(v##M##C); \
   integer rows_##M = *dims_##M++; \
   integer cols_##M = *dims_##M; \
   NUMBER *M##_data = ((NUMBER *) big_##M->data) + M##R + rows_##M*(M##C - 1) - 1
@@ -145,13 +135,13 @@
 #define VEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
-  NUMBER *V##_data = ((NUMBER *) big_##V->data) + (Int_val(vOFS##V) - 1)
+  NUMBER *V##_data = ((NUMBER *) big_##V->data) + (Long_val(vOFS##V) - 1)
 
 /* Fetch vector parameters from real bigarray */
 #define RVEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
   integer dim_##V = *big_##V->dim; \
-  REAL *V##_data = ((REAL *) big_##V->data) + (Int_val(vOFS##V) - 1)
+  REAL *V##_data = ((REAL *) big_##V->data) + (Long_val(vOFS##V) - 1)
 
 /* Fetch vector parameters from bigarray with offset 1 */
 #define VEC_PARAMS1(V) \
@@ -173,7 +163,7 @@
 
 /* Split an integer couple (int * int) into two ints */
 #define INT_COUPLE(V) \
-  integer V##1 = Int_val(Field(v##V, 0)); \
-  integer V##2 = Int_val(Field(v##V, 1))
+  integer V##1 = Long_val(Field(v##V, 0)); \
+  integer V##2 = Long_val(Field(v##V, 1))
 
 #endif  /* LACAML_MACROS */

@@ -49,17 +49,13 @@ val dot :
   vec
   -> float
 (** [dot ?n ?ofsy ?incy y ?ofsx ?incx x] see BLAS documentation!
+
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsy default = 1
     @param incy default = 1
     @param ofsx default = 1
-    @param incx default = 1 *)
-
-val nrm2 : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
-(** [nrm2 ?n ?ofsx ?incx x] see BLAS documentation!
-    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
-    @param ofsx default = 1
-    @param incx default = 1 *)
+    @param incx default = 1
+*)
 
 val asum : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
 (** [asum ?n ?ofsx ?incx x] see BLAS documentation!
@@ -71,14 +67,14 @@ val asum : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
 (** {6 BLAS-2 interface} *)
 
 val sbmv :
+  ?n : int ->
+  ?k : int ->
   ?ofsy : int ->
   ?incy : int ->
   ?y : vec ->
   ?ar : int ->
   ?ac : int ->
   mat ->
-  ?n : int ->
-  ?k : int ->
   ?up : bool ->
   ?alpha : float ->
   ?beta : float ->
@@ -86,42 +82,78 @@ val sbmv :
   ?incx : int ->
   vec
   -> vec
-(** [sbmv ?ofsy ?incy ?y ?ar ?ac a ?n ?k ?up ?alpha ?beta ?ofsx ?incx x] see
+(** [sbmv ?n ?k ?ofsy ?incy ?y ?ar ?ac a ?up ?alpha ?beta ?ofsx ?incx x] see
     BLAS documentation!
+
     @return vector [y], which is overwritten.
+
+    @param n default = number of available columns to the right of [ac].
+    @param k default = number of available rows in matrix [a] - 1
     @param ofsy default = 1
     @param incy default = 1
     @param ar default = 1
     @param ac default = 1
     @param y default = uninitialized vector of minimal length (see BLAS)
-    @param n default = number of available columns to the right of [ac].
-    @param k default = number of available rows in matrix [a] - 1
     @param up default = true i.e., upper band of [a] is supplied
     @param alpha default = 1.0
     @param beta default = 0.0
     @param ofsx default = 1
-    @param incx default = 1 *)
+    @param incx default = 1
+*)
+
+val ger :
+  ?m : int ->
+  ?n : int ->
+  ?alpha : float ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec ->
+  ?ofsy : int ->
+  ?incy : int ->
+  vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> mat
+(** [ger ?m ?n ?alpha ?ofsx ?incx x ?ofsy ?incy y n ?ar ?ac a] see
+    BLAS documentation!
+
+    @return vector [a], which is overwritten
+
+    @param m default = number of rows of [a]
+    @param n default = number of columns of [a]
+    @param alpha default = 1.0
+    @param ofsx default = 1
+    @param incx default = 1
+    @param ofsy default = 1
+    @param incy default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
 
 val syr :
+  ?n : int ->
   ?alpha : float ->
   ?up : bool ->
   ?ofsx : int ->
   ?incx : int ->
   vec ->
-  ?n : int ->
   ?ar : int ->
   ?ac : int ->
   mat
   -> mat
-(** [syr ?alpha ?up ?ofsx ?incx x ?n ?ar ?ac a] see BLAS documentation!
+(** [syr ?n ?alpha ?up ?ofsx ?incx x ?ar ?ac a] see BLAS documentation!
+
     @return vector [a], which is overwritten
+
+    @param n default = number of rows of [a]
     @param alpha default = 1.0
     @param up default = true i.e., upper triangle of [a] is supplied
     @param ofsx default = 1
     @param incx default = 1
     @param ar default = 1
     @param ac default = 1
-    @param n default = number of rows of [a] *)
+*)
 
 (** {6 LAPACK interface} *)
 

@@ -121,24 +121,33 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
 extern real scnrm2_(integer *N, complex *X, integer *INCX);
 extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
 
-CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+extern COMPLEX FUN(dotc)(
+  integer *N,
+  COMPLEX *X, integer *INCX,
+  COMPLEX *Y, integer *INCY);
+
+CAMLprim value LFUN(sqr_nrm2_stub)(
+  value vSTABLE, value vN, value vOFSX, value vINCX, value vX)
 {
   CAMLparam1(vX);
 
-  int GET_INT(N),
-      GET_INT(INCX);
-
+  int GET_INT(N), GET_INT(INCX);
   REAL res;
 
   VEC_PARAMS(X);
 
   caml_enter_blocking_section();  /* Allow other threads */
+  if (Bool_val(vSTABLE)) {
 #ifndef LACAML_DOUBLE
   res = scnrm2_(&N, X_data, &INCX);
 #else
   res = dznrm2_(&N, X_data, &INCX);
 #endif
   res *= res;
+  } else {
+    COMPLEX cres = FUN(dotc)(&N, X_data, &INCX, X_data, &INCX);
+    res = cres.r;
+  }
   caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(caml_copy_double(res));
@@ -212,12 +221,16 @@ CAMLprim value LFUN(sqr_nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
   acc.i = acc.r*x.i + acc.i*x.r
 #include "fold_col.c"
 
-#define NAME LFUN(ssqr_zero_stub)
-#define INIT { 0.0, 0.0 }
-#define FUNC(acc, x) \
-  acc.r += x.r*x.r - x.i*x.i; \
-  acc.i += 2*x.r*x.i
-#include "fold_col.c"
+extern value LFUN(dotu_stub)(
+  value vN,
+  value vOFSY, value vINCY, value vY,
+  value vOFSX, value vINCX, value vX);
+
+CAMLprim value LFUN(ssqr_zero_stub)(
+  value vN, value vOFSX, value vINCX, value vX)
+{
+  return LFUN(dotu_stub(vN, vOFSX, vINCX, vX, vOFSX, vINCX, vX));
+}
 
 CAMLprim value LFUN(ssqr_stub)(
   value vN,

@@ -29,7 +29,6 @@ type vec = (Complex.t, prec, fortran_layout) Array1.t
 type rvec = (float, float32_elt, fortran_layout) Array1.t
 type mat = (Complex.t, prec, fortran_layout) Array2.t
 
-type trans2 = [ `N | `C ]
 type trans3 = [ `N | `T | `C ]
 
 let prec = complex32

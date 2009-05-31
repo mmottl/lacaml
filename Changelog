@@ -1,8 +1,37 @@
+2009-05-30:  Major overhaul:
+
+             Fixed too liberal transpose parameters in several
+             functions.  The conjugate transpose was not available
+             in some.
+
+             Make convenience definitions for pp_num, pp_vec, pp_mat
+             available on opening Lacaml.Impl.{S,D,C,Z} to be able
+             to print more generically.
+
+             Added new functions:
+
+               * dotu  (only for complex numbers)
+               * dotc  (only for complex numbers)
+               * ger   (all numbers)
+               * lassq
+               * Mat.syrk_trace
+               * Mat.symm2_trace
+
+             Fixed several functions to allow for complex multipliers:
+             gemv, gbmv, symv, gemm, symm, trmm, syrk, syr2k.
+
+             Added new "stable" flag to Vec.sqr_nrm2 if over/underflow
+             protection is required.
+
+             Numerous internal improvements to make adding functionality
+             even easier and to improve performance and numeric
+             stability.
+
 2009-05-16:  Added new function:
 
                * Mat.syrk_diag
 
-	     Renamed functions and changed API:
+             Renamed functions and changed API:
 
                * Mat.prod_diag -> Mat.gemm_diag
                * Mat.prod_trace -> Mat.gemm_trace

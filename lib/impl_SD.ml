@@ -66,22 +66,6 @@ let dot ?n ?ofsx ?incx ~x ?ofsy ?incy y =
   direct_dot ~n ~ofsy ~incy ~y ~ofsx ~incx ~x
 
 
-(* NRM2 *)
-
-external direct_nrm2 :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
-  x : vec
-  -> float = "lacaml_FPRECnrm2_stub"
-
-let nrm2 ?n ?ofsx ?incx x =
-  let loc = "Lacaml.Impl.FPREC.nrm2" in
-  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
-  let n = get_dim_vec loc x_str ofsx incx x n_str n in
-  direct_nrm2 ~n ~ofsx ~incx ~x
-
-
 (* ASUM *)
 
 external direct_asum :
@@ -120,7 +104,7 @@ external direct_sbmv :
   x : vec
   -> unit = "lacaml_FPRECsbmv_stub_bc" "lacaml_FPRECsbmv_stub"
 
-let sbmv ?ofsy ?incy ?y ?(ar = 1) ?(ac = 1) a ?n ?k ?(up = true) ?(alpha = 1.0)
+let sbmv ?n ?k ?ofsy ?incy ?y ?(ar = 1) ?(ac = 1) a ?(up = true) ?(alpha = 1.0)
     ?(beta = 0.0) ?ofsx ?incx x =
   let loc = "Lacaml.Impl.FPREC.sbmv" in
   (* [a] is a band matrix of size [k+1]*[n]. *)
@@ -134,6 +118,34 @@ let sbmv ?ofsy ?incy ?y ?(ar = 1) ?(ac = 1) a ?n ?k ?(up = true) ?(alpha = 1.0)
     ~ofsy ~incy ~y ~ar ~ac ~a ~n ~k ~uplo:(get_uplo_char up)
     ~alpha ~beta ~ofsx ~incx ~x;
   y
+
+(* GER *)
+
+external direct_ger :
+  m : int ->
+  n : int ->
+  alpha : float ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ar : int ->
+  ac : int ->
+  a : mat
+  -> unit = "lacaml_FPRECger_stub_bc" "lacaml_FPRECger_stub"
+
+let ger ?m ?n ?(alpha = 1.0) ?ofsx ?incx x ?ofsy ?incy y ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.FPREC.ger" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  check_vec loc x_str x (ofsx + (m - 1) * abs incx);
+  let ofsy, incy = get_vec_geom loc y_str ofsy incy in
+  check_vec loc y_str y (ofsy + (n - 1) * abs incy);
+  direct_ger ~m ~n ~alpha ~ofsx ~incx ~x ~ofsy ~incy ~y ~ar ~ac ~a;
+  a
 
 (* SYR *)
 
@@ -149,7 +161,7 @@ external direct_syr :
   a : mat
   -> unit = "lacaml_FPRECsyr_stub_bc" "lacaml_FPRECsyr_stub"
 
-let syr ?(alpha = 1.0) ?(up = true) ?ofsx ?incx x ?n ?(ar = 1) ?(ac = 1) a =
+let syr ?n ?(alpha = 1.0) ?(up = true) ?ofsx ?incx x ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syr" in
   let n = get_n_of_a loc ar ac a n in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in

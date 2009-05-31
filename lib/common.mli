@@ -31,6 +31,9 @@
 
 open Bigarray
 
+type trans2 = [ `N | `T ]
+(** Transpose parameter (normal or transposed) *)
+
 type side = [ `L | `R ]
 (** Side parameter (left or right) *)
 

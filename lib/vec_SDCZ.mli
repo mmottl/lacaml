@@ -182,14 +182,21 @@ val prod : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
     @param ofsx default = 1
     @param incx default = 1 *)
 
-val sqr_nrm2 : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
-(** [sqr_nrm2 ?n ?c ?ofsx ?incx x] computes the square of the 2-norm
-    (Euclidean norm) of vector [x] separated by [incx] incremental steps.
-    This is equivalent to squaring the result of calling the BLAS-function
-    [nrm2].
+val sqr_nrm2 :
+  ?stable : bool -> ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
+(** [sqr_nrm2 ?stable ?n ?c ?ofsx ?incx x] computes the square of
+    the 2-norm (Euclidean norm) of vector [x] separated by [incx]
+    incremental steps.  If [stable] is true, this is equivalent to
+    squaring the result of calling the BLAS-function [nrm2], which
+    avoids over- and underflow if possible.  If [stable] is false
+    (default), [dot] will be called instead for greatly improved
+    performance.
+
+    @param stable default = [false]
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
-    @param incx default = 1 *)
+    @param incx default = 1
+*)
 
 val ssqr :
   ?n : int ->
@@ -198,15 +205,20 @@ val ssqr :
   ?incx : int ->
   vec
   -> num_type
-(** [ssqr ?n ?c ?ofsx ?incx x] computes the sum of squared differences of
-    the [n] elements in vector [x] from constant [c], separated by
-    [incx] incremental steps.  Please do not confuse with {sqr_nrm2}!
-    The current function returns a different result for complex numbers
-    and is less numerically stable for real numbers!
+(** [ssqr ?n ?c ?ofsx ?incx x] computes the sum of squared differences
+    of the [n] elements in vector [x] from constant [c], separated
+    by [incx] incremental steps.  Please do not confuse with
+    {!sqr_nrm2}!  The current function behaves differently with
+    complex numbers when zero is passed in for [c].  It computes
+    the square for each entry then, whereas {!sqr_nrm2} uses the
+    conjugate transpose in the product.  The latter will therefore
+    always return a real number.
+
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param c default = zero
     @param ofsx default = 1
-    @param incx default = 1 *)
+    @param incx default = 1
+*)
 
 
 (** {6 Operations on two vectors} *)

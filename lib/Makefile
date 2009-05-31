@@ -77,7 +77,7 @@ SOURCES := \
 
 OCAMLFLAGS := -w A -warn-error A -for-pack Lacaml
 LIB_PACK_NAME := lacaml
-#CFLAGS	:= -fPIC -DPIC -Wall -Werror -pedantic -Wno-unused -Wno-long-long
+#CFLAGS	:= -fPIC -DPIC -Wall -Werror -Wno-unused -Wno-long-long
 CFLAGS := -O2 -fPIC -DPIC
 CLIBS := $(LAPACK) $(BLAS)
 RESULT := lacaml

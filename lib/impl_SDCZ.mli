@@ -47,7 +47,7 @@ val swap :
   vec ->
   unit
 (** [swap ?n ?ofsx ?incx ~x ?ofsy ?incy y] see BLAS documentation!
-    @param n default = 1
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
     @param ofsy default = 1
@@ -77,6 +77,13 @@ val copy :
     @param ofsx default = 1
     @param incx default = 1 *)
 
+val nrm2 : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
+(** [nrm2 ?n ?ofsx ?incx x] see BLAS documentation!
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
 val axpy :
   ?n : int ->
   ?alpha : num_type ->
@@ -89,7 +96,7 @@ val axpy :
   unit
 (** [axpy ?n ?alpha ?ofsx ?incx ~x ?ofsy ?incy y] see BLAS documentation!
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ofsx default = 1
     @param incx default = 1
     @param ofsy default = 1
@@ -119,12 +126,12 @@ val amax :
 val gemv :
   ?m : int ->
   ?n : int ->
-  ?beta : float  ->
+  ?beta : num_type  ->
   ?ofsy : int ->
   ?incy : int ->
   ?y : vec ->
   ?trans : trans3 ->
-  ?alpha : float ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -137,12 +144,12 @@ val gemv :
     @return vector [y], which is overwritten.
     @param m default = number of available rows in matrix [a]
     @param n default = available columns in matrix [a]
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param ofsy default = 1
     @param incy default = 1
     @param y default = vector with minimal required length (see BLAS)
     @param trans default = `N
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param ofsx default = 1
@@ -151,12 +158,12 @@ val gemv :
 val gbmv :
   ?m : int ->
   ?n : int ->
-  ?beta : float ->
+  ?beta : num_type ->
   ?ofsy : int ->
   ?incy : int ->
   ?y : vec ->
   ?trans : trans3 ->
-  ?alpha : float ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -172,12 +179,12 @@ val gbmv :
     @return vector [y], which is overwritten.
     @param m default = same as [n] (i.e., [a] is a square matrix)
     @param n default = available number of columns in matrix [a]
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param ofsy default = 1
     @param incy default = 1
     @param y default = vector with minimal required length (see BLAS)
     @param trans default = `N
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param ofsx default = 1
@@ -185,12 +192,12 @@ val gbmv :
 
 val symv :
   ?n : int ->
-  ?beta : float ->
+  ?beta : num_type ->
   ?ofsy : int ->
   ?incy : int ->
   ?y : vec ->
   ?up : bool ->
-  ?alpha : float ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -202,12 +209,12 @@ val symv :
     see BLAS documentation!
     @return vector [y], which is overwritten.
     @param n default = dimension of symmetric matrix [a]
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param ofsy default = 1
     @param incy default = 1
     @param y default = vector with minimal required length (see BLAS)
     @param up default = true (upper triangular portion of [a] is accessed)
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param ofsx default = 1
@@ -308,12 +315,12 @@ val gemm :
   ?m : int ->
   ?n : int ->
   ?k : int ->
-  ?beta : float ->
+  ?beta : num_type ->
   ?cr : int ->
   ?cc : int ->
   ?c : mat ->
   ?transa : trans3 ->
-  ?alpha : float ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -329,12 +336,12 @@ val gemm :
     @param n default = number of columns of [b] (or tr [b]) and [c]
     @param k default = number of columns of [a] (or tr [a]) and
                        number of rows of [b] (or tr [b])
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param cr default = 1
     @param cc default = 1
     @param c default = matrix with minimal required dimension
     @param transa default = `N
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param transb default = `N
@@ -346,11 +353,11 @@ val symm :
   ?n : int ->
   ?side : side ->
   ?up : bool ->
-  ?beta : float ->
+  ?beta : num_type ->
   ?cr : int ->
   ?cc : int ->
   ?c : mat ->
-  ?alpha : float ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -365,11 +372,11 @@ val symm :
     @param n default = number of columns of [c]
     @param side default = `L (left - multiplication is [a][b])
     @param up default = true (upper triangular portion of [a] is accessed)
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param cr default = 1
     @param cc default = 1
     @param c default = matrix with minimal required dimension
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param br default = 1
@@ -385,7 +392,7 @@ val trmm :
   ?br : int ->
   ?bc : int ->
   b : mat ->
-  ?alpha : float ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -399,7 +406,7 @@ val trmm :
     @param up default = true (upper triangular portion of [a] is accessed)
     @param trans default = `N
     @param diag default = `N (non-unit)
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param br default = 1
@@ -409,12 +416,12 @@ val syrk :
   ?n : int ->
   ?k : int ->
   ?up : bool ->
-  ?beta : float ->
+  ?beta : num_type ->
   ?cr : int ->
   ?cc : int ->
   ?c : mat ->
-  ?trans : trans3 ->
-  ?alpha : float ->
+  ?trans : trans2 ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -425,12 +432,12 @@ val syrk :
     @param n default = number of rows of [a] (or [a]'), [c]
     @param k default = number of columns of [a] (or [a]')
     @param up default = true (upper triangular portion of [c] is accessed)
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param cr default = 1
     @param cc default = 1
     @param c default = matrix with minimal required dimension
     @param trans default = `N
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1 *)
 
@@ -438,12 +445,12 @@ val syr2k :
   ?n : int ->
   ?k : int ->
   ?up : bool ->
-  ?beta : float ->
+  ?beta : num_type ->
   ?cr : int ->
   ?cc : int ->
   ?c : mat ->
-  ?trans : trans3 ->
-  ?alpha : float ->
+  ?trans : trans2 ->
+  ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -457,12 +464,12 @@ val syr2k :
     @param n default = number of rows of [a] (or [a]'), [c]
     @param k default = number of columns of [a] (or [a]')
     @param up default = true (upper triangular portion of [c] is accessed)
-    @param beta default = 0.0
+    @param beta default = [{ re = 0.; im = 0. }]
     @param cr default = 1
     @param cc default = 1
     @param c default = matrix with minimal required dimension
     @param trans default = `N
-    @param alpha default = 1.0
+    @param alpha default = [{ re = 1.; im = 0. }]
     @param ar default = 1
     @param ac default = 1
     @param br default = 1
@@ -489,6 +496,26 @@ val lacpy :
     (sub-)matrix [a] (to an optional (sub-)matrix [b]).
 
     @param uplo default = whole matrix
+*)
+
+val lassq :
+  ?n : int ->
+  ?scale : float ->
+  ?sumsq : float ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec ->
+  float * float
+(** [lassq ?n ?ofsx ?incx ?scale ?sumsq] @return [(scl, ssq)], where
+    [scl] is a scaling factor and [ssq] the sum of squares of vector
+    [x] starting at [ofs] and using increment [incx] and initial
+    [scale] and [sumsq].  See LAPACK-documentation for details!
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1
+    @param scale default = 0.
+    @param sumsq default = 1.
 *)
 
 val larnv :

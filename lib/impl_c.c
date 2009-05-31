@@ -47,7 +47,7 @@ CAMLprim value lacaml_ilaenv_stub(
   ftnlen NAME_LEN = caml_string_length(vNAME),
          OPTS_LEN = caml_string_length(vOPTS);
 
-  return Val_int (ilaenv_(&ISPEC, NAME, OPTS,
+  return Val_long(ilaenv_(&ISPEC, NAME, OPTS,
                           &N1, &N2, &N3, &N4, NAME_LEN, OPTS_LEN));
 }
 

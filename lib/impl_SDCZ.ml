@@ -107,6 +107,22 @@ let copy ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   y
 
 
+(* NRM2 *)
+
+external direct_nrm2 :
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec
+  -> float = "lacaml_NPRECnrm2_stub"
+
+let nrm2 ?n ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.NPREC.nrm2" in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let n = get_dim_vec loc x_str ofsx incx x n_str n in
+  direct_nrm2 ~n ~ofsx ~incx ~x
+
+
 (* AXPY *)
 
 external direct_axpy :
@@ -165,14 +181,14 @@ external direct_gemv :
   m : int ->
   n : int ->
   trans : char ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   ofsx : int ->
   incx : int ->
   x : vec ->
   unit = "lacaml_NPRECgemv_stub_bc" "lacaml_NPRECgemv_stub"
 
-let gemv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
+let gemv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.gemv" in
   let m, n, ofsx, incx, ofsy, incy, y, trans =
@@ -197,14 +213,14 @@ external direct_gbmv :
   kl : int ->
   ku : int ->
   trans : char ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   ofsx : int ->
   incx : int ->
   x : vec ->
   unit = "lacaml_NPRECgbmv_stub_bc" "lacaml_NPRECgbmv_stub"
 
-let gbmv ?m ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = 1.0)
+let gbmv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
       ?(ar = 1) ?(ac = 1) a kl ku ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.gbmv" in
   check_var_ltz loc kl_str kl;
@@ -230,14 +246,14 @@ external direct_symv :
   a : mat ->
   n : int ->
   uplo : char ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   ofsx : int ->
   incx : int ->
   x : vec ->
   unit = "lacaml_NPRECsymv_stub_bc" "lacaml_NPRECsymv_stub"
 
-let symv ?n ?(beta = 0.0) ?ofsy ?incy ?y ?(up = true) ?(alpha = 1.0)
+let symv ?n ?(beta = zero) ?ofsy ?incy ?y ?(up = true) ?(alpha = one)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.symv" in
   let n, ofsx, incx, ofsy, incy, y, uplo =
@@ -359,12 +375,12 @@ external direct_gemm :
   cr : int ->
   cc : int ->
   c : mat ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   unit = "lacaml_NPRECgemm_stub_bc" "lacaml_NPRECgemm_stub"
 
-let gemm ?m ?n ?k ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
-      ?(transa = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a
+let gemm ?m ?n ?k ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
+      ?(transa = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a
       ?(transb = `N) ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.gemm" in
   let m, n, k, transa, transb, c =
@@ -390,13 +406,13 @@ external direct_symm :
   cr : int ->
   cc : int ->
   c : mat ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   unit = "lacaml_NPRECsymm_stub_bc" "lacaml_NPRECsymm_stub"
 
 let symm ?m ?n ?(side = `L) ?(up = true)
-      ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
-      ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+      ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
+      ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.symm" in
   let m, n, side, uplo, c =
     symm_get_params loc Mat.create ar ac a br bc b cr cc c m n side up in
@@ -419,11 +435,11 @@ external direct_trmm :
   br : int ->
   bc : int ->
   b : mat ->
-  alpha : float ->
+  alpha : num_type ->
   unit = "lacaml_NPRECtrmm_stub_bc" "lacaml_NPRECtrmm_stub"
 
 let trmm ?m ?n ?(side = `L) ?(up = true) ?(trans = `N) ?(diag = `N)
-      ?(br = 1) ?(bc = 1) ~b ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a =
+      ?(br = 1) ?(bc = 1) ~b ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.trmm" in
   let m, n, side, uplo, trans, diag =
     trmm_get_params loc ar ac a br bc b m n side up trans diag
@@ -444,12 +460,12 @@ external direct_syrk :
   cr : int ->
   cc : int ->
   c : mat ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   unit = "lacaml_NPRECsyrk_stub_bc" "lacaml_NPRECsyrk_stub"
 
-let syrk ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
-      ?(trans = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a =
+let syrk ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
+      ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.syrk" in
   let n, k, uplo, trans, c =
     syrk_get_params loc Mat.create ar ac a cr cc c n k up trans in
@@ -473,12 +489,12 @@ external direct_syr2k :
   cr : int ->
   cc : int ->
   c : mat ->
-  alpha : float ->
-  beta : float ->
+  alpha : num_type ->
+  beta : num_type ->
   unit = "lacaml_NPRECsyr2k_stub_bc" "lacaml_NPRECsyr2k_stub"
 
-let syr2k ?n ?k ?(up = true) ?(beta = 0.0) ?(cr = 1) ?(cc = 1) ?c
-      ?(trans = `N) ?(alpha = 1.0) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+let syr2k ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
+      ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.syr2k" in
   let n, k, uplo, trans, c =
     syr2k_get_params loc Mat.create ar ac a br bc b cr cc c n k up trans
@@ -522,6 +538,24 @@ let lacpy ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   in
   direct_lacpy ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
+
+
+(* LASSQ *)
+
+external direct_lassq :
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  scale : float ->
+  sumsq : float ->
+  float * float = "lacaml_NPREClassq_stub_bc" "lacaml_NPREClassq_stub"
+
+let lassq ?n ?(scale = 0.) ?(sumsq = 1.) ?ofsx ?incx x =
+  let loc = "Lacaml.Impl.NPREC.lassq" in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let n = get_dim_vec loc x_str ofsx incx x n_str n in
+  direct_lassq ~n ~ofsx ~incx ~x ~scale ~sumsq
 
 
 (* LARNV *)
