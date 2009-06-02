@@ -1,3 +1,8 @@
+2009-06-01:  New vector functions:
+
+               * Vec.sqrt  (compute square roots of a vector)
+               * Vec.sqr   (compute squares of a vector)
+
 2009-05-30:  Major overhaul:
 
              Fixed too liberal transpose parameters in several
