@@ -266,20 +266,20 @@ let scal ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
 external direct_scal_cols :
   m : int ->
   n : int ->
-  ofs : int ->
-  alphas : vec ->
   ar : int ->
   ac : int ->
   a : mat ->
+  ofs : int ->
+  alphas : vec ->
   unit = "lacaml_NPRECscal_cols_stub_bc" "lacaml_NPRECscal_cols_stub"
 
-let scal_cols ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
+let scal_cols ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
   let loc = "Lacaml.Impl.NPREC.Mat.scal_cols" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some n));
-  direct_scal_cols ~m ~n ~ofs ~alphas ~ar ~ac ~a
+  direct_scal_cols ~m ~n ~ar ~ac ~a ~ofs ~alphas
 
 external direct_mat_axpy :
   m : int ->

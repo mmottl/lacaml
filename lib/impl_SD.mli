@@ -144,7 +144,7 @@ val syr :
   -> mat
 (** [syr ?n ?alpha ?up ?ofsx ?incx x ?ar ?ac a] see BLAS documentation!
 
-    @return vector [a], which is overwritten
+    @return matrix [a], which is overwritten
 
     @param n default = number of rows of [a]
     @param alpha default = 1.0

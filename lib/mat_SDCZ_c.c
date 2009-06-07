@@ -79,9 +79,8 @@ CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int argn)
 
 CAMLprim value LFUN(scal_cols_stub)(
   value vM, value vN,
-  value vOFSALPHAs,
-  value vALPHAs,
-  value vAR, value vAC, value vA)
+  value vAR, value vAC, value vA,
+  value vOFSALPHAs, value vALPHAs)
 {
   CAMLparam2(vALPHAs, vA);
 
