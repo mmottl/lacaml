@@ -1,3 +1,10 @@
+2009-06-07:  Added workaround for OCaml performance bug wrt. bigarray
+             access.  This should make OCaml code perform much faster when
+             accessing or modifying bigarrays directly.
+
+             Changed API for Mat.scal_cols by swapping matrix and vector
+             argument.
+
 2009-06-01:  New vector functions:
 
                * Vec.sqrt  (compute square roots of a vector)
