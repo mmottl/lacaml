@@ -182,9 +182,9 @@ val scal :
 
 val scal_cols :
   ?m : int -> ?n : int ->
-  ?ar : int -> ?ac : int -> mat
+  ?ar : int -> ?ac : int -> mat ->
   ?ofs : int -> vec ->
-  -> unit
+  unit
 (** [scal_cols ?m ?n ?ar ?ac a ?ofs alphas] column-wise [scal]
     function for matrices. *)
 
