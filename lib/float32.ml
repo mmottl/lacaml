@@ -25,9 +25,9 @@ open Bigarray
 
 type prec = float32_elt
 type num_type = float
-type vec = (float, prec, fortran_layout) Array1.t
-type rvec = (float, float32_elt, fortran_layout) Array1.t
-type mat = (float, prec, fortran_layout) Array2.t
+type vec = (float, float32_elt, fortran_layout) Array1.t
+type rvec = vec
+type mat = (float, float32_elt, fortran_layout) Array2.t
 
 type trans3 = [ `N | `T ]
 
