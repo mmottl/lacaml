@@ -1578,6 +1578,49 @@ CAMLprim value LFUN(trtri_stub_bc)(value *argv, int argn)
   return LFUN(trtri_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
 }
 
+/** TBTRS */
+
+extern void FUN(tbtrs)(
+  char *UPLO, char *TRANS, char *DIAG,
+  integer *N, integer *KD, integer *NRHS,
+  NUMBER *AB, integer *LDAB,
+  NUMBER *B, integer *LDB,
+  integer *INFO);
+
+CAMLprim value LFUN(tbtrs_stub)(
+  value vUPLO, value vTRANS, value vDIAG,
+  value vN, value vKD, value vNRHS,
+  value vABR, value vABC, value vAB,
+  value vBR, value vBC, value vB)
+{
+  CAMLparam2(vAB, vB);
+
+  char GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  integer GET_INT(N), GET_INT(KD), GET_INT(NRHS), INFO;
+
+  MAT_PARAMS(AB);
+  MAT_PARAMS(B);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(tbtrs)(
+    &UPLO, &TRANS, &DIAG,
+    &N, &KD, &NRHS,
+    AB_data, &rows_AB,
+    B_data, &rows_B,
+    &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_long(INFO));
+}
+
+CAMLprim value LFUN(tbtrs_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(tbtrs_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
+      argv[6], argv[7], argv[8], argv[9], argv[10], argv[11]);
+}
+
 /** GEQRF */
 
 extern void FUN(geqrf)(

@@ -984,6 +984,38 @@ let trtri ?n ?(up = true) ?(diag = `N) ?(ar = 1) ?(ac = 1) a =
     if info > 0 then xxtri_singular_err loc info
     else trtri_err loc n a info
 
+(* TBTRS *)
+
+external direct_tbtrs :
+  uplo : char ->
+  trans : char ->
+  diag : char ->
+  n : int ->
+  kd : int ->
+  nrhs : int ->
+  abr : int ->
+  abc : int ->
+  ab : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  int = "lacaml_NPRECtbtrs_stub_bc" "lacaml_NPRECtbtrs_stub"
+
+let tbtrs
+    ?n ?kd ?(up = true) ?(trans = `N) ?(diag = `N)
+    ?(abr = 1) ?(abc = 1) ab ?nrhs ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.tbtrs" in
+  let uplo = get_uplo_char up in
+  let trans = get_trans_char trans in
+  let diag = get_diag_char diag in
+  let n = get_dim2_mat loc ab_str ab abc n_str n in
+  let nrhs = get_nrhs_of_b loc n br bc b nrhs in
+  let kd = get_k_mat_sb loc ab_str ab abr kd_str kd in
+  let info =
+    direct_tbtrs ~uplo ~trans ~diag ~n ~kd ~nrhs ~abr ~abc ~ab ~br ~bc ~b
+  in
+  if info <> 0 then tbtrs_err loc n nrhs kd ab b info
+
 (* GEQRF *)
 
 external direct_geqrf :

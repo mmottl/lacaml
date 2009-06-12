@@ -1,3 +1,10 @@
+2009-06-12:  Added new function:
+
+               * tbtrs  (all numbers)
+
+             Thanks to Sam Ehrlichman <sehrlichman@janestreet.com>
+             for contributing the patch!
+
 2009-06-07:  Added workaround for OCaml performance bug wrt. bigarray
              access.  This should make OCaml code perform much faster when
              accessing or modifying bigarrays directly.

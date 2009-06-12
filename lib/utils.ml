@@ -220,9 +220,9 @@ let get_dim2_mat loc mat_name mat mat_c n_name n =
       else n
   | None -> dim2_rest
 
-(* A symmetric band (SB) matrix has physical size [k+1]*[n] for a
-   logical matrix of size [n]*[n].  Check and return the [k] (possibly
-   also given by the optional argument [k]). *)
+(* A symmetric band (SB) or triangular band (TB) matrix has physical size
+   [k+1]*[n] for a logical matrix of size [n]*[n].  Check and return the [k]
+   (possibly also given by the optional argument [k]). *)
 let get_k_mat_sb loc mat_name mat mat_r k_name k =
   let dim1 = Array2.dim1 mat in
   let max_k = dim1 - mat_r in
@@ -612,6 +612,19 @@ let trtrs_err loc n nrhs a b err =
     | -5 -> sprintf "nrhs: valid=[0..[ got=%d" nrhs
     | -7 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
     | -9 -> sprintf "dim1(b): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 b)
+    | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
+  invalid_arg (sprintf "%s: %s" loc msg)
+
+(* tbtrs -- auxiliary functions *)
+
+let tbtrs_err loc n nrhs kd ab b err =
+  let msg =
+    match err with
+    | -4 -> sprintf "n: valid=[0..[ got=%d" n
+    | -5 -> sprintf "kd: valid=[0..[ got=%d" kd
+    | -6 -> sprintf "nrhs: valid=[0..[ got=%d" nrhs
+    | -8 -> sprintf "dim1(ab): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 ab)
+    | -10 -> sprintf "dim1(b): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 b)
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 

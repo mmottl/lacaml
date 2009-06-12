@@ -825,6 +825,36 @@ val trtrs :
     @param bc default = 1
 *)
 
+val tbtrs :
+  ?n : int ->
+  ?kd : int ->
+  ?up : bool ->
+  ?trans : trans3 ->
+  ?diag : diag ->
+  ?abr : int ->
+  ?abc : int ->
+  mat ->
+  ?nrhs : int ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  unit
+(** [tbtrs ?n ?kd ?up ?trans ?diag ?abr ?abc ab ?nrhs ?br ?bc b]
+
+    @raise Failure if the matrix is singular.
+
+    @param n default = number of columns in matrix [ab]
+    @param kd default = number of rows in matrix [ab] - 1
+    @param up default = true
+    @param trans default = `N
+    @param diag default = `N
+    @param ar default = 1
+    @param ac default = 1
+    @param nrhs default = available number of columns in matrix [b]
+    @param br default = 1
+    @param bc default = 1
+*)
+
 val trtri :
   ?n : int ->
   ?up : bool ->
