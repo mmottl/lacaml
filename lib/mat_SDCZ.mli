@@ -61,6 +61,10 @@ val to_col_vecs : mat -> vec array
 (** [to_col_vecs mat] @return an array of column vectors initialized
     from matrix [mat]. *)
 
+val as_vec : mat -> vec
+(** [as_vec mat] @return a vector containing all elements of the
+    matrix in column-major order.  The data is shared. *)
+
 val init_rows : int -> int -> (int -> int -> num_type) -> mat
 (** [init_cols m n f] @return a matrix containing [m] rows and [n]
     columns, where each element at [row] and [col] is initialized by the

@@ -1,3 +1,7 @@
+2009-06-13:  Added new function:
+
+               * Mat.as_vec
+
 2009-06-12:  Added new function:
 
                * tbtrs  (all numbers)

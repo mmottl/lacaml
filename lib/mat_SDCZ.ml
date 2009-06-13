@@ -158,6 +158,10 @@ let to_col_vecs mat =
     for i = 2 to n do ar.(i - 1) <- col mat i done;
     ar
 
+let as_vec mat =
+  let gen = genarray_of_array2 mat in
+  reshape_1 gen (dim1 mat * dim2 mat)
+
 let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.transpose" in
   let m = get_dim1_mat loc a_str a ar m_str m in
