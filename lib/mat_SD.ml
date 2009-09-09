@@ -74,7 +74,7 @@ let rosser_ar =
 
 let rosser () = Array2.of_array prec fortran_layout rosser_ar
 
-let toeplitz v =
+let toeplitz (v : vec) =
   let len = Array1.dim v in
   if len = 0 then empty
   else if len = 1 then make 1 1 v.{1}
@@ -95,7 +95,7 @@ let toeplitz v =
         else loop (r + 1) (c + 1) i in
     loop n 1 1)
 
-let vandermonde v =
+let vandermonde (v : vec) =
   let n = Array1.dim v in
   if n = 0 then empty
   else if n = 1 then make 1 1 1.0

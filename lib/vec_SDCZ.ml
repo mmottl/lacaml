@@ -61,9 +61,7 @@ let to_array v =
   if n = 0 then [||]
   else
     let ar = Array.make n v.{1} in
-    for i = 2 to n do
-      ar.(i - 1) <- v.{i};
-    done;
+    for i = 2 to n do ar.(i - 1) <- v.{i} done;
     ar
 
 let of_list l =
@@ -74,12 +72,11 @@ let of_list l =
   v
 
 let to_list v =
-  let n = dim v in
-  let res = ref [] in
-  for i = n downto 1 do
-    res := v.{i} :: !res
-  done;
-  !res
+  let rec loop i acc =
+    if i = 0 then acc
+    else loop (i - 1) (v.{i} :: acc)
+  in
+  loop (dim v) []
 
 let append v1 v2 =
   let n1 = dim v1 in
@@ -157,7 +154,7 @@ let get_i_ref_last ~incx ~ofsx ~n =
 
 let vec_map_str = "Vec.map"
 
-let map f ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+let map f ?n ?ofsy ?incy ?y ?ofsx ?incx (x : vec) =
   let ofsx, incx = get_vec_geom vec_map_str x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_map_str y_str ofsy incy in
   let n = get_dim_vec vec_map_str x_str ofsx incx x n_str n in

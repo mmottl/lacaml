@@ -1,3 +1,8 @@
+2009-09-09:  Fixed a few performance bugs.
+
+             Some matrix and vector types were polymorphic, thus
+             leading to much worse element access speed.
+
 2009-06-13:  Added new function:
 
                * Mat.as_vec

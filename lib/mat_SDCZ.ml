@@ -72,8 +72,11 @@ let mvec_of_array ar =
     for row = 1 to n do mat.{row, 1} <- ar.(row - 1) done;
   mat
 
-let mvec_to_array (mat : mat) =
-  let n = Array2.dim1 mat in
+let dim1 (mat : mat) = Array2.dim1 mat
+let dim2 (mat : mat) = Array2.dim2 mat
+
+let mvec_to_array mat =
+  let n = dim1 mat in
   if n = 0 then [||]
   else
     let ar = Array.make n mat.{1, 1} in
@@ -90,14 +93,11 @@ let identity n =
   for i = 1 to n do mat.{i, i} <- one done;
   mat
 
-let of_diag vec =
+let of_diag (vec : vec) =
   let n = Array1.dim vec in
   let mat = make n n zero in
   for i = 1 to n do mat.{i, i} <- vec.{i} done;
   mat
-
-let dim1 (mat : mat) = Array2.dim1 mat
-let dim2 (mat : mat) = Array2.dim2 mat
 
 let to_array mat =
   let m = dim1 mat in
@@ -162,17 +162,20 @@ let as_vec mat =
   let gen = genarray_of_array2 mat in
   reshape_1 gen (dim1 mat * dim2 mat)
 
-let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
+let transpose ?m ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.transpose" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let res = create n m in
-  for col = 1 to n do
-    for row = 1 to m do res.{col, row} <- a.{ar + row - 1, ac + col - 1} done
+  let ar_1 = ar - 1 in
+  let ac_1 = ac - 1 in
+  for c = 1 to n do
+    let ac_col_1 = ac_1 + c in
+    for r = 1 to m do res.{c, r} <- a.{ar_1 + r, ac_col_1} done
   done;
   res
 
-let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
+let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.detri" in
   let n = get_n_of_square a_str loc ar ac a n in
   if up then
@@ -192,7 +195,7 @@ let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
       done
     done
 
-let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
+let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.packed" in
   let n = get_n_of_square a_str loc ar ac a n in
   let dst = Array1.create prec fortran_layout ((n * n + n) / 2) in
@@ -200,20 +203,22 @@ let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
   if up then
     for c = 1 to n do
       for r = 1 to c do
-        dst.{!pos_ref} <- a.{r, c};
-        incr pos_ref;
+        let pos = !pos_ref in
+        dst.{pos} <- a.{r, c};
+        pos_ref := pos + 1;
       done
     done
   else
     for c = 1 to n do
       for r = c to n do
-        dst.{!pos_ref} <- a.{r, c};
-        incr pos_ref;
+        let pos = !pos_ref in
+        dst.{pos} <- a.{r, c};
+        pos_ref := pos + 1;
       done
     done;
   dst
 
-let unpacked ?(up = true) ?n src =
+let unpacked ?(up = true) ?n (src : vec) =
   let loc = "Lacaml.Impl.NPREC.Mat.unpacked" in
   let n = get_unpacked_dim loc ?n (Array1.dim src) in
   let a = make0 n n in
@@ -221,15 +226,17 @@ let unpacked ?(up = true) ?n src =
   if up then
     for c = 1 to n do
       for r = 1 to c do
-        a.{r, c} <- src.{!pos_ref};
-        incr pos_ref;
+        let pos = !pos_ref in
+        a.{r, c} <- src.{pos};
+        pos_ref := pos + 1;
       done
     done
   else
     for c = 1 to n do
       for r = c to n do
-        a.{r, c} <- src.{!pos_ref};
-        incr pos_ref;
+        let pos = !pos_ref in
+        a.{r, c} <- src.{pos};
+        pos_ref := pos + 1;
       done
     done;
   a
@@ -246,11 +253,11 @@ let trace mat =
   let m = dim1 mat in
   let n = dim2 mat in
   let n_diag = min m n in
-  let trace_ref = ref zero in
-  for i = 1 to n_diag do
-    trace_ref := add !trace_ref mat.{i, i}
-  done;
-  !trace_ref
+  let rec loop i trace =
+    if i = 0 then trace
+    else loop (i - 1) (add trace mat.{i, i})
+  in
+  loop n_diag zero
 
 external direct_scal_mat :
   m : int ->
@@ -423,7 +430,7 @@ let symm2_trace
 
 (* Iterators over matrices *)
 
-let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.map" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
@@ -441,6 +448,8 @@ let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
 let fold_cols coll ?n ?(ac = 1) acc a =
   let loc = "Lacaml.Impl.NPREC.Mat.fold_cols" in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let acc_ref = ref acc in
-  for i = 0 to n - 1 do acc_ref := coll !acc_ref (col a (ac + i)) done;
-  !acc_ref
+  let rec loop i acc =
+    if i = n then acc
+    else loop (i + 1) (coll acc (col a (ac + i)))
+  in
+  loop 0 acc
