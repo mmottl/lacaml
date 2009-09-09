@@ -126,6 +126,8 @@ toplevel-library:	byte-code-library \
 install:	libinstall
 uninstall:	libuninstall
 
+CC = $(shell ocamlc -config | grep native_c_compiler | cut -d' ' -f2)
+
 # Generation rules for precision-dependent C-code
 %2_S_c.o:	%_SD_c.c
 	$(CC) -c $(CFLAGS) $(CINCFLAGS) -I'$(OCAMLLIBPATH)' $< -o $@

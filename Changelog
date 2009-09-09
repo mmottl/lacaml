@@ -3,6 +3,14 @@
              Some matrix and vector types were polymorphic, thus
              leading to much worse element access speed.
 
+	     Improved compiler selection in Makefile.
+
+	     Improved some matrix operations.
+
+	     Added new function:
+
+               * Mat.transpose_copy
+
 2009-06-13:  Added new function:
 
                * Mat.as_vec

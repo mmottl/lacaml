@@ -31,6 +31,44 @@ static NUMBER number_one = NUMBER_ONE;
 static NUMBER number_minus_one = NUMBER_MINUS_ONE;
 
 
+/* transpose_copy */
+
+extern void FUN(copy)(
+  integer *N,
+  NUMBER *X, integer *INCX,
+  NUMBER *Y, integer *INCY);
+
+CAMLprim value LFUN(transpose_copy_stub)(
+  value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB)
+{
+  CAMLparam2(vA, vB);
+  integer GET_INT(M), GET_INT(N);
+
+  if (M > 0 && N > 0) {
+    MAT_PARAMS(A);
+    MAT_PARAMS(B);
+    NUMBER *A_last = A_data + rows_A * N;
+    caml_enter_blocking_section();
+      do {
+        FUN(copy)(&M, A_data, &integer_one, B_data, &rows_B);
+        A_data += rows_A;
+        B_data++;
+      } while (A_data != A_last);
+    caml_leave_blocking_section();
+  }
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(transpose_copy_stub_bc)(value *argv, int argn)
+{
+  return LFUN(transpose_copy_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+}
+
+
 /* scal */
 
 extern void FUN(scal)(
@@ -44,26 +82,25 @@ CAMLprim value LFUN(scal_mat_stub)(
   value vAR, value vAC, value vA)
 {
   CAMLparam1(vA);
-
   integer GET_INT(M), GET_INT(N);
-  CREATE_NUMBER(ALPHA);
 
-  MAT_PARAMS(A);
-
-  INIT_NUMBER(ALPHA);
-
-  caml_enter_blocking_section();
-    if (rows_A == M) {
-      integer MN = M * N;
-      FUN(scal)(&MN, &ALPHA, A_data, &integer_one);
-    } else {
-      NUMBER *A_src = A_data + rows_A * (N - 1);
-      while (A_src >= A_data) {
-        FUN(scal)(&M, &ALPHA, A_src, &integer_one);
-        A_src -= rows_A;
+  if ( M > 0 && N > 0) {
+    CREATE_NUMBER(ALPHA);
+    MAT_PARAMS(A);
+    INIT_NUMBER(ALPHA);
+    caml_enter_blocking_section();
+      if (rows_A == M) {
+        integer MN = M * N;
+        FUN(scal)(&MN, &ALPHA, A_data, &integer_one);
+      } else {
+        NUMBER *A_last = A_data + rows_A * N;
+        do {
+          FUN(scal)(&M, &ALPHA, A_data, &integer_one);
+          A_data += rows_A;
+        } while (A_data != A_last);
       }
-    }
-  caml_leave_blocking_section();
+    caml_leave_blocking_section();
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -83,22 +120,20 @@ CAMLprim value LFUN(scal_cols_stub)(
   value vOFSALPHAs, value vALPHAs)
 {
   CAMLparam2(vALPHAs, vA);
-
   integer GET_INT(M), GET_INT(N);
 
-  VEC_PARAMS(ALPHAs);
-  MAT_PARAMS(A);
-
-  NUMBER *A_src = A_data + rows_A * (N - 1);
-  NUMBER *ALPHAs_src = ALPHAs_data + (N - 1);
-
-  caml_enter_blocking_section();
-    while (A_src >= A_data) {
-      FUN(scal)(&M, ALPHAs_src, A_src, &integer_one);
-      A_src -= rows_A;
-      ALPHAs_src--;
-    }
-  caml_leave_blocking_section();
+  if (M > 0 && N > 0) {
+    VEC_PARAMS(ALPHAs);
+    MAT_PARAMS(A);
+    NUMBER *A_last = A_data + rows_A * N;
+    caml_enter_blocking_section();
+      do {
+        FUN(scal)(&M, ALPHAs_data, A_data, &integer_one);
+        A_data += rows_A;
+        ALPHAs_data++;
+      } while (A_data != A_last);
+    caml_leave_blocking_section();
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -125,29 +160,26 @@ CAMLprim value LFUN(mat_axpy_stub)(
   value vYR, value vYC, value vY)
 {
   CAMLparam2(vX, vY);
-
   integer GET_INT(M), GET_INT(N);
-  CREATE_NUMBER(ALPHA);
-
-  MAT_PARAMS(X);
-  MAT_PARAMS(Y);
-
-  INIT_NUMBER(ALPHA);
-
-  caml_enter_blocking_section();
-    if (rows_X == M && rows_Y == M) {
-      integer MN = M * N;
-      FUN(axpy)(&MN, &ALPHA, X_data, &integer_one, Y_data, &integer_one);
-    } else {
-      NUMBER *X_src = X_data + rows_X * (N - 1);
-      NUMBER *Y_dst = Y_data + rows_Y * (N - 1);
-      while (X_src >= X_data) {
-        FUN(axpy)(&M, &ALPHA, X_src, &integer_one, Y_dst, &integer_one);
-        X_src -= rows_X;
-        Y_dst -= rows_Y;
+  if (M > 0 && N > 0) {
+    CREATE_NUMBER(ALPHA);
+    MAT_PARAMS(X);
+    MAT_PARAMS(Y);
+    INIT_NUMBER(ALPHA);
+    caml_enter_blocking_section();
+      if (rows_X == M && rows_Y == M) {
+        integer MN = M * N;
+        FUN(axpy)(&MN, &ALPHA, X_data, &integer_one, Y_data, &integer_one);
+      } else {
+        NUMBER *X_last = X_data + rows_X * N;
+        do {
+          FUN(axpy)(&M, &ALPHA, X_data, &integer_one, Y_data, &integer_one);
+          X_data += rows_X;
+          Y_data += rows_Y;
+        } while (X_data != X_last);
       }
-    }
-  caml_leave_blocking_section();
+    caml_leave_blocking_section();
+  }
 
   CAMLreturn(Val_unit);
 }

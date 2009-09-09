@@ -127,8 +127,25 @@ val copy_row : ?vec : vec -> mat -> int -> vec
 
 (** {6 Matrix transformations} *)
 
+val transpose_copy :
+  ?m : int -> ?n : int ->
+  ?ar : int -> ?ac : int -> mat ->
+  ?br : int -> ?bc : int -> mat ->
+  unit
+(** [transpose_copy ?m ?n ?ar ?ac a ?br ?bc b] copy the transpose
+    of (sub-)matrix [a] into (sub-)matrix [b].
+
+    @param m default = [Mat.dim1 a]
+    @param n default = [Mat.dim2 a]
+    @param ar default = [1]
+    @param ac default = [1]
+    @param br default = [1]
+    @param bc default = [1]
+*)
+
+
 val transpose : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> mat
-(** [transpose a] @return the transpose of (sub-)matrix [a].
+(** [transpose ?m ?n ?ar ?ac aa] @return the transpose of (sub-)matrix [a].
 
     @param m default = [Mat.dim1 a]
     @param n default = [Mat.dim2 a]

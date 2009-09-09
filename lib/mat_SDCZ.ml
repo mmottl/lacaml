@@ -162,18 +162,31 @@ let as_vec mat =
   let gen = genarray_of_array2 mat in
   reshape_1 gen (dim1 mat * dim2 mat)
 
-let transpose ?m ?n ?(ar = 1) ?(ac = 1) (a : mat) =
+external direct_transpose_copy :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_NPRECtranspose_copy_stub_bc" "lacaml_NPRECtranspose_copy_stub"
+
+let transpose_copy ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.Mat.transpose_copy" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b n m;
+  direct_transpose_copy ~m ~n ~ar ~ac ~a ~br ~bc ~b
+
+let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.Mat.transpose" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let res = create n m in
-  let ar_1 = ar - 1 in
-  let ac_1 = ac - 1 in
-  for c = 1 to n do
-    let ac_col_1 = ac_1 + c in
-    for r = 1 to m do res.{c, r} <- a.{ar_1 + r, ac_col_1} done
-  done;
-  res
+  let b = create n m in
+  direct_transpose_copy ~m ~n ~ar ~ac ~a ~br:1 ~bc:1 ~b;
+  b
 
 let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.detri" in
@@ -182,17 +195,13 @@ let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
     for c = 1 to n - 1 do
       let ar_c = ar + c in
       let ac_c = ac + c in
-      for r = 0 to c - 1 do
-        a.{ar_c, ac + r} <- a.{ar + r, ac_c}
-      done
+      for r = 0 to c - 1 do a.{ar_c, ac + r} <- a.{ar + r, ac_c} done
     done
   else
     for c = 1 to n - 1 do
       let ar_c = ar + c in
       let ac_c = ac + c in
-      for r = 0 to c - 1 do
-        a.{ar + r, ac_c} <- a.{ar_c, ac + r}
-      done
+      for r = 0 to c - 1 do a.{ar + r, ac_c} <- a.{ar_c, ac + r} done
     done
 
 let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
