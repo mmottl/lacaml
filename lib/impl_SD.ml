@@ -913,12 +913,6 @@ let syevd_err loc min_work min_iwork a n lwork liwork err =
     invalid_arg msg
   else syev_err loc min_work a n lwork err
 
-let syev_get_params loc ar ac a n vectors up =
-  let n = get_n_of_a loc ar ac a n in
-  let jobz = get_job_char vectors in
-  let uplo = get_uplo_char up in
-  n, jobz, uplo
-
 
 (* SYEV *)
 
@@ -947,13 +941,13 @@ let syev_get_opt_lwork loc ar ac a n jobz uplo =
 
 let syev_opt_lwork ?n ?(vectors = false) ?(up = true) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syev_opt_lwork" in
-  let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   syev_get_opt_lwork loc ar ac a n jobz uplo
 
 let syev ?n ?(vectors = false) ?(up = true) ?work ?ofsw ?w ?(ar = 1)
     ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syev" in
-  let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let ofsw = get_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
 
@@ -1020,7 +1014,7 @@ let syevd_get_opt_liwork loc ar ac a n vectors jobz uplo =
 let syevd_opt_l_li_work ?n ?(vectors = false) ?(up = true)
     ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syevd_opt_l_li_work" in
-  let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo
 
 let syevd_opt_lwork ?n ?vectors ?up ?ar ?ac a =
@@ -1032,7 +1026,7 @@ let syevd_opt_liwork ?n ?vectors ?up ?ar ?ac a =
 let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
       ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syevd" in
-  let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let ofsw = get_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let work, iwork, lwork, liwork =
@@ -1166,7 +1160,7 @@ let syevr_opt_l_li_work
     ?n ?(vectors = false) ?(range = `A) ?(up = true) ?(abstol = 0.)
     ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syevr_opt_l_li_work" in
-  let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let range, _m, vl, vu, il, iu = syevr_get_params loc n range in
   let zr = 1 in
   let zc = 1 in
@@ -1186,7 +1180,7 @@ let syevr_opt_liwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a =
 let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
       ?ofsw ?w ?(zr = 1) ?(zc = 1) ?z ?isuppz ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.syevr" in
-  let n, jobz, uplo = syev_get_params loc ar ac a n vectors up in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let range, m, vl, vu, il, iu = syevr_get_params loc n range in
   let abstol = syevr_get_abstol abstol in
   let ofsw = get_ofs loc w_str ofsw in
@@ -1249,3 +1243,84 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
   in
   if info = 0 then m, w, z, isuppz
   else syevr_err loc a n info
+
+
+(* SYGV *)
+
+let sygv_err loc min_work a b n lwork err =
+  if err > n then
+    let msg = sprintf "%s: leading minor of order %d of b is not \
+	positive definite" loc (err - n) in
+    failwith msg
+  else if err > 0 then
+    let msg =
+      sprintf "%s: failed to converge on off-diagonal element %d" loc err in
+    failwith msg
+  else
+    let msg = match err with
+      | -4 -> sprintf "n: valid=[0..[ got=%d" n
+      | -6 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
+      | -8 -> sprintf "dim1(b): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 b)
+      | -11 -> sprintf "dim(work): valid=[%d..[ got=%d" (min_work n) lwork
+      | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
+    invalid_arg (sprintf "%s: %s" loc msg)
+
+let get_itype = function `A_B -> 1 | `AB -> 2 | `BA -> 3
+
+external direct_sygv :
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  n : int ->
+  itype : int ->
+  jobz : char ->
+  uplo : char ->
+  ofsw : int ->
+  w : vec ->
+  work : vec ->
+  lwork : int
+  -> int = "lacaml_FPRECsygv_stub_bc" "lacaml_FPRECsygv_stub"
+
+let sygv_min_lwork n = max 1 (3 * n - 1)
+
+let sygv_get_opt_lwork loc ar ac a br bc b n itype jobz uplo =
+  let work = Vec.create 1 in
+  let info =
+    direct_sygv ~ar ~ac ~a ~br ~bc ~b ~n ~itype ~jobz ~uplo
+      ~ofsw:1 ~w:Vec.empty ~work ~lwork:(-1) in
+  if info = 0 then int_of_float work.{1}
+  else sygv_err loc sygv_min_lwork a b n (-1) info
+
+let sygv_opt_lwork ?n ?(vectors=false) ?(up=true) ?(itype=`A_B)
+    ?(ar=1) ?(ac=1) a ?(br=1) ?(bc=1) b =
+  let loc = "Lacaml.Impl.FPREC.sygv_opt_lwork" in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
+  check_dim1_mat loc b_str b br n_str n;
+  check_dim2_mat loc b_str b bc n_str n;
+  let itype = get_itype itype in
+  sygv_get_opt_lwork loc ar ac a br bc b n itype jobz uplo
+
+let sygv ?n ?(vectors=false) ?(up=true) ?work ?ofsw ?w ?(itype=`A_B)
+    ?(ar=1) ?(ac=1) a ?(br=1) ?(bc=1) b =
+  let loc = "Lacaml.Impl.FPREC.sygv" in
+  let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
+  check_dim1_mat loc b_str b br n_str n;
+  check_dim2_mat loc b_str b bc n_str n;
+  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
+  let itype = get_itype itype in
+
+  let work, lwork =
+    match work with
+    | Some work -> work, Array1.dim work
+    | None ->
+        let lwork = sygv_get_opt_lwork loc ar ac a br bc b n itype jobz uplo in
+        Vec.create lwork, lwork in
+  let info = direct_sygv ~ar ~ac ~a ~br ~bc ~b ~n ~itype
+               ~jobz ~uplo ~ofsw ~w ~work ~lwork in
+  if info = 0 then w
+  else sygv_err loc sygv_min_lwork a b n lwork info
+

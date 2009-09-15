@@ -1132,7 +1132,67 @@ CAMLprim value LFUN(syevr_stub_bc)(value *argv, int argn)
 /* Generalized eigenvalue and singular value problems (simple drivers)
 ************************************************************************/
 
-/** TODO: SYGV */
+/** SYGV */
+
+extern void FUN(sygv)(
+  integer *ITYPE, char *JOBZ, char *UPLO,
+  integer *N,
+  REAL *A, integer *LDA,
+  REAL *B, integer *LDB,
+  REAL *W,
+  REAL *WORK, integer *LWORK,
+  integer *INFO);
+
+CAMLprim value LFUN(sygv_stub)(
+  value vAR,
+  value vAC,
+  value vA,
+  value vBR,
+  value vBC,
+  value vB,
+  value vN,
+  value vITYPE,
+  value vJOBZ, value vUPLO,
+  value vOFSW, value vW,
+  value vWORK, value vLWORK)
+{
+  CAMLparam4(vA, vB, vW, vWORK);
+
+  char GET_INT(JOBZ),
+       GET_INT(UPLO);
+
+  integer GET_INT(N),
+          GET_INT(ITYPE),
+          GET_INT(LWORK),
+          INFO;
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+  VEC_PARAMS(W);
+  VEC_PARAMS1(WORK);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(sygv)(
+    &ITYPE, &JOBZ, &UPLO,
+    &N,
+    A_data, &rows_A,
+    B_data, &rows_B,
+    W_data,
+    WORK_data, &LWORK,
+    &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_int(INFO));
+}
+
+CAMLprim value LFUN(sygv_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(sygv_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
+      argv[8], argv[9], argv[10], argv[11], argv[12], argv[13]);
+}
+  
 
 /** TODO: SYGVD */
 

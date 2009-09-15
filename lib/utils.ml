@@ -320,6 +320,12 @@ let gelsX_get_params loc ar ac a m n nrhs br bc b =
 
 (* ??ev -- auxiliary functions *)
 
+let xxev_get_params loc ar ac a n vectors up =
+  let n = get_n_of_a loc ar ac a n in
+  let jobz = get_job_char vectors in
+  let uplo = get_uplo_char up in
+  n, jobz, uplo
+
 let xxev_get_wx vec_create loc wname ofsw w n =
   match w with
   | None -> 1, vec_create n
