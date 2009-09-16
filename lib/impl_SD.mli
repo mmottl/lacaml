@@ -609,7 +609,7 @@ val syev :
     @param vectors default = false i.e, eigenvectors are not computed
     @param up default = true i.e., upper triangle of [a] is stored
     @param work default = vec of optimum length (-> [syev_opt_lwork])
-    @param ofsw default = 1 ot ignored if [w] is not given
+    @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n] *)
 
 val syevd_min_lwork : vectors : bool -> int -> int
@@ -693,7 +693,7 @@ val syevd :
     @param up default = true i.e., upper triangle of [a] is stored
     @param work default = vec of optimum length (-> [syev_opt_lwork])
     @param iwork default = int_vec of optimum length (-> [syevd_opt_liwork])
-    @param ofsw default = 1 ot ignored if [w] is not given
+    @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n] *)
 
 
@@ -802,7 +802,7 @@ val syevr :
     @param abstol default = result of calling [lamch `S]
     @param work default = vec of optimum length (-> [syev_opt_lwork])
     @param iwork default = int_vec of optimum length (-> [syevr_opt_liwork])
-    @param ofsw default = 1 ot ignored if [w] is not given
+    @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n]
     @param zr default = 1
     @param zc default = 1
@@ -810,3 +810,70 @@ val syevr :
     @param isuppz default = [int_vec] with minimal required dimension
     @param ar default = 1
     @param ac default = 1 *)
+
+val sygv_opt_lwork :
+  ?n : int ->
+  ?vectors : bool ->
+  ?up : bool ->
+  ?itype : [`A_B | `AB | `BA ] ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> int
+(** [sygv_opt_lwork ?n ?vectors ?up ?ar ?ac a ?br ?bc b] @return the
+    optimum length of the work-array used by the [sygv]-function
+    for the given matrices [a] and [b], optionally their logical
+    dimension [n] and whether the eigenvectors must be computed
+    ([vectors]).
+
+    @param n default = available number of columns of matrix [a]
+    @param vectors default = false, i.e. eigenvectors are not computed
+    @param up default = true, i.e. upper triangle of [a] is stored
+
+    @param itype specifies the problem type to be solved:
+           [`A_B] (default): a*x = (lambda)*a*x
+           [`AB]: a*b*x = (lambda)*x
+           [`BA]: b*a*x = (lambda)*x
+*)
+
+val sygv :
+  ?n : int ->
+  ?vectors : bool ->
+  ?up : bool ->
+  ?work : vec ->
+  ?ofsw : int ->
+  ?w : vec ->
+  ?itype : [`A_B | `AB | `BA ] ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> vec
+(** [sygv ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a]
+    computes all the eigenvalues, and optionally, the eigenvectors
+    of a real generalized symmetric-definite eigenproblem, of the
+    form [a*x=(lambda)*b*x], [a*b*x=(lambda)*x], or [b*a*x=(lambda)*x].
+    Here [a] and [b] are assumed to be symmetric and [b] is also
+    positive definite.
+
+    @return the vector [w] of eigenvalues in ascending order.
+
+    @raise Failure if the function fails to converge.
+
+    @param n default = available number of columns of matrix [a]
+    @param vectors default = false i.e, eigenvectors are not computed
+    @param up default = true i.e., upper triangle of [a] is stored
+    @param work default = vec of optimum length (-> [sygv_opt_lwork])
+    @param ofsw default = 1 or ignored if [w] is not given
+    @param w default = vec of length [n]
+
+    @param itype specifies the problem type to be solved:
+           [`A_B] (default): a*x = (lambda)*a*x
+           [`AB]: a*b*x = (lambda)*x
+           [`BA]: b*a*x = (lambda)*x
+*)
