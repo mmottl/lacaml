@@ -81,6 +81,8 @@ let e_str = "e"
 let ipiv_str = "ipiv"
 let iseed_str = "iseed"
 let k_str = "k"
+let lwork_str = "lwork"
+let liwork_str = "liwork"
 let kd_str = "kd"
 let kl_str = "kl"
 let ku_str = "ku"
@@ -88,6 +90,7 @@ let m_str = "m"
 let n_str = "n"
 let nrhs_str = "nrhs"
 let s_str = "s"
+let tau_str = "tau"
 let u_str = "u"
 let um_str = "um"
 let un_str = "un"
@@ -180,9 +183,9 @@ let get_mat loc mat_name mat_create r c mat m n =
 
 (* ??MV auxiliary functions *)
 
-(* [get_dim_vec loc ofsvec incvec vec n_name n] if the dimension [n]
-   is given, check that the vector [vec] is big enough, otherwise
-   return the maximal [n] for the given vector [vec]. *)
+(* [get_dim_vec loc vec_name ofsvec incvec vec n_name n] if the
+   dimension [n] is given, check that the vector [vec] is big enough,
+   otherwise return the maximal [n] for the given vector [vec]. *)
 let get_dim_vec loc vec_name ofsvec incvec vec n_name = function
   | Some n ->
       if n < 0 then invalid_arg (sprintf "%s: %s < 0" loc n_name);
@@ -276,6 +279,28 @@ let get_nrhs_of_b loc n br bc b nrhs =
   let nrhs = get_dim2_mat loc b_str b bc nrhs_str nrhs in
   check_dim1_mat loc b_str b br n_str n;
   nrhs
+
+
+(* ORGQR - Auxiliary Functions *)
+
+let orgqr_err ~loc ~m ~n ~k ~work ~a ~err =
+  let msg =
+    match err with
+    | -1 -> sprintf "m: valid=[0..[ got=%d" m
+    | -2 -> sprintf "n: valid=[0..%d] got=%d" m n
+    | -3 -> sprintf "k: valid=[0..%d] got=%d" n k
+    | -5 -> sprintf "dim2(a): valid=[%d..[ got=%d" n (Array2.dim2 a)
+    | -8 ->
+        sprintf "dim1(work): valid=[%d..[ got=%d" (max 1 n) (Array1.dim work)
+    | n -> raise (InternalError (sprintf "%s: error code %d" loc n))
+  in
+  invalid_arg (sprintf "%s: %s" loc msg)
+
+let orgqr_get_params loc ?m ?n ?k ~tau ~ar ~ac a =
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let k = get_dim_vec loc tau_str 1 1 tau k_str k in
+  m, n, k
 
 
 (* GELS? - Auxiliary Functions *)

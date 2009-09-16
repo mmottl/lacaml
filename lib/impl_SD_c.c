@@ -318,6 +318,57 @@ CAMLprim value LFUN(lamch_stub)(value vCMACH)
 }
 
 
+/** ORGQR */
+
+extern void FUN(orgqr)(
+  integer *M,
+  integer *N,
+  integer *K,
+  REAL *A, integer *LDA,
+  REAL *TAU,
+  REAL *WORK,
+  integer *LWORK,
+  integer *INFO);
+
+CAMLprim value LFUN(orgqr_stub)(
+  value vM,
+  value vN,
+  value vK,
+  value vWORK,
+  value vLWORK,
+  value vTAU,
+  value vAR,
+  value vAC,
+  value vA)
+{
+  CAMLparam2(vTAU, vA);
+
+  integer GET_INT(M), GET_INT(N), GET_INT(K), GET_INT(LWORK), INFO;
+
+  VEC_PARAMS1(WORK);
+  VEC_PARAMS1(TAU);
+  MAT_PARAMS(A);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(orgqr)(
+    &M, &N, &K,
+    A_data, &rows_A,
+    TAU_data,
+    WORK_data, &LWORK, &INFO);
+  caml_leave_blocking_section(); /* Disallow other threads */
+
+  CAMLreturn(Val_int(INFO));
+}
+
+CAMLprim value LFUN(orgqr_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(orgqr_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4],
+      argv[5], argv[6], argv[7], argv[8]);
+}
+
+
 /** GECON */
 
 extern void FUN(gecon)(

@@ -186,6 +186,50 @@ val lamch :  [ `E | `S | `B | `P | `N | `R | `M | `U | `L | `O ] -> float
 
 (** Linear equations (computational routines) *)
 
+(* ORGQR *)
+
+val orgqr_min_lwork : n : int -> int
+(** [orgqr_min_lwork ~n] @return the minimum length of the
+    work-array used by the [orgqr]-function if the matrix has [n]
+    columns. *)
+
+val orgqr_opt_lwork :
+  ?m : int ->
+  ?n : int ->
+  ?k : int ->
+  tau : vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  int
+(** [orgqr_opt_lwork ?m ?n ?k ~tau ?ar ?ac a] @return the optimum
+    length of the work-array used by the [orgqr_opt_lwork]-function
+    given matrix [a], optionally its logical dimensions [m] and
+    [n], and the number of reflectors [k].
+
+    @param m default = available number of rows in matrix [a]
+    @param n default = available number of columns in matrix [a]
+    @param k default = available number of elements in vector [tau]
+*)
+
+val orgqr :
+  ?m : int ->
+  ?n : int ->
+  ?k : int ->
+  ?work : vec ->
+  tau : vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  unit
+(** [orgqr ?m ?n ?k ?work ~tau ?ar ?ac a] see LAPACK documentation!
+
+    @param m default = available number of rows in matrix [a]
+    @param n default = available number of columns in matrix [a]
+    @param k default = available number of elements in vector [tau]
+*)
+
+
 (* GECON *)
 
 val gecon_min_lwork : int -> int

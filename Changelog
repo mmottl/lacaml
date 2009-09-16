@@ -1,13 +1,24 @@
+2009-09-16:  Added new functions:
+
+               * sygv
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umh.ac.be>
+             for contributing sygv!
+
+               * orgqr
+
+             Added example for QR-factorization.
+
 2009-09-09:  Fixed a few performance bugs.
 
              Some matrix and vector types were polymorphic, thus
              leading to much worse element access speed.
 
-	     Improved compiler selection in Makefile.
+             Improved compiler selection in Makefile.
 
-	     Improved some matrix operations.
+             Improved some matrix operations.
 
-	     Added new function:
+             Added new function:
 
                * Mat.transpose_copy
 

@@ -194,7 +194,7 @@ let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let n = get_n_of_a loc ar ac a n in
   let uplo = get_uplo_char up in
   let min_work = lansy_min_lwork n norm in
-  let work, _lwork = get_work loc Vec.create work min_work min_work "lwork" in
+  let work, _lwork = get_work loc Vec.create work min_work min_work lwork_str in
   let norm = get_norm_char norm in
   direct_lansy ~norm ~uplo ~n ~ar ~ac ~a ~work
 
@@ -217,6 +217,45 @@ let lamch cmach =
 
 (* Linear equations (computational routines) *)
 
+(* ORGQR *)
+
+external direct_orgqr :
+  m : int ->
+  n : int ->
+  k : int ->
+  work : vec ->
+  lwork : int ->
+  tau : vec ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  int = "lacaml_FPRECorgqr_stub_bc" "lacaml_FPRECorgqr_stub"
+
+let orgqr_min_lwork ~n = max 1 n
+
+let orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a =
+  let work = Vec.create 1 in
+  let info = direct_orgqr ~m ~n ~k ~work ~lwork:~-1 ~tau ~ar ~ac ~a in
+  if info = 0 then int_of_float work.{1}
+  else orgqr_err ~loc ~m ~n ~k ~work ~a ~err:info
+
+let orgqr_opt_lwork ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.FPREC.orgqr_opt_lwork" in
+  let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
+  orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a
+
+let orgqr ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.FPREC.orgqr" in
+  let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
+  let work, lwork =
+    let min_lwork = orgqr_min_lwork ~n in
+    get_work loc Vec.create work min_lwork min_lwork lwork_str
+  in
+  let info = direct_orgqr ~m ~n ~k ~work ~lwork ~tau ~ar ~ac ~a in
+  if info = 0 then ()
+  else orgqr_err ~loc ~m ~n ~k ~work ~a ~err:info
+
+
 (* GECON *)
 
 external direct_gecon :
@@ -238,12 +277,13 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.FPREC.gecon" in
   let n = get_n_of_a loc ar ac a n in
   let work, _lwork =
-    get_work
-      loc Vec.create work (gecon_min_lwork n) (gecon_min_lwork n) "lwork" in
+    let min_lwork = gecon_min_lwork n in
+    get_work loc Vec.create work min_lwork min_lwork lwork_str
+  in
   let iwork, _liwork =
     get_work
       loc Common.create_int_vec iwork
-      (gecon_min_liwork n) (gecon_min_liwork n) "liwork" in
+      (gecon_min_liwork n) (gecon_min_liwork n) liwork_str in
   let anorm =
     match anorm with
     | None -> lange ~norm:(norm :> norm4) ~m:n ~n a
@@ -277,11 +317,11 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let uplo = get_uplo_char up in
   let work, _lwork =
     get_work
-      loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) "lwork" in
+      loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) lwork_str in
   let iwork, _liwork =
     get_work
       loc Common.create_int_vec iwork
-      (sycon_min_liwork n) (sycon_min_liwork n) "liwork" in
+      (sycon_min_liwork n) (sycon_min_liwork n) liwork_str in
   let ipiv =
     if ipiv = None then sytrf ~n ~up ~work ~ar ~ac a
     else sytrf_get_ipiv loc ipiv n in
@@ -318,11 +358,11 @@ let pocon ?n ?(up = true) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   let uplo = get_uplo_char up in
   let work, _lwork =
     get_work
-      loc Vec.create work (pocon_min_lwork n) (pocon_min_lwork n) "lwork" in
+      loc Vec.create work (pocon_min_lwork n) (pocon_min_lwork n) lwork_str in
   let iwork, _liwork =
     get_work
       loc Common.create_int_vec iwork
-      (pocon_min_liwork n) (pocon_min_liwork n) "liwork" in
+      (pocon_min_liwork n) (pocon_min_liwork n) liwork_str in
   let anorm =
     match anorm with
     | None -> lange ~m:n ~n ~work ~ar ~ac a
