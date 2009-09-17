@@ -664,6 +664,22 @@ let lange ?m ?n ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
   let norm = get_norm_char norm in
   direct_lange ~norm ~m ~n ~ar ~ac ~a ~work
 
+(* DLAUUM *)
+
+external direct_lauum :
+  uplo : char ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  unit = "lacaml_NPREClauum_stub"
+
+let lauum ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.Impl.NPREC.lauum" in
+  let n = get_n_of_a loc ar ac a n in
+  let uplo = get_uplo_char up in
+  direct_lauum ~uplo ~n ~ar ~ac ~a
+
 
 (* Linear equations (computational routines) *)
 

@@ -1120,6 +1120,33 @@ CAMLprim value LFUN(lange_stub_bc)(value *argv, int argn)
 }
 
 
+/** LAUUM */
+
+extern REAL FUN(lauum)(
+  char *UPLO,
+  integer *N,
+  NUMBER *A, integer *LDA,
+  integer *INFO);
+
+CAMLprim value LFUN(lauum_stub)(
+  value vUPLO, value vN,
+  value vAR, value vAC, value vA)
+{
+  CAMLparam1(vA);
+
+  char GET_INT(UPLO);
+  integer GET_INT(N), INFO;
+
+  MAT_PARAMS(A);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(lauum)(&UPLO, &N, A_data, &rows_A, &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+
 /* Linear Equations (computational routines)
 ************************************************************************/
 

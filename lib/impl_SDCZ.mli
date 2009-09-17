@@ -562,6 +562,19 @@ val lange :
     @param ar default = 1
     @param ac default = 1 *)
 
+val lauum :
+  ?up : bool ->
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  unit
+(** [lauum ?up ?n ?ar ?ac a]
+    @param up default = [true]
+    @param n default = minimum of available number of rows/columns in matrix [a]
+    @param ar default = 1
+    @param ac default = 1 *)
+
 
 (** Linear equations (computational routines) *)
 
