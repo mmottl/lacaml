@@ -442,9 +442,36 @@ let trmm ?m ?n ?(side = `L) ?(up = true) ?(trans = `N) ?(diag = `N)
       ?(br = 1) ?(bc = 1) ~b ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.Impl.NPREC.trmm" in
   let m, n, side, uplo, trans, diag =
-    trmm_get_params loc ar ac a br bc b m n side up trans diag
+    trXm_get_params loc ar ac a br bc b m n side up trans diag
   in
   direct_trmm ~side ~uplo ~trans ~diag ~m ~n ~ar ~ac ~a ~br ~bc ~b ~alpha
+
+
+(* TRSM *)
+
+external direct_trsm :
+  side : char ->
+  uplo : char ->
+  trans : char ->
+  diag : char ->
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  alpha : num_type ->
+  unit = "lacaml_NPRECtrsm_stub_bc" "lacaml_NPRECtrsm_stub"
+
+let trsm ?m ?n ?(side = `L) ?(up = true) ?(trans = `N) ?(diag = `N)
+      ?(alpha = one) ?(ar = 1) ?(ac = 1) ~a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.NPREC.trsm" in
+  let m, n, side, uplo, trans, diag =
+    trXm_get_params loc ar ac a br bc b m n side up trans diag
+  in
+  direct_trsm ~side ~uplo ~trans ~diag ~m ~n ~ar ~ac ~a ~br ~bc ~b ~alpha
 
 
 (* SYRK *)

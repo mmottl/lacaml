@@ -511,7 +511,7 @@ let symm_get_params loc mat_create ar ac a br bc b cr cc c m n side up =
 
 (* trmm -- auxiliary functions *)
 
-let trmm_get_params loc ar ac a br bc b m n side up transa diag =
+let trXm_get_params loc ar ac a br bc b m n side up transa diag =
   let m = get_dim1_mat loc b_str b br m_str m in
   let n = get_dim2_mat loc b_str b bc n_str n in
   if side = `L then check_mat_square loc a_str a ar ac m

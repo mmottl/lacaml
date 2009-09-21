@@ -836,6 +836,54 @@ CAMLprim value LFUN(trmm_stub_bc)(value *argv, int argn)
       argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
 }
 
+/** TRSM */
+
+extern void FUN(trsm)(
+  char *SIDE, char *UPLO, char *TRANS, char *DIAG,
+  integer *M, integer *N,
+  NUMBER *ALPHA,
+  NUMBER *A, integer *LDA,
+  NUMBER *B, integer *LDB);
+
+CAMLprim value LFUN(trsm_stub)(
+  value vSIDE, value vUPLO, value vTRANS, value vDIAG,
+  value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB,
+  value vALPHA)
+{
+  CAMLparam2(vA, vB);
+
+  char GET_INT(SIDE), GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  integer GET_INT(M), GET_INT(N);
+
+  CREATE_NUMBER(ALPHA);
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+
+  INIT_NUMBER(ALPHA);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(trsm)(
+    &SIDE, &UPLO, &TRANS, &DIAG,
+    &M, &N,
+    &ALPHA,
+    A_data, &rows_A,
+    B_data, &rows_B);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(trsm_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(trsm_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
+      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+}
+
 /** SYRK */
 
 extern void FUN(syrk)(

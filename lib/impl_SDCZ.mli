@@ -399,9 +399,38 @@ val trmm :
   unit
 (** [trmm ?m ?n ?side ?up ?trans ?diag ?br ?bc ~b ?alpha ?ar ?ac a]
     see BLAS documentation!
-    @return matrix [c], which is overwritten.
-    @param m default = number of rows of [c]
-    @param n default = number of columns of [c]
+    @param m default = number of rows of [b]
+    @param n default = number of columns of [b]
+    @param side default = `L (left - multiplication is [a][b])
+    @param up default = true (upper triangular portion of [a] is accessed)
+    @param trans default = `N
+    @param diag default = `N (non-unit)
+    @param alpha default = [{ re = 1.; im = 0. }]
+    @param ar default = 1
+    @param ac default = 1
+    @param br default = 1
+    @param bc default = 1 *)
+
+val trsm :
+  ?m : int ->
+  ?n : int ->
+  ?side : side ->
+  ?up : bool ->
+  ?trans : trans3 ->
+  ?diag : diag ->
+  ?alpha : num_type ->
+  ?ar : int ->
+  ?ac : int ->
+  a : mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  unit
+(** [trsm ?m ?n ?side ?up ?trans ?diag ?alpha ?ar ?ac ~a ?br ?bc b]
+    see BLAS documentation!
+    @return matrix [b], which is overwritten.
+    @param m default = number of rows of [b]
+    @param n default = number of columns of [b]
     @param side default = `L (left - multiplication is [a][b])
     @param up default = true (upper triangular portion of [a] is accessed)
     @param trans default = `N
