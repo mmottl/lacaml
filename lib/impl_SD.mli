@@ -230,6 +230,34 @@ val orgqr :
 *)
 
 
+(* ORMQR *)
+
+val ormqr :
+  ?side : side ->
+  ?trans : trans2 ->
+  ?m : int ->
+  ?n : int ->
+  ?k : int ->
+  ?work : vec ->
+  tau : vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?cr : int ->
+  ?cc : int ->
+  mat ->
+  unit
+(** [ormqr ?side ?trans ?m ?n ?k ?work ~tau ?ar ?ac a ?cr ?cc c]
+    see LAPACK documentation!
+
+    @param side default = [`L]
+    @param trans default = [`N]
+    @param m default = available number of rows in matrix [a]
+    @param n default = available number of columns in matrix [a]
+    @param k default = available number of elements in vector [tau]
+*)
+
+
 (* GECON *)
 
 val gecon_min_lwork : int -> int

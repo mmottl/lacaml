@@ -302,6 +302,43 @@ let orgqr_get_params loc ?m ?n ?k ~tau ~ar ~ac a =
   let k = get_dim_vec loc tau_str 1 1 tau k_str k in
   m, n, k
 
+(* ORMQR - Auxiliary Functions *)
+
+let ormqr_err ~loc ~side ~m ~n ~k ~lwork ~a ~c ~err =
+  let nq, nw =
+    match side with
+    | `L -> m, n
+    | `R -> n, m
+  in
+  let msg =
+    match err with
+    | -3 -> sprintf "m: valid=[0..[ got=%d" m
+    | -4 -> sprintf "n: valid=[0..[ got=%d" n
+    | -5 -> sprintf "k: valid=[0..%d] got=%d" k nq
+    | -7 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 nq) (Array2.dim1 a)
+    | -10 -> sprintf "dim1(c): valid=[%d..[ got=%d" (max 1 m) (Array2.dim1 c)
+    | -12 ->
+        let min_lwork = max 1 nw in
+        sprintf "lwork: valid=[%d..[ got=%d" min_lwork lwork
+    | _ -> raise (InternalError (sprintf "%s: error code %d" loc err))
+  in
+  invalid_arg (sprintf "%s: %s" loc msg)
+
+let ormqr_get_params loc ~side ?m ?n ?k ~tau ~ar ~ac a ~cr ~cc c =
+  let m = get_dim1_mat loc c_str c cr m_str m in
+  let n = get_dim2_mat loc c_str c cc n_str n in
+  let k = get_dim2_mat loc a_str a ac k_str k in
+  begin match side with
+  | `L ->
+      if m < k then failwith (sprintf "%s: m(%d) < k(%d)" loc m k);
+      check_dim1_mat loc a_str a ar m_str (max 1 m)
+  | `R ->
+      if n < k then failwith (sprintf "%s: n(%d) < k(%d)" loc n k);
+      check_dim1_mat loc a_str a ar n_str (max 1 n)
+  end;
+  check_vec loc tau_str tau k;
+  m, n, k
+
 
 (* GELS? - Auxiliary Functions *)
 

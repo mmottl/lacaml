@@ -249,11 +249,74 @@ let orgqr ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a =
   let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
   let work, lwork =
     let min_lwork = orgqr_min_lwork ~n in
-    get_work loc Vec.create work min_lwork min_lwork lwork_str
+    let opt_lwork = orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a in
+    get_work loc Vec.create work min_lwork opt_lwork lwork_str
   in
   let info = direct_orgqr ~m ~n ~k ~work ~lwork ~tau ~ar ~ac ~a in
   if info = 0 then ()
   else orgqr_err ~loc ~m ~n ~k ~work ~a ~err:info
+
+
+(* ORMQR *)
+
+external direct_ormqr :
+  side : char ->
+  trans : char ->
+  m : int ->
+  n : int ->
+  k : int ->
+  work : vec ->
+  lwork : int ->
+  tau : vec ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  int = "lacaml_FPRECormqr_stub_bc" "lacaml_FPRECormqr_stub"
+
+let ormqr_min_lwork ~side ~m ~n =
+  match side with
+  | `L -> max 1 n
+  | `R -> max 1 m
+
+let ormqr_get_opt_lwork loc ~side ~trans ~m ~n ~k ~tau ~ar ~ac ~a ~cr ~cc ~c =
+  let work = Vec.create 1 in
+  let info =
+    let side = get_side_char side in
+    let trans = get_trans_char trans in
+    direct_ormqr
+      ~side ~trans ~m ~n ~k ~work ~lwork:~-1 ~tau ~ar ~ac ~a ~cr ~cc ~c
+  in
+  if info = 0 then int_of_float work.{1}
+  else ormqr_err ~loc ~side ~m ~n ~k ~lwork:1 ~a ~c ~err:info
+
+let ormqr_opt_lwork
+      ?(side = `L) ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a ?(cr = 1) ?(cc = 1) c =
+  let loc = "Lacaml.Impl.FPREC.ormqr_opt_lwork" in
+  let m, n, k = ormqr_get_params loc ~side ?m ?n ?k ~tau ~ar ~ac a ~cr ~cc c in
+  ormqr_get_opt_lwork loc ~side ~m ~n ~k ~tau ~ar ~ac ~a
+
+let ormqr
+      ?(side = `L) ?(trans = `N) ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a
+      ?(cr = 1) ?(cc = 1) c =
+  let loc = "Lacaml.Impl.FPREC.ormqr" in
+  let m, n, k = ormqr_get_params loc ~side ?m ?n ?k ~tau ~ar ~ac a ~cr ~cc c in
+  let work, lwork =
+    let min_lwork = ormqr_min_lwork ~side ~m ~n in
+    let opt_lwork =
+      ormqr_get_opt_lwork loc ~side ~trans ~m ~n ~k ~tau ~ar ~ac ~a ~cr ~cc ~c
+    in
+    get_work loc Vec.create work min_lwork opt_lwork lwork_str
+  in
+  let info =
+    let side = get_side_char side in
+    let trans = get_trans_char trans in
+    direct_ormqr ~side ~trans ~m ~n ~k ~work ~lwork ~tau ~ar ~ac ~a ~cr ~cc ~c
+  in
+  if info = 0 then ()
+  else ormqr_err ~loc ~side ~m ~n ~k ~lwork ~a ~c ~err:info
 
 
 (* GECON *)

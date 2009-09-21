@@ -326,8 +326,7 @@ extern void FUN(orgqr)(
   integer *K,
   REAL *A, integer *LDA,
   REAL *TAU,
-  REAL *WORK,
-  integer *LWORK,
+  REAL *WORK, integer *LWORK,
   integer *INFO);
 
 CAMLprim value LFUN(orgqr_stub)(
@@ -366,6 +365,68 @@ CAMLprim value LFUN(orgqr_stub_bc)(value *argv, int argn)
     LFUN(orgqr_stub)(
       argv[0], argv[1], argv[2], argv[3], argv[4],
       argv[5], argv[6], argv[7], argv[8]);
+}
+
+
+/** ORMQR */
+
+extern void FUN(ormqr)(
+  char *SIDE,
+  char *TRANS,
+  integer *M,
+  integer *N,
+  integer *K,
+  REAL *A, integer *LDA,
+  REAL *TAU,
+  REAL *C, integer *LDC,
+  REAL *WORK, integer *LWORK,
+  integer *INFO);
+
+CAMLprim value LFUN(ormqr_stub)(
+  value vSIDE,
+  value vTRANS,
+  value vM,
+  value vN,
+  value vK,
+  value vWORK,
+  value vLWORK,
+  value vTAU,
+  value vAR,
+  value vAC,
+  value vA,
+  value vCR,
+  value vCC,
+  value vC)
+{
+  CAMLparam3(vTAU, vA, vC);
+
+  char SIDE = GET_INT(SIDE), GET_INT(TRANS);
+  integer GET_INT(M), GET_INT(N), GET_INT(K), GET_INT(LWORK), INFO;
+
+  VEC_PARAMS1(WORK);
+  VEC_PARAMS1(TAU);
+  MAT_PARAMS(A);
+  MAT_PARAMS(C);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(ormqr)(
+    &SIDE, &TRANS, &M, &N, &K,
+    A_data, &rows_A,
+    TAU_data,
+    C_data, &rows_C,
+    WORK_data, &LWORK, &INFO);
+  caml_leave_blocking_section(); /* Disallow other threads */
+
+  CAMLreturn(Val_int(INFO));
+}
+
+CAMLprim value LFUN(ormqr_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(ormqr_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4],
+      argv[5], argv[6], argv[7], argv[8], argv[9],
+      argv[10], argv[11], argv[12], argv[13]);
 }
 
 
