@@ -209,6 +209,14 @@ val scal_cols :
 (** [scal_cols ?m ?n ?ar ?ac a ?ofs alphas] column-wise [scal]
     function for matrices. *)
 
+val scal_rows :
+  ?m : int -> ?n : int ->
+  ?ofs : int -> vec ->
+  ?ar : int -> ?ac : int -> mat ->
+  unit
+(** [scal_rows ?m ?n ?ofs alphas ?ar ?ac a] row-wise [scal]
+    function for matrices. *)
+
 val axpy :
   ?m : int ->
   ?n : int ->

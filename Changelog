@@ -1,6 +1,7 @@
 2009-09-21:  Added new functions:
 
                * ormqr
+               * Mat.scal_rows
 
 2009-09-16:  Added new functions:
 
