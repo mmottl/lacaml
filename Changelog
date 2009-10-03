@@ -1,3 +1,7 @@
+2009-10-03:  Minor API change.
+
+             trmm and trsm now have a similar API wrt. variable labeling.
+
 2009-09-21:  Added new functions:
 
                * ormqr
