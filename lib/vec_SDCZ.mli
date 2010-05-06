@@ -95,7 +95,7 @@ val map :
   ?incx : int ->
   vec
   -> vec
-(** [map f ?n ?ofsx ?incx x] @return a new matrix resulting from the
+(** [map f ?n ?ofsx ?incx x] @return a new vector resulting from the
     application of [f] to all elements of [x].
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
