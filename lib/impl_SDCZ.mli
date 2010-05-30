@@ -671,7 +671,8 @@ val getri :
   ?ac : int ->
   mat ->
   unit
-(** [getri ?n ?ipiv ?work ?ar ?ac a]
+(** [getri ?n ?ipiv ?work ?ar ?ac a]. Note that matrix [a] will be passed to
+    [getrf] if [ipiv] was not provided.
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param ipiv default = vec of length [m] from getri
@@ -728,7 +729,8 @@ val sytrs :
   ?bc : int ->
   mat ->
   unit
-(** [sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b]
+(** [sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b]. Note that matrix [a] will be
+    passed to [sytrf] if [ipiv] was not provided.
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true (store upper triangle in [a])
@@ -752,7 +754,8 @@ val sytri :
   ?ac : int ->
   mat ->
   unit
-(** [sytri ?n ?up ?ipiv ?work ?ar ?ac a]
+(** [sytri ?n ?up ?ipiv ?work ?ar ?ac a]. Note that matrix [a] will be
+    passed to [sytrf] if [ipiv] was not provided.
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true (store upper triangle in [a])
