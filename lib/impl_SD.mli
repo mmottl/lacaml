@@ -949,3 +949,40 @@ val sygv :
            [`AB]: a*b*x = (lambda)*x
            [`BA]: b*a*x = (lambda)*x
 *)
+
+
+val sbgv :
+  ?n : int ->
+  ?ka : int ->
+  ?kb : int ->
+  ?zr : int ->
+  ?zc : int ->
+  ?z : mat ->
+  ?up : bool ->
+  ?work : vec ->
+  ?ofsw : int ->
+  ?w : vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> vec
+(** [sbgv ?n ?ka ?kb ?zr ?zc ?z ?up ?work ?ofsw ?w ?ar ?ac a ?br ?bc b]
+    computes all the eigenvalues, and optionally, the eigenvectors of a
+    real generalized symmetric-definite banded eigenproblem, of the
+    form A*x=(lambda)*B*x.  Here [a] and [b] are assumed to be
+    symmetric and banded, and [b] is also positive definite.
+
+    @return the vector [w] of eigenvalues in ascending order.
+
+    @raise Failure if the function fails to converge.
+
+    @param n default = available number of columns of matrix [a]
+    @param z default = [None] i.e, eigenvectors are not computed
+    @param up default = [true] i.e., upper triangle of [a] is stored
+    @param work default = vec of optimum length (-> [sbgv_opt_lwork])
+    @param ofsw default = 1 or ignored if [w] is not given
+    @param w default = vec of length [n]
+*)

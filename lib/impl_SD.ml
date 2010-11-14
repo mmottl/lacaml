@@ -1448,3 +1448,75 @@ let sygv
   in
   if info = 0 then w
   else sygv_err loc sygv_min_lwork a b n lwork info
+
+(* SBGV *)
+
+external direct_sbgv :
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  n : int ->
+  ka : int ->
+  kb : int ->
+  jobz : char ->
+  uplo : char ->
+  ofsw : int ->
+  w : vec ->
+  zr : int ->
+  zc : int ->
+  z : mat ->
+  work : vec
+  -> int = "lacaml_FPRECsbgv_stub_bc" "lacaml_FPRECsbgv_stub"
+
+let sbgv_min_lwork n = 3 * n
+
+let sbgv_err loc a b n ka kb z err =
+  if err > n then
+    let msg =
+      sprintf "%s: leading minor of order %d of b is not positive definite"
+        loc (err - n) in
+    failwith msg
+  else if err > 0 then
+    let msg =
+      sprintf "%s: failed to converge on off-diagonal element %d" loc err in
+    failwith msg
+  else
+    let msg =
+      match err with
+      | -3 -> sprintf "n: valid=[0..[ got=%d" n
+      | -4 -> sprintf "ka: valid=[0..[ got=%d" ka
+      | -5 -> sprintf "kb: valid=[0..[ got=%d" kb
+      | -7 -> sprintf "dim1(a): valid=[%d..[ got=%d" (ka + 1) (Array2.dim1 a)
+      | -9 -> sprintf "dim1(b): valid=[%d..[ got=%d" (kb + 1) (Array2.dim1 b)
+      | -12 -> sprintf "dim1(vectors): valid=[%d..[ got=%d" n (Array2.dim1 z)
+      | n -> raise (InternalError (sprintf "%s: error code %d" loc n))
+    in
+    invalid_arg (sprintf "%s: %s" loc msg)
+
+let sbgv
+    ?n ?ka ?kb ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?ofsw ?w
+    ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.Impl.FPREC.sbgv" in
+  (* [a] is a band matrix of size [ka+1]*[n]. *)
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let ka = get_k_mat_sb loc a_str a ar ka_str ka in
+  check_dim2_mat loc b_str b bc n_str n;
+  let kb = get_k_mat_sb loc a_str a ar kb_str kb in
+  let uplo = get_uplo_char up in
+  let jobz = get_job_char(z <> None) in
+  let z = get_mat loc z_str Mat.create zr zc z n n in
+  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
+  let work = match work with
+    | Some work -> check_vec loc work_str work (3 * n); work
+    | None -> Vec.create (3 * n)
+  in
+  let info =
+    direct_sbgv
+      ~ar ~ac ~a ~br ~bc ~b ~n ~ka ~kb ~jobz ~uplo ~ofsw ~w ~zr ~zc ~z ~work
+  in
+  if info = 0 then w
+  else sbgv_err loc a b n ka kb z info

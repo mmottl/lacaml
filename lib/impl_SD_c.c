@@ -1343,6 +1343,73 @@ CAMLprim value LFUN(sygv_stub_bc)(value *argv, int argn)
 
 /** TODO: SPGVD */
 
-/** TODO: SBGV */
+/** SBGV */
+
+extern void FUN(sbgv)(
+  char *JOBZ, char *UPLO,
+  integer *N,
+  integer *KA, integer *KB,
+  REAL *AB, integer *LDAB,
+  REAL *BB, integer *LDBB,
+  REAL *W,
+  REAL *Z, integer *LDZ,
+  REAL *WORK,
+  integer *INFO);
+
+CAMLexport value LFUN(sbgv_stub)(
+  value vAR,
+  value vAC,
+  value vA,
+  value vBR,
+  value vBC,
+  value vB,
+  value vN, value vKA, value vKB,
+  value vJOBZ, value vUPLO,
+  value vOFSW, value vW,
+  value vZR,
+  value vZC,
+  value vZ,
+  value vWORK)
+{
+  CAMLparam5(vA, vB, vW, vZ, vWORK);
+
+  char GET_INT(JOBZ),
+       GET_INT(UPLO);
+
+  integer GET_INT(N),
+          GET_INT(KA),
+          GET_INT(KB),
+          INFO;
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(B);
+  VEC_PARAMS(W);
+  MAT_PARAMS(Z);
+  VEC_PARAMS1(WORK);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(sbgv)(
+    &JOBZ, &UPLO,
+    &N,
+    &KA, &KB,
+    A_data, &rows_A,
+    B_data, &rows_B,
+    W_data,
+    Z_data, &rows_Z,
+    WORK_data,
+    &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_int(INFO));
+}
+
+CAMLexport value LFUN(sbgv_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(sbgv_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
+      argv[8], argv[9], argv[10], argv[11], argv[12], argv[13], argv[14],
+      argv[15], argv[16]);
+}
 
 /** TODO: SBGVD */
