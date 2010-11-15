@@ -1496,6 +1496,8 @@ let sbgv_err loc a b n ka kb z err =
     in
     invalid_arg (sprintf "%s: %s" loc msg)
 
+let dummy_matrix = Mat.create 0 0
+
 let sbgv
     ?n ?ka ?kb ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?ofsw ?w
     ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
@@ -1506,8 +1508,11 @@ let sbgv
   check_dim2_mat loc b_str b bc n_str n;
   let kb = get_k_mat_sb loc a_str a ar kb_str kb in
   let uplo = get_uplo_char up in
-  let jobz = get_job_char(z <> None) in
-  let z = get_mat loc z_str Mat.create zr zc z n n in
+  let jobz, z = match z with
+    | None -> job_char_false, dummy_matrix
+    | Some z ->
+      check_dim_mat loc z_str zr zc z n n;
+      job_char_true, z in
   let ofsw = get_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let work = match work with
