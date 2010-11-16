@@ -7,6 +7,7 @@
 lib/(impl|mat|vec)(2|4)_.*$
 examples/blas/blas$
 examples/eig/eig$
+examples/eig/sbgv$
 examples/lin_eq/lin_eq$
 examples/lin_eq_comp/lin_eq_comp$
 examples/lin_reg/lin_reg$
