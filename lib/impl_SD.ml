@@ -1496,7 +1496,9 @@ let sbgv_err loc a b n ka kb z err =
     in
     invalid_arg (sprintf "%s: %s" loc msg)
 
-let dummy_matrix = Mat.create 0 0
+let dummy_matrix = Mat.create 1 0
+(* The fact that the number of rows is 1 is important, otherwise SBGV
+   rejects LDZ as being illegal. *)
 
 let sbgv
     ?n ?ka ?kb ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?ofsw ?w
