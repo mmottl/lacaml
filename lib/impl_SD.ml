@@ -1508,7 +1508,7 @@ let sbgv
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ka = get_k_mat_sb loc a_str a ar ka_str ka in
   check_dim2_mat loc b_str b bc n_str n;
-  let kb = get_k_mat_sb loc a_str a ar kb_str kb in
+  let kb = get_k_mat_sb loc b_str b br kb_str kb in
   let uplo = get_uplo_char up in
   let jobz, z = match z with
     | None -> job_char_false, dummy_matrix
