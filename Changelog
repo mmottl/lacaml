@@ -1,3 +1,10 @@
+2010-11-21:  Added new function:
+
+               * sbgv
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
+             for contributing this function!
+
 2009-10-03:  Minor API change.
 
              trmm and trsm now have a similar API wrt. variable labeling.
@@ -12,7 +19,7 @@
 
                * sygv
 
-             Thanks to Christophe Troestler <Christophe.Troestler@umh.ac.be>
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
              for contributing sygv!
 
                * orgqr
@@ -98,7 +105,7 @@
 
                * Vec.neg
 
-             Thanks to Christophe Troestler <Christophe.Troestler@umh.ac.be>
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
              for contributing the patch!
 
 2009-04-28:  Added new functions:
@@ -251,7 +258,7 @@
 
 2006-01-18:  Fixed a bug in pbsv and sbmv.
 
-             Thanks to Christophe Troestler <Christophe.Troestler@umh.ac.be>
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
              for contributing the patch!
 
 2006-01-16:  Updated OCamlMakefile.
@@ -589,7 +596,7 @@
 
              Many thanks to
 
-               Christophe Troestler <Christophe.Troestler@umh.ac.be>
+               Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
              for this major contribution!
 
