@@ -1518,8 +1518,8 @@ let sbgv
   let ofsw = get_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let work = match work with
-    | Some work -> check_vec loc work_str work (3 * n); work
-    | None -> Vec.create (3 * n)
+    | Some work -> check_vec loc work_str work (sbgv_min_lwork n); work
+    | None -> Vec.create (sbgv_min_lwork n)
   in
   let info =
     direct_sbgv
