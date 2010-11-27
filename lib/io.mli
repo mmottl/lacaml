@@ -25,7 +25,7 @@
 open Format
 open Bigarray
 
-(** {6 Generic matrix printing function} *)
+(** {6 Generic matrix printing functions} *)
 
 module Context : sig
   type t
