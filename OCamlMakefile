@@ -219,6 +219,11 @@ ifndef OCAMLFIND
 endif
 export OCAMLFIND
 
+ifndef OCAML
+  OCAML := ocaml
+endif
+export OCAML
+
 ifndef OCAMLC
   OCAMLC := ocamlc
 endif
@@ -1003,13 +1008,21 @@ $(RESULT).cmxa $(RESULT).$(EXT_LIB):	$(REAL_IMPL_INTF) $(EXTRADEPS) $(RESULTDEPS
 			$(REAL_OCAMLFIND) $(OCAMLOPT) -a $(ALL_LDFLAGS) $(OBJS_LIBS) -o $@ $(REAL_IMPL)
 else
 # Packing a bytecode library
+LIB_PACK_NAME_MLI = $(wildcard $(LIB_PACK_NAME).mli)
+ifeq ($(LIB_PACK_NAME_MLI),)
+LIB_PACK_NAME_CMI = $(LIB_PACK_NAME).cmi
+else
+# $(LIB_PACK_NAME).mli exists, it likely depends on other compiled interfaces
+LIB_PACK_NAME_CMI =
+$(LIB_PACK_NAME).cmi: $(REAL_IMPL_INTF)
+endif
 ifdef BYTE_OCAML
-$(LIB_PACK_NAME).cmi $(LIB_PACK_NAME).cmo: $(REAL_IMPL_INTF)
+$(LIB_PACK_NAME_CMI) $(LIB_PACK_NAME).cmo: $(REAL_IMPL_INTF)
 			$(REAL_OCAMLFIND) $(REAL_OCAMLC) -pack -o $(LIB_PACK_NAME).cmo $(OCAMLLDFLAGS) $(REAL_IMPL)
 # Packing into a unit which can be transformed into a library
 # Remember the .ml's must have been compiled with -for-pack $(LIB_PACK_NAME)
 else
-$(LIB_PACK_NAME).cmi $(LIB_PACK_NAME).cmx: $(REAL_IMPL_INTF)
+$(LIB_PACK_NAME_CMI) $(LIB_PACK_NAME).cmx: $(REAL_IMPL_INTF)
 			$(REAL_OCAMLFIND) $(OCAMLOPT) -pack -o $(LIB_PACK_NAME).cmx  $(OCAMLLDFLAGS) $(REAL_IMPL)
 endif
 
