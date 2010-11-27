@@ -5,6 +5,7 @@
 \._(b|n)cdi/.*$
 \._d/.*$
 lib/(impl|mat|vec)(2|4)_.*$
+lib/lacaml.mli
 examples/blas/blas$
 examples/eig/eig$
 examples/eig/sbgv$
@@ -13,3 +14,5 @@ examples/lin_eq_comp/lin_eq_comp$
 examples/lin_reg/lin_reg$
 examples/svd/svd$
 examples/qr/qr$
+doc
+

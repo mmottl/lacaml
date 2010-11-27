@@ -11,8 +11,8 @@ examples:
 	@for dir in $(EXAMPLES); do (cd $$dir && $(MAKE)); done
 
 .PHONY:	doc
-doc:
-	@cd lib && $(MAKE) doc
+doc htdoc:
+	@cd lib && $(MAKE) $@
 	ln -sf lib/doc
 
 .PHONY:	install

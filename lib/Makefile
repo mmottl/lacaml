@@ -82,6 +82,8 @@ CFLAGS := -O2 -fPIC -DPIC
 CLIBS := $(LAPACK) $(BLAS)
 RESULT := lacaml
 
+DOC_FILES = $(LIB_PACK_NAME).mli
+
 PREMAKE := \
 	$(STUBS:%.c=%.o) \
 	vec4_S.mli vec4_S.ml vec4_D.mli vec4_D.ml \
@@ -95,7 +97,8 @@ PREMAKE := \
 	impl2_S.mli impl2_S.ml impl2_D.mli impl2_D.ml \
 	impl2_C.mli impl2_C.ml impl2_Z.mli impl2_Z.ml \
 	impl4_S.mli impl4_S.ml impl4_D.mli impl4_D.ml \
-	impl4_C.mli impl4_C.ml impl4_Z.mli impl4_Z.ml
+	impl4_C.mli impl4_C.ml impl4_Z.mli impl4_Z.ml \
+	$(LIB_PACK_NAME).mli
 
 LIBINSTALL_FILES := \
   io.mli impl.ml common.mli \
@@ -127,6 +130,10 @@ install:	libinstall
 uninstall:	libuninstall
 
 CC = $(shell ocamlc -config | grep native_c_compiler | cut -d' ' -f2)
+
+# Generation of the interface
+$(LIB_PACK_NAME).mli: $(LIB_PACK_NAME)_SDCZ.mli make_lacaml_intf.ml
+	$(OCAML) make_lacaml_intf.ml $@ $<
 
 # Generation rules for precision-dependent C-code
 %2_S_c.o:	%_SD_c.c
