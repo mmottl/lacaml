@@ -31,7 +31,7 @@ open Numberxx
 (** {6 Creation/conversion of vectors and dimension accessor} *)
 
 val create : int -> vec
-(** [create n] @return a vector with [n] rows. *)
+(** [create n] @return a vector with [n] rows (not initialized). *)
 
 val make : int -> num_type -> vec
 (** [make n x] @return a vector with [n] rows initialized with value [x]. *)
@@ -65,7 +65,7 @@ val concat : vec list -> vec
 (** [concat vs] @return the concatenation of vectors [vs]. *)
 
 val empty : vec
-(** [empty] the empty vector. *)
+(** [empty], the empty vector. *)
 
 val linspace : ?y : vec -> num_type -> num_type -> int -> vec
 (** [linspace ?z a b n] @return the vector [y] overwritten with [n]
@@ -96,7 +96,7 @@ val map :
   vec
   -> vec
 (** [map f ?n ?ofsx ?incx x] @return a new vector resulting from the
-    application of [f] to all elements of [x].
+    application of [f] to each element of [x].
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
@@ -153,8 +153,8 @@ val rev : vec -> vec
 val max : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
 (** [max ?n ?ofsx ?incx x] computes the greater of the [n] elements
     in vector [x] (2-norm), separated by [incx] incremental steps. NaNs
-    are ignored. If only NaNs are encountered, the negative infinity
-    element will be returned.
+    are ignored. If only NaNs are encountered, the negative [infinity]
+    value will be returned.
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1 *)
@@ -162,7 +162,7 @@ val max : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
 val min : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
 (** [min ?n ?ofsx ?incx x] computes the smaller of the [n] elements
     in vector [x] (2-norm), separated by [incx] incremental steps.
-    NaNs are ignored. If only NaNs are encountered, the infinity element
+    NaNs are ignored. If only NaNs are encountered, the [infinity] value
     will be returned.
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1

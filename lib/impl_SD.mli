@@ -157,7 +157,7 @@ val syr :
 
 (** {6 LAPACK interface} *)
 
-(** Auxiliary routines *)
+(** {7 Auxiliary routines} *)
 
 val lansy_min_lwork : int -> norm4 -> int
 (** [lansy_min_lwork m norm]
@@ -184,7 +184,7 @@ val lamch :  [ `E | `S | `B | `P | `N | `R | `M | `U | `L | `O ] -> float
 (** [lamch cmach] see LAPACK documentation! *)
 
 
-(** Linear equations (computational routines) *)
+(** {7 Linear equations (computational routines)} *)
 
 (* ORGQR *)
 
@@ -358,7 +358,7 @@ val pocon :
     @param iwork default = automatically allocated workspace
     @param anorm default = 1-norm of the matrix [a] as returned by [lange] *)
 
-(** Least squares (expert drivers) *)
+(** {7 Least squares (expert drivers)} *)
 
 val gelsy_min_lwork : m : int -> n : int -> nrhs : int -> int
 (** [gelsy_min_lwork ~m ~n ~nrhs] @return the minimum length of the
@@ -520,7 +520,7 @@ val gelss :
     @param nrhs default = available number of columns in matrix [b] *)
 
 
-(** General SVD routines *)
+(** {7 General SVD routines} *)
 
 val gesvd_min_lwork : m : int -> n : int -> int
 (** [gesvd_min_lwork ~m ~n] @return the minimum length of the work array
@@ -577,7 +577,7 @@ val gesdd :
   -> vec * mat * mat
 
 
-(** General eigenvalue problem (simple drivers) *)
+(** {7 General eigenvalue problem (simple drivers)} *)
 
 val geev_min_lwork : ?vectors : bool -> int -> int
 (** [geev_min_lwork vectors n] @return the minimum length of the
@@ -640,7 +640,8 @@ val geev :
     @param a the matrix whose eigensystem is computed *)
 
 
-(** Symmetric-matrix eigenvalue and singular value problems (simple drivers) *)
+(** {7 Symmetric-matrix eigenvalue and singular value problems
+    (simple drivers)} *)
 
 val syev_min_lwork : int -> int
 (** [syev_min_lwork n] @return the minimum length of the work-array
@@ -769,8 +770,8 @@ val syevd :
     @param w default = vec of length [n] *)
 
 
-(** Symmetric-matrix eigenvalue and singular value problems (expert &
-    RRR drivers) *)
+(** {7 Symmetric-matrix eigenvalue and singular value problems (expert &
+    RRR drivers)} *)
 
 val syevr_min_lwork : int -> int
 (** [syevr_min_lwork n] @return the minimum length of the

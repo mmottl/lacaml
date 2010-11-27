@@ -194,7 +194,7 @@ val pocon :
     @param anorm default = 1-norm of the matrix [a] as returned by [lange] *)
 
 
-(** General SVD routines *)
+(** {7 General SVD routines} *)
 
 val gesvd_min_lwork : m : int -> n : int -> int
 (** [gesvd_min_lwork ~m ~n] @return the minimum length of the work array
@@ -228,7 +228,7 @@ val gesvd :
   rvec * mat * mat
 
 
-(** General eigenvalue problem (simple drivers) *)
+(** {7 General eigenvalue problem (simple drivers)} *)
 
 val geev_min_lwork : int -> int
 (** [geev_min_lwork n] @return the minimum length of the work array

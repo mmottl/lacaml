@@ -25,7 +25,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Matrix operations *)
+(* Matrix operations *)
 
 open Bigarray
 open Common
@@ -99,7 +99,7 @@ val from_row_vec : vec -> mat
     The data is shared. *)
 
 val empty : mat
-(** [empty] the empty matrix. *)
+(** [empty], the empty matrix. *)
 
 val identity : int -> mat
 (** [identity n] @return the [n]x[n] identity matrix. *)

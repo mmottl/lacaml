@@ -29,7 +29,7 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Interface to BLAS/LAPACK *)
+(* Interface to BLAS/LAPACK *)
 
 open Bigarray
 open Common
@@ -508,7 +508,7 @@ val syr2k :
 
 (** {6 LAPACK interface} *)
 
-(** Auxiliary routines *)
+(** {7 Auxiliary routines} *)
 
 val lacpy :
   ?uplo : [ `U | `L ] ->
@@ -605,7 +605,7 @@ val lauum :
     @param ac default = 1 *)
 
 
-(** Linear equations (computational routines) *)
+(** {7 Linear equations (computational routines)} *)
 
 val getrf :
   ?m : int ->
@@ -615,7 +615,10 @@ val getrf :
   ?ac : int ->
   mat ->
   int_vec
-(** [getrf ?m ?n ?ipiv ?ar ?ac a] @return [ipiv].
+(** [getrf ?m ?n ?ipiv ?ar ?ac a] computes an LU factorization of a
+    general [m]-by-[n] matrix [a] using partial pivoting with row
+    interchanges.  See LAPACK documentation.
+    @return [ipiv], the  pivot indices.
     @raise Failure if the matrix is singular.
     @param m default = number of rows in matrix [a]
     @param n default = number of columns in matrix [a]
@@ -959,7 +962,7 @@ val geqrf :
     @param ac default = 1 *)
 
 
-(** Linear equations (simple drivers) *)
+(** {7 Linear equations (simple drivers)} *)
 
 val gesv :
   ?n : int ->
@@ -1181,7 +1184,7 @@ val spsv :
     @param bc default = 1 *)
 
 
-(** Least squares (simple drivers) *)
+(** {7 Least squares (simple drivers)} *)
 
 val gels_min_lwork : m : int -> n : int -> nrhs : int -> int
 (** [gels_min_lwork ~m ~n ~nrhs] @return the minimum length of the

@@ -132,7 +132,8 @@ uninstall:	libuninstall
 CC = $(shell ocamlc -config | grep native_c_compiler | cut -d' ' -f2)
 
 # Generation of the interface
-$(LIB_PACK_NAME).mli: $(LIB_PACK_NAME)_SDCZ.mli make_lacaml_intf.ml
+$(LIB_PACK_NAME).mli: $(LIB_PACK_NAME)_SDCZ.mli make_lacaml_intf.ml \
+	$(filter %.mli,$(SOURCES))
 	$(OCAML) make_lacaml_intf.ml $@ $<
 
 # Generation rules for precision-dependent C-code
