@@ -638,8 +638,12 @@ val getrs :
   ?bc : int ->
   mat ->
   unit
-(** [getrs ?n ?ipiv ?trans ?ar ?ac a ?nrhs ?br ?bc b].  Note that matrix
-    [a] will be passed to [getrf] if [ipiv] was not provided.
+(** [getrs ?n ?ipiv ?trans ?ar ?ac a ?nrhs ?br ?bc b] solves a system
+    of linear equations [a] * X = [b] or [a]' * X = [b] with a general
+    [n]-by-[n] matrix [a] using the LU factorization computed by
+    {!getrf}.
+    Note that matrix [a] will be passed to {!getrf} if [ipiv] was not
+    provided.
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param ipiv default = result from [getrf] applied to [a]
@@ -652,7 +656,7 @@ val getrs :
 
 val getri_min_lwork : int -> int
 (** [getri_min_lwork n] @return the minimum length of the
-    work array used by the [getri]-function if the matrix has [n] columns. *)
+    work array used by the {!getri}-function if the matrix has [n] columns. *)
 
 val getri_opt_lwork :
   ?n : int ->
@@ -661,7 +665,7 @@ val getri_opt_lwork :
   mat ->
   int
 (** [getri_opt_lwork ?n ?ar ?ac a] @return the optimal size of the
-    work array used by the [getri]-function.
+    work array used by the {!getri}-function.
     @param n default = number of columns of matrix [a]
     @param ar default = 1
     @param ac default = 1 *)
@@ -674,8 +678,9 @@ val getri :
   ?ac : int ->
   mat ->
   unit
-(** [getri ?n ?ipiv ?work ?ar ?ac a]. Note that matrix [a] will be passed to
-    [getrf] if [ipiv] was not provided.
+(** [getri ?n ?ipiv ?work ?ar ?ac a] computes the inverse of a matrix
+    using the LU factorization computed by {!getrf}.  Note that matrix
+    [a] will be passed to {!getrf} if [ipiv] was not provided.
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param ipiv default = vec of length [m] from getri
@@ -685,7 +690,7 @@ val getri :
 
 val sytrf_min_lwork : unit -> int
 (** [sytrf_min_lwork ()] @return the minimum length of the
-    work array used by the [sytrf]-function. *)
+    work array used by the {!sytrf}-function. *)
 
 val sytrf_opt_lwork :
   ?n : int ->
@@ -695,7 +700,7 @@ val sytrf_opt_lwork :
   mat ->
   int
 (** [sytrf_opt_lwork ?n ?up ?ar ?ac a] @return the optimal size of the
-    work array used by the [sytrf]-function.
+    work array used by the {!sytrf}-function.
     @param n default = number of columns of matrix [a]
     @param up default = true (store upper triangle in [a])
     @param a the matrix [a]
@@ -711,8 +716,10 @@ val sytrf :
   ?ac : int ->
   mat ->
   int_vec
-(** [sytrf ?n ?up ?ipiv ?work ?ar ?ac a]
-    @raise Failure if D in A = U*D*U' or L*D*L' is singular.
+(** [sytrf ?n ?up ?ipiv ?work ?ar ?ac a] computes the factorization of
+    the real symmetric matrix [a] using the Bunch-Kaufman diagonal
+    pivoting method.
+    @raise Failure if D in [a] = U*D*U' or L*D*L' is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true (store upper triangle in [a])
     @param ipiv = vec of length n
@@ -732,8 +739,11 @@ val sytrs :
   ?bc : int ->
   mat ->
   unit
-(** [sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b]. Note that matrix [a] will be
-    passed to [sytrf] if [ipiv] was not provided.
+(** [sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b] solves a system of
+    linear equations [a]*X = [b] with a real symmetric matrix [a]
+    using the factorization [a] = U*D*U**T or [a] = L*D*L**T computed
+    by {!sytrf}.  Note that matrix [a] will be passed to {!sytrf} if
+    [ipiv] was not provided.
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true (store upper triangle in [a])
@@ -746,7 +756,7 @@ val sytrs :
 
 val sytri_min_lwork : int -> int
 (** [sytri_min_lwork n] @return the minimum length of the
-    work array used by the [sytri]-function if the matrix has [n] columns. *)
+    work array used by the {!sytri}-function if the matrix has [n] columns. *)
 
 val sytri :
   ?n : int ->
@@ -757,12 +767,15 @@ val sytri :
   ?ac : int ->
   mat ->
   unit
-(** [sytri ?n ?up ?ipiv ?work ?ar ?ac a]. Note that matrix [a] will be
-    passed to [sytrf] if [ipiv] was not provided.
+(** [sytri ?n ?up ?ipiv ?work ?ar ?ac a] computes the inverse of the
+    real symmetric indefinite matrix [a] using the factorization [a] =
+    U*D*U**T or [a] = L*D*L**T computed by {!sytrf}.  Note that matrix
+    [a] will be passed to {!sytrf} if [ipiv] was not provided.
+
     @raise Failure if the matrix is singular.
     @param n default = number of columns in matrix [a]
     @param up default = true (store upper triangle in [a])
-    @param ipiv default = vec of length [n] from sytrf
+    @param ipiv default = vec of length [n] from {!sytrf}
     @param work default = vec of optimum length
     @param ar default = 1
     @param ac default = 1 *)
@@ -809,7 +822,10 @@ val potrs :
   ?jitter : num_type ->
   mat ->
   unit
-(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b]
+(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b] solves
+    a system of linear equations [a]*X = [b], where [a] is symmetric
+    positive definite matrix, using the Cholesky factorization [a] =
+    U**T*U or [a] = L*L**T computed by {!potrf}.
 
     @raise Failure if the matrix is singular.
 
@@ -820,7 +836,7 @@ val potrs :
     @param nrhs default = available number of columns in matrix [b]
     @param br default = 1
     @param bc default = 1
-    @param factorize default = true (calls potrf implicitly)
+    @param factorize default = true (calls {!potrf} implicitly)
     @param jitter default = nothing
 *)
 
@@ -833,7 +849,10 @@ val potri :
   ?jitter : num_type ->
   mat ->
   unit
-(** [potri ?n ?up ?ar ?ac ?factorize ?jitter a]
+(** [potri ?n ?up ?ar ?ac ?factorize ?jitter a] computes the inverse
+    of the real symmetric positive definite matrix [a] using the
+    Cholesky factorization [a] = U**T*U or [a] = L*L**T computed by
+    {!potrf}.
 
     @raise Failure if the matrix is singular.
 
@@ -841,7 +860,7 @@ val potri :
     @param up default = true (upper triangle stored in [a])
     @param ar default = 1
     @param ac default = 1
-    @param factorize default = true (calls potrf implicitly)
+    @param factorize default = true (calls {!potrf} implicitly)
     @param jitter default = nothing
 *)
 
@@ -858,9 +877,12 @@ val trtrs :
   ?bc : int ->
   mat ->
   unit
-(** [trtrs ?n ?up ?trans ?diag ?ar ?ac a ?nrhs ?br ?bc b]
+(** [trtrs ?n ?up ?trans ?diag ?ar ?ac a ?nrhs ?br ?bc b] solves a
+    triangular system of the form [a] * X = [b] or [a]**T * X = [n],
+    where [a] is a triangular matrix of order [n], and [b] is an
+    [n]-by-[nrhs] matrix.
 
-    @raise Failure if the matrix is singular.
+    @raise Failure if the matrix [a] is singular.
 
     @param n default = number of columns in matrix [a]
     @param up default = true
@@ -888,8 +910,11 @@ val tbtrs :
   mat ->
   unit
 (** [tbtrs ?n ?kd ?up ?trans ?diag ?abr ?abc ab ?nrhs ?br ?bc b]
+    solves a triangular system of the form [a] * X = [b] or [a]**T * X = [b],
+    where [a] is a triangular band matrix of order [n], and [b] is
+    an [n]-by-[nrhs] matrix.
 
-    @raise Failure if the matrix is singular.
+    @raise Failure if the matrix [a] is singular.
 
     @param n default = number of columns in matrix [ab]
     @param kd default = number of rows in matrix [ab] - 1
@@ -911,9 +936,10 @@ val trtri :
   ?ac : int ->
   mat ->
   unit
-(** [trtri ?n ?up ?diag ?ar ?ac a]
+(** [trtri ?n ?up ?diag ?ar ?ac a] computes the inverse of a real
+    upper or lower triangular matrix [a].
 
-    @raise Failure if the matrix is singular.
+    @raise Failure if the matrix [a] is singular.
 
     @param n default = number of columns in matrix [a]
     @param up default = true (upper triangle stored in [a])
@@ -930,7 +956,7 @@ val geqrf_opt_lwork :
   mat ->
   int
 (** [geqrf_opt_lwork ?m ?n ?ar ?ac a] @return the optimum
-    length of the work-array used by the [geqrf]-function given matrix
+    length of the work-array used by the {!geqrf}-function given matrix
     [a] and optionally its logical dimensions [m] and [n].
 
     @param m default = number of rows in matrix [a]
@@ -941,7 +967,7 @@ val geqrf_opt_lwork :
 
 val geqrf_min_lwork : n : int -> int
 (** [geqrf_min_lwork ~n] @return the minimum length of the
-    work-array used by the [geqrf]-function if the matrix has [n]
+    work-array used by the {!geqrf}-function if the matrix has [n]
     columns. *)
 
 val geqrf :
@@ -953,7 +979,10 @@ val geqrf :
   ?ac : int ->
   mat ->
   vec
-(** [geqrf ?m ?n ?work ?tau ?ar ?ac a] @return [tau].
+(** [geqrf ?m ?n ?work ?tau ?ar ?ac a] computes a QR factorization of
+    a real [m]-by-[n] matrix [a].  See LAPACK documentation.
+
+    @return [tau], the scalar factors of the elementary reflectors.
     @param m default = number of rows in matrix [a]
     @param n default = number of columns in matrix [a]
     @param work default = vec of optimum length
@@ -975,8 +1004,16 @@ val gesv :
   ?bc : int ->
   mat ->
   unit
-(** [gesv ?n ?ipiv ?ar ?ac a ?nrhs ?br ?bc b]
-    @raise Failure if the matrix is singular.
+(** [gesv ?n ?ipiv ?ar ?ac a ?nrhs ?br ?bc b] computes the solution to
+    a real system of linear equations [a] * X = [b], where [a] is an
+    [n]-by-[n] matrix and X and [b] are [n]-by-[nrhs] matrices.  The
+    LU decomposition with partial pivoting and row interchanges is
+    used to factor [a] as [a] = P * L * U, where P is a permutation
+    matrix, L is unit lower triangular, and U is upper triangular.
+    The factored form of [a] is then used to solve the system of
+    equations [a] * X = [b].  On exit, [b] contains the solution matrix X.
+
+    @raise Failure if the matrix [a] is singular.
     @param n default = available number of columns in matrix [a]
     @param ipiv default = vec of length [n]
     @param ar default = 1
@@ -998,8 +1035,17 @@ val gbsv :
   ?bc : int ->
   mat ->
   unit
-(** [gbsv ?n ?ipiv ?abr ?abc ab kl ku ?nrhs ?br ?bc b]
-    @raise Failure if the matrix is singular.
+(** [gbsv ?n ?ipiv ?abr ?abc ab kl ku ?nrhs ?br ?bc b] computes the
+    solution to a real system of linear equations [a] * X = [b], where
+    [a] is a band matrix of order [n] with [kl] subdiagonals and [ku]
+    superdiagonals, and X and [b] are [n]-by-[nrhs] matrices.  The LU
+    decomposition with partial pivoting and row interchanges is used
+    to factor [a] as [a] = L * U, where L is a product of permutation and
+    unit lower triangular matrices with [kl] subdiagonals, and U is
+    upper triangular with [kl+ku] superdiagonals.  The factored form of
+    [a] is then used to solve the system of equations [a] * X = [b].
+
+    @raise Failure if the matrix [a] is singular.
     @param n default = available number of columns in matrix [ab]
     @param ipiv default = vec of length [n]
     @param abr default = 1
@@ -1021,7 +1067,12 @@ val gtsv :
   ?bc : int ->
   mat ->
   unit
-(** [gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?br ?bc b]
+(** [gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?br ?bc b] solves the
+    equation [a] * X = [b] where [a] is an [n]-by-[n] tridiagonal
+    matrix, by Gaussian elimination with partial pivoting.  Note that
+    the equation [A]'*X = [b] may be solved by interchanging the order
+    of the arguments [du] and [dl].
+
     @raise Failure if the matrix is singular.
     @param n default = available length of vector [d]
     @param ofsdl default = 1
@@ -1042,7 +1093,17 @@ val posv :
   ?bc : int ->
   mat ->
   unit
-(** [posv ?n ?up ?ar ?ac a ?nrhs ?br ?bc b]
+(** [posv ?n ?up ?ar ?ac a ?nrhs ?br ?bc b] computes the solution to a
+    real system of linear equations [a] * X = [b], where [a] is an
+    [n]-by-[n] symmetric positive definite matrix and X and [b] are
+    [n]-by-[nrhs] matrices.  The Cholesky decomposition is used to
+    factor [a] as
+    [a] = U**T * U,  if [up = true], or
+    [a] = L * L**T,  if [up = false],
+    where U is an upper triangular matrix and L is a lower triangular
+    matrix.  The factored form of [a] is then used to solve the system
+    of equations [a] * X = [b].
+
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [a]
     @param up default = true i.e., upper triangle of [a] is stored
@@ -1062,7 +1123,17 @@ val ppsv :
   ?bc : int ->
   mat ->
   unit
-(** [ppsv ?n ?up ?ofsap ap ?nrhs ?br ?bc b]
+(** [ppsv ?n ?up ?ofsap ap ?nrhs ?br ?bc b] computes the solution to
+    the real system of linear equations [a] * X = [b], where [a] is an
+    [n]-by-[n] symmetric positive definite matrix stored in packed
+    format and X and [b] are [n]-by-[nrhs] matrices.  The Cholesky
+    decomposition is used to factor [a] as
+    [a] = U**T * U,  if [up = true], or
+    [a] = L * L**T,  if [up = false],
+    where U is an upper triangular matrix and L is a lower triangular
+    matrix.  The factored form of [a] is then used to solve the system
+    of equations [a] * X = [b].
+
     @raise Failure if the matrix is singular.
     @param n default = the greater n s.t. n(n+1)/2 <= [Vec.dim ap]
     @param up default = true i.e., upper triangle of [ap] is stored
@@ -1083,7 +1154,18 @@ val pbsv :
   ?bc : int ->
   mat ->
   unit
-(** [pbsv ?n ?up ?kd ?abr ?abc ab ?nrhs ?br ?bc b]
+(** [pbsv ?n ?up ?kd ?abr ?abc ab ?nrhs ?br ?bc b] computes the
+    solution to a real system of linear equations [a] * X = [b], where
+    [a] is an [n]-by-[n] symmetric positive definite band matrix and X
+    and [b] are [n]-by-[nrhs] matrices.  The Cholesky decomposition is
+    used to factor [a] as
+    [a] = U**T * U,  if [up = true], or
+    [a] = L * L**T,  if [up = false],
+    where U is an upper triangular band matrix, and L is a lower
+    triangular band matrix, with the same number of superdiagonals or
+    subdiagonals as [a].  The factored form of [a] is then used to
+    solve the system of equations [a] * X = [b].
+
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [ab]
     @param up default = true i.e., upper triangle of [ab] is stored
@@ -1105,7 +1187,13 @@ val ptsv :
   ?bc : int ->
   mat ->
   unit
-(** [ptsv ?n ?ofsd d ?ofse e ?nrhs ?br ?bc b]
+(** [ptsv ?n ?ofsd d ?ofse e ?nrhs ?br ?bc b] computes the solution to
+    the real system of linear equations [a]*X = [b], where [a] is an
+    [n]-by-[n] symmetric positive definite tridiagonal matrix, and X
+    and [b] are [n]-by-[nrhs] matrices.  A is factored as [a] =
+    L*D*L**T, and the factored form of [a] is then used to solve the
+    system of equations.
+
     @raise Failure if the matrix is singular.
     @param n default = available length of vector [d]
     @param ofsd default = 1
@@ -1150,7 +1238,17 @@ val sysv :
   ?bc : int ->
   mat ->
   unit
-(** [sysv ?n ?up ?ipiv ?work ?ar ?ac a ?nrhs ?br ?bc b]
+(** [sysv ?n ?up ?ipiv ?work ?ar ?ac a ?nrhs ?br ?bc b] computes the
+    solution to a real system of linear equations [a] * X = [b], where
+    [a] is an N-by-N symmetric matrix and X and [b] are [n]-by-[nrhs]
+    matrices.  The diagonal pivoting method is used to factor [a] as
+    [a] = U * D * U**T,  if [up = true], or
+    [a] = L * D * L**T,  if [up = false],
+    where U (or L) is a product of permutation and unit upper (lower)
+    triangular matrices, and D is symmetric and block diagonal with
+    1-by-1 and 2-by-2 diagonal blocks.  The factored form of [a] is
+    then used to solve the system of equations [a] * X = [b].
+
     @raise Failure if the matrix is singular.
     @param n default = available number of columns in matrix [a]
     @param up default = true i.e., upper triangle of [a] is stored
@@ -1173,7 +1271,18 @@ val spsv :
   ?bc : int ->
   mat ->
   unit
-(** [spsv ?n ?up ?ipiv ?ofsap ap ?nrhs ?br ?bc b]
+(** [spsv ?n ?up ?ipiv ?ofsap ap ?nrhs ?br ?bc b] computes the
+    solution to the real system of linear equations [a] * X = [b],
+    where [a] is an [n]-by-[n] symmetric matrix stored in packed
+    format and X and [b] are [n]-by-[nrhs] matrices.  The diagonal
+    pivoting method is used to factor [a] as
+    [a] = U * D * U**T,  if [up = true], or
+    [a] = L * D * L**T,  if [up = false],
+    where U (or L) is a product of permutation and unit upper (lower)
+    triangular matrices, D is symmetric and block diagonal with 1-by-1
+    and 2-by-2 diagonal blocks.  The factored form of [a] is then used
+    to solve the system of equations [a] * X = [b].
+
     @raise Failure if the matrix is singular.
     @param n default = the greater n s.t. n(n+1)/2 <= [Vec.dim ap]
     @param up default = true i.e., upper triangle of [ap] is stored
@@ -1234,7 +1343,7 @@ val gels :
     LAPACK documentation!
     @param m default = available number of rows in matrix [a]
     @param n default = available number of columns of matrix [a]
-    @param work default = vec of optimum length (-> [gels_opt_lwork])
+    @param work default = vec of optimum length (-> {!gels_opt_lwork})
     @param trans default = `N
     @param ar default = 1
     @param ac default = 1

@@ -645,7 +645,7 @@ val geev :
 
 val syev_min_lwork : int -> int
 (** [syev_min_lwork n] @return the minimum length of the work-array
-    used by the [syev]-function if the logical dimensions of the matrix
+    used by the {!syev}-function if the logical dimensions of the matrix
     are [n]. *)
 
 val syev_opt_lwork :
@@ -657,7 +657,7 @@ val syev_opt_lwork :
   mat
   -> int
 (** [syev_opt_lwork ?n ?vectors ?up ?ar ?ac a] @return the optimum
-    length of the work-array used by the [syev]-function given matrix
+    length of the work-array used by the {!syev}-function given matrix
     [a], optionally its logical dimension [n] and whether the eigenvectors
     must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -681,19 +681,19 @@ val syev :
     @param n default = available number of columns of matrix [a]
     @param vectors default = false i.e, eigenvectors are not computed
     @param up default = true i.e., upper triangle of [a] is stored
-    @param work default = vec of optimum length (-> [syev_opt_lwork])
+    @param work default = vec of optimum length (-> {!syev_opt_lwork})
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n] *)
 
 val syevd_min_lwork : vectors : bool -> int -> int
 (** [syevd_min_lwork vectors n] @return the minimum length of the
-    work-array used by the [syevd]-function if the logical dimensions of
+    work-array used by the {!syevd}-function if the logical dimensions of
     the matrix are [n] and given whether eigenvectors should be computed
     ([vectors]). *)
 
 val syevd_min_liwork : vectors : bool -> int -> int
 (** [syevd_min_liwork vectors n] @return the minimum length of the
-    iwork-array used by the [syevd]-function if the logical dimensions of
+    iwork-array used by the {!syevd}-function if the logical dimensions of
     the matrix are [n] and given whether eigenvectors should be computed
     ([vectors]). *)
 
@@ -706,7 +706,7 @@ val syevd_opt_lwork :
   mat
   -> int
 (** [syevd_opt_lwork ?n ?vectors ?up ?ar ?ac a] @return the optimum
-    length of the work-array used by the [syevd]-function given matrix
+    length of the work-array used by the {!syevd}-function given matrix
     [a], optionally its logical dimension [n] and whether the eigenvectors
     must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -722,7 +722,7 @@ val syevd_opt_liwork :
   mat
   -> int
 (** [syevd_opt_liwork ?n ?vectors ?up ?ar ?ac a] @return the optimum
-    length of the iwork-array used by the [syevd]-function given matrix
+    length of the iwork-array used by the {!syevd}-function given matrix
     [a], optionally its logical dimension [n] and whether the eigenvectors
     must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -739,7 +739,7 @@ val syevd_opt_l_li_work :
   -> int * int
 (** [syevd_opt_l_li_iwork ?n ?vectors ?up ?ar ?ac a] @return the tuple
     of optimum lengths of the work- and iwork-arrays respectively,
-    used by the [syevd]-function given matrix [a], optionally its
+    used by the {!syevd}-function given matrix [a], optionally its
     logical dimension [n] and whether the eigenvectors must be computed
     ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -764,8 +764,8 @@ val syevd :
     @param n default = available number of columns of matrix [a]
     @param vectors default = false i.e, eigenvectors are not computed
     @param up default = true i.e., upper triangle of [a] is stored
-    @param work default = vec of optimum length (-> [syev_opt_lwork])
-    @param iwork default = int_vec of optimum length (-> [syevd_opt_liwork])
+    @param work default = vec of optimum length (-> {!syev_opt_lwork})
+    @param iwork default = int_vec of optimum length (-> {!syevd_opt_liwork})
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n] *)
 
@@ -775,12 +775,12 @@ val syevd :
 
 val syevr_min_lwork : int -> int
 (** [syevr_min_lwork n] @return the minimum length of the
-    work-array used by the [syevr]-function if the logical dimensions
+    work-array used by the {!syevr}-function if the logical dimensions
     of the matrix are [n]. *)
 
 val syevr_min_liwork : int -> int
 (** [syevr_min_liwork n] @return the minimum length of the
-    iwork-array used by the [syevr]-function if the logical dimensions
+    iwork-array used by the {!syevr}-function if the logical dimensions
     of the matrix are [n]. *)
 
 val syevr_opt_lwork :
@@ -794,7 +794,7 @@ val syevr_opt_lwork :
   mat
   -> int
 (** [syevr_opt_lwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a] @return
-    the optimum length of the work-array used by the [syevr]-function
+    the optimum length of the work-array used by the {!syevr}-function
     given matrix [a], optionally its logical dimension [n] and whether
     the eigenvectors must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -812,7 +812,7 @@ val syevr_opt_liwork :
   mat
   -> int
 (** [syevr_opt_liwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a] @return
-    the optimum length of the iwork-array used by the [syevr]-function
+    the optimum length of the iwork-array used by the {!syevr}-function
     given matrix [a], optionally its logical dimension [n] and whether
     the eigenvectors must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -831,7 +831,7 @@ val syevr_opt_l_li_work :
   -> int * int
 (** [syevr_opt_l_li_iwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a]
     @return the tuple of optimum lengths of the work- and iwork-arrays
-    respectively, used by the [syevr]-function given matrix [a],
+    respectively, used by the {!syevr}-function given matrix [a],
     optionally its logical dimension [n] and whether the eigenvectors
     must be computed ([vectors]).
     @param n default = available number of columns of matrix [a]
@@ -873,8 +873,8 @@ val syevr :
     @param range default = `A
     @param up default = true i.e., upper triangle of [a] is stored
     @param abstol default = result of calling [lamch `S]
-    @param work default = vec of optimum length (-> [syev_opt_lwork])
-    @param iwork default = int_vec of optimum length (-> [syevr_opt_liwork])
+    @param work default = vec of optimum length (-> {!syev_opt_lwork})
+    @param iwork default = int_vec of optimum length (-> {!syevr_opt_liwork})
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n]
     @param zr default = 1
@@ -897,7 +897,7 @@ val sygv_opt_lwork :
   mat
   -> int
 (** [sygv_opt_lwork ?n ?vectors ?up ?ar ?ac a ?br ?bc b] @return the
-    optimum length of the work-array used by the [sygv]-function
+    optimum length of the work-array used by the {!sygv}-function
     for the given matrices [a] and [b], optionally their logical
     dimension [n] and whether the eigenvectors must be computed
     ([vectors]).
@@ -907,9 +907,9 @@ val sygv_opt_lwork :
     @param up default = true, i.e. upper triangle of [a] is stored
 
     @param itype specifies the problem type to be solved:
-           [`A_B] (default): a*x = (lambda)*a*x
-           [`AB]: a*b*x = (lambda)*x
-           [`BA]: b*a*x = (lambda)*x
+           - [`A_B] (default): a*x = (lambda)*a*x
+           - [`AB]: a*b*x = (lambda)*x
+           - [`BA]: b*a*x = (lambda)*x
 *)
 
 val sygv :
@@ -941,14 +941,14 @@ val sygv :
     @param n default = available number of columns of matrix [a]
     @param vectors default = false i.e, eigenvectors are not computed
     @param up default = true i.e., upper triangle of [a] is stored
-    @param work default = vec of optimum length (-> [sygv_opt_lwork])
+    @param work default = vec of optimum length (-> {!sygv_opt_lwork})
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n]
 
     @param itype specifies the problem type to be solved:
-           [`A_B] (default): a*x = (lambda)*a*x
-           [`AB]: a*b*x = (lambda)*x
-           [`BA]: b*a*x = (lambda)*x
+           - [`A_B] (default): a*x = (lambda)*a*x
+           - [`AB]: a*b*x = (lambda)*x
+           - [`BA]: b*a*x = (lambda)*x
 *)
 
 
@@ -983,7 +983,7 @@ val sbgv :
     @param n default = available number of columns of matrix [a]
     @param z default = [None] i.e, eigenvectors are not computed
     @param up default = [true] i.e., upper triangle of [a] is stored
-    @param work default = vec of optimum length (-> [sbgv_opt_lwork])
+    @param work default = vec of optimum length ([3 * n])
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n]
 *)
