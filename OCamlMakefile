@@ -1,6 +1,6 @@
 ###########################################################################
 #                              OCamlMakefile
-#                  Copyright (C) 1999-2007  Markus Mottl
+#                  Copyright (C) 1999-  Markus Mottl
 #
 #                             For updates see:
 #                http://www.ocaml.info/home/ocaml_sources.html
@@ -129,9 +129,9 @@ endif
 
 ifdef MINGW
   export MINGW
-  WIN32   := 1
+  WIN32 := 1
   # We are compiling with cygwin tools:
-  CFLAGS_WIN32 := -mno-cygwin -I /usr/include
+  CFLAGS_WIN32 := -mno-cygwin
   # The default value 'cc' makes 'ocamlc -cc "cc"' raises the error 'The
   # NTVDM CPU has encountered an illegal instruction'.
   CC := gcc
@@ -515,9 +515,10 @@ endif
 NONEXECS     := $(INTF) $(IMPL_CMO) $(IMPL_CMX) $(IMPL_ASM) $(IMPL_S) \
 		$(OBJ_FILES) $(PRE_TARGETS) $(BCRESULT).cma $(NCRESULT).cmxa \
 		$(NCRESULT).$(EXT_LIB) $(BCRESULT).cmi $(BCRESULT).cmo \
-		$(NCRESULT).cmi $(NCRESULT).cmx $(NCRESULT).o \
+		$(NCRESULT).cmi $(NCRESULT).cmx $(NCRESULT).$(EXT_OBJ) \
 		$(RES_CLIB) $(IMPL_CMO:.cmo=.annot) \
-		$(LIB_PACK_NAME).cmi $(LIB_PACK_NAME).cmo $(LIB_PACK_NAME).cmx $(LIB_PACK_NAME).o
+		$(LIB_PACK_NAME).cmi $(LIB_PACK_NAME).cmo $(LIB_PACK_NAME).cmx \
+		$(LIB_PACK_NAME).$(EXT_OBJ)
 
 ifndef STATIC
   NONEXECS += $(DLLSONAME)
@@ -916,7 +917,7 @@ pabc:	pack-byte-code
 # packs native-code objects
 pack-native-code:		$(PRE_TARGETS)
 			$(QUIET)$(MAKE) -r -f $(OCAMLMAKEFILE) \
-				$(NCRESULT).cmx $(NCRESULT).o \
+				$(NCRESULT).cmx $(NCRESULT).$(EXT_OBJ) \
 				REAL_RESULT="$(NCRESULT)" \
 				REAL_OCAMLC="$(OCAMLOPT)" \
 				PACK_LIB=yes make_deps=yes
