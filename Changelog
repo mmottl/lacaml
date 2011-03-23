@@ -3,6 +3,12 @@
              Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
              for contributing this large patch!
 
+             Renamed a function for consistency.  This breaks
+             backward-compatibility, but is extremely unlikely to affect
+             anybody so no major release:
+
+               * Common.mat_of_vec -> Common.mat_from_vec
+
 2010-11-21:  Added new function:
 
                * sbgv

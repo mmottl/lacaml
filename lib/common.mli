@@ -60,7 +60,6 @@ type int_vec = (int32, int32_elt, fortran_layout) Array1.t
 val create_int_vec : int -> int_vec
 (** [create_int_vec n] @return an int-vector with [n] rows. *)
 
-val mat_of_vec : ('a, 'b, 'c) Array1.t -> ('a, 'b, 'c) Array2.t
-(** [mat_of_vec a] converts the vector [a] into a matrix with
-    [Array1.dim a] rows and 1 column.  The data is shared between the
-    two matrices.  *)
+val mat_from_vec : ('a, 'b, 'c) Array1.t -> ('a, 'b, 'c) Array2.t
+(** [mat_from_vec a] converts the vector [a] into a matrix with [Array1.dim a]
+    rows and 1 column.  The data is shared between the two matrices. *)
