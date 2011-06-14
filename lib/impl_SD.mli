@@ -675,7 +675,10 @@ val syev :
   ?ac : int ->
   mat
   -> vec
-(** [syev ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a]
+(** [syev ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a] computes
+    all eigenvalues and, optionally, eigenvectors of the real symmetric
+    matrix [a].
+
     @return the vector [w] of eigenvalues in ascending order.
     @raise Failure if the function fails to converge.
     @param n default = available number of columns of matrix [a]
@@ -759,6 +762,10 @@ val syevd :
   mat
   -> vec
 (** [syevd ?n ?vectors ?up ?ofswork ?work ?iwork ?ofsw ?w ?ar ?ac a]
+    computes all eigenvalues and, optionally, eigenvectors of the real
+    symmetric matrix [a].  If eigenvectors are desired, it uses a
+    divide and conquer algorithm.
+
     @return the vector [w] of eigenvalues in ascending order.
     @raise Failure if the function fails to converge.
     @param n default = available number of columns of matrix [a]
@@ -973,7 +980,7 @@ val sbgv :
 (** [sbgv ?n ?ka ?kb ?zr ?zc ?z ?up ?work ?ofsw ?w ?ar ?ac a ?br ?bc b]
     computes all the eigenvalues, and optionally, the eigenvectors of a
     real generalized symmetric-definite banded eigenproblem, of the
-    form A*x=(lambda)*B*x.  Here [a] and [b] are assumed to be
+    form [a*x=(lambda)*b*x].  Here [a] and [b] are assumed to be
     symmetric and banded, and [b] is also positive definite.
 
     @return the vector [w] of eigenvalues in ascending order.
