@@ -921,8 +921,8 @@ val tbtrs :
     @param up default = true
     @param trans default = `N
     @param diag default = `N
-    @param ar default = 1
-    @param ac default = 1
+    @param abr default = 1
+    @param abc default = 1
     @param nrhs default = available number of columns in matrix [b]
     @param br default = 1
     @param bc default = 1
