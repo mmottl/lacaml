@@ -23,6 +23,11 @@ install:
 uninstall:
 	@cd lib && $(MAKE) $@
 
+.PHONY: reinstall
+reinstall:
+	$(MAKE) uninstall
+	$(MAKE) install
+
 .PHONY:	clean
 clean:
 	@cd lib && $(MAKE) clean
