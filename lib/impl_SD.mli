@@ -777,6 +777,47 @@ val syevd :
     @param w default = vec of length [n] *)
 
 
+val sbev_min_lwork : int -> int
+(** [sbev_min_lwork n] @return the minimum length of the work-array
+    used by the {!sbev}-function if the logical dimensions of the matrix
+    are [n]. *)
+
+val sbev :
+  ?n : int ->
+  ?kd : int ->
+  ?zr : int ->
+  ?zc : int ->
+  ?z : mat ->
+  ?up : bool ->
+  ?work : vec ->
+  ?ofsw : int ->
+  ?w : vec ->
+  ?abr : int ->
+  ?abc : int ->
+  mat
+  -> vec
+(** [sbev ?n ?vectors ?zr ?zc ?z ?up ?ofswork ?work ?ofsw ?w ?abr ?abc ab]
+    computes all the eigenvalues and, optionally, eigenvectors of the
+    real symmetric {i band} matrix [ab].
+
+    @raise Failure if the function fails to converge.
+
+    @return the vector [w] of eigenvalues in ascending order.
+    @raise Failure if the function fails to converge.
+    @param n default = available number of columns of matrix [ab]
+    @param z matrix to contain the orthonormal eigenvectors of [ab],
+             the [i]-th column of [z] holding the eigenvector associated
+             with [w.{i}].
+             default = [None] i.e, eigenvectors are not computed
+    @param kd default = number of rows in matrix [ab] - 1
+    @param up default = true i.e., upper triangle of the matrix is stored
+    @param work default = vec of minimal length (-> {!sbev_min_lwork})
+    @param ofsw default = 1 or ignored if [w] is not given
+    @param w default = vec of length [n]
+    @param abr default = 1
+    @param abc default = 1 *)
+
+
 (** {7 Symmetric-matrix eigenvalue and singular value problems (expert &
     RRR drivers)} *)
 

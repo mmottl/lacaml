@@ -1175,6 +1175,67 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
       loc (syevd_min_lwork ~vectors) (syevd_min_liwork ~vectors)
       a n lwork liwork info
 
+(* SBEV *)
+
+external direct_sbev :
+  abr : int ->
+  abc : int ->
+  ab : mat ->
+  n : int ->
+  kd : int ->
+  jobz : char ->
+  uplo : char ->
+  ofsw : int ->
+  w : vec ->
+  zr : int ->
+  zc : int ->
+  z : mat ->
+  ldz : int -> (* require ldz = 1 when z = empty (no eigenvectors) *)
+  work : vec
+  -> int = "lacaml_FPRECsbev_stub_bc" "lacaml_FPRECsbev_stub"
+
+let sbev_err loc ab n kd err =
+  if err > 0 then
+    let msg =
+      sprintf "%s: failed to converge on %i off-diagonal elements" loc err in
+    failwith msg
+  else
+    let msg =
+      match err with
+      | -3 -> sprintf "n: valid=[0..[ got=%d" n
+      | -4 -> sprintf "kd: valid=[0..[ got=%d" kd
+      | -6 -> sprintf "dim1(ab): valid=[%d..[ got=%d" (kd + 1) (Mat.dim1 ab)
+      (* z fully checked *)
+      | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
+    invalid_arg (sprintf "%s: %s" loc msg)
+
+let sbev_min_lwork n = max 1 (2 * n - 2)
+
+let sbev ?n ?kd ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?(ofsw = 1) ?w
+    ?(abr = 1) ?(abc = 1) ab =
+  let loc = "Lacaml.Impl.FPREC.sbev" in
+  (* [a] is a band matrix of physical size [k+1]*[n]. *)
+  let n = get_dim2_mat loc ab_str ab abc n_str n in
+  let uplo = get_uplo_char up in
+  let kd = get_k_mat_sb loc ab_str ab abr kd_str kd in
+  let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
+  let lwork = sbev_min_lwork n in
+  let work =
+    match work with
+    | Some work -> check_vec loc work_str work lwork; work
+    | None -> Vec.create lwork in
+  let jobz, z, ldz =
+    match z with
+    | Some z ->
+      check_mat_square loc z_str z zr zc n;
+      job_char_true, z, Mat.dim1 z
+    | None -> job_char_false, Mat.empty, 1 in
+  let info =
+    direct_sbev ~abr ~abc ~ab ~n ~kd ~jobz ~uplo ~ofsw ~w
+      ~zr ~zc ~z ~ldz ~work in
+  if info = 0 then w
+  else sbev_err loc ab n kd info
+
 
 (* Symmetric-matrix eigenvalue and singular value problems (expert &
    RRR drivers) *)

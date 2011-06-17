@@ -1143,7 +1143,63 @@ CAMLprim value LFUN(syevd_stub_bc)(value *argv, int argn)
 
 /** TODO: SPEVD */
 
-/** TODO: SBEV */
+/** SBEV */
+
+extern void FUN(sbev)(
+  char *JOBZ, char *UPLO,
+  integer *N,
+  integer *KD,
+  REAL *AB, integer *LDAB,
+  REAL *W,
+  REAL *Z, integer *LDZ,
+  REAL *WORK,
+  integer *INFO);
+
+CAMLprim value LFUN(sbev_stub)(
+  value vABR, value vABC, value vAB,
+  value vN, value vKD,
+  value vJOBZ, value vUPLO,
+  value vOFSW, value vW,
+  value vZR, value vZC, value vZ, value vLDZ,
+  value vWORK)
+{
+  CAMLparam4(vAB, vW, vZ, vWORK);
+
+  char GET_INT(JOBZ),
+       GET_INT(UPLO);
+
+  integer GET_INT(N),
+          GET_INT(KD),
+          GET_INT(LDZ),
+          INFO;
+
+  MAT_PARAMS(AB);
+  MAT_PARAMS(Z);
+  VEC_PARAMS(W);
+  VEC_PARAMS1(WORK);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+  FUN(sbev)(&JOBZ, &UPLO,
+            &N,
+            &KD,
+            AB_data, &rows_AB,
+            W_data,
+            Z_data, &LDZ,
+            WORK_data,
+            &INFO);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_long(INFO));
+}
+
+CAMLprim value LFUN(sbev_stub_bc)(value *argv, int argn)
+{
+  return
+    LFUN(sbev_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
+                    argv[6], argv[7], argv[8], argv[9], argv[10], argv[11],
+                    argv[12], argv[13]);
+}
+
 
 /** TODO: SBEVD */
 

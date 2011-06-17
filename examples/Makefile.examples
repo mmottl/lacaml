@@ -1,5 +1,6 @@
 OCAMLMAKEFILE = ../../OCamlMakefile
 
+ANNOTATE = yes
 INCDIRS = ../../lib
 LIBDIRS = $(INCDIRS)
 LIBS = bigarray lacaml
