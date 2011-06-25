@@ -776,7 +776,6 @@ val syevd :
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n] *)
 
-
 val sbev_min_lwork : int -> int
 (** [sbev_min_lwork n] @return the minimum length of the work-array
     used by the {!sbev}-function if the logical dimensions of the matrix
