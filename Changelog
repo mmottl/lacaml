@@ -1,3 +1,10 @@
+2011-06-25:  Added new function:
+
+               * sbev
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
+             for contributing this function!
+
 2011-03-23:  Greatly improved API documentation.
 
              Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
