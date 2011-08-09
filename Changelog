@@ -1,3 +1,8 @@
+2011-08-09:  Fixed a bug in the work space calculation of sbev.
+
+             Thanks to Yichen Xie <yxie@cs.stanford.edu> for contributing
+             this function!
+
 2011-06-25:  Added new function:
 
                * sbev

@@ -1209,7 +1209,7 @@ let sbev_err loc ab n kd err =
       | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
     invalid_arg (sprintf "%s: %s" loc msg)
 
-let sbev_min_lwork n = max 1 (n + n - 2)
+let sbev_min_lwork n = max 1 (3*n - 2)
 
 let sbev ?n ?kd ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?(ofsw = 1) ?w
     ?(abr = 1) ?(abc = 1) ab =
