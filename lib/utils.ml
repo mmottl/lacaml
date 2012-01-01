@@ -420,9 +420,7 @@ let geev_gen_get_params loc mat_empty mat_create ar ac a n
 
 (* g?mv -- auxiliary functions *)
 
-let gXmv_get_params loc vec_create ar ac a m n ofsx incx x ofsy incy y trans =
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
+let gXmv_get_params loc vec_create m n ofsx incx x ofsy incy y trans =
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let lx, ly, trans_char =
@@ -430,7 +428,7 @@ let gXmv_get_params loc vec_create ar ac a m n ofsx incx x ofsy incy y trans =
     if trans = `N then n, m, trans_char else m, n, trans_char in
   check_vec loc x_str x (ofsx + (lx - 1) * abs incx);
   let y = get_vec loc y_str y ofsy incy ly vec_create in
-  m, n, ofsx, incx, ofsy, incy, y, trans_char
+  ofsx, incx, ofsy, incy, y, trans_char
 
 (* symv -- auxiliary functions *)
 let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =

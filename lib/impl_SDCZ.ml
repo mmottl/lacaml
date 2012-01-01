@@ -191,8 +191,10 @@ external direct_gemv :
 let gemv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.Impl.NPREC.gemv" in
-  let m, n, ofsx, incx, ofsy, incy, y, trans =
-    gXmv_get_params loc Vec.create ar ac a m n ofsx incx x ofsy incy y trans
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let ofsx, incx, ofsy, incy, y, trans =
+    gXmv_get_params loc Vec.create m n ofsx incx x ofsy incy y trans
   in
   direct_gemv
     ~ofsy ~incy ~y ~ar ~ac ~a ~m ~n ~trans ~alpha ~beta ~ofsx ~incx ~x;
@@ -225,11 +227,14 @@ let gbmv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
   let loc = "Lacaml.Impl.NPREC.gbmv" in
   check_var_ltz loc kl_str kl;
   check_var_ltz loc ku_str ku;
-  let m, n, ofsx, incx, ofsy, incy, y, trans =
-    gXmv_get_params loc Vec.create ar ac a m n ofsx incx x ofsy incy y trans in
-  let min_dim1 = kl + ku + 1 in
-  if min_dim1 > m then
-    invalid_arg (sprintf "%s: m: valid=[%d..[ got=%d" loc min_dim1 m);
+  check_dim1_mat loc a_str a ar "kl + ku + 1 for " (kl + ku + 1);
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let m = match m with
+    | None -> n
+    | Some m -> check_var_ltz loc m_str m; m in
+  let ofsx, incx, ofsy, incy, y, trans =
+    gXmv_get_params loc Vec.create m n ofsx incx x ofsy incy y trans
+  in
   direct_gbmv
     ~ofsy ~incy ~y ~ar ~ac ~a ~m ~n ~kl ~ku ~trans ~alpha ~beta ~ofsx ~incx ~x;
   y
@@ -1151,7 +1156,10 @@ external direct_gbsv :
 
 let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.gbsv" in
-  let n = get_n_of_square loc ab_str abr abc ab n in
+  let n = get_dim2_mat loc ab_str ab abc n_str n in
+  let min_dim1 = 2*kl + ku + 1 in
+  (* kl >= 0, ku >= 0: tested by the FORTRAN routine. *)
+  check_dim1_mat loc ab_str ab abr "2*kl + ku + 1 for " min_dim1;
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   let ipiv = xxsv_get_ipiv loc ipiv n in
   let info = direct_gbsv ~abr ~abc ~ab ~n ~kl ~ku ~ipiv ~nrhs ~br ~bc ~b in
@@ -1164,7 +1172,7 @@ let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
   | -6 ->
       let msg =
         sprintf "%s: dim1(ab): valid=[%d..[ got=%d"
-          loc (2*kl + ku + 1) (Mat.dim1 ab) in
+          loc min_dim1 (Mat.dim1 ab) in
       invalid_arg msg
   | _ -> xxsv_err loc n nrhs b (info + 2)
 

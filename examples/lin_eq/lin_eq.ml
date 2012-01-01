@@ -29,8 +29,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lin_eq.ml,v 1.12 2005/07/11 18:45:11 mottl Exp $ *)
-
 open Format
 open Bigarray
 

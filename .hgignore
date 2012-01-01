@@ -13,6 +13,7 @@ examples/eig/sbgv$
 examples/lin_eq/lin_eq$
 examples/lin_eq_comp/lin_eq_comp$
 examples/lin_reg/lin_reg$
+examples/lin_eq/gbsv$
 examples/svd/svd$
 examples/qr/qr$
 doc
