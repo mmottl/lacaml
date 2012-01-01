@@ -271,12 +271,12 @@ let get_ofs loc var = function
 let get_vec_geom loc var ofs inc = get_ofs loc var ofs, get_inc loc var inc
 
 (* Makes sure that [mat] is a square matrix and [n] is within range *)
-let get_n_of_square mat_name loc r c mat n =
+let get_n_of_square loc mat_name r c mat n =
   let n = get_dim2_mat loc mat_name mat c n_str n in
   check_dim1_mat loc mat_name mat r n_str n;
   n
 
-let get_n_of_a loc ar ac a n = get_n_of_square a_str loc ar ac a n
+let get_n_of_a loc ar ac a n = get_n_of_square loc a_str ar ac a n
 
 let get_nrhs_of_b loc n br bc b nrhs =
   let nrhs = get_dim2_mat loc b_str b bc nrhs_str nrhs in

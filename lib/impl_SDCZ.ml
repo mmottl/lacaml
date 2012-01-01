@@ -1151,7 +1151,7 @@ external direct_gbsv :
 
 let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.gbsv" in
-  let n = get_n_of_square ab_str loc abr abc ab n in
+  let n = get_n_of_square loc ab_str abr abc ab n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   let ipiv = xxsv_get_ipiv loc ipiv n in
   let info = direct_gbsv ~abr ~abc ~ab ~n ~kl ~ku ~ipiv ~nrhs ~br ~bc ~b in

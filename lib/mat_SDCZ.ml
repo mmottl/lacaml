@@ -190,7 +190,7 @@ let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
 
 let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.detri" in
-  let n = get_n_of_square a_str loc ar ac a n in
+  let n = get_n_of_square loc a_str ar ac a n in
   if up then
     for c = 1 to n - 1 do
       let ar_c = ar + c in
@@ -206,7 +206,7 @@ let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
 
 let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.Impl.NPREC.Mat.packed" in
-  let n = get_n_of_square a_str loc ar ac a n in
+  let n = get_n_of_square loc a_str ar ac a n in
   let dst = Array1.create prec fortran_layout ((n * n + n) / 2) in
   let pos_ref = ref 1 in
   if up then
@@ -448,8 +448,8 @@ let symm2_trace
   ?(upa = true) ?(ar = 1) ?(ac = 1) a
   ?(upb = true) ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.Impl.NPREC.Mat.symm2_trace" in
-  let n = get_n_of_square a_str loc ar ac a n in
-  let n = get_n_of_square b_str loc br bc b (Some n) in
+  let n = get_n_of_square loc a_str ar ac a n in
+  let n = get_n_of_square loc b_str br bc b (Some n) in
   let uploa = get_uplo_char upa in
   let uplob = get_uplo_char upb in
   direct_symm2_trace ~n ~uploa ~ar ~ac ~a ~uplob ~br ~bc ~b
