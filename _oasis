@@ -29,12 +29,15 @@ Library lacaml
         impl4_C_c.c, impl4_Z_c.c,
         impl2_S_c.c, impl2_D_c.c,
         impl2_C_c.c, impl2_Z_c.c,
+        exp10.c,
         f2c.h, lacaml_macros.h, utils_c.h
   BuildDepends: bigarray
   if system(linux)
     CCLib: -lblas -llapack
   if system(Darwin)
-    CCOpt: -L/sw/lib -framework vecLib
+    CCOpt: -DEXTERNAL_EXP10 -L/sw/lib -framework vecLib
+  if system(mingw)
+    CCOpt: -DEXTERNAL_EXP10
 
 Library lacaml_top
   Path:       lib

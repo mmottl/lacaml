@@ -7,20 +7,17 @@ SYSTEM=$(shell ocamlc -config 2>/dev/null|grep system|sed 's/system: //')
 
 ifeq ($(shell uname), Darwin)
   BLAS =
-  LAPACK =
-  EXP10 = exp10.c
+  CFLAGS += -DEXTERNAL_EXP10
   LIBDIRS = /sw/lib
   OCAMLMKLIB_FLAGS = -framework vecLib
   OCAMLLDFLAGS = -ccopt "-framework vecLib"
 else
 ifeq ($(SYSTEM), mingw)
   # exp10 does not exists under cygwin-mingw
-  EXP10 = exp10.c
+  CFLAGS += -DEXTERNAL_EXP10
   NO_CUSTOM =
   # For ocaml >= 3.11.0
   INSTALL_DLL = dlllacaml_stubs.dll
-else
-  EXP10 =
 endif
 endif
 
@@ -36,7 +33,7 @@ STUBS := \
 	impl4_S_c.c impl4_D_c.c \
 	impl4_C_c.c impl4_Z_c.c \
 	impl2_S_c.c impl2_D_c.c \
-	impl2_C_c.c impl2_Z_c.c $(EXP10)
+	impl2_C_c.c impl2_Z_c.c exp10.c
 
 %.c: lacaml_macros.h utils_c.h
 utils_c.c: utils_c.h

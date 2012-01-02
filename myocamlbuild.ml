@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 2b50bcb0fa137a24d35e85945a209102) *)
+(* DO NOT EDIT (digest: 5e7b7e034fb5a74ad20138e0600444c3) *)
 module OASISGettext = struct
 # 21 "/tmp/buildd/oasis-0.2.0/src/oasis/OASISGettext.ml"
   
@@ -464,16 +464,22 @@ let package_default =
           (["oasis_library_lacaml_ccopt"; "compile"],
             [
                (OASISExpr.EBool true, S []);
+               (OASISExpr.ETest ("system", "linux"),
+                 S [A "-ccopt"; A "-DEXTERNAL_EXP10"]);
                (OASISExpr.ETest ("system", "Darwin"),
                  S
                    [
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
                       A "-ccopt";
                       A "-L/sw/lib";
                       A "-ccopt";
                       A "-framework";
                       A "-ccopt";
                       A "vecLib"
-                   ])
+                   ]);
+               (OASISExpr.ETest ("system", "mingw"),
+                 S [A "-ccopt"; A "-DEXTERNAL_EXP10"])
             ]);
           (["oasis_library_lacaml_cclib"; "link"],
             [
@@ -509,9 +515,7 @@ and skip is_delim s i i1 =
 let split_on_spaces s = split_on (fun c -> c = ' ') s 0 0 (String.length s)
 
 let env = BaseEnvLight.load() (* setup.data *)
-let cc =
-  List.map (fun s -> A s)
-           (split_on_spaces (BaseEnvLight.var_get "native_c_compiler" env))
+let ocamlfind = BaseEnvLight.var_get "ocamlfind" env
 let stdlib = BaseEnvLight.var_get "standard_library" env
 
 ;;
@@ -526,16 +530,19 @@ dispatch
            "lib"/"vec_map.c"; "lib"/"vec_combine.c"];
 
       (* Special rules for precision dependent C code. *)
-      let clfags = [ A"-O3"; A"-fPIC"; A"-DPIC"; A("-I'" ^ stdlib ^ "'") ] in
       let lacaml_cc desc ~prod ~dep flags =
         rule ("Lacaml: " ^ desc) ~prod ~dep
              (fun env _build ->
               let f = env dep and o = env prod in
-              let tags = tags_of_pathname f ++ "compile" ++ "c" in
+              let tags = tags_of_pathname f ++ "compile" ++ "c"
+                         ++ "oasis_library_lacaml_ccopt" in
 
-              let cmd = Cmd(S(cc @ clfags @ flags
-                              @ [T tags; A"-c"; P f; A"-o"; P o; ])) in
-              Seq[cmd]
+              let add_ccopt f l = A"-ccopt" :: f :: l in
+              let flags = List.fold_right add_ccopt flags [] in
+              (* unfortunately -o is not respected for C files, use -ccopt. *)
+              let cmd = [A ocamlfind; A"ocamlc"; A"-ccopt"; A("-o " ^ o)]
+                        @ flags @ [T tags; A"-c"; P f] in
+              Seq[Cmd(S(cmd))]
              ) in
       lacaml_cc "simple of SD" ~prod:"%2_S_c.o" ~dep:"%_SD_c.c" [];
       lacaml_cc "double of SD" ~prod:"%2_D_c.o" ~dep:"%_SD_c.c"

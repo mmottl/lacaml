@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 42c65310786c68164fe9f891e8ddeb1e)
+# DO NOT EDIT (digest: c8d47cbbf54f695175f4abe48eb5b5af)
 # Library lacaml
 <lib/*.ml{,i}>: oasis_library_lacaml_ccopt
 "lib/impl_c.c": oasis_library_lacaml_ccopt
@@ -20,6 +20,7 @@
 "lib/impl2_D_c.c": oasis_library_lacaml_ccopt
 "lib/impl2_C_c.c": oasis_library_lacaml_ccopt
 "lib/impl2_Z_c.c": oasis_library_lacaml_ccopt
+"lib/exp10.c": oasis_library_lacaml_ccopt
 <lib/lacaml.{cma,cmxa}>: oasis_library_lacaml_cclib
 "lib/liblacaml.lib": oasis_library_lacaml_cclib
 "lib/dlllacaml.dll": oasis_library_lacaml_cclib
@@ -45,6 +46,7 @@
 "lib/impl2_D_c.c": pkg_bigarray
 "lib/impl2_C_c.c": pkg_bigarray
 "lib/impl2_Z_c.c": pkg_bigarray
+"lib/exp10.c": pkg_bigarray
 # Executable svd
 <examples/svd/svd.{native,byte}>: use_lacaml
 <examples/svd/svd.{native,byte}>: pkg_bigarray
