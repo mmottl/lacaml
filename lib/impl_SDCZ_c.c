@@ -1017,7 +1017,7 @@ CAMLprim value LFUN(larnv_stub)(
 {
   CAMLparam2(vISEED, vX);
 
-  integer GET_INT(IDIST), GET_INT(ISEED), GET_INT(N);
+  integer GET_INT(IDIST), GET_INT(N);
 
   INT_VEC_PARAMS(ISEED);
   VEC_PARAMS(X);

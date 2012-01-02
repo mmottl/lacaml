@@ -128,37 +128,37 @@
   integer M##R = Long_val(v##M##R); \
   integer M##C = Long_val(v##M##C); \
   integer rows_##M = *dims_##M++; \
-  integer cols_##M = *dims_##M; \
+  CAMLunused integer cols_##M = *dims_##M; \
   NUMBER *M##_data = ((NUMBER *) big_##M->data) + M##R + rows_##M*(M##C - 1) - 1
 
 /* Fetch vector parameters from bigarray */
 #define VEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
-  integer dim_##V = *big_##V->dim; \
+  CAMLunused integer dim_##V = *big_##V->dim; \
   NUMBER *V##_data = ((NUMBER *) big_##V->data) + (Long_val(vOFS##V) - 1)
 
 /* Fetch vector parameters from real bigarray */
 #define RVEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
-  integer dim_##V = *big_##V->dim; \
+  CAMLunused integer dim_##V = *big_##V->dim; \
   REAL *V##_data = ((REAL *) big_##V->data) + (Long_val(vOFS##V) - 1)
 
 /* Fetch vector parameters from bigarray with offset 1 */
 #define VEC_PARAMS1(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
-  integer dim_##V = *big_##V->dim; \
+  CAMLunused integer dim_##V = *big_##V->dim; \
   NUMBER *V##_data = big_##V->data
 
 /* Fetch vector parameters from bigarray with offset 1 */
 #define RVEC_PARAMS1(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
-  integer dim_##V = *big_##V->dim; \
+  CAMLunused integer dim_##V = *big_##V->dim; \
   REAL *V##_data = big_##V->data
 
 /* Fetch vector parameters from integer bigarray */
 #define INT_VEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
-  integer dim_##V = *big_##V->dim; \
+  CAMLunused integer dim_##V = *big_##V->dim; \
   integer *V##_data = big_##V->data
 
 /* Split an integer couple (int * int) into two ints */

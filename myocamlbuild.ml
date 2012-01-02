@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 5e7b7e034fb5a74ad20138e0600444c3) *)
+(* DO NOT EDIT (digest: 8a44309625d528e75126dd62e524e6c7) *)
 module OASISGettext = struct
 # 21 "/tmp/buildd/oasis-0.2.0/src/oasis/OASISGettext.ml"
   
@@ -464,8 +464,6 @@ let package_default =
           (["oasis_library_lacaml_ccopt"; "compile"],
             [
                (OASISExpr.EBool true, S []);
-               (OASISExpr.ETest ("system", "linux"),
-                 S [A "-ccopt"; A "-DEXTERNAL_EXP10"]);
                (OASISExpr.ETest ("system", "Darwin"),
                  S
                    [
