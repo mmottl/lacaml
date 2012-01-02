@@ -90,9 +90,7 @@ let () =
              output_string fh m;
              output_char fh '\n')
             (List.flatten !mods);
-  close_out fh;
-  (* Use the mlpack, not the mllib *)
-  (try Sys.remove (Filename.concat lib "lacaml.mllib") with _ -> ())
+  close_out fh
 
 
 (* lacaml.mli
