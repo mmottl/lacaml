@@ -4,6 +4,15 @@
 \.(cm(i|o|x|a|xa)|o|so|annot|a)$
 \._(b|n)cdi/.*$
 \._d/.*$
+_build$
+.*\.bak$
+setup.data$
+setup.log$
+.*\.byte$
+.*\.native$
+lib/lacaml.mlpack$
+lib/.*\.mllib$
+lib/.*\.clib$
 lib/(impl|mat|vec)(2|4)_.*$
 lib/lacaml.mli
 examples/blas/blas$

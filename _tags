@@ -1,0 +1,92 @@
+# OASIS_START
+# DO NOT EDIT (digest: 42c65310786c68164fe9f891e8ddeb1e)
+# Library lacaml
+<lib/*.ml{,i}>: oasis_library_lacaml_ccopt
+"lib/impl_c.c": oasis_library_lacaml_ccopt
+"lib/utils_c.c": oasis_library_lacaml_ccopt
+"lib/vec2_S_c.c": oasis_library_lacaml_ccopt
+"lib/vec2_D_c.c": oasis_library_lacaml_ccopt
+"lib/vec2_C_c.c": oasis_library_lacaml_ccopt
+"lib/vec2_Z_c.c": oasis_library_lacaml_ccopt
+"lib/mat4_S_c.c": oasis_library_lacaml_ccopt
+"lib/mat4_D_c.c": oasis_library_lacaml_ccopt
+"lib/mat4_C_c.c": oasis_library_lacaml_ccopt
+"lib/mat4_Z_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_S_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_D_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_C_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_Z_c.c": oasis_library_lacaml_ccopt
+"lib/impl2_S_c.c": oasis_library_lacaml_ccopt
+"lib/impl2_D_c.c": oasis_library_lacaml_ccopt
+"lib/impl2_C_c.c": oasis_library_lacaml_ccopt
+"lib/impl2_Z_c.c": oasis_library_lacaml_ccopt
+<lib/lacaml.{cma,cmxa}>: oasis_library_lacaml_cclib
+"lib/liblacaml.lib": oasis_library_lacaml_cclib
+"lib/dlllacaml.dll": oasis_library_lacaml_cclib
+"lib/liblacaml.a": oasis_library_lacaml_cclib
+"lib/dlllacaml.so": oasis_library_lacaml_cclib
+<lib/lacaml.{cma,cmxa}>: use_liblacaml
+<lib/*.ml{,i}>: pkg_bigarray
+"lib/impl_c.c": pkg_bigarray
+"lib/utils_c.c": pkg_bigarray
+"lib/vec2_S_c.c": pkg_bigarray
+"lib/vec2_D_c.c": pkg_bigarray
+"lib/vec2_C_c.c": pkg_bigarray
+"lib/vec2_Z_c.c": pkg_bigarray
+"lib/mat4_S_c.c": pkg_bigarray
+"lib/mat4_D_c.c": pkg_bigarray
+"lib/mat4_C_c.c": pkg_bigarray
+"lib/mat4_Z_c.c": pkg_bigarray
+"lib/impl4_S_c.c": pkg_bigarray
+"lib/impl4_D_c.c": pkg_bigarray
+"lib/impl4_C_c.c": pkg_bigarray
+"lib/impl4_Z_c.c": pkg_bigarray
+"lib/impl2_S_c.c": pkg_bigarray
+"lib/impl2_D_c.c": pkg_bigarray
+"lib/impl2_C_c.c": pkg_bigarray
+"lib/impl2_Z_c.c": pkg_bigarray
+# Executable svd
+<examples/svd/svd.{native,byte}>: use_lacaml
+<examples/svd/svd.{native,byte}>: pkg_bigarray
+<examples/svd/*.ml{,i}>: use_lacaml
+<examples/svd/*.ml{,i}>: pkg_bigarray
+# Executable blas
+<examples/blas/blas.{native,byte}>: use_lacaml
+<examples/blas/blas.{native,byte}>: pkg_bigarray
+<examples/blas/*.ml{,i}>: use_lacaml
+<examples/blas/*.ml{,i}>: pkg_bigarray
+# Executable sbgv
+<examples/eig/sbgv.{native,byte}>: use_lacaml
+<examples/eig/sbgv.{native,byte}>: pkg_bigarray
+# Executable lin_eq
+<examples/lin_eq/lin_eq.{native,byte}>: use_lacaml
+<examples/lin_eq/lin_eq.{native,byte}>: pkg_bigarray
+# Executable gbsv
+<examples/lin_eq/gbsv.{native,byte}>: use_lacaml
+<examples/lin_eq/gbsv.{native,byte}>: pkg_bigarray
+<examples/lin_eq/*.ml{,i}>: use_lacaml
+<examples/lin_eq/*.ml{,i}>: pkg_bigarray
+# Executable qr
+<examples/qr/qr.{native,byte}>: use_lacaml
+<examples/qr/qr.{native,byte}>: pkg_bigarray
+<examples/qr/*.ml{,i}>: use_lacaml
+<examples/qr/*.ml{,i}>: pkg_bigarray
+# Executable lin_reg
+<examples/lin_reg/lin_reg.{native,byte}>: use_lacaml
+<examples/lin_reg/lin_reg.{native,byte}>: pkg_bigarray
+<examples/lin_reg/*.ml{,i}>: use_lacaml
+<examples/lin_reg/*.ml{,i}>: pkg_bigarray
+# Library lacaml_top
+"lib": include
+# Executable eig
+<examples/eig/eig.{native,byte}>: use_lacaml
+<examples/eig/eig.{native,byte}>: pkg_bigarray
+# Executable sbev
+<examples/eig/sbev.{native,byte}>: use_lacaml
+<examples/eig/sbev.{native,byte}>: pkg_bigarray
+<examples/eig/*.ml{,i}>: use_lacaml
+<examples/eig/*.ml{,i}>: pkg_bigarray
+# OASIS_STOP
+
+<**/*.ml>: annot
+<lib/*.cmx>: for-pack(Lacaml)

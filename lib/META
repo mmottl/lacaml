@@ -1,18 +1,19 @@
-name="lacaml"
-version="5.5.2"
-description="LACAML - BLAS/LAPACK-interface for OCaml"
-
-requires="lacaml.core"
-requires(toploop)="lacaml.top"
-
-package "core" (
-  requires="bigarray"
-  archive(byte)="lacaml.cma"
-  archive(native)="lacaml.cmxa"
-)
-
+# OASIS_START
+# DO NOT EDIT (digest: 091039c2e1bf6c4fb9658ed480be8cfe)
+version = "5.5.2"
+description = "Binding to BLAS and LAPACK."
+requires = "bigarray"
+archive(byte) = "lacaml.cma"
+archive(native) = "lacaml.cmxa"
+exists_if = "lacaml.cma"
 package "top" (
-  requires="lacaml.core"
-  archive(byte)="lacaml_top.cma"
-  archive(native)="lacaml_top.cmxa"
+ version = "5.5.2"
+ description = "Toplevel module for Lacaml."
+ requires = "lacaml"
+ archive(byte) = "lacaml_top.cma"
+ archive(native) = "lacaml_top.cmxa"
+ exists_if = "lacaml_top.cma"
 )
+# OASIS_STOP
+
+requires(toploop)="lacaml.top"
