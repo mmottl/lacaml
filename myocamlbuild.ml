@@ -509,8 +509,8 @@ and skip is_delim s i i1 =
   else if is_delim s.[i] then skip is_delim s (i + 1) i1
   else split_on is_delim s i (i + 1) i1
 
-let split_on_spaces s = split_on (fun c -> c = ' ') s 0 0 (String.length s)
-let split_on_tabs s = split_on (fun c -> c = '\t') s 0 0 (String.length s)
+let split_on_spaces s = skip (fun c -> c = ' ') s 0 (String.length s)
+let split_on_tabs s = skip (fun c -> c = '\t') s 0 (String.length s)
 
 let env = BaseEnvLight.load() (* setup.data *)
 let ocamlfind = BaseEnvLight.var_get "ocamlfind" env
