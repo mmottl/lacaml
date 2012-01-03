@@ -114,7 +114,7 @@ TRASH := \
   install_printers.annot lacaml_top.cma
 
 #all:	bcl
-all:
+all: byte-code-library native-code-library toplevel-library
 
 byte-code-library:	$(PREMAKE)
 native-code-library:	$(PREMAKE)
