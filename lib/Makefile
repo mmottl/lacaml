@@ -1,4 +1,4 @@
--include ../Makefile.conf
+-include Makefile.conf
 
 NO_CUSTOM = y
 INSTALL_DLL = dlllacaml_stubs.so
