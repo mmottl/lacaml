@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 8a44309625d528e75126dd62e524e6c7) *)
+(* DO NOT EDIT (digest: 7eeb506c9ab8ab9fda849485d0f11e74) *)
 module OASISGettext = struct
 # 21 "/tmp/buildd/oasis-0.2.0/src/oasis/OASISGettext.ml"
   
@@ -472,9 +472,7 @@ let package_default =
                       A "-ccopt";
                       A "-L/sw/lib";
                       A "-ccopt";
-                      A "-framework";
-                      A "-ccopt";
-                      A "vecLib"
+                      A "-framework'vecLib'"
                    ]);
                (OASISExpr.ETest ("system", "mingw"),
                  S [A "-ccopt"; A "-DEXTERNAL_EXP10"])
@@ -498,6 +496,7 @@ let package_default =
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
 (* OASIS_STOP *)
+# 502 "myocamlbuild.ml"
 
 let rec split_on is_delim s i0 i i1 =
   if i >= i1 then [String.sub s i0 (i1 - i0)]
@@ -511,16 +510,44 @@ and skip is_delim s i i1 =
   else split_on is_delim s i (i + 1) i1
 
 let split_on_spaces s = split_on (fun c -> c = ' ') s 0 0 (String.length s)
+let split_on_tabs s = split_on (fun c -> c = '\t') s 0 0 (String.length s)
 
 let env = BaseEnvLight.load() (* setup.data *)
 let ocamlfind = BaseEnvLight.var_get "ocamlfind" env
 let stdlib = BaseEnvLight.var_get "standard_library" env
 
-;;
-dispatch
-  (MyOCamlbuildBase.dispatch_combine [
-   dispatch_default;
-   begin function
+let a l = List.map (fun s -> A s) l
+let conf_ccopt = a(split_on_tabs(BaseEnvLight.var_get "conf_ccopt" env))
+let conf_cclib = a(split_on_tabs(BaseEnvLight.var_get "conf_cclib" env))
+
+let replace1 want_tags spec ((tags, specs) as ts) =
+  let all_tags = List.fold_left (fun a t -> a && List.mem t tags) true want_tags in
+  if all_tags then (tags, [(OASISExpr.EBool true, S spec)])
+  else ts
+
+let replace tags spec l = List.map (replace1 tags spec) l
+
+let prefix_each p l =
+  List.fold_right (fun a l' -> p :: a :: l') l []
+
+let package_default =
+  (* Act on conf.ml *)
+  let flags = package_default.MyOCamlbuildBase.flags in
+  let flags = match conf_ccopt with
+    | [] -> flags
+    | _ -> replace ["oasis_library_lacaml_ccopt"]
+                  (prefix_each (A "-ccopt") conf_ccopt) flags in
+  let flags = match conf_cclib with
+    | [] -> flags
+    | _ ->
+      let flags = replace ["oasis_library_lacaml_cclib"; "ocamlmklib"]
+                          conf_cclib flags in
+      replace ["oasis_library_lacaml_cclib"; "link"]
+              (prefix_each (A "-cclib") conf_cclib) flags in
+  { package_default with MyOCamlbuildBase.flags = flags }
+
+let () =
+  let additional_rules = function
     | After_rules ->
       (* Files included, tailored with macros. *)
       dep ["compile"; "c"]
@@ -559,5 +586,8 @@ dispatch
                 [A"-DLACAML_COMPLEX"; A"-DLACAML_DOUBLE"];
 
     | _ -> ()
-   end;
-  ]);;
+  in
+  dispatch
+    (MyOCamlbuildBase.dispatch_combine [
+         MyOCamlbuildBase.dispatch_default package_default;
+         additional_rules ])

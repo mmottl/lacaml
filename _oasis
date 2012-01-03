@@ -35,7 +35,7 @@ Library lacaml
   if system(linux)
     CCLib: -lblas -llapack
   if system(Darwin)
-    CCOpt: -DEXTERNAL_EXP10 -L/sw/lib -framework vecLib
+    CCOpt: -DEXTERNAL_EXP10 -L/sw/lib -framework'vecLib'
   if system(mingw)
     CCOpt: -DEXTERNAL_EXP10
 

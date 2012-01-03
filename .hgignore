@@ -26,3 +26,4 @@ examples/lin_eq/gbsv$
 examples/svd/svd$
 examples/qr/qr$
 doc
+.*\.tar\.gz$
