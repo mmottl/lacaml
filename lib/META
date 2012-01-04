@@ -16,4 +16,6 @@ package "top" (
 )
 # OASIS_STOP
 
-requires(toploop)="lacaml.top"
+#requires(toploop) += "lacaml.top"
+archive(toploop,byte) += "lacaml_top.cma"
+archive(toploop,native) += "lacaml_top.cmxa"
