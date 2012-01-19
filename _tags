@@ -1,5 +1,18 @@
 # OASIS_START
-# DO NOT EDIT (digest: c8d47cbbf54f695175f4abe48eb5b5af)
+# DO NOT EDIT (digest: 93b0f02cd2a1f5bf493eab541554e38f)
+# Ignore VCS directories, you can use the same kind of rule outside 
+# OASIS_START/STOP if you want to exclude directories that contains 
+# useless stuff for the build process
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
 # Library lacaml
 <lib/*.ml{,i}>: oasis_library_lacaml_ccopt
 "lib/impl_c.c": oasis_library_lacaml_ccopt
@@ -47,6 +60,9 @@
 "lib/impl2_C_c.c": pkg_bigarray
 "lib/impl2_Z_c.c": pkg_bigarray
 "lib/exp10.c": pkg_bigarray
+# Executable sbev
+<examples/eig/sbev.{native,byte}>: use_lacaml
+<examples/eig/sbev.{native,byte}>: pkg_bigarray
 # Executable svd
 <examples/svd/svd.{native,byte}>: use_lacaml
 <examples/svd/svd.{native,byte}>: pkg_bigarray
@@ -57,17 +73,14 @@
 <examples/blas/blas.{native,byte}>: pkg_bigarray
 <examples/blas/*.ml{,i}>: use_lacaml
 <examples/blas/*.ml{,i}>: pkg_bigarray
+# Library lacaml_top
+"lib": include
 # Executable sbgv
 <examples/eig/sbgv.{native,byte}>: use_lacaml
 <examples/eig/sbgv.{native,byte}>: pkg_bigarray
 # Executable lin_eq
 <examples/lin_eq/lin_eq.{native,byte}>: use_lacaml
 <examples/lin_eq/lin_eq.{native,byte}>: pkg_bigarray
-# Executable gbsv
-<examples/lin_eq/gbsv.{native,byte}>: use_lacaml
-<examples/lin_eq/gbsv.{native,byte}>: pkg_bigarray
-<examples/lin_eq/*.ml{,i}>: use_lacaml
-<examples/lin_eq/*.ml{,i}>: pkg_bigarray
 # Executable qr
 <examples/qr/qr.{native,byte}>: use_lacaml
 <examples/qr/qr.{native,byte}>: pkg_bigarray
@@ -78,14 +91,14 @@
 <examples/lin_reg/lin_reg.{native,byte}>: pkg_bigarray
 <examples/lin_reg/*.ml{,i}>: use_lacaml
 <examples/lin_reg/*.ml{,i}>: pkg_bigarray
-# Library lacaml_top
-"lib": include
+# Executable gbsv
+<examples/lin_eq/gbsv.{native,byte}>: use_lacaml
+<examples/lin_eq/gbsv.{native,byte}>: pkg_bigarray
+<examples/lin_eq/*.ml{,i}>: use_lacaml
+<examples/lin_eq/*.ml{,i}>: pkg_bigarray
 # Executable eig
 <examples/eig/eig.{native,byte}>: use_lacaml
 <examples/eig/eig.{native,byte}>: pkg_bigarray
-# Executable sbev
-<examples/eig/sbev.{native,byte}>: use_lacaml
-<examples/eig/sbev.{native,byte}>: pkg_bigarray
 <examples/eig/*.ml{,i}>: use_lacaml
 <examples/eig/*.ml{,i}>: pkg_bigarray
 # OASIS_STOP
