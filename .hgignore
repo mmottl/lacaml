@@ -8,6 +8,7 @@ _build$
 .*\.bak$
 setup.data$
 setup.log$
+.*\.ba[0-9]+$
 .*\.byte$
 .*\.native$
 lib/lacaml.mlpack$
