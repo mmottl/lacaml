@@ -1,0 +1,12 @@
+(* OASIS_START *)
+(* DO NOT EDIT (digest: 3d97505a455bf5b02eeec834ac87ddf4) *)
+Authors of lacaml
+Egbert Ammicht <eammicht@lucent.com>
+Patrick Cousot <Patrick.Cousot@ens.fr>
+Sam Ehrlichman <sehrlichman@janestreet.com>
+Markus Mottl <markus.mottl@gmail.com>
+Liam Stewart <liam@cs.toronto.edu>
+Christophe Troestler <Christophe.Troestler@umons.ac.be>
+Oleg Trott <ot14@columbia.edu>
+Martin Willensdorfer <ma.wi@gmx.at>
+(* OASIS_STOP *)

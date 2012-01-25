@@ -1,7 +1,7 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 7eeb506c9ab8ab9fda849485d0f11e74) *)
+(* DO NOT EDIT (digest: 5b257962f15b2638b4029df30e63f3c6) *)
 module OASISGettext = struct
-# 21 "/tmp/buildd/oasis-0.2.0/src/oasis/OASISGettext.ml"
+# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISGettext.ml"
   
   let ns_ str = 
     str
@@ -24,7 +24,7 @@ module OASISGettext = struct
 end
 
 module OASISExpr = struct
-# 21 "/tmp/buildd/oasis-0.2.0/src/oasis/OASISExpr.ml"
+# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISExpr.ml"
   
   
   
@@ -115,7 +115,7 @@ end
 
 
 module BaseEnvLight = struct
-# 21 "/tmp/buildd/oasis-0.2.0/src/base/BaseEnvLight.ml"
+# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/base/BaseEnvLight.ml"
   
   module MapString = Map.Make(String)
   
@@ -212,7 +212,7 @@ end
 
 
 module MyOCamlbuildFindlib = struct
-# 21 "/tmp/buildd/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml"
+# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml"
   
   (** OCamlbuild extension, copied from 
     * http://brion.inria.fr/gallium/index.php/Using_ocamlfind_with_ocamlbuild
@@ -320,7 +320,7 @@ module MyOCamlbuildFindlib = struct
 end
 
 module MyOCamlbuildBase = struct
-# 21 "/tmp/buildd/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
+# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
   
   (** Base functions for writing myocamlbuild.ml
       @author Sylvain Le Gall
@@ -335,7 +335,7 @@ module MyOCamlbuildBase = struct
   type name = string 
   type tag = string 
   
-# 55 "/tmp/buildd/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
+# 55 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
   
   type t =
       {
@@ -464,30 +464,56 @@ let package_default =
           (["oasis_library_lacaml_ccopt"; "compile"],
             [
                (OASISExpr.EBool true, S []);
-               (OASISExpr.ETest ("system", "Darwin"),
+               (OASISExpr.ETest ("system", "linux"),
+                 S [A "-ccopt"; A "-O2"; A "-ccopt"; A "-DPIC"]);
+               (OASISExpr.ETest ("system", "macosx"),
                  S
                    [
                       A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
-                      A "-L/sw/lib";
+                      A "-framework";
                       A "-ccopt";
-                      A "-framework'vecLib'"
+                      A "vecLib"
                    ]);
                (OASISExpr.ETest ("system", "mingw"),
-                 S [A "-ccopt"; A "-DEXTERNAL_EXP10"])
+                 S
+                   [
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ])
             ]);
           (["oasis_library_lacaml_cclib"; "link"],
             [
                (OASISExpr.EBool true, S []);
                (OASISExpr.ETest ("system", "linux"),
-                 S [A "-cclib"; A "-lblas"; A "-cclib"; A "-llapack"])
+                 S [A "-cclib"; A "-lblas"; A "-cclib"; A "-llapack"]);
+               (OASISExpr.ETest ("system", "macosx"),
+                 S
+                   [
+                      A "-cclib";
+                      A "-L/sw/lib";
+                      A "-cclib";
+                      A "-framework";
+                      A "-cclib";
+                      A "vecLib"
+                   ])
             ]);
           (["oasis_library_lacaml_cclib"; "ocamlmklib"; "c"],
             [
                (OASISExpr.EBool true, S []);
                (OASISExpr.ETest ("system", "linux"),
-                 S [A "-lblas"; A "-llapack"])
+                 S [A "-lblas"; A "-llapack"]);
+               (OASISExpr.ETest ("system", "macosx"),
+                 S [A "-L/sw/lib"; A "-framework"; A "vecLib"])
             ])
        ];
      }
