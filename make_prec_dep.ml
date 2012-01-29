@@ -36,15 +36,29 @@ let output_file ?(path=lib) fname ~content =
 let ocaml_major, ocaml_minor =
   Scanf.sscanf Sys.ocaml_version "%i.%i" (fun v1 v2 -> v1, v2)
 
-let doesnt_have_module_type_of = ocaml_major <= 3 && ocaml_minor <= 11
+let has_module_type_of =
+  ocaml_major > 3 || (ocaml_major = 3 && ocaml_minor >= 12)
 
 
 (* Generating precision dependent files & mlpack
  ***********************************************************************)
 
+let module_type_of_re =
+  Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9]+_[SDCZ]\\)"
+
 let substitute fname0 fname1 subs =
   let ml0 = input_file fname0 in
   let ml0 = List.fold_left (fun l (r,s) -> Str.global_replace r s l) ml0 subs in
+  let ml0 =
+    if has_module_type_of then ml0
+    else (
+      (* Substitute the [module type of] which are not supported yet. *)
+      let subst s =
+        let mname = Str.matched_group 2 s in
+        let fincl = String.uncapitalize mname ^ ".mli" in
+        input_file fincl ~comments:false ~prefix:(Str.matched_group 1 s) in
+      Str.global_substitute module_type_of_re subst ml0
+    ) in
   output_file fname1 ~content:ml0
 
 (* [derived] is a list of (new_suffix, substitutions).  Returns the
@@ -73,6 +87,20 @@ let () =
     if add then mods := l :: !mods in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
 
+  let float32 = r ["NPREC", "S";  "NBPREC", "S";
+                   "Numberxx", "Float32";  "numberxx", "float32"]
+  and float64 = r ["NPREC", "D"; "NBPREC", "D";
+                   "Numberxx", "Float64";  "numberxx", "float64"]
+  and complex32 = r ["NPREC", "C"; "NBPREC", "S";
+                     "Numberxx", "Complex32";  "numberxx", "complex32"]
+  and complex64 = r ["NPREC", "Z"; "NBPREC", "D";
+                     "Numberxx", "Complex64"; "numberxx", "complex64"]
+  in
+  derive "_SDCZ.mli" [("4_S.mli", float32);   ("4_D.mli", float64);
+                      ("4_C.mli", complex32); ("4_Z.mli", complex64) ];
+  derive "_SDCZ.ml"  [("4_S.ml", float32);   ("4_D.ml", float64);
+                      ("4_C.ml", complex32); ("4_Z.ml", complex64) ] ~add:true;
+
   let float32 = r["FPREC", "S";  "Floatxx", "Float32";  "floatxx", "float32"]
   and float64 = r["FPREC", "D";  "Floatxx", "Float64";  "floatxx", "float64"]
   and complex32 = r["CPREC", "C";  "CBPREC", "S";
@@ -90,20 +118,6 @@ let () =
   derive "_CZ.ml"  [("2_C.ml",  complex32); ("2_Z.ml",  complex64)] ~add:true;
   derive "CZ.ml"   [("c.ml", complex32);    ("z.ml", complex64)] ~add:true;
   derive "CZ.mli"  [("c.mli", complex32);   ("z.mli", complex64)];
-
-  let float32 = r ["NPREC", "S";  "NBPREC", "S";
-                   "Numberxx", "Float32";  "numberxx", "float32"]
-  and float64 = r ["NPREC", "D"; "NBPREC", "D";
-                   "Numberxx", "Float64";  "numberxx", "float64"]
-  and complex32 = r ["NPREC", "C"; "NBPREC", "S";
-                     "Numberxx", "Complex32";  "numberxx", "complex32"]
-  and complex64 = r ["NPREC", "Z"; "NBPREC", "D";
-                     "Numberxx", "Complex64"; "numberxx", "complex64"]
-  in
-  derive "_SDCZ.mli" [("4_S.mli", float32);   ("4_D.mli", float64);
-                      ("4_C.mli", complex32); ("4_Z.mli", complex64) ];
-  derive "_SDCZ.ml"  [("4_S.ml", float32);   ("4_D.ml", float64);
-                      ("4_C.ml", complex32); ("4_Z.ml", complex64) ] ~add:true;
 
   (* Create lacaml.mlpack *)
   let fh = open_out (Filename.concat lib "lacaml.mlpack") in
