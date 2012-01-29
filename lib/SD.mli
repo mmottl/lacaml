@@ -1,14 +1,10 @@
-(* File: lacaml.ml
+(* File: SD.mli
 
-   Copyright (C) 2001-
-
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Copyright (C) 2010-
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+     WWW: http://math.umons.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -24,18 +20,32 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
+open Bigarray
 
-(** Modules with functions specialized for (S)ingle and (D)ouble
-    precision, and for (C)omplex and double complex (Z) numbers.
+type prec = floatxx_elt
+type num_type = float
+type vec = (float, floatxx_elt, fortran_layout) Array1.t
+(** Double precision vectors. *)
+type rvec = vec
+type mat = (float, floatxx_elt, fortran_layout) Array2.t
+(** Double precision matrices. *)
 
-    This module is present for backward compatibility only.
- *)
+type trans3 = [ `N | `T ]
 
-open Io
+val prec : (float, floatxx_elt) Bigarray.kind
+(** Precision for this submodule {!FPREC}.  Allows to write precision
+    independent code. *)
 
-module Real_io = Real_io
-module Complex_io = Complex_io
-module S = S
-module D = D
-module C = C
-module Z = Z
+module Vec : sig
+  include module type of Vec2_FPREC
+  include module type of Vec4_FPREC
+end
+
+module Mat : sig
+  include module type of Mat2_FPREC
+  include module type of Mat4_FPREC
+end
+include module type of Real_io
+
+include module type of Impl2_FPREC
+include module type of Impl4_FPREC

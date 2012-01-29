@@ -1,14 +1,10 @@
-(* File: lacaml.ml
+(* File: real_io.mli
 
-   Copyright (C) 2001-
-
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Copyright (C) 2010-
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+     WWW: http://math.umons.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -25,17 +21,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Modules with functions specialized for (S)ingle and (D)ouble
-    precision, and for (C)omplex and double complex (Z) numbers.
-
-    This module is present for backward compatibility only.
- *)
-
-open Io
-
-module Real_io = Real_io
-module Complex_io = Complex_io
-module S = S
-module D = D
-module C = C
-module Z = Z
+val pp_num : Format.formatter -> float -> unit
+(** [pp_num ppf el] is equivalent to [fprintf ppf "%G" el]. *)
+val pp_vec : (float, 'a) Io.pp_vec
+(** Pretty-printer for column vectors. *)
+val pp_mat : (float, 'a) Io.pp_mat
+(** Pretty-printer for matrices. *)

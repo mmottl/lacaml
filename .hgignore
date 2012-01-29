@@ -15,6 +15,7 @@ lib/lacaml.mlpack$
 lib/.*\.mllib$
 lib/.*\.clib$
 lib/(impl|mat|vec)(2|4)_.*$
+lib/(s|d|c|z).ml(|i)$
 lib/lacaml.mli
 examples/blas/blas$
 examples/eig/eig$

@@ -14,7 +14,7 @@ all byte native: setup.data
 	ocaml setup.ml -build
 
 configure: setup.data
-setup.data: setup.ml
+setup.data: setup.ml make_prec_dep.ml lib/lacaml_SDCZ.mli
 	ocaml setup.ml -configure
 
 setup.ml: _oasis

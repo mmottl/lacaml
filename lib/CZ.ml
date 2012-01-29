@@ -1,4 +1,4 @@
-(* File: lacaml.ml
+(* File: CZ.ml
 
    Copyright (C) 2001-
 
@@ -25,17 +25,24 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Modules with functions specialized for (S)ingle and (D)ouble
-    precision, and for (C)omplex and double complex (Z) numbers.
+open Bigarray
 
-    This module is present for backward compatibility only.
- *)
+(** Modules with functions specialized for simple (C) or double (Z)
+    precision complex numbers. *)
 
-open Io
+include Complexxx
 
-module Real_io = Real_io
-module Complex_io = Complex_io
-module S = S
-module D = D
-module C = C
-module Z = Z
+include Complex_io
+
+include Impl2_CPREC
+include Impl4_CPREC
+
+module Vec = struct
+  include Vec2_CPREC
+  include Vec4_CPREC
+end
+
+module Mat = struct
+  include Mat2_CPREC
+  include Mat4_CPREC
+end

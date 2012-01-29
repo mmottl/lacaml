@@ -1,4 +1,4 @@
-(* File: lacaml.ml
+(* File: complex_io.ml
 
    Copyright (C) 2001-
 
@@ -25,17 +25,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Modules with functions specialized for (S)ingle and (D)ouble
-    precision, and for (C)omplex and double complex (Z) numbers.
-
-    This module is present for backward compatibility only.
- *)
-
 open Io
 
-module Real_io = Real_io
-module Complex_io = Complex_io
-module S = S
-module D = D
-module C = C
-module Z = Z
+let pp_num ppf n = !pp_complex_el_default ppf n
+let pp_vec = pp_cvec
+let pp_mat = pp_cmat
