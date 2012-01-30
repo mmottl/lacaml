@@ -74,11 +74,13 @@ module C : sig
 end
 
 
-(** Module for backward compatibility.  The submodules of [Impl] are
-    available directly under [Lacaml].  *)
+(** Module for backward compatibility.
+
+    @deprecated Instead of using [Lacaml.Impl.X], simply use [Lacaml.X].
+ *)
 module Impl :
-sig
-  (** Pretty printing of real vector and matrices.  See the
+         sig
+           (** Pretty printing of real vector and matrices.  See the
       {!Lacaml.Io} module for more versatile functions. *)
   module Real_io : sig
     include module type of Real_io
