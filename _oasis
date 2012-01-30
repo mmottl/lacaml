@@ -99,6 +99,13 @@ Executable gbsv
   Install:        false
   CompiledObject: best
 
+Executable lin_eq_comp
+  Path:           examples/lin_eq_comp
+  MainIs:         lin_eq_comp.ml
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 Executable lin_reg
   Path:           examples/lin_reg
   MainIs:         lin_reg.ml

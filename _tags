@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 29aae8e4c406010f0211599d6aaeeaad)
+# DO NOT EDIT (digest: 412f6425afa821e93255eb10f678baeb)
 # Library lacaml
 <lib/*.ml{,i}>: oasis_library_lacaml_ccopt
 "lib/impl_c.c": oasis_library_lacaml_ccopt
@@ -52,6 +52,11 @@
 <examples/svd/svd.{native,byte}>: pkg_bigarray
 <examples/svd/*.ml{,i}>: use_lacaml
 <examples/svd/*.ml{,i}>: pkg_bigarray
+# Executable lin_eq_comp
+<examples/lin_eq_comp/lin_eq_comp.{native,byte}>: use_lacaml
+<examples/lin_eq_comp/lin_eq_comp.{native,byte}>: pkg_bigarray
+<examples/lin_eq_comp/*.ml{,i}>: use_lacaml
+<examples/lin_eq_comp/*.ml{,i}>: pkg_bigarray
 # Executable blas
 "examples/blas/blas.byte": use_lacaml
 "examples/blas/blas.byte": pkg_bigarray
