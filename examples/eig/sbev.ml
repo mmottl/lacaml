@@ -26,7 +26,7 @@
 open Format
 open Bigarray
 
-open Lacaml.Impl.D
+open Lacaml.D
 open Lacaml.Io
 
 let a = Mat.of_array

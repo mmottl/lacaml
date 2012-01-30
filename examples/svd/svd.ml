@@ -36,7 +36,7 @@ open Lacaml.Io
 
 (* REAL GESVD DEMO *)
 
-open Lacaml.Impl.D
+open Lacaml.D
 
 let () =
   let n = 3 in
@@ -50,7 +50,7 @@ let () =
 
 (* COMPLEX GESVD DEMO *)
 
-open Lacaml.Impl.C
+open Lacaml.C
 open Complex
 
 let () =
