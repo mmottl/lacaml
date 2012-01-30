@@ -36,9 +36,7 @@ README.txt           - This file
 
 examples/            - Various linear algebra examples.
 
-lib/impl.ml          - The global interface to LACAML, which collects
-                       modules for real and complex transforms in single
-                       or double precision.
+lib/impl.ml          - *DEPRECATED*
 
 lib/common.ml        - Globally visible utility-functions and definitions.
 
@@ -153,18 +151,18 @@ Here is a list of features:
 You can make use of this library by referring to the corresponding module you
 need for your precision and number type:
 
-  open Lacaml.Impl.S
-  open Lacaml.Impl.D
-  open Lacaml.Impl.C
-  open Lacaml.Impl.Z
+  open Lacaml.S
+  open Lacaml.D
+  open Lacaml.C
+  open Lacaml.Z
 
 These modules become available if you link against the "lacaml"-library,
-which is produced by this distribution.  You also need to link
-against the "bigarray"-library provided by the OCaml-distribution
-and do not use findlib to resolve dependencies automatically.
-The "Lacaml.Impl.?"-modules implement the BLAS/LAPACK-interface, and
-their corresponding submodules "Vec" and "Mat" provide for vector and
-matrix operations that relate to the given precision and number type.
+which is produced by this distribution.  You also need to link against the
+"bigarray"-library provided by the OCaml-distribution and do not use findlib
+to resolve dependencies automatically.  The "Lacaml.?"-modules implement the
+BLAS/LAPACK-interface, and their corresponding submodules "Vec" and "Mat"
+provide for vector and matrix operations that relate to the given precision
+and number type.
 
 Most functions allow optional arguments (= default arguments).  If you
 do not provide them at the call-site, sane defaults will be used instead.
@@ -206,11 +204,11 @@ the wanted submatrix for the operation by setting "ar" for the row and
 optional parameter "ofsy" (also 1 by default).
 
 BLAS and LAPACK binary packages for Unix operating systems usually come
-with appropriate man-pages.  E.g. to quickly look up how to factorize
-a positive-definite, complex, single precision matrix, you might enter
-"man cpotrf", and the function in Lacaml would be "Lacaml.Impl.C.potrf".
-The naming conventions and additional documentation for BLAS and LAPACK
-can be found at the corresponding website (see below).
+with appropriate man-pages.  E.g. to quickly look up how to factorize a
+positive-definite, complex, single precision matrix, you might enter "man
+cpotrf", and the function in Lacaml would be "Lacaml.C.potrf".  The naming
+conventions and additional documentation for BLAS and LAPACK can be found
+at the corresponding website (see below).
 
 ---------------------------------------------------------------------------
 
