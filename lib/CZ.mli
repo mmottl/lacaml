@@ -24,10 +24,13 @@ open Bigarray
 
 type prec = complexxx_elt
 type num_type = Complex.t
+
 type vec = (Complex.t, complexxx_elt, fortran_layout) Array1.t
 (** Double precision vectors. *)
+
 type rvec = (float, floatxx_elt, fortran_layout) Array1.t
 (** Double precision vectors of reals. *)
+
 type mat = (Complex.t, complexxx_elt, fortran_layout) Array2.t
 (** Double precision matrices. *)
 
@@ -45,6 +48,7 @@ module Mat : sig
   include module type of Mat2_CPREC
   include module type of Mat4_CPREC
 end
+
 include module type of Complex_io
 
 include module type of Impl2_CPREC

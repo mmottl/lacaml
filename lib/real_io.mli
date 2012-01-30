@@ -23,7 +23,9 @@
 
 val pp_num : Format.formatter -> float -> unit
 (** [pp_num ppf el] is equivalent to [fprintf ppf "%G" el]. *)
+
 val pp_vec : (float, 'a) Io.pp_vec
 (** Pretty-printer for column vectors. *)
+
 val pp_mat : (float, 'a) Io.pp_mat
 (** Pretty-printer for matrices. *)

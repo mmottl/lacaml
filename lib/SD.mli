@@ -24,9 +24,12 @@ open Bigarray
 
 type prec = floatxx_elt
 type num_type = float
+
 type vec = (float, floatxx_elt, fortran_layout) Array1.t
 (** Double precision vectors. *)
+
 type rvec = vec
+
 type mat = (float, floatxx_elt, fortran_layout) Array2.t
 (** Double precision matrices. *)
 
@@ -45,6 +48,7 @@ module Mat : sig
   include module type of Mat2_FPREC
   include module type of Mat4_FPREC
 end
+
 include module type of Real_io
 
 include module type of Impl2_FPREC

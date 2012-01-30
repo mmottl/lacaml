@@ -24,7 +24,9 @@
 val pp_num : Format.formatter -> Complex.t -> unit
 (** [pp_num ppf el] is equivalent to [fprintf ppf "(%G, %Gi)"
     el.re el.im]. *)
+
 val pp_vec : (Complex.t, 'a) Io.pp_vec
 (** Pretty-printer for column vectors. *)
+
 val pp_mat : (Complex.t, 'a) Io.pp_mat
 (** Pretty-printer for matrices. *)

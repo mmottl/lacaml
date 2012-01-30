@@ -46,6 +46,26 @@
 
 open Bigarray
 
+(** {2 Pretty printing} *)
+
+(** Pretty-printing of vector and matrices. *)
+module Io : sig
+  include module type of Io
+end
+
+(** Pretty printing of real vector and matrices.  See the
+    {!Lacaml.Io} module for more versatile functions. *)
+module Real_io : sig
+  include module type of Real_io
+end
+
+(** Pretty printing of complex vector and matrices.  See the
+    {!Lacaml.Io} module for more versatile functions. *)
+module Complex_io : sig
+  include module type of Complex_io
+end
+
+
 (** {2 Precision dependent modules} *)
 
 (** Types and functions common to all precision dependent sub-modules. *)
@@ -72,7 +92,6 @@ end
 module C : sig
   include module type of C
 end
-
 
 (** Module for backward compatibility.
 
@@ -111,25 +130,4 @@ module Impl :
   module C : sig
     include module type of C
   end
-end
-
-(************************************************************************)
-
-(** {2 Pretty printing} *)
-
-(** Pretty-printing of vector and matrices. *)
-module Io : sig
-  include module type of Io
-end
-
-(** Pretty printing of real vector and matrices.  See the
-    {!Lacaml.Io} module for more versatile functions. *)
-module Real_io : sig
-  include module type of Real_io
-end
-
-(** Pretty printing of complex vector and matrices.  See the
-    {!Lacaml.Io} module for more versatile functions. *)
-module Complex_io : sig
-  include module type of Complex_io
 end
