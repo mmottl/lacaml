@@ -26,12 +26,12 @@ type prec = floatxx_elt
 type num_type = float
 
 type vec = (float, floatxx_elt, fortran_layout) Array1.t
-(** Double precision vectors. *)
+(** Vectors (precision: floatxx). *)
 
 type rvec = vec
 
 type mat = (float, floatxx_elt, fortran_layout) Array2.t
-(** Double precision matrices. *)
+(** Matrices (precision: floatxx). *)
 
 type trans3 = [ `N | `T ]
 
