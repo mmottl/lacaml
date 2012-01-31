@@ -41,9 +41,13 @@ Library lacaml
   BuildDepends: bigarray
   if system(linux)
     CCOpt: -O2 -DPIC
+# For development only
+#    CCOpt: -O2 -DPIC -Wall -Werror -Wno-unused -Wno-long-long
     CCLib: -lblas -llapack
   if system(macosx)
     CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib
+# For development only
+#    CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib -DPIC -Wall -Werror -Wno-unused -Wno-long-long
     CCLib: -L/sw/lib -framework vecLib
   # FIXME: mingw is untested!!!
   if system(mingw)
