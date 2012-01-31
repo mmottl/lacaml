@@ -1,7 +1,7 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 2419723db047dad5e965259c3fd21cb1) *)
+(* DO NOT EDIT (digest: feecc718a7af848a879c1f429197bb70) *)
 module OASISGettext = struct
-# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISGettext.ml"
+# 21 "/home/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISGettext.ml"
   
   let ns_ str = 
     str
@@ -24,7 +24,7 @@ module OASISGettext = struct
 end
 
 module OASISExpr = struct
-# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISExpr.ml"
+# 21 "/home/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISExpr.ml"
   
   
   
@@ -115,7 +115,7 @@ end
 
 
 module BaseEnvLight = struct
-# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/base/BaseEnvLight.ml"
+# 21 "/home/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/base/BaseEnvLight.ml"
   
   module MapString = Map.Make(String)
   
@@ -212,7 +212,7 @@ end
 
 
 module MyOCamlbuildFindlib = struct
-# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml"
+# 21 "/home/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml"
   
   (** OCamlbuild extension, copied from 
     * http://brion.inria.fr/gallium/index.php/Using_ocamlfind_with_ocamlbuild
@@ -320,7 +320,7 @@ module MyOCamlbuildFindlib = struct
 end
 
 module MyOCamlbuildBase = struct
-# 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
+# 21 "/home/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
   
   (** Base functions for writing myocamlbuild.ml
       @author Sylvain Le Gall
@@ -335,7 +335,7 @@ module MyOCamlbuildBase = struct
   type name = string 
   type tag = string 
   
-# 55 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
+# 55 "/home/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/plugins/ocamlbuild/MyOCamlbuildBase.ml"
   
   type t =
       {
@@ -506,7 +506,47 @@ let package_default =
                  S [A "-lblas"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-framework"; A "vecLib"])
-            ])
+            ]);
+          (["oasis_executable_svd_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_svd_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_lin_eq_comp_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_lin_eq_comp_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_blas_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_blas_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_sbgv_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_sbgv_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_lin_eq_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_lin_eq_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_gbsv_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_gbsv_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_qr_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_qr_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_lin_reg_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_lin_reg_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_eig_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_eig_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_sbev_dllpath"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
+          (["oasis_executable_sbev_dllpath"; "ocamlmklib"; "c"],
+            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])])
        ];
      }
   ;;

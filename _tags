@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 412f6425afa821e93255eb10f678baeb)
+# DO NOT EDIT (digest: 2bbd723331bfc99aecc17ca013568c96)
 # Library lacaml
 <lib/*.ml{,i}>: oasis_library_lacaml_ccopt
 "lib/impl_c.c": oasis_library_lacaml_ccopt
@@ -48,37 +48,45 @@
 "lib/impl2_Z_c.c": pkg_bigarray
 "lib/exp10.c": pkg_bigarray
 # Executable svd
+<examples/svd/svd.{native,byte}>: oasis_executable_svd_dllpath
 <examples/svd/svd.{native,byte}>: use_lacaml
 <examples/svd/svd.{native,byte}>: pkg_bigarray
 <examples/svd/*.ml{,i}>: use_lacaml
 <examples/svd/*.ml{,i}>: pkg_bigarray
 # Executable lin_eq_comp
+<examples/lin_eq_comp/lin_eq_comp.{native,byte}>: oasis_executable_lin_eq_comp_dllpath
 <examples/lin_eq_comp/lin_eq_comp.{native,byte}>: use_lacaml
 <examples/lin_eq_comp/lin_eq_comp.{native,byte}>: pkg_bigarray
 <examples/lin_eq_comp/*.ml{,i}>: use_lacaml
 <examples/lin_eq_comp/*.ml{,i}>: pkg_bigarray
 # Executable blas
-"examples/blas/blas.byte": use_lacaml
-"examples/blas/blas.byte": pkg_bigarray
+<examples/blas/blas.{native,byte}>: oasis_executable_blas_dllpath
+<examples/blas/blas.{native,byte}>: use_lacaml
+<examples/blas/blas.{native,byte}>: pkg_bigarray
 <examples/blas/*.ml{,i}>: use_lacaml
 <examples/blas/*.ml{,i}>: pkg_bigarray
 # Executable sbgv
+<examples/eig/sbgv.{native,byte}>: oasis_executable_sbgv_dllpath
 <examples/eig/sbgv.{native,byte}>: use_lacaml
 <examples/eig/sbgv.{native,byte}>: pkg_bigarray
 # Executable lin_eq
+<examples/lin_eq/lin_eq.{native,byte}>: oasis_executable_lin_eq_dllpath
 <examples/lin_eq/lin_eq.{native,byte}>: use_lacaml
 <examples/lin_eq/lin_eq.{native,byte}>: pkg_bigarray
 # Executable gbsv
+<examples/lin_eq/gbsv.{native,byte}>: oasis_executable_gbsv_dllpath
 <examples/lin_eq/gbsv.{native,byte}>: use_lacaml
 <examples/lin_eq/gbsv.{native,byte}>: pkg_bigarray
 <examples/lin_eq/*.ml{,i}>: use_lacaml
 <examples/lin_eq/*.ml{,i}>: pkg_bigarray
 # Executable qr
+<examples/qr/qr.{native,byte}>: oasis_executable_qr_dllpath
 <examples/qr/qr.{native,byte}>: use_lacaml
 <examples/qr/qr.{native,byte}>: pkg_bigarray
 <examples/qr/*.ml{,i}>: use_lacaml
 <examples/qr/*.ml{,i}>: pkg_bigarray
 # Executable lin_reg
+<examples/lin_reg/lin_reg.{native,byte}>: oasis_executable_lin_reg_dllpath
 <examples/lin_reg/lin_reg.{native,byte}>: use_lacaml
 <examples/lin_reg/lin_reg.{native,byte}>: pkg_bigarray
 <examples/lin_reg/*.ml{,i}>: use_lacaml
@@ -86,9 +94,11 @@
 # Library lacaml_top
 "lib": include
 # Executable eig
+<examples/eig/eig.{native,byte}>: oasis_executable_eig_dllpath
 <examples/eig/eig.{native,byte}>: use_lacaml
 <examples/eig/eig.{native,byte}>: pkg_bigarray
 # Executable sbev
+<examples/eig/sbev.{native,byte}>: oasis_executable_sbev_dllpath
 <examples/eig/sbev.{native,byte}>: use_lacaml
 <examples/eig/sbev.{native,byte}>: pkg_bigarray
 <examples/eig/*.ml{,i}>: use_lacaml

@@ -41,13 +41,9 @@ Library lacaml
   BuildDepends: bigarray
   if system(linux)
     CCOpt: -O2 -DPIC
-# For development only
-#    CCOpt: -O2 -DPIC -Wall -Werror -Wno-unused -Wno-long-long
     CCLib: -lblas -llapack
   if system(macosx)
     CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib
-# For development only
-#    CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib -DPIC -Wall -Werror -Wno-unused -Wno-long-long
     CCLib: -framework vecLib
   # FIXME: mingw is untested!!!
   if system(mingw)
@@ -67,6 +63,8 @@ Executable blas
   MainIs:         blas.ml
   BuildDepends:   lacaml
   Install:        false
+  CompiledObject: best
+  DllPath:        ../../lib
 
 Executable eig
   Path:           examples/eig
@@ -74,6 +72,7 @@ Executable eig
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable sbev
   Path:           examples/eig
@@ -81,6 +80,7 @@ Executable sbev
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable sbgv
   Path:           examples/eig
@@ -88,6 +88,7 @@ Executable sbgv
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable lin_eq
   Path:           examples/lin_eq
@@ -95,6 +96,7 @@ Executable lin_eq
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable gbsv
   Path:           examples/lin_eq
@@ -102,6 +104,7 @@ Executable gbsv
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable lin_eq_comp
   Path:           examples/lin_eq_comp
@@ -109,6 +112,7 @@ Executable lin_eq_comp
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable lin_reg
   Path:           examples/lin_reg
@@ -116,6 +120,7 @@ Executable lin_reg
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable qr
   Path:           examples/qr
@@ -123,6 +128,7 @@ Executable qr
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Executable svd
   Path:           examples/svd
@@ -130,6 +136,7 @@ Executable svd
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
+  DllPath:        ../../lib
 
 Document API
   Title:           API reference for Lacaml
