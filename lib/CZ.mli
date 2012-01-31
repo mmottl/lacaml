@@ -26,13 +26,13 @@ type prec = complexxx_elt
 type num_type = Complex.t
 
 type vec = (Complex.t, complexxx_elt, fortran_layout) Array1.t
-(** Double precision vectors. *)
+(** Complex vectors (precision: complexxx). *)
 
 type rvec = (float, floatxx_elt, fortran_layout) Array1.t
-(** Double precision vectors of reals. *)
+(** Vectors of reals (precision: floatxx). *)
 
 type mat = (Complex.t, complexxx_elt, fortran_layout) Array2.t
-(** Double precision matrices. *)
+(** Complex matrices (precision: complexxx). *)
 
 type trans3 = [ `C | `N | `T ]
 val prec : (Complex.t, complexxx_elt) Bigarray.kind
