@@ -37,10 +37,8 @@ dist tar: setup.ml
 
 .PHONY:	clean
 clean: setup.ml
-	-ocaml setup.ml -clean
-	@$(MAKE) -C lib clean
-	@$(MAKE) -C examples clean-examples
-	@$(RM) -f doc
+	ocaml setup.ml -clean
+	$(RM) $(TARBALL)
 	-touch setup.ml # force reconfigure
 
 distclean: setup.ml
