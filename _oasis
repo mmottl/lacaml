@@ -48,7 +48,7 @@ Library lacaml
     CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib
 # For development only
 #    CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib -DPIC -Wall -Werror -Wno-unused -Wno-long-long
-    CCLib: -L/sw/lib -framework vecLib
+    CCLib: -framework vecLib
   # FIXME: mingw is untested!!!
   if system(mingw)
     CCOpt: -O2 -DPIC -DEXTERNAL_EXP10

@@ -3,11 +3,10 @@ WEB = lacaml.forge.ocamlcore.org:/home/groups/lacaml/htdocs/
 DIR = $(shell oasis query name)-$(shell oasis query version)
 TARBALL = $(DIR).tar.gz
 
-DISTFILES = AUTHORS.txt COPYRIGHT.txt INSTALL.txt INSTALL.win32 \
-  LICENSE.txt README.txt Changelog API.odocl \
+DISTFILES = API.odocl AUTHORS.txt Changelog COPYRIGHT.txt \
+  INSTALL.txt INSTALL.win32 LICENSE.txt README.txt \
   Makefile make_prec_dep.ml myocamlbuild.ml _oasis setup.ml _tags \
-  $(wildcard lib/*) $(wildcard examples/*) \
-  OCamlMakefile OMakefile
+  $(wildcard lib/*) $(wildcard examples/*)
 
 .PHONY: configure all byte native doc upload-doc install uninstall reinstall
 all byte native: setup.data
