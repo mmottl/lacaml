@@ -1,6 +1,6 @@
-(* File: sbev.ml
+(* File: SD.mli
 
-   Copyright (C) 2011-
+   Copyright (C) 2010-
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
@@ -20,23 +20,36 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
-
-(** Example based on http://www.nag.co.uk/lapack-ex/node61.html *)
-
-open Format
 open Bigarray
 
-open Lacaml.D
-open Lacaml.Io
+type prec = floatxx_elt
+type num_type = float
 
-let a = Mat.of_array
-  [| [|  nan; nan; 3.; 4.; 5. |];
-     [|  nan;  2.; 3.; 4.; 5. |];   (* above diag *)
-     [|   1.;  2.; 3.; 4.; 5. |] |] (* diag *)
+type vec = (float, floatxx_elt, fortran_layout) Array1.t
+(** Vectors (precision: floatxx). *)
 
-let () =
-  let z = Mat.create 5 5 in
-  let eig = sbev a ~z in
-  printf "@[<2>Eigenvalues: @[%a@]@]@\n" pp_rfvec eig;
-  printf "@[<2>Eigenvectors (one per column): @\n";
-  printf "@[%a@]@]@\n" pp_fmat z
+type rvec = vec
+
+type mat = (float, floatxx_elt, fortran_layout) Array2.t
+(** Matrices (precision: floatxx). *)
+
+type trans3 = [ `N | `T ]
+
+val prec : (float, floatxx_elt) Bigarray.kind
+(** Precision for this submodule {!FPREC}.  Allows to write precision
+    independent code. *)
+
+module Vec : sig
+  include module type of Vec2_FPREC
+  include module type of Vec4_FPREC
+end
+
+module Mat : sig
+  include module type of Mat2_FPREC
+  include module type of Mat4_FPREC
+end
+
+include module type of Real_io
+
+include module type of Impl2_FPREC
+include module type of Impl4_FPREC

@@ -1,6 +1,6 @@
-(* File: sbev.ml
+(* File: complex_io.mli
 
-   Copyright (C) 2011-
+   Copyright (C) 2010-
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
@@ -21,22 +21,12 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Example based on http://www.nag.co.uk/lapack-ex/node61.html *)
+val pp_num : Format.formatter -> Complex.t -> unit
+(** [pp_num ppf el] is equivalent to [fprintf ppf "(%G, %Gi)"
+    el.re el.im]. *)
 
-open Format
-open Bigarray
+val pp_vec : (Complex.t, 'a) Io.pp_vec
+(** Pretty-printer for column vectors. *)
 
-open Lacaml.D
-open Lacaml.Io
-
-let a = Mat.of_array
-  [| [|  nan; nan; 3.; 4.; 5. |];
-     [|  nan;  2.; 3.; 4.; 5. |];   (* above diag *)
-     [|   1.;  2.; 3.; 4.; 5. |] |] (* diag *)
-
-let () =
-  let z = Mat.create 5 5 in
-  let eig = sbev a ~z in
-  printf "@[<2>Eigenvalues: @[%a@]@]@\n" pp_rfvec eig;
-  printf "@[<2>Eigenvectors (one per column): @\n";
-  printf "@[%a@]@]@\n" pp_fmat z
+val pp_mat : (Complex.t, 'a) Io.pp_mat
+(** Pretty-printer for matrices. *)

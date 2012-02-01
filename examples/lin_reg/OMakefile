@@ -1,3 +1,0 @@
-OCamlMakeProjDefaults(lin_reg.exe)
-
-InstantiateOCamlEnv()

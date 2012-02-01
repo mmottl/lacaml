@@ -1,6 +1,6 @@
-(* File: sbev.ml
+(* File: SD.ml
 
-   Copyright (C) 2011-
+   Copyright (C) 2010-
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
@@ -21,22 +21,22 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Example based on http://www.nag.co.uk/lapack-ex/node61.html *)
+(** Modules with functions specialized for simple (S) or double (D)
+    precision numbers. *)
 
-open Format
-open Bigarray
+include Floatxx
 
-open Lacaml.D
-open Lacaml.Io
+include Impl2_FPREC
+include Impl4_FPREC
 
-let a = Mat.of_array
-  [| [|  nan; nan; 3.; 4.; 5. |];
-     [|  nan;  2.; 3.; 4.; 5. |];   (* above diag *)
-     [|   1.;  2.; 3.; 4.; 5. |] |] (* diag *)
+include Real_io
 
-let () =
-  let z = Mat.create 5 5 in
-  let eig = sbev a ~z in
-  printf "@[<2>Eigenvalues: @[%a@]@]@\n" pp_rfvec eig;
-  printf "@[<2>Eigenvectors (one per column): @\n";
-  printf "@[%a@]@]@\n" pp_fmat z
+module Vec = struct
+  include Vec2_FPREC
+  include Vec4_FPREC
+end
+
+module Mat = struct
+  include Mat2_FPREC
+  include Mat4_FPREC
+end

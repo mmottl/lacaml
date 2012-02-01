@@ -1,10 +1,14 @@
-(* File: sbev.ml
+(* File: CZ.ml
 
-   Copyright (C) 2011-
+   Copyright (C) 2001-
+
+     Markus Mottl
+     email: markus.mottl@gmail.com
+     WWW: http://www.ocaml.info
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umons.ac.be/an/
+     WWW: http://math.umh.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -21,22 +25,24 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Example based on http://www.nag.co.uk/lapack-ex/node61.html *)
-
-open Format
 open Bigarray
 
-open Lacaml.D
-open Lacaml.Io
+(** Modules with functions specialized for simple (C) or double (Z)
+    precision complex numbers. *)
 
-let a = Mat.of_array
-  [| [|  nan; nan; 3.; 4.; 5. |];
-     [|  nan;  2.; 3.; 4.; 5. |];   (* above diag *)
-     [|   1.;  2.; 3.; 4.; 5. |] |] (* diag *)
+include Complexxx
 
-let () =
-  let z = Mat.create 5 5 in
-  let eig = sbev a ~z in
-  printf "@[<2>Eigenvalues: @[%a@]@]@\n" pp_rfvec eig;
-  printf "@[<2>Eigenvectors (one per column): @\n";
-  printf "@[%a@]@]@\n" pp_fmat z
+include Complex_io
+
+include Impl2_CPREC
+include Impl4_CPREC
+
+module Vec = struct
+  include Vec2_CPREC
+  include Vec4_CPREC
+end
+
+module Mat = struct
+  include Mat2_CPREC
+  include Mat4_CPREC
+end

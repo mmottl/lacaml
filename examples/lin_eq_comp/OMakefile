@@ -1,3 +1,0 @@
-OCamlMakeProjDefaults(lin_eq_comp.exe)
-
-InstantiateOCamlEnv()

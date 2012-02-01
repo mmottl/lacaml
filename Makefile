@@ -1,39 +1,45 @@
--include Makefile.conf
+WEB = lacaml.forge.ocamlcore.org:/home/groups/lacaml/htdocs/
 
-EXAMPLES = $(filter-out examples/OMakefile examples/Makefile.examples, $(wildcard examples/*))
+DIR = $(shell oasis query name)-$(shell oasis query version)
+TARBALL = $(DIR).tar.gz
 
-.PHONY: all
-all:
-	@cd lib && $(MAKE) byte-code-library native-code-library toplevel-library
+DISTFILES = API.odocl AUTHORS.txt Changelog COPYRIGHT.txt \
+  INSTALL.txt INSTALL.win32 LICENSE.txt README.txt \
+  Makefile make_prec_dep.ml myocamlbuild.ml _oasis setup.ml _tags \
+  $(wildcard lib/*) $(wildcard examples/*)
 
-.PHONY:	examples
-examples:
-	@for dir in $(EXAMPLES); do (cd $$dir && $(MAKE)); done
+.PHONY: configure all byte native doc upload-doc install uninstall reinstall
+all byte native: setup.data
+	ocaml setup.ml -build
 
-.PHONY:	doc
-doc htdoc:
-	@cd lib && $(MAKE) $@
-	ln -sf lib/doc
+configure: setup.data
+setup.data: setup.ml make_prec_dep.ml lib/lacaml_SDCZ.mli
+	ocaml setup.ml -configure
 
-.PHONY:	install
-install:
-	@cd lib && $(MAKE) $@
+setup.ml: _oasis
+	oasis setup
 
-.PHONY:	uninstall
-uninstall:
-	@cd lib && $(MAKE) $@
+doc install uninstall reinstall: all
+	ocaml setup.ml -$@
 
-.PHONY: reinstall
-reinstall:
-	$(MAKE) uninstall
-	$(MAKE) install
+upload-doc: doc
+	scp -C -p -r _build/API.docdir $(WEB)
+
+.PHONY: dist tar
+dist tar: setup.ml
+	mkdir -p $(DIR)
+	for f in $(DISTFILES); do \
+	  cp -r --parents $$f $(DIR); \
+	done
+	tar -zcvf $(TARBALL) --exclude='*~' $(DIR)
+	$(RM) -r $(DIR)
 
 .PHONY:	clean
-clean:
-	@cd lib && $(MAKE) clean
-	@make clean-examples
-	@rm -f doc
+clean: setup.ml
+	ocaml setup.ml -clean
+	$(RM) $(TARBALL)
+	-touch setup.ml # force reconfigure
 
-.PHONY: clean-examples
-clean-examples:
-	@for dir in $(EXAMPLES); do (cd $$dir && $(MAKE) clean); done
+distclean: setup.ml
+	ocaml setup.ml -distclean
+	$(RM) $(wildcard *.ba[0-9] *.bak *~ *.odocl)

@@ -4,7 +4,18 @@
 \.(cm(i|o|x|a|xa)|o|so|annot|a)$
 \._(b|n)cdi/.*$
 \._d/.*$
+_build$
+.*\.bak$
+setup.data$
+setup.log$
+.*\.ba[0-9]+$
+.*\.byte$
+.*\.native$
+lib/lacaml.mlpack$
+lib/.*\.mllib$
+lib/.*\.clib$
 lib/(impl|mat|vec)(2|4)_.*$
+lib/(s|d|c|z).ml(|i)$
 lib/lacaml.mli
 examples/blas/blas$
 examples/eig/eig$
@@ -17,3 +28,4 @@ examples/lin_eq/gbsv$
 examples/svd/svd$
 examples/qr/qr$
 doc
+.*\.tar\.gz$

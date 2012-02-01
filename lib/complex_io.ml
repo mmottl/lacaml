@@ -1,10 +1,14 @@
-(* File: sbev.ml
+(* File: complex_io.ml
 
-   Copyright (C) 2011-
+   Copyright (C) 2001-
+
+     Markus Mottl
+     email: markus.mottl@gmail.com
+     WWW: http://www.ocaml.info
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umons.ac.be/an/
+     WWW: http://math.umh.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -21,22 +25,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(** Example based on http://www.nag.co.uk/lapack-ex/node61.html *)
+open Io
 
-open Format
-open Bigarray
-
-open Lacaml.D
-open Lacaml.Io
-
-let a = Mat.of_array
-  [| [|  nan; nan; 3.; 4.; 5. |];
-     [|  nan;  2.; 3.; 4.; 5. |];   (* above diag *)
-     [|   1.;  2.; 3.; 4.; 5. |] |] (* diag *)
-
-let () =
-  let z = Mat.create 5 5 in
-  let eig = sbev a ~z in
-  printf "@[<2>Eigenvalues: @[%a@]@]@\n" pp_rfvec eig;
-  printf "@[<2>Eigenvectors (one per column): @\n";
-  printf "@[%a@]@]@\n" pp_fmat z
+let pp_num ppf n = !pp_complex_el_default ppf n
+let pp_vec = pp_cvec
+let pp_mat = pp_cmat

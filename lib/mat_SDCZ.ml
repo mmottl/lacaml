@@ -174,14 +174,14 @@ external direct_transpose_copy :
   unit = "lacaml_NPRECtranspose_copy_stub_bc" "lacaml_NPRECtranspose_copy_stub"
 
 let transpose_copy ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.NPREC.Mat.transpose_copy" in
+  let loc = "Lacaml.NPREC.Mat.transpose_copy" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b n m;
   direct_transpose_copy ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.NPREC.Mat.transpose" in
+  let loc = "Lacaml.NPREC.Mat.transpose" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let b = create n m in
@@ -189,7 +189,7 @@ let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
   b
 
 let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
-  let loc = "Lacaml.Impl.NPREC.Mat.detri" in
+  let loc = "Lacaml.NPREC.Mat.detri" in
   let n = get_n_of_square loc a_str ar ac a n in
   if up then
     for c = 1 to n - 1 do
@@ -205,7 +205,7 @@ let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
     done
 
 let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
-  let loc = "Lacaml.Impl.NPREC.Mat.packed" in
+  let loc = "Lacaml.NPREC.Mat.packed" in
   let n = get_n_of_square loc a_str ar ac a n in
   let dst = Array1.create prec fortran_layout ((n * n + n) / 2) in
   let pos_ref = ref 1 in
@@ -228,7 +228,7 @@ let packed ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
   dst
 
 let unpacked ?(up = true) ?n (src : vec) =
-  let loc = "Lacaml.Impl.NPREC.Mat.unpacked" in
+  let loc = "Lacaml.NPREC.Mat.unpacked" in
   let n = get_unpacked_dim loc ?n (Array1.dim src) in
   let a = make0 n n in
   let pos_ref = ref 1 in
@@ -278,7 +278,7 @@ external direct_scal_mat :
   unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
 
 let scal ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.NPREC.Mat.scal" in
+  let loc = "Lacaml.NPREC.Mat.scal" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   direct_scal_mat ~m ~n ~alpha ~ar ~ac ~a
@@ -294,7 +294,7 @@ external direct_scal_cols :
   unit = "lacaml_NPRECscal_cols_stub_bc" "lacaml_NPRECscal_cols_stub"
 
 let scal_cols ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
-  let loc = "Lacaml.Impl.NPREC.Mat.scal_cols" in
+  let loc = "Lacaml.NPREC.Mat.scal_cols" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_ofs loc alphas_str ofs in
@@ -312,7 +312,7 @@ external direct_scal_rows :
   unit = "lacaml_NPRECscal_rows_stub_bc" "lacaml_NPRECscal_rows_stub"
 
 let scal_rows ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.NPREC.Mat.scal_rows" in
+  let loc = "Lacaml.NPREC.Mat.scal_rows" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_ofs loc alphas_str ofs in
@@ -332,7 +332,7 @@ external direct_mat_axpy :
   unit = "lacaml_NPRECmat_axpy_stub_bc" "lacaml_NPRECmat_axpy_stub"
 
 let axpy ?m ?n ?(alpha = one) ?(xr = 1) ?(xc = 1) ~x ?(yr = 1) ?(yc = 1) y =
-  let loc = "Lacaml.Impl.NPREC.Mat.axpy" in
+  let loc = "Lacaml.NPREC.Mat.axpy" in
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
@@ -360,7 +360,7 @@ external direct_gemm_diag :
 let gemm_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
   ?(transa = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a
   ?(transb = `N) ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.NPREC.Mat.gemm_diag" in
+  let loc = "Lacaml.NPREC.Mat.gemm_diag" in
   let n = get_rows_mat_tr loc a_str a ar ac transa n_str n in
   let n = get_cols_mat_tr loc b_str b br bc transb n_str (Some n) in
   let k = get_inner_dim loc a_str a ar ac transa b_str b br bc transb k_str k in
@@ -386,7 +386,7 @@ external direct_syrk_diag :
 
 let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
   ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.NPREC.Mat.syrk_diag" in
+  let loc = "Lacaml.NPREC.Mat.syrk_diag" in
   let n = get_rows_mat_tr loc a_str a ar ac trans n_str n in
   let k = get_cols_mat_tr loc a_str a ar ac trans k_str k in
   let y = get_vec loc y_str y ofsy 1 n vec_create in
@@ -409,7 +409,7 @@ external direct_gemm_trace :
 
 let gemm_trace ?n ?k ?(transa = `N) ?(ar = 1) ?(ac = 1) a
   ?(transb = `N) ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.NPREC.Mat.gemm_trace" in
+  let loc = "Lacaml.NPREC.Mat.gemm_trace" in
   let n = get_rows_mat_tr loc a_str a ar ac transa n_str n in
   let n = get_cols_mat_tr loc b_str b br bc transb n_str (Some n) in
   let k = get_inner_dim loc a_str a ar ac transa b_str b br bc transb k_str k in
@@ -426,7 +426,7 @@ external direct_syrk_trace :
   num_type = "lacaml_NPRECsyrk_trace_stub"
 
 let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.NPREC.Mat.syrk_trace" in
+  let loc = "Lacaml.NPREC.Mat.syrk_trace" in
   let n = get_dim1_mat loc a_str a ar n_str n in
   let k = get_dim2_mat loc a_str a ac k_str k in
   direct_syrk_trace ~n ~k ~ar ~ac ~a
@@ -447,7 +447,7 @@ let symm2_trace
   ?n
   ?(upa = true) ?(ar = 1) ?(ac = 1) a
   ?(upb = true) ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.NPREC.Mat.symm2_trace" in
+  let loc = "Lacaml.NPREC.Mat.symm2_trace" in
   let n = get_n_of_square loc a_str ar ac a n in
   let n = get_n_of_square loc b_str br bc b (Some n) in
   let uploa = get_uplo_char upa in
@@ -458,7 +458,7 @@ let symm2_trace
 (* Iterators over matrices *)
 
 let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) (a : mat) =
-  let loc = "Lacaml.Impl.NPREC.Mat.map" in
+  let loc = "Lacaml.NPREC.Mat.map" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let b, br, bc =
@@ -473,7 +473,7 @@ let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) (a : mat) =
   b
 
 let fold_cols coll ?n ?(ac = 1) acc a =
-  let loc = "Lacaml.Impl.NPREC.Mat.fold_cols" in
+  let loc = "Lacaml.NPREC.Mat.fold_cols" in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let rec loop i acc =
     if i = n then acc

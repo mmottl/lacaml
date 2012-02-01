@@ -58,7 +58,7 @@ external direct_dot :
   -> float = "lacaml_FPRECdot_stub_bc" "lacaml_FPRECdot_stub"
 
 let dot ?n ?ofsx ?incx ~x ?ofsy ?incy y =
-  let loc = "Lacaml.Impl.FPREC.dot" in
+  let loc = "Lacaml.FPREC.dot" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
@@ -76,7 +76,7 @@ external direct_asum :
   -> float = "lacaml_FPRECasum_stub"
 
 let asum ?n ?ofsx ?incx x =
-  let loc = "Lacaml.Impl.FPREC.asum" in
+  let loc = "Lacaml.FPREC.asum" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
   direct_asum ~n ~ofsx ~incx ~x
@@ -106,7 +106,7 @@ external direct_sbmv :
 
 let sbmv ?n ?k ?ofsy ?incy ?y ?(ar = 1) ?(ac = 1) a ?(up = true) ?(alpha = 1.0)
     ?(beta = 0.0) ?ofsx ?incx x =
-  let loc = "Lacaml.Impl.FPREC.sbmv" in
+  let loc = "Lacaml.FPREC.sbmv" in
   (* [a] is a band matrix of size [k+1]*[n]. *)
   let n = get_dim2_mat loc a_str a ac n_str n in
   let k = get_k_mat_sb loc a_str a ar k_str k in
@@ -137,7 +137,7 @@ external direct_ger :
   -> unit = "lacaml_FPRECger_stub_bc" "lacaml_FPRECger_stub"
 
 let ger ?m ?n ?(alpha = 1.0) ?ofsx ?incx x ?ofsy ?incy y ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.ger" in
+  let loc = "Lacaml.FPREC.ger" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
@@ -162,7 +162,7 @@ external direct_syr :
   -> unit = "lacaml_FPRECsyr_stub_bc" "lacaml_FPRECsyr_stub"
 
 let syr ?n ?(alpha = 1.0) ?(up = true) ?ofsx ?incx x ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syr" in
+  let loc = "Lacaml.FPREC.syr" in
   let n = get_n_of_a loc ar ac a n in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let uplo = get_uplo_char up in
@@ -190,7 +190,7 @@ let lansy_min_lwork n = function
   | _ -> 0
 
 let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.lansy" in
+  let loc = "Lacaml.FPREC.lansy" in
   let n = get_n_of_a loc ar ac a n in
   let uplo = get_uplo_char up in
   let min_work = lansy_min_lwork n norm in
@@ -240,12 +240,12 @@ let orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a =
   else orgqr_err ~loc ~m ~n ~k ~work ~a ~err:info
 
 let orgqr_opt_lwork ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.orgqr_opt_lwork" in
+  let loc = "Lacaml.FPREC.orgqr_opt_lwork" in
   let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
   orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a
 
 let orgqr ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.orgqr" in
+  let loc = "Lacaml.FPREC.orgqr" in
   let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
   let work, lwork =
     let min_lwork = orgqr_min_lwork ~n in
@@ -294,14 +294,14 @@ let ormqr_get_opt_lwork loc ~side ~trans ~m ~n ~k ~tau ~ar ~ac ~a ~cr ~cc ~c =
 
 let ormqr_opt_lwork
       ?(side = `L) ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a ?(cr = 1) ?(cc = 1) c =
-  let loc = "Lacaml.Impl.FPREC.ormqr_opt_lwork" in
+  let loc = "Lacaml.FPREC.ormqr_opt_lwork" in
   let m, n, k = ormqr_get_params loc ~side ?m ?n ?k ~tau ~ar ~ac a ~cr ~cc c in
   ormqr_get_opt_lwork loc ~side ~m ~n ~k ~tau ~ar ~ac ~a
 
 let ormqr
       ?(side = `L) ?(trans = `N) ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a
       ?(cr = 1) ?(cc = 1) c =
-  let loc = "Lacaml.Impl.FPREC.ormqr" in
+  let loc = "Lacaml.FPREC.ormqr" in
   let m, n, k = ormqr_get_params loc ~side ?m ?n ?k ~tau ~ar ~ac a ~cr ~cc c in
   let work, lwork =
     let min_lwork = ormqr_min_lwork ~side ~m ~n in
@@ -337,7 +337,7 @@ let gecon_min_lwork n = 4 * n
 let gecon_min_liwork n = n
 
 let gecon ?n ?(norm = `O) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.gecon" in
+  let loc = "Lacaml.FPREC.gecon" in
   let n = get_n_of_a loc ar ac a n in
   let work, _lwork =
     let min_lwork = gecon_min_lwork n in
@@ -375,7 +375,7 @@ let sycon_min_lwork n = 2 * n
 let sycon_min_liwork n = n
 
 let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.sycon" in
+  let loc = "Lacaml.FPREC.sycon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo = get_uplo_char up in
   let work, _lwork =
@@ -416,7 +416,7 @@ let pocon_min_lwork n = 3 * n
 let pocon_min_liwork n = n
 
 let pocon ?n ?(up = true) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.pocon" in
+  let loc = "Lacaml.FPREC.pocon" in
   let n = get_n_of_a loc ar ac a n in
   let uplo = get_uplo_char up in
   let work, _lwork =
@@ -471,13 +471,13 @@ let gelsy_get_opt_lwork loc ar ac a m n nrhs br bc b =
 
 let gelsy_opt_lwork ?m ?n ?(ar = 1) ?(ac = 1) a ?nrhs
     ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.gelsy_opt_lwork" in
+  let loc = "Lacaml.FPREC.gelsy_opt_lwork" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   gelsy_get_opt_lwork loc ar ac a m n nrhs br bc b
 
 let gelsy ?m ?n ?(ar = 1) ?(ac = 1) a ?(rcond = -1.0)
     ?jpvt ?work ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.gelsy" in
+  let loc = "Lacaml.FPREC.gelsy" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
 
   let jpvt =
@@ -570,13 +570,13 @@ let gelsd_get_opt_lwork loc ar ac a m n nrhs br bc b =
 
 let gelsd_opt_lwork ?m ?n ?(ar = 1) ?(ac = 1) a ?nrhs
     ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.gelsd_opt_lwork" in
+  let loc = "Lacaml.FPREC.gelsd_opt_lwork" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   gelsd_get_opt_lwork loc ar ac a m n nrhs br bc b
 
 let gelsd ?m ?n ?(rcond = -1.0) ?ofss ?s ?work ?iwork
       ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.gelsd" in
+  let loc = "Lacaml.FPREC.gelsd" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   let mn = min m n in
   let ofss = get_ofs loc s_str ofss in
@@ -649,13 +649,13 @@ let gelss_get_opt_lwork loc ar ac a m n nrhs br bc b =
   else gelsX_err loc gelss_min_lwork ar a m n 1 nrhs br b info
 
 let gelss_opt_lwork ?(ar = 1) ?(ac = 1) a ?m ?n ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.gelss_opt_lwork" in
+  let loc = "Lacaml.FPREC.gelss_opt_lwork" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   gelss_get_opt_lwork loc ar ac a m n nrhs br bc b
 
 let gelss ?m ?n ?(rcond = -1.0) ?ofss ?s ?work
       ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.gelss" in
+  let loc = "Lacaml.FPREC.gelss" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   let ofss = get_ofs loc s_str ofss in
   let s = gelsX_get_s Vec.create loc (min m n) ofss s in
@@ -714,7 +714,7 @@ let gesvd_opt_lwork
     ?(jobu = `A) ?(jobvt = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u
     ?(vtr = 1) ?(vtc = 1) ?vt ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.gesvd_opt_lwork" in
+  let loc = "Lacaml.FPREC.gesvd_opt_lwork" in
   let jobu, jobvt, m, n, s, u, vt =
     gesvd_get_params
       loc Vec.create Mat.create jobu jobvt m n ar ac a s ur uc u vtr vtc vt in
@@ -729,7 +729,7 @@ let gesvd
     ?jobu:(jobu_t = `A) ?jobvt:(jobvt_t = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u
     ?(vtr = 1) ?(vtc = 1) ?vt ?work ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.gesvd" in
+  let loc = "Lacaml.FPREC.gesvd" in
   let jobu, jobvt, m, n, s, u, vt =
     gesvd_get_params
       loc Vec.create Mat.create jobu_t jobvt_t m n ar ac a s ur uc u vtr vtc vt
@@ -830,7 +830,7 @@ let gesdd_opt_lwork
     ?(jobz = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u ?(vtr = 1) ?(vtc = 1) ?vt
     ?iwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.gesdd_opt_lwork" in
+  let loc = "Lacaml.FPREC.gesdd_opt_lwork" in
   let jobz_c, m, n, s, u, vt =
     gesdd_get_params
       loc Vec.create Mat.create jobz m n ar ac a s ur uc u vtr vtc vt
@@ -842,7 +842,7 @@ let gesdd
     ?jobz:(jobz_t = `A) ?s
     ?(ur = 1) ?(uc = 1) ?u ?(vtr = 1) ?(vtc = 1) ?vt
     ?work ?iwork ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.gesdd" in
+  let loc = "Lacaml.FPREC.gesdd" in
   let jobz, m, n, s, u, vt =
     gesdd_get_params
       loc Vec.create Mat.create jobz_t m n ar ac a s ur uc u vtr vtc vt in
@@ -953,7 +953,7 @@ let geev_opt_lwork
     ?(ofswr = 1) ?wr
     ?(ofswi = 1) ?wi
     ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.geev_opt_lwork" in
+  let loc = "Lacaml.FPREC.geev_opt_lwork" in
   let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, vectors),
       (ofswr, wr), (ofswi, wi) =
     geev_get_params
@@ -970,7 +970,7 @@ let geev
     ?(ofswr = 1) ?wr
     ?(ofswi = 1) ?wi
     ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.geev" in
+  let loc = "Lacaml.FPREC.geev" in
   let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, vectors),
       (ofswr, wr), (ofswi, wi) =
     geev_get_params
@@ -1055,13 +1055,13 @@ let syev_get_opt_lwork loc ar ac a n jobz uplo =
   else syev_err loc syev_min_lwork a n ~-1 info
 
 let syev_opt_lwork ?n ?(vectors = false) ?(up = true) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syev_opt_lwork" in
+  let loc = "Lacaml.FPREC.syev_opt_lwork" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   syev_get_opt_lwork loc ar ac a n jobz uplo
 
 let syev ?n ?(vectors = false) ?(up = true) ?work ?ofsw ?w ?(ar = 1)
     ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syev" in
+  let loc = "Lacaml.FPREC.syev" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let ofsw = get_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
@@ -1128,7 +1128,7 @@ let syevd_get_opt_liwork loc ar ac a n vectors jobz uplo =
 
 let syevd_opt_l_li_work ?n ?(vectors = false) ?(up = true)
     ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syevd_opt_l_li_work" in
+  let loc = "Lacaml.FPREC.syevd_opt_l_li_work" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo
 
@@ -1140,7 +1140,7 @@ let syevd_opt_liwork ?n ?vectors ?up ?ar ?ac a =
 
 let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
       ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syevd" in
+  let loc = "Lacaml.FPREC.syevd" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let ofsw = get_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
@@ -1213,7 +1213,7 @@ let sbev_min_lwork n = max 1 (3*n - 2)
 
 let sbev ?n ?kd ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?(ofsw = 1) ?w
     ?(abr = 1) ?(abc = 1) ab =
-  let loc = "Lacaml.Impl.FPREC.sbev" in
+  let loc = "Lacaml.FPREC.sbev" in
   (* [a] is a band matrix of physical size [k+1]*[n]. *)
   let n = get_dim2_mat loc ab_str ab abc n_str n in
   let uplo = get_uplo_char up in
@@ -1335,7 +1335,7 @@ let syevr_get_opt_liwork
 let syevr_opt_l_li_work
     ?n ?(vectors = false) ?(range = `A) ?(up = true) ?(abstol = 0.)
     ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syevr_opt_l_li_work" in
+  let loc = "Lacaml.FPREC.syevr_opt_l_li_work" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let range, _m, vl, vu, il, iu = syevr_get_params loc n range in
   let zr = 1 in
@@ -1355,7 +1355,7 @@ let syevr_opt_liwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a =
 
 let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
       ?ofsw ?w ?(zr = 1) ?(zc = 1) ?z ?isuppz ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.Impl.FPREC.syevr" in
+  let loc = "Lacaml.FPREC.syevr" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let range, m, vl, vu, il, iu = syevr_get_params loc n range in
   let abstol = syevr_get_abstol abstol in
@@ -1479,7 +1479,7 @@ let sygv_get_opt_lwork loc ar ac a br bc b n itype jobz uplo =
 let sygv_opt_lwork
       ?n ?(vectors = false) ?(up = true) ?(itype = `A_B)
       ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.sygv_opt_lwork" in
+  let loc = "Lacaml.FPREC.sygv_opt_lwork" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   check_dim1_mat loc b_str b br n_str n;
   check_dim2_mat loc b_str b bc n_str n;
@@ -1489,7 +1489,7 @@ let sygv_opt_lwork
 let sygv
       ?n ?(vectors = false) ?(up = true) ?work ?ofsw ?w ?(itype = `A_B)
       ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.sygv" in
+  let loc = "Lacaml.FPREC.sygv" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   check_dim1_mat loc b_str b br n_str n;
   check_dim2_mat loc b_str b bc n_str n;
@@ -1564,7 +1564,7 @@ let dummy_matrix = Mat.create 1 0
 let sbgv
     ?n ?ka ?kb ?(zr = 1) ?(zc = 1) ?z ?(up = true) ?work ?ofsw ?w
     ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.Impl.FPREC.sbgv" in
+  let loc = "Lacaml.FPREC.sbgv" in
   (* [a] is a band matrix of size [ka+1]*[n]. *)
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ka = get_k_mat_sb loc a_str a ar ka_str ka in
