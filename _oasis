@@ -2,7 +2,7 @@
 OASISFormat:     0.2
 OCamlVersion:    >= 3.12
 Name:            lacaml
-Version:         5.5.2
+Version:         6.0.0
 Synopsis:        Binding to BLAS and LAPACK.
 Description:     This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:

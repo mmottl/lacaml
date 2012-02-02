@@ -5,7 +5,7 @@ TARBALL = $(DIR).tar.gz
 
 DISTFILES = API.odocl AUTHORS.txt Changelog COPYRIGHT.txt \
   INSTALL.txt INSTALL.win32 LICENSE.txt README.txt \
-  Makefile make_prec_dep.ml myocamlbuild.ml _oasis setup.ml _tags \
+  Makefile make_prec_dep.ml myocamlbuild.ml _oasis setup.ml setup.conf _tags \
   $(wildcard lib/*) $(wildcard examples/*)
 
 .PHONY: configure all byte native doc upload-doc install uninstall reinstall
