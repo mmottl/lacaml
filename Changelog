@@ -1,3 +1,16 @@
+2012-02-01:  New major release version 6.0.0!
+
+               1) Switched build process to Oasis
+               2) Removed module Impl in favor of a flat module hierarchy
+
+             As a consequence of 2) instead of the following:
+
+               open Lacaml.Impl.D
+
+             The new way of opening double-precision functions is:
+
+               open Lacaml.D
+
 2011-08-09:  Fixed a bug in the work space calculation of sbev.
 
              Thanks to Yichen Xie <yxie@cs.stanford.edu> for contributing
