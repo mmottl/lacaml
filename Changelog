@@ -1,3 +1,6 @@
+2012-02-24:  Fixed a configuration bug on non-Linux Unix-platforms that
+             prevented corrected linking.
+
 2012-02-01:  New major release version 6.0.0!
 
                1) Switched build process to Oasis

@@ -39,9 +39,8 @@ Library lacaml
         exp10.c,
         f2c.h, lacaml_macros.h, utils_c.h
   BuildDepends: bigarray
-  if system(linux)
-    CCOpt: -O2 -DPIC
-    CCLib: -lblas -llapack
+  CCOpt: -O2 -DPIC
+  CCLib: -lblas -llapack
   if system(macosx)
     CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib
     CCLib: -framework vecLib
