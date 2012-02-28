@@ -1,3 +1,6 @@
+2012-02-28:  Previous configuration bug fix did not work correctly, should
+             be solved now.
+
 2012-02-24:  Fixed a configuration bug on non-Linux Unix-platforms that
              prevented corrected linking.
 
