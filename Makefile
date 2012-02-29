@@ -16,11 +16,13 @@ configure: setup.data
 setup.data: setup.ml make_prec_dep.ml lib/lacaml_SDCZ.mli
 	ocaml setup.ml -configure
 
-setup.ml: _oasis
+setup.ml API.odocl: _oasis
 	oasis setup
 
 doc install uninstall reinstall: all
 	ocaml setup.ml -$@
+
+doc: API.odocl
 
 upload-doc: doc
 	scp -C -p -r _build/API.docdir $(WEB)
@@ -33,6 +35,10 @@ dist tar: setup.ml
 	done
 	tar -zcvf $(TARBALL) --exclude='*~' $(DIR)
 	$(RM) -r $(DIR)
+
+.PHONY: debian
+debian:
+	oasis2debian init --debian-name $(shell oasis query name)
 
 .PHONY:	clean
 clean: setup.ml
