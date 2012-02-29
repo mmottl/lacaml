@@ -27,10 +27,8 @@ sub-directory and issue "make nc" to compile it to native code.  You
 can then run the program without needing to install Lacaml first.)
 
 
-           The native Win32 port built with MSVC
-           -------------------------------------
+           Compiling Netlib LAPACK for Windows
+           -----------------------------------
 
-A standalone version of LAPACK for windows can be downloaded at
-<http://icl.cs.utk.edu/lapack-for-windows/>.  If you you have a tested
-procedure how to compile Lacaml with that version of LAPACK, send us
-an email!
+http://www.codingday.com/compile-lapack-and-blas-as-dll-on-windows/
+http://icl.cs.utk.edu/lapack-for-windows/lapack/index.html
