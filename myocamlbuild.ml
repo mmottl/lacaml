@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 4410b49dd31ecd7c35d0b9221f7a21d2) *)
+(* DO NOT EDIT (digest: 7ce87e2a073ff60e41a80f863a85a1e3) *)
 module OASISGettext = struct
 # 21 "/Users/mmottl/local/godi312/build/apps/apps-oasis/work/oasis-0.2.0/src/oasis/OASISGettext.ml"
   
@@ -463,8 +463,7 @@ let package_default =
        [
           (["oasis_library_lacaml_ccopt"; "compile"],
             [
-               (OASISExpr.EBool true, S []);
-               (OASISExpr.ETest ("system", "linux"),
+               (OASISExpr.EBool true,
                  S [A "-ccopt"; A "-O2"; A "-ccopt"; A "-DPIC"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S
@@ -493,17 +492,14 @@ let package_default =
             ]);
           (["oasis_library_lacaml_cclib"; "link"],
             [
-               (OASISExpr.EBool true, S []);
-               (OASISExpr.ETest ("system", "linux"),
+               (OASISExpr.EBool true,
                  S [A "-cclib"; A "-lblas"; A "-cclib"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-cclib"; A "-framework"; A "-cclib"; A "vecLib"])
             ]);
           (["oasis_library_lacaml_cclib"; "ocamlmklib"; "c"],
             [
-               (OASISExpr.EBool true, S []);
-               (OASISExpr.ETest ("system", "linux"),
-                 S [A "-lblas"; A "-llapack"]);
+               (OASISExpr.EBool true, S [A "-lblas"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-framework"; A "vecLib"])
             ]);
