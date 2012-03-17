@@ -1028,6 +1028,9 @@ val sbgv :
     @raise Failure if the function fails to converge.
 
     @param n default = available number of columns of matrix [a]
+    @param ka the number of superdiagonals (or subdiagonals if [up = false])
+              of the matrix [a].  Default = [dim1 a - ar].
+    @param kb same as [ka] but for the matrix [b].
     @param z default = [None] i.e, eigenvectors are not computed
     @param up default = [true] i.e., upper triangle of [a] is stored
     @param work default = vec of optimum length ([3 * n])
