@@ -585,11 +585,15 @@ val lange :
   ?ac : int ->
   mat ->
   float
-(** [lange ?m ?n ?norm ?work ?ar ?ac a]
+(** [lange ?m ?n ?norm ?work ?ar ?ac a] @return the value of the one
+    norm ([norm = `O]), or the Frobenius norm ([norm = `F]), or the infinity
+    norm ([norm = `I]), or the element of largest absolute value
+    ([norm = `M]) of a real matrix [a].
+
     @param m default = number of rows of matrix [a]
     @param n default = number of columns of matrix [a]
-    @param norm default = `O
-    @param work default = allocated work space for norm `I
+    @param norm default = [`O]
+    @param work default = allocated work space for norm [`I]
     @param ar default = 1
     @param ac default = 1 *)
 
@@ -600,7 +604,11 @@ val lauum :
   ?ac : int ->
   mat ->
   unit
-(** [lauum ?up ?n ?ar ?ac a]
+(** [lauum ?up ?n ?ar ?ac a] computes the product U * U**T or L**T * L,
+    where the triangular factor U or L is stored in the upper or lower
+    triangular part of the array [a].  The upper or lower part of [a]
+    is overwritten.
+
     @param up default = [true]
     @param n default = minimum of available number of rows/columns in matrix [a]
     @param ar default = 1
