@@ -538,7 +538,9 @@ val lassq :
 (** [lassq ?n ?ofsx ?incx ?scale ?sumsq] @return [(scl, ssq)], where
     [scl] is a scaling factor and [ssq] the sum of squares of vector
     [x] starting at [ofs] and using increment [incx] and initial
-    [scale] and [sumsq].  See LAPACK-documentation for details!
+    [scale] and [sumsq].  The following equality holds:
+    [scl**2. *. ssq = x.{1}**2. +. ... +. x.{n}**2. +. scale**2. *. sumsq].
+    See LAPACK-documentation for details!
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
