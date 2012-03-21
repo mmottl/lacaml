@@ -1,5 +1,5 @@
 #                                                               -*-conf-*-
-OASISFormat:     0.2
+OASISFormat:     0.3
 OCamlVersion:    >= 3.12
 Name:            lacaml
 Version:         6.0.4
@@ -15,7 +15,7 @@ Authors:
   Oleg Trott <ot14@columbia.edu>,
   Martin Willensdorfer <ma.wi@gmx.at>
 License:         LGPL-2.1 with OCaml linking exception
-Plugins:         META (0.2), StdFiles (0.2)
+Plugins:         META (0.3), StdFiles (0.3)
 BuildTools:      ocamlbuild
 Homepage:        http://forge.ocamlcore.org/projects/lacaml
 PostConfCommand: ocaml make_prec_dep.ml
@@ -139,7 +139,7 @@ Executable svd
 
 Document API
   Title:           API reference for Lacaml
-  Type:            OCamlbuild (0.2)
+  Type:            OCamlbuild (0.3)
   InstallDir:      $docdir/api
   BuildTools:      ocamldoc, ocamlbuild
   XOCamlbuildPath: .

@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: cc8179447aa1d20d14b953a2fa49c589) *)
+(* DO NOT EDIT (digest: 7055efe957a66b41a85f405f30a92bd4) *)
 This is the INSTALL file for the lacaml distribution.
 
 This package uses OASIS to generate its build system. See section OASIS for
@@ -15,7 +15,7 @@ In order to compile this package, you will need:
 Installing
 ==========
 
-1. Uncompress source directory and got to the root of the package
+1. Uncompress the source archive and go to the root of the package
 2. Run 'ocaml setup.ml -configure'
 3. Run 'ocaml setup.ml -build'
 4. Run 'ocaml setup.ml -install'
@@ -29,9 +29,9 @@ Uninstalling
 OASIS
 =====
 
-OASIS is a software that helps to write setup.ml using a simple '_oasis'
-configuration file. The generated setup only depends on standard OCaml
-installation, no additional library is required.
+OASIS is a program that generates a setup.ml file using a simple '_oasis'
+configuration file. The generated setup only depends on the standard OCaml
+installation: no additional library is required.
 
 (* OASIS_STOP *)
 
