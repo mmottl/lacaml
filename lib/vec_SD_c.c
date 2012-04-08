@@ -239,3 +239,21 @@ CAMLprim value LFUN(ssqr_stub)(
 #define INIT 0.0
 #define FUNC(acc, x, y) x -= y; x *= x; acc += x
 #include "fold2_col.c"
+
+/* Since executing the (small) callback may dominate the runing time.
+ * Specialize the function when the order is the usual one on the
+ * floats (in this case, the callback is not used). */
+#define NAME LFUN(sort_incr)
+#define OCAML_SORT_LT(a, b) a < b
+#include "vec_sort.c"
+
+#define NAME LFUN(sort_decr)
+#define OCAML_SORT_LT(a, b) a > b
+#include "vec_sort.c"
+
+#define NAME LFUN(sort)
+#define OCAML_SORT_LT(a, b)                     \
+  (va = caml_copy_double(a),                    \
+   vb = caml_copy_double(b),                    \
+   Int_val(caml_callback2(vCMP, va, vb)) < 0)
+#include "vec_sort.c"

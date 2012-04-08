@@ -611,7 +611,7 @@ let () =
       (* Files included, tailored with macros. *)
       dep ["compile"; "c"]
           ["lib"/"fold_col.c"; "lib"/"fold2_col.c";
-           "lib"/"vec_map.c"; "lib"/"vec_combine.c"];
+           "lib"/"vec_map.c"; "lib"/"vec_combine.c"; "lib"/"vec_sort.c"];
 
       (* Special rules for precision dependent C code. *)
       let lacaml_cc desc ~prod ~dep flags =

@@ -90,3 +90,28 @@ val sqrt :
     @param ofsx default = 1
     @param incx default = 1
 *)
+
+val sort :
+  ?cmp : (float -> float -> int) ->
+  ?decr : bool ->
+  ?n : int ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> unit
+(** [sort ?lt ?n ?ofsx ?incx x] sorts the array [x] in increasing
+    order according to the "less than" function [lt].
+
+    @param cmp a function such that [cmp a b < 0] if [a] is less than
+       [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
+       greater than [b] for the desired order.  Default: the usual
+       order on floating point values (a special routine makes it
+       fast).  Whatever the order you choose, NaNs considered larger
+       than any other value (so they will be last in the sorted
+       vector).
+    @param decr sort in decreasing order (stays fast for the default [cmp]).
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1
+ *)
+;;

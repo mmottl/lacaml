@@ -43,7 +43,7 @@ debian:
 .PHONY:	clean
 clean: setup.ml
 	ocaml setup.ml -clean
-	$(RM) $(TARBALL)
+	$(RM) $(wildcard $(TARBALL))
 	-touch setup.ml # force reconfigure
 
 distclean: setup.ml
