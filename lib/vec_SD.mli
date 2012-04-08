@@ -99,8 +99,8 @@ val sort :
   ?incx : int ->
   vec
   -> unit
-(** [sort ?lt ?n ?ofsx ?incx x] sorts the array [x] in increasing
-    order according to the "less than" function [lt].
+(** [sort ?cmp ?n ?ofsx ?incx x] sorts the array [x] in increasing
+    order according to the comparison function [cmp].
 
     @param cmp a function such that [cmp a b < 0] if [a] is less than
        [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
@@ -114,4 +114,4 @@ val sort :
     @param ofsx default = 1
     @param incx default = 1
  *)
-;;
+
