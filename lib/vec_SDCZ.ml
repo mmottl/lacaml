@@ -56,7 +56,7 @@ let of_array ar =
   done;
   v
 
-let to_array v =
+let to_array (v : vec) =
   let n = dim v in
   if n = 0 then [||]
   else
@@ -71,14 +71,14 @@ let of_list l =
   ignore (List.fold_left coll 1 l);
   v
 
-let to_list v =
+let to_list (v : vec) =
   let rec loop i acc =
     if i = 0 then acc
     else loop (i - 1) (v.{i} :: acc)
   in
   loop (dim v) []
 
-let append v1 v2 =
+let append (v1 : vec) (v2 : vec) =
   let n1 = dim v1 in
   let n2 = dim v2 in
   let n = n1 + n2 in
@@ -217,7 +217,7 @@ let fold f acc ?n ?ofsx ?incx (x : vec) =
 
 (* REV *)
 
-let rev x =
+let rev (x : vec) =
   let n = dim x in
   let res = create n in
   let n1 = n + 1 in
