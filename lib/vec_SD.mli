@@ -103,15 +103,14 @@ val sort :
     order according to the comparison function [cmp].
 
     @param cmp a function such that [cmp a b < 0] if [a] is less than
-       [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
-       greater than [b] for the desired order.  Default: the usual
-       order on floating point values (a special routine makes it
-       fast).  Whatever the order you choose, NaNs considered larger
-       than any other value (so they will be last in the sorted
-       vector).
+       [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is greater
+       than [b] for the desired order.  Default: the usual order on floating
+       point values (a special routine makes it fast).  Whatever the order
+       you choose, NaNs considered larger than any other value (so they will
+       be last in the sorted vector).
+
     @param decr sort in decreasing order (stays fast for the default [cmp]).
-    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
- *)
-
+*)

@@ -88,7 +88,6 @@ let sqrt ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   direct_sqrt ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
-
 external direct_sort_incr :
   cmp : (float -> float -> int) -> (* not used, ususal order *)
   n : int ->
@@ -116,16 +115,15 @@ external direct_sort :
 let vec_sort_str = "Vec.sort"
 let dummy_cmp _ _ = 0
 
-let sort ?cmp ?(decr=false) ?n ?ofsx ?incx x =
+let sort ?cmp ?(decr = false) ?n ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_sort_str x_str ofsx incx in
   let n = get_dim_vec vec_sort_str x_str ofsx incx x n_str n in
   match cmp with
   | None ->
-    if decr then direct_sort_decr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
-    else direct_sort_incr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
+      if decr then direct_sort_decr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
+      else direct_sort_incr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
   | Some cmp ->
-    if decr then
-      let neg_cmp x1 x2 = cmp x2 x1 in
-      direct_sort ~cmp:neg_cmp ~n ~ofsx ~incx ~x
-    else
-      direct_sort ~cmp ~n ~ofsx ~incx ~x
+      if decr then
+        let neg_cmp x1 x2 = cmp x2 x1 in
+        direct_sort ~cmp:neg_cmp ~n ~ofsx ~incx ~x
+      else direct_sort ~cmp ~n ~ofsx ~incx ~x

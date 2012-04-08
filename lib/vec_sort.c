@@ -75,8 +75,10 @@ CAMLprim value NAME(value vCMP, value vN,
   isnan(*b) ? (!isnan(*a)) : (!isnan(*a) && (OCAML_SORT_LT(*a, *b)))
 
   if (N == 0) CAMLreturn(Val_unit);
-  
+
+#ifndef OCAML_WITHOUT_LOCK
   caml_enter_blocking_section();  /* Allow other threads */
+#endif
 
     if (N > MAX_THRESH)
     {
@@ -226,11 +228,12 @@ CAMLprim value NAME(value vCMP, value vN,
       }
   }
 
+#ifndef OCAML_WITHOUT_LOCK
   caml_leave_blocking_section();  /* Disallow other threads */
+#endif
 
   CAMLreturn(Val_unit);
 }
-
 
 #undef NAME
 #undef OCAML_SORT_LT
