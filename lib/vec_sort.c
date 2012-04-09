@@ -26,9 +26,9 @@
 #ifndef _VEC_SORT
 #define _VEC_SORT
 
-#define SWAP(a, b)                              \
+#define SWAP(TY, a, b)                          \
   do {                                          \
-    NUMBER tmp = *a;                            \
+    TY tmp = *a;                                \
     *a = *b;                                    \
     *b = tmp;                                   \
   } while(0)
@@ -55,12 +55,6 @@
 #define PUSH(low, high) ((void) ((top->lo = (low)), (top->hi = (high)), ++top))
 #define POP(low, high)  ((void) (--top, (low = top->lo), (high = top->hi)))
 #define STACK_NOT_EMPTY (stack < top)
-
-
-/* NaN are put last (greater than anything) to ensure the algo termination.
-   If both a and b are NaN, return false (consider NaN equal for this). */
-#define NAN_LAST(a, b, SORT)                                            \
-  isnan(b) ? (!isnan(a)) : (!isnan(a) && (SORT(a, b)))
 
 #endif /* _VEC_SORT */
 
@@ -89,15 +83,18 @@
                                                                         \
           TY *mid = lo + INCX * ((hi - lo) / INCX >> 1);                \
                                                                         \
-          if (QUICKSORT_LT(mid, lo))                                        \
-            SWAP (mid, lo);                                             \
-          if (QUICKSORT_LT(hi, mid))                                        \
-            SWAP (mid, hi);                                             \
+          if (QUICKSORT_LT(mid, lo)) {                                  \
+            SWAP (TY, mid, lo);                                         \
+          }                                                             \
+          if (QUICKSORT_LT(hi, mid)) {                                  \
+            SWAP (TY, mid, hi);                                         \
+          }                                                             \
           else                                                          \
             goto jump_over;                                             \
-          if (QUICKSORT_LT(mid, lo))                                        \
-            SWAP (mid, lo);                                             \
-        jump_over:;                                                     \
+          if (QUICKSORT_LT(mid, lo)) {                                  \
+            SWAP (TY, mid, lo);                                         \
+          }                                                             \
+          jump_over:;                                                   \
                                                                         \
           left_ptr  = lo + INCX;                                        \
           right_ptr = hi - INCX;                                        \
@@ -107,15 +104,15 @@
              that this algorithm runs much faster than others. */       \
           do                                                            \
             {                                                           \
-              while (QUICKSORT_LT(left_ptr, mid))                           \
+              while (QUICKSORT_LT(left_ptr, mid))                       \
                 left_ptr += INCX;                                       \
                                                                         \
-              while (QUICKSORT_LT(mid, right_ptr))                          \
+              while (QUICKSORT_LT(mid, right_ptr))                      \
                 right_ptr -= INCX;                                      \
                                                                         \
               if (left_ptr < right_ptr)                                 \
                 {                                                       \
-                  SWAP (left_ptr, right_ptr);                           \
+                  SWAP (TY, left_ptr, right_ptr);                       \
                   if (mid == left_ptr)                                  \
                     mid = right_ptr;                                    \
                   else if (mid == right_ptr)                            \
@@ -181,11 +178,12 @@
        and the operation speeds up insertion sort's inner loop. */      \
                                                                         \
     for (run_ptr = tmp_ptr + INCX; run_ptr <= thresh; run_ptr += INCX)  \
-      if (QUICKSORT_LT(run_ptr, tmp_ptr))                                   \
+      if (QUICKSORT_LT(run_ptr, tmp_ptr))                               \
         tmp_ptr = run_ptr;                                              \
                                                                         \
-    if (tmp_ptr != base_ptr)                                            \
-      SWAP (tmp_ptr, base_ptr);                                         \
+    if (tmp_ptr != base_ptr) {                                          \
+      SWAP (TY, tmp_ptr, base_ptr);                                     \
+    }                                                                   \
                                                                         \
     /* Insertion sort, running from left-hand-side up to right-hand-side.  */ \
                                                                         \
@@ -193,7 +191,7 @@
     while ((run_ptr += INCX) <= end_ptr)                                \
       {                                                                 \
         tmp_ptr = run_ptr - INCX;                                       \
-        while (QUICKSORT_LT(run_ptr, tmp_ptr))                              \
+        while (QUICKSORT_LT(run_ptr, tmp_ptr))                          \
           tmp_ptr -= INCX;                                              \
                                                                         \
         tmp_ptr += INCX;                                                \
@@ -236,7 +234,7 @@ CAMLprim value NAME(value vCMP, value vN,
   caml_enter_blocking_section();  /* Allow other threads */
 #endif
 
-#define QUICKSORT_LT(a, b) NAN_LAST(*a, *b, OCAML_SORT_LT)
+#define QUICKSORT_LT(a, b) OCAML_SORT_LT((*a), (*b))
   QUICKSORT(NUMBER, base_ptr, INCX, max_thresh);
 #undef QUICKSORT_LT
 
@@ -277,7 +275,7 @@ CAMLprim value NAME_PERM(value vCMP, value vN,
   /* Initialize the permutation to the "identity". */
   for(i = 0; i < N; i += 1)
     P_data[i * INCP] = OFSX + i * INCX;
-#define QUICKSORT_LT(a, b) NAN_LAST(X[*a], X[*b], OCAML_SORT_LT)
+#define QUICKSORT_LT(a, b) OCAML_SORT_LT((X[*a]), (X[*b]))
   QUICKSORT(intnat, base_ptr, INCP, max_thresh);
 #undef QUICKSORT_LT
 

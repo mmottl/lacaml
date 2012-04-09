@@ -220,6 +220,42 @@ val ssqr :
     @param incx default = 1
 *)
 
+val sort :
+  ?cmp : (num_type -> num_type -> int) ->
+  ?decr : bool ->
+  ?n : int ->
+  ?ofsp : int ->
+  ?incp : int ->
+  ?p : (int, int_elt, fortran_layout) Array1.t ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> unit
+(** [sort ?cmp ?n ?ofsx ?incx x] sorts the array [x] in increasing
+    order according to the comparison function [cmp].
+
+    @param cmp a function such that [cmp a b < 0] if [a] is less than
+       [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
+       greater than [b] for the desired order.  Default: the usual
+       order on floating point values or the lexicographic order on
+       complex ones (a special routine makes it fast).  Whatever the
+       order you choose, NaNs (in any component for complex numbers)
+       are considered larger than any other value (so they will be
+       last, in no specified order, in the sorted vector).  Therefore,
+       NaN are never passed to [cmp].
+
+    @param p if you pass a vector of size [ofsp+(n - 1)(abs incp)],
+      the vector [x] will be unchanged and the permutation to sort it
+      will be stored in [p].  Thus [x.{p.{ofsp + (i-1) * incp}}] will
+      give the elements of [x] in increasing order.  Default: no
+      vector is provided.
+
+    @param decr sort in decreasing order (stays fast for the default [cmp]).
+    @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1
+ *)
+
 
 (** {6 Operations on two vectors} *)
 

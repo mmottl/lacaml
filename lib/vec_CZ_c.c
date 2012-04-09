@@ -327,3 +327,38 @@ CAMLprim value LFUN(ssqr_stub)(
   acc.r += x.r*x.r - y.i*y.i; \
   acc.i += x.r*y.i + x.i*y.r
 #include "fold2_col.c"
+
+/* Since executing the (small) callback may dominate the running time,
+ * specialize the function when the order is the lexicographical one
+ * on complex numbers.  In this case the callback is not used. */
+
+/* NaN are put last (greater than anything) to ensure the algo termination.
+   If both a and b are NaN, return false (consider NaN equal for this). */
+#define ANY_NAN(x) (isnan(x.r) || isnan(x.i))
+#define NAN_LAST(a, b, SORT)                                            \
+  (ANY_NAN(b) ? (!ANY_NAN(a)) : (!ANY_NAN(a) && (SORT)))
+
+#define NAME LFUN(sort_incr)
+#define NAME_PERM LFUN(sort_incr_perm)
+#define BC_NAME_PERM LFUN(sort_incr_perm_bc)
+#define OCAML_SORT_LT(a, b) \
+  NAN_LAST(a, b, a.r < b.r || (a.r == b.r && a.i < b.i))
+#include "vec_sort.c"
+
+#define NAME LFUN(sort_decr)
+#define NAME_PERM LFUN(sort_decr_perm)
+#define BC_NAME_PERM LFUN(sort_decr_perm_bc)
+#define OCAML_SORT_LT(a, b) \
+  NAN_LAST(a, b, a.r > b.r || (a.r == b.r && a.i > b.i))
+#include "vec_sort.c"
+
+#define NAME LFUN(sort)
+#define NAME_PERM LFUN(sort_perm)
+#define BC_NAME_PERM LFUN(sort_perm_bc)
+#define OCAML_SORT_LT(a, b)                                     \
+  NAN_LAST(a, b, (va = copy_two_doubles(a.r, a.i),              \
+                  vb = copy_two_doubles(b.r, b.i),              \
+                  Int_val(caml_callback2(vCMP, va, vb)) < 0))
+#define OCAML_SORT_CALLBACK
+#include "vec_sort.c"
+#undef OCAML_SORT_CALLBACK
