@@ -244,18 +244,24 @@ CAMLprim value LFUN(ssqr_stub)(
  * specialize the function when the order is the usual one on floats.
  * In this case the callback is not used. */
 #define NAME LFUN(sort_incr)
+#define NAME_PERM LFUN(sort_incr_perm)
+#define BC_NAME_PERM LFUN(sort_incr_perm_bc)
 #define OCAML_SORT_LT(a, b) a < b
 #include "vec_sort.c"
 
 #define NAME LFUN(sort_decr)
+#define NAME_PERM LFUN(sort_decr_perm)
+#define BC_NAME_PERM LFUN(sort_decr_perm_bc)
 #define OCAML_SORT_LT(a, b) a > b
 #include "vec_sort.c"
 
 #define NAME LFUN(sort)
+#define NAME_PERM LFUN(sort_perm)
+#define BC_NAME_PERM LFUN(sort_perm_bc)
 #define OCAML_SORT_LT(a, b)                     \
   (va = caml_copy_double(a),                    \
    vb = caml_copy_double(b),                    \
    Int_val(caml_callback2(vCMP, va, vb)) < 0)
-#define OCAML_WITHOUT_LOCK
+#define OCAML_SORT_CALLBACK
 #include "vec_sort.c"
-#undef OCAML_WITHOUT_LOCK
+#undef OCAML_SORT_CALLBACK

@@ -95,6 +95,9 @@ val sort :
   ?cmp : (float -> float -> int) ->
   ?decr : bool ->
   ?n : int ->
+  ?ofsp : int ->
+  ?incp : int ->
+  ?p : (int, int_elt, fortran_layout) Array1.t ->
   ?ofsx : int ->
   ?incx : int ->
   vec
@@ -109,8 +112,14 @@ val sort :
        you choose, NaNs considered larger than any other value (so they will
        be last in the sorted vector).
 
+    @param p if you pass a vector of size [ofsp+(n - 1)(abs incp)],
+      the vector [x] will be unchanged and the permutation to sort it
+      will be stored in [p].  Thus [x.{p.{ofsp + (i-1) * incp}}] will
+      give the elements of [x] in increasing order.  Default: no
+      vector is provided.
+
     @param decr sort in decreasing order (stays fast for the default [cmp]).
     @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
-*)
+ *)

@@ -8,7 +8,7 @@
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+     WWW: http://math.umons.ac.be/anum/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -88,6 +88,8 @@ let sqrt ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   direct_sqrt ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
+(* SORT *)
+
 external direct_sort_incr :
   cmp : (float -> float -> int) -> (* not used, ususal order *)
   n : int ->
@@ -95,6 +97,17 @@ external direct_sort_incr :
   incx : int ->
   x : vec ->
   unit = "lacaml_FPRECsort_incr"
+
+external direct_sort_incr_perm :
+  cmp : (float -> float -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsp : int ->
+  incp : int ->
+  p : (int, int_elt, fortran_layout) Array1.t ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECsort_incr_perm_bc" "lacaml_FPRECsort_incr_perm"
 
 external direct_sort_decr :
   cmp : (float -> float -> int) -> (* not used, usual decreasing order *)
@@ -104,6 +117,17 @@ external direct_sort_decr :
   x : vec ->
   unit = "lacaml_FPRECsort_decr"
 
+external direct_sort_decr_perm :
+  cmp : (float -> float -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsp : int ->
+  incp : int ->
+  p : (int, int_elt, fortran_layout) Array1.t ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECsort_decr_perm_bc" "lacaml_FPRECsort_decr_perm"
+
 external direct_sort :
   cmp : (float -> float -> int) ->
   n : int ->
@@ -112,18 +136,44 @@ external direct_sort :
   x : vec ->
   unit = "lacaml_FPRECsort"
 
+external direct_sort_perm :
+  cmp : (float -> float -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsp : int ->
+  incp : int ->
+  p : (int, int_elt, fortran_layout) Array1.t ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECsort_perm_bc" "lacaml_FPRECsort_perm"
+
 let vec_sort_str = "Vec.sort"
+let p_str = "p"
 let dummy_cmp _ _ = 0
 
-let sort ?cmp ?(decr = false) ?n ?ofsx ?incx x =
+let sort ?cmp ?(decr = false) ?n ?ofsp ?incp ?p ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_sort_str x_str ofsx incx in
   let n = get_dim_vec vec_sort_str x_str ofsx incx x n_str n in
-  match cmp with
+  match p with
   | None ->
-      if decr then direct_sort_decr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
-      else direct_sort_incr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
-  | Some cmp ->
-      if decr then
-        let neg_cmp x1 x2 = cmp x2 x1 in
-        direct_sort ~cmp:neg_cmp ~n ~ofsx ~incx ~x
-      else direct_sort ~cmp ~n ~ofsx ~incx ~x
+      (match cmp with
+       | None ->
+           if decr then direct_sort_decr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
+           else direct_sort_incr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
+       | Some cmp ->
+           let cmp = if decr then (fun x1 x2 -> cmp x2 x1) else cmp in
+           direct_sort ~cmp ~n ~ofsx ~incx ~x
+      )
+  | Some p ->
+      let ofsp, incp = get_vec_geom vec_sort_str p_str ofsp incp in
+      check_vec vec_sort_str p_str p n;
+      (match cmp with
+       | None ->
+           if decr then direct_sort_decr_perm ~cmp:dummy_cmp ~n
+                                              ~ofsp ~incp ~p ~ofsx ~incx ~x
+           else direct_sort_incr_perm ~cmp:dummy_cmp ~n
+                                      ~ofsp ~incp ~p ~ofsx ~incx ~x
+       | Some cmp ->
+           let cmp = if decr then (fun x1 x2 -> cmp x2 x1) else cmp in
+           direct_sort_perm ~cmp ~n ~ofsp ~incp ~p ~ofsx ~incx ~x
+      )
