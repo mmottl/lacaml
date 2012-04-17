@@ -35,6 +35,8 @@ type mat = (Complex.t, complexxx_elt, fortran_layout) Array2.t
 (** Complex matrices (precision: complexxx). *)
 
 type trans3 = [ `C | `N | `T ]
+(** Transpose parameter (conjugate transposed, normal, or transposed). *)
+
 val prec : (Complex.t, complexxx_elt) Bigarray.kind
 (** Precision for this submodule {!CPREC}.  Allows to write precision
     independent code. *)
