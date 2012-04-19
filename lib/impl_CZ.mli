@@ -144,7 +144,7 @@ val sycon_min_lwork : int -> int
 val sycon :
     ?n : int ->
     ?up : bool ->
-    ?ipiv : int_vec ->
+    ?ipiv : int32_vec ->
     ?anorm : float ->
     ?work : vec ->
     ?ar : int ->

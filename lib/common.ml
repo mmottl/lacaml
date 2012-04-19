@@ -33,9 +33,9 @@ open Bigarray
 
 exception InternalError of string
 
-type int_vec = (int32, int32_elt, fortran_layout) Array1.t
+type int32_vec = (int32, int32_elt, fortran_layout) Array1.t
 
-let create_int_vec n = Array1.create int32 fortran_layout n
+let create_int32_vec n = Array1.create int32 fortran_layout n
 
 let mat_from_vec v =
   array2_of_genarray (reshape (genarray_of_array1 v) [| Array1.dim v; 1 |])

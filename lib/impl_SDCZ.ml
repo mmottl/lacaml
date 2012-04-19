@@ -595,7 +595,7 @@ let lassq ?n ?(scale = 0.) ?(sumsq = 1.) ?ofsx ?incx x =
 external direct_larnv :
   idist : int ->
   ofsiseed : int ->
-  iseed : int_vec ->
+  iseed : int32_vec ->
   n : int ->
   ofsx : int ->
   x : vec ->
@@ -613,7 +613,7 @@ let larnv ?idist ?ofsiseed ?iseed ?n ?ofsx ?x () =
   let iseed =
     match iseed with
     | None ->
-        let iseed = create_int_vec (ofsiseed + 3) in
+        let iseed = create_int32_vec (ofsiseed + 3) in
         for i = ofsiseed to ofsiseed + 3 do iseed.{i} <- Int32.one done;
         iseed
     | Some iseed ->
@@ -723,7 +723,7 @@ external direct_getrf :
   ar : int ->
   ac : int ->
   a : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   int = "lacaml_NPRECgetrf_stub_bc" "lacaml_NPRECgetrf_stub"
 
 let getrf ?m ?n ?ipiv ?(ar = 1) ?(ac = 1) a =
@@ -748,7 +748,7 @@ external direct_getrs :
   br : int ->
   bc : int ->
   b : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   int = "lacaml_NPRECgetrs_stub_bc" "lacaml_NPRECgetrs_stub"
 
 let getrs
@@ -769,7 +769,7 @@ external direct_getri :
   ar : int ->
   ac : int ->
   a : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   work : vec ->
   lwork : int ->
   int = "lacaml_NPRECgetri_stub_bc" "lacaml_NPRECgetri_stub"
@@ -778,7 +778,7 @@ let getri_min_lwork n = max 1 n
 
 let getri_get_opt_lwork loc n ar ac a =
   let work = Vec.create 1 in
-  let info = direct_getri ~n ~ar ~ac ~a ~ipiv:empty_int_vec ~work ~lwork:~-1 in
+  let info = direct_getri ~n ~ar ~ac ~a ~ipiv:empty_int32_vec ~work ~lwork:~-1 in
   if info = 0 then int_of_numberxx work.{1}
   else getri_err loc getri_min_lwork n a 1 info
 
@@ -810,7 +810,7 @@ external direct_sytrf :
   ar : int ->
   ac : int ->
   a : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   work : vec ->
   lwork : int ->
   int = "lacaml_NPRECsytrf_stub_bc" "lacaml_NPRECsytrf_stub"
@@ -818,7 +818,7 @@ external direct_sytrf :
 let sytrf_get_opt_lwork loc uplo n ar ac a =
   let work = Vec.create 1 in
   let info =
-    direct_sytrf ~uplo ~n ~ar ~ac ~a ~ipiv:empty_int_vec ~work ~lwork:~-1
+    direct_sytrf ~uplo ~n ~ar ~ac ~a ~ipiv:empty_int32_vec ~work ~lwork:~-1
   in
   if info = 0 then int_of_numberxx work.{1}
   else sytrf_err loc n a info
@@ -859,7 +859,7 @@ external direct_sytrs :
   br : int ->
   bc : int ->
   b : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   int = "lacaml_NPRECsytrs_stub_bc" "lacaml_NPRECsytrs_stub"
 
 let sytrs
@@ -881,7 +881,7 @@ external direct_sytri :
   ar : int ->
   ac : int ->
   a : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   work : vec ->
   int = "lacaml_NPRECsytri_stub_bc" "lacaml_NPRECsytri_stub"
 
@@ -1120,7 +1120,7 @@ external direct_gesv :
   ac : int ->
   a : mat ->
   n : int ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   nrhs : int ->
   br : int ->
   bc : int ->
@@ -1147,7 +1147,7 @@ external direct_gbsv :
   n : int ->
   kl : int ->
   ku : int ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   nrhs : int ->
   br : int ->
   bc : int ->
@@ -1328,7 +1328,7 @@ external direct_sysv :
   a : mat ->
   n : int ->
   uplo : char ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   work : vec ->
   lwork : int ->
   nrhs : int ->
@@ -1342,7 +1342,7 @@ let sysv_get_opt_lwork loc ar ac a n uplo nrhs br bc b =
   let info =
     direct_sysv
       ~ar ~ac ~a ~n ~uplo
-      ~ipiv:empty_int_vec ~work ~lwork:~-1 ~nrhs ~br ~bc ~b
+      ~ipiv:empty_int32_vec ~work ~lwork:~-1 ~nrhs ~br ~bc ~b
   in
   if info = 0 then int_of_numberxx work.{1}
   else xxsv_err loc n nrhs b (info + 1)
@@ -1380,7 +1380,7 @@ external direct_spsv :
   ap : vec ->
   n : int ->
   uplo : char ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   nrhs : int ->
   br : int ->
   bc : int ->

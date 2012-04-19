@@ -36,7 +36,7 @@ open Bigarray
 open Common
 
 (* Zero-sized dummy vector (int) *)
-let empty_int_vec = create_int_vec 0
+let empty_int32_vec = create_int32_vec 0
 
 (* Char indicating if matrix is unit triangular *)
 let get_diag_char = function true -> 'U' | false -> 'N'
@@ -621,7 +621,7 @@ let getrf_lu_err loc err =
 
 let getrf_get_ipiv loc ipiv m n =
   match ipiv with
-  | None -> create_int_vec (min m n)
+  | None -> create_int32_vec (min m n)
   | Some ipiv ->
       check_vec loc ipiv_str ipiv (min m n);
       ipiv
@@ -630,7 +630,7 @@ let getrf_get_ipiv loc ipiv m n =
 
 let sytrf_get_ipiv loc ipiv n =
   match ipiv with
-  | None -> create_int_vec n
+  | None -> create_int32_vec n
   | Some ipiv ->
       check_vec loc ipiv_str ipiv n;
       ipiv
@@ -893,7 +893,7 @@ let xxsv_work_err loc lwork =
 
 let xxsv_get_ipiv loc ipiv n =
   match ipiv with
-  | None -> create_int_vec n
+  | None -> create_int32_vec n
   | Some ipiv ->
       check_vec loc ipiv_str ipiv n;
       ipiv

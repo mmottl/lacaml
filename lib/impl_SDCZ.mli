@@ -552,7 +552,7 @@ val lassq :
 val larnv :
   ?idist : [ `Uniform0 | `Uniform1 | `Normal ] ->
   ?ofsiseed : int ->
-  ?iseed : int_vec ->
+  ?iseed : int32_vec ->
   ?n : int ->
   ?ofsx : int ->
   ?x : vec ->
@@ -620,11 +620,11 @@ val lauum :
 val getrf :
   ?m : int ->
   ?n : int ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?ar : int ->
   ?ac : int ->
   mat ->
-  int_vec
+  int32_vec
 (** [getrf ?m ?n ?ipiv ?ar ?ac a] computes an LU factorization of a
     general [m]-by-[n] matrix [a] using partial pivoting with row
     interchanges.  See LAPACK documentation.
@@ -638,7 +638,7 @@ val getrf :
 
 val getrs :
   ?n : int ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?trans : trans3 ->
   ?ar : int ->
   ?ac : int ->
@@ -682,7 +682,7 @@ val getri_opt_lwork :
 
 val getri :
   ?n : int ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
@@ -720,12 +720,12 @@ val sytrf_opt_lwork :
 val sytrf :
   ?n : int ->
   ?up : bool ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
   mat ->
-  int_vec
+  int32_vec
 (** [sytrf ?n ?up ?ipiv ?work ?ar ?ac a] computes the factorization of
     the real symmetric matrix [a] using the Bunch-Kaufman diagonal
     pivoting method.
@@ -740,7 +740,7 @@ val sytrf :
 val sytrs :
   ?n : int ->
   ?up : bool ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -771,7 +771,7 @@ val sytri_min_lwork : int -> int
 val sytri :
   ?n : int ->
   ?up : bool ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
@@ -1005,7 +1005,7 @@ val geqrf :
 
 val gesv :
   ?n : int ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -1034,7 +1034,7 @@ val gesv :
 
 val gbsv :
   ?n : int ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?abr : int ->
   ?abc : int ->
   mat ->
@@ -1238,7 +1238,7 @@ val sysv_opt_lwork :
 val sysv :
   ?n : int ->
   ?up : bool ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?work : vec ->
   ?ar : int ->
   ?ac : int ->
@@ -1273,7 +1273,7 @@ val sysv :
 val spsv :
   ?n : int ->
   ?up : bool ->
-  ?ipiv : int_vec ->
+  ?ipiv : int32_vec ->
   ?ofsap : int ->
   vec ->
   ?nrhs : int ->

@@ -276,7 +276,7 @@ val gecon :
   ?norm : norm2 ->
   ?anorm : float ->
   ?work : vec ->
-  ?iwork : int_vec ->
+  ?iwork : int32_vec ->
   ?ar : int ->
   ?ac : int ->
   mat
@@ -307,10 +307,10 @@ val sycon_min_liwork : int -> int
 val sycon :
     ?n : int ->
     ?up : bool ->
-    ?ipiv : int_vec ->
+    ?ipiv : int32_vec ->
     ?anorm : float ->
     ?work : vec ->
-    ?iwork : int_vec ->
+    ?iwork : int32_vec ->
     ?ar : int ->
     ?ac : int ->
     mat
@@ -343,7 +343,7 @@ val pocon :
     ?up : bool ->
     ?anorm : float ->
     ?work : vec ->
-    ?iwork : int_vec ->
+    ?iwork : int32_vec ->
     ?ar : int ->
     ?ac : int ->
     mat
@@ -392,7 +392,7 @@ val gelsy :
   ?ac : int ->
   mat ->
   ?rcond : float ->
-  ?jpvt : int_vec ->
+  ?jpvt : int32_vec ->
   ?work : vec ->
   ?nrhs : int ->
   ?br : int ->
@@ -561,7 +561,7 @@ val gesdd_opt_lwork :
   ?s : vec ->
   ?ur : int -> ?uc : int -> ?u : mat ->
   ?vtr : int -> ?vtc : int -> ?vt : mat ->
-  ?iwork : int_vec ->
+  ?iwork : int32_vec ->
   ?ar : int -> ?ac : int -> mat
   -> int
 
@@ -572,7 +572,7 @@ val gesdd :
   ?ur : int -> ?uc : int -> ?u : mat ->
   ?vtr : int -> ?vtc : int -> ?vt : mat ->
   ?work : vec ->
-  ?iwork : int_vec ->
+  ?iwork : int32_vec ->
   ?ar : int -> ?ac : int -> mat
   -> vec * mat * mat
 
@@ -754,7 +754,7 @@ val syevd :
   ?vectors : bool ->
   ?up : bool ->
   ?work : vec ->
-  ?iwork : int_vec ->
+  ?iwork : int32_vec ->
   ?ofsw : int ->
   ?w : vec ->
   ?ar : int ->
@@ -772,7 +772,7 @@ val syevd :
     @param vectors default = false i.e, eigenvectors are not computed
     @param up default = true i.e., upper triangle of [a] is stored
     @param work default = vec of optimum length (-> {!syev_opt_lwork})
-    @param iwork default = int_vec of optimum length (-> {!syevd_opt_liwork})
+    @param iwork default = int32_vec of optimum length (-> {!syevd_opt_liwork})
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n] *)
 
@@ -892,17 +892,17 @@ val syevr :
   ?up : bool ->
   ?abstol : float ->
   ?work : vec ->
-  ?iwork : int_vec ->
+  ?iwork : int32_vec ->
   ?ofsw : int ->
   ?w : vec ->
   ?zr : int ->
   ?zc : int ->
   ?z : mat ->
-  ?isuppz : int_vec ->
+  ?isuppz : int32_vec ->
   ?ar : int ->
   ?ac : int ->
   mat
-  -> int * vec * mat * int_vec
+  -> int * vec * mat * int32_vec
 (** [syevr
       ?n ?vectors ?range ?up ?abstol ?work ?iwork
       ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a]
@@ -921,13 +921,13 @@ val syevr :
     @param up default = true i.e., upper triangle of [a] is stored
     @param abstol default = result of calling [lamch `S]
     @param work default = vec of optimum length (-> {!syev_opt_lwork})
-    @param iwork default = int_vec of optimum length (-> {!syevr_opt_liwork})
+    @param iwork default = int32_vec of optimum length (-> {!syevr_opt_liwork})
     @param ofsw default = 1 or ignored if [w] is not given
     @param w default = vec of length [n]
     @param zr default = 1
     @param zc default = 1
     @param z default = matrix with minimal required dimension
-    @param isuppz default = [int_vec] with minimal required dimension
+    @param isuppz default = [int32_vec] with minimal required dimension
     @param ar default = 1
     @param ac default = 1 *)
 

@@ -327,7 +327,7 @@ external direct_gecon :
   ac : int ->
   a : mat ->
   work : vec ->
-  iwork : int_vec ->
+  iwork : int32_vec ->
   norm : char ->
   anorm : float ->
   int * float = "lacaml_FPRECgecon_stub_bc" "lacaml_FPRECgecon_stub"
@@ -345,7 +345,7 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   in
   let iwork, _liwork =
     get_work
-      loc Common.create_int_vec iwork
+      loc Common.create_int32_vec iwork
       (gecon_min_liwork n) (gecon_min_liwork n) liwork_str in
   let anorm =
     match anorm with
@@ -364,9 +364,9 @@ external direct_sycon :
   ar : int ->
   ac : int ->
   a : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   work : vec ->
-  iwork : int_vec ->
+  iwork : int32_vec ->
   anorm : float ->
   int * float = "lacaml_FPRECsycon_stub_bc" "lacaml_FPRECsycon_stub"
 
@@ -383,7 +383,7 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
       loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) lwork_str in
   let iwork, _liwork =
     get_work
-      loc Common.create_int_vec iwork
+      loc Common.create_int32_vec iwork
       (sycon_min_liwork n) (sycon_min_liwork n) liwork_str in
   let ipiv =
     if ipiv = None then sytrf ~n ~up ~work ~ar ~ac a
@@ -407,7 +407,7 @@ external direct_pocon :
   ac : int ->
   a : mat ->
   work : vec ->
-  iwork : int_vec ->
+  iwork : int32_vec ->
   anorm : float ->
   int * float = "lacaml_FPRECpocon_stub_bc" "lacaml_FPRECpocon_stub"
 
@@ -424,7 +424,7 @@ let pocon ?n ?(up = true) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
       loc Vec.create work (pocon_min_lwork n) (pocon_min_lwork n) lwork_str in
   let iwork, _liwork =
     get_work
-      loc Common.create_int_vec iwork
+      loc Common.create_int32_vec iwork
       (pocon_min_liwork n) (pocon_min_liwork n) liwork_str in
   let anorm =
     match anorm with
@@ -445,7 +445,7 @@ external direct_gelsy :
   a : mat ->
   m : int ->
   n : int ->
-  jpvt : int_vec ->
+  jpvt : int32_vec ->
   rcond : float ->
   work : vec ->
   lwork : int ->
@@ -463,7 +463,7 @@ let gelsy_get_opt_lwork loc ar ac a m n nrhs br bc b =
   let work = Vec.create 1 in
   let info, _ =
     direct_gelsy
-      ~ar ~ac ~a ~m ~n ~jpvt:empty_int_vec
+      ~ar ~ac ~a ~m ~n ~jpvt:empty_int32_vec
       ~rcond:(-1.0) ~work ~lwork:~-1 ~nrhs ~br ~bc ~b
   in
   if info = 0 then int_of_float work.{1}
@@ -488,7 +488,7 @@ let gelsy ?m ?n ?(ar = 1) ?(ac = 1) a ?(rcond = -1.0)
           invalid_arg (sprintf "%s: jpvt: valid=[%d..[ got=%d" loc n dim_jpvt)
         else jpvt
     | None ->
-        let jpvt = create_int_vec n in
+        let jpvt = create_int32_vec n in
         Array1.fill jpvt Int32.zero;
         jpvt in
 
@@ -771,7 +771,7 @@ external direct_gesdd :
   vt : mat ->
   work : vec ->
   lwork : int ->
-  iwork : int_vec
+  iwork : int32_vec
   -> int = "lacaml_FPRECgesdd_stub_bc" "lacaml_FPRECgesdd_stub"
 
 let gesdd_min_lwork ?(jobz = `A) ~m ~n () =
@@ -800,7 +800,7 @@ let gesdd_get_iwork loc ~m ~n iwork =
         invalid_arg
           (sprintf "%s: liwork: valid=[%d..[ got=%d" loc min_liwork liwork);
       iwork
-  | None -> create_int_vec min_liwork
+  | None -> create_int32_vec min_liwork
 
 let gesdd_min_lwork_char jobz ~m ~n =
   let jobz =
@@ -1090,7 +1090,7 @@ external direct_syevd :
   w : vec ->
   work : vec ->
   lwork : int ->
-  iwork : int_vec ->
+  iwork : int32_vec ->
   liwork : int
   -> int = "lacaml_FPRECsyevd_stub_bc" "lacaml_FPRECsyevd_stub"
 
@@ -1108,7 +1108,7 @@ let syevd_min_liwork ~vectors n =
 
 let syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo =
   let work = Vec.create 1 in
-  let iwork = Common.create_int_vec 1 in
+  let iwork = Common.create_int32_vec 1 in
   let info =
     direct_syevd
       ~ar ~ac ~a ~n ~jobz ~uplo ~ofsw:1 ~w:Vec.empty
@@ -1153,7 +1153,7 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
     | Some work, None ->
         let lwork = Array1.dim work in
         let liwork = syevd_get_opt_liwork loc ar ac a n vectors jobz uplo in
-        let iwork = Common.create_int_vec liwork in
+        let iwork = Common.create_int32_vec liwork in
         work, iwork, lwork, liwork
     | None, Some iwork ->
         let lwork = syevd_get_opt_lwork loc ar ac a n vectors jobz uplo in
@@ -1164,7 +1164,7 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
         let lwork, liwork =
           syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo in
         let work = Vec.create lwork in
-        let iwork = Common.create_int_vec liwork in
+        let iwork = Common.create_int32_vec liwork in
         work, iwork, lwork, liwork in
   let info =
     direct_syevd ~ar ~ac ~a ~n ~jobz ~uplo ~ofsw ~w ~work ~lwork ~iwork ~liwork
@@ -1260,10 +1260,10 @@ external direct_syevr :
   zr : int ->
   zc : int ->
   z : mat ->
-  isuppz : int_vec ->
+  isuppz : int32_vec ->
   work : vec ->
   lwork : int ->
-  iwork : int_vec ->
+  iwork : int32_vec ->
   liwork : int
   -> int * int = "lacaml_FPRECsyevr_stub_bc" "lacaml_FPRECsyevr_stub"
 
@@ -1304,7 +1304,7 @@ let syevr_get_abstol = function Some abstol -> abstol | None -> lamch `S
 let syevr_get_opt_l_li_work
       loc ar ac a n jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz =
   let work = Vec.create 1 in
-  let iwork = Common.create_int_vec 1 in
+  let iwork = Common.create_int32_vec 1 in
   let info, _ =
     direct_syevr
       ~ar ~ac ~a ~n
@@ -1343,7 +1343,7 @@ let syevr_opt_l_li_work
   let z = Mat.create n 0 in
   let ofsw = 1 in
   let w = Vec.empty in
-  let isuppz = empty_int_vec in
+  let isuppz = empty_int32_vec in
   syevr_get_opt_l_li_work
     loc ar ac a n jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz
 
@@ -1366,7 +1366,7 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
     let min_lisuppz_1 = max 1 m in
     let min_lisuppz = min_lisuppz_1 + min_lisuppz_1 in
     match isuppz with
-    | None -> create_int_vec min_lisuppz
+    | None -> create_int32_vec min_lisuppz
     | Some isuppz ->
         let lisuppz = Array1.dim isuppz in
         if lisuppz < min_lisuppz then
@@ -1386,7 +1386,7 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
           syevr_get_opt_liwork
             loc ar ac a n
             jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz in
-        let iwork = Common.create_int_vec liwork in
+        let iwork = Common.create_int32_vec liwork in
         work, iwork, lwork, liwork
     | None, Some iwork ->
         let lwork =
@@ -1402,7 +1402,7 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
             loc ar ac a n
             jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz in
         let work = Vec.create lwork in
-        let iwork = Common.create_int_vec liwork in
+        let iwork = Common.create_int32_vec liwork in
         work, iwork, lwork, liwork in
   let info, m =
     direct_syevr
