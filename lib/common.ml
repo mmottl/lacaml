@@ -33,6 +33,10 @@ open Bigarray
 
 exception InternalError of string
 
+type int_vec = (int, int_elt, fortran_layout) Array1.t
+
+let create_int_vec n = Array1.create int fortran_layout n
+
 type int32_vec = (int32, int32_elt, fortran_layout) Array1.t
 
 let create_int32_vec n = Array1.create int32 fortran_layout n

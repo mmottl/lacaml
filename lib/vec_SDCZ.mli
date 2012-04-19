@@ -26,6 +26,7 @@
 *)
 
 open Bigarray
+open Common
 open Numberxx
 
 (** {6 Creation/conversion of vectors and dimension accessor} *)
@@ -226,7 +227,7 @@ val sort :
   ?n : int ->
   ?ofsp : int ->
   ?incp : int ->
-  ?p : (int, int_elt, fortran_layout) Array1.t ->
+  ?p : int_vec ->
   ?ofsx : int ->
   ?incx : int ->
   vec

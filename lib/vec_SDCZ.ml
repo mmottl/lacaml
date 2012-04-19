@@ -25,10 +25,11 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open Bigarray
 open Printf
-open Utils
+open Bigarray
 open Numberxx
+open Common
+open Utils
 
 (* Creation of vectors and dimension accessor *)
 
@@ -349,7 +350,7 @@ external direct_sort_incr_perm :
   n : int ->
   ofsp : int ->
   incp : int ->
-  p : (int, int_elt, fortran_layout) Array1.t ->
+  p : int_vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
@@ -368,7 +369,7 @@ external direct_sort_decr_perm :
   n : int ->
   ofsp : int ->
   incp : int ->
-  p : (int, int_elt, fortran_layout) Array1.t ->
+  p : int_vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
@@ -387,7 +388,7 @@ external direct_sort_perm :
   n : int ->
   ofsp : int ->
   incp : int ->
-  p : (int, int_elt, fortran_layout) Array1.t ->
+  p : int_vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
