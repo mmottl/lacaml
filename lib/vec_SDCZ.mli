@@ -236,14 +236,14 @@ val sort :
     order according to the comparison function [cmp].
 
     @param cmp a function such that [cmp a b < 0] if [a] is less than
-       [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
-       greater than [b] for the desired order.  Default: the usual
-       order on floating point values or the lexicographic order on
-       complex ones (a special routine makes it fast).  Whatever the
-       order you choose, NaNs (in any component for complex numbers)
-       are considered larger than any other value (so they will be
-       last, in no specified order, in the sorted vector).  Therefore,
-       NaN are never passed to [cmp].
+      [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
+      greater than [b] for the desired order.  Default: the usual
+      order on floating point values or the lexicographic order on
+      complex ones (a special routine makes it fast).  Whatever the
+      order you choose, NaNs (in any component for complex numbers)
+      are considered larger than any other value (so they will be
+      last, in no specified order, in the sorted vector).  Therefore,
+      NaN are never passed to [cmp].
 
     @param p if you pass a vector of size [ofsp+(n - 1)(abs incp)],
       the vector [x] will be unchanged and the permutation to sort it
@@ -253,6 +253,8 @@ val sort :
 
     @param decr sort in decreasing order (stays fast for the default [cmp]).
     @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsp default = 1
+    @param incp default = 1
     @param ofsx default = 1
     @param incx default = 1
  *)
