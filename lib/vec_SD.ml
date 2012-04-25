@@ -8,7 +8,7 @@
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+     WWW: http://math.umons.ac.be/anum/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public

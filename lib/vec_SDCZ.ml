@@ -25,10 +25,11 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open Bigarray
 open Printf
-open Utils
+open Bigarray
 open Numberxx
+open Common
+open Utils
 
 (* Creation of vectors and dimension accessor *)
 
@@ -335,6 +336,94 @@ let ssqr ?n ?c ?ofsx ?incx x =
       else direct_ssqr ~n ~c ~ofsx ~incx ~x
 
 (* SORT *)
+
+external direct_sort_incr :
+  cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECsort_incr"
+
+external direct_sort_incr_perm :
+  cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsp : int ->
+  incp : int ->
+  p : int_vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECsort_incr_perm_bc" "lacaml_NPRECsort_incr_perm"
+
+external direct_sort_decr :
+  cmp : (num_type -> num_type -> int) -> (* not used, usual decreasing order *)
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECsort_decr"
+
+external direct_sort_decr_perm :
+  cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsp : int ->
+  incp : int ->
+  p : int_vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECsort_decr_perm_bc" "lacaml_NPRECsort_decr_perm"
+
+external direct_sort :
+  cmp : (num_type -> num_type -> int) ->
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECsort"
+
+external direct_sort_perm :
+  cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
+  n : int ->
+  ofsp : int ->
+  incp : int ->
+  p : int_vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECsort_perm_bc" "lacaml_NPRECsort_perm"
+
+let vec_sort_str = "Vec.sort"
+let p_str = "p"
+let dummy_cmp _ _ = 0
+
+let sort ?cmp ?(decr = false) ?n ?ofsp ?incp ?p ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_sort_str x_str ofsx incx in
+  let n = get_dim_vec vec_sort_str x_str ofsx incx x n_str n in
+  match p with
+  | None ->
+      (match cmp with
+       | None ->
+           if decr then direct_sort_decr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
+           else direct_sort_incr ~cmp:dummy_cmp ~n ~ofsx ~incx ~x
+       | Some cmp ->
+           let cmp = if decr then (fun x1 x2 -> cmp x2 x1) else cmp in
+           direct_sort ~cmp ~n ~ofsx ~incx ~x
+      )
+  | Some p ->
+      let ofsp, incp = get_vec_geom vec_sort_str p_str ofsp incp in
+      check_vec vec_sort_str p_str p n;
+      (match cmp with
+       | None ->
+           if decr then direct_sort_decr_perm ~cmp:dummy_cmp ~n
+                                              ~ofsp ~incp ~p ~ofsx ~incx ~x
+           else direct_sort_incr_perm ~cmp:dummy_cmp ~n
+                                      ~ofsp ~incp ~p ~ofsx ~incx ~x
+       | Some cmp ->
+           let cmp = if decr then (fun x1 x2 -> cmp x2 x1) else cmp in
+           direct_sort_perm ~cmp ~n ~ofsp ~incp ~p ~ofsx ~incx ~x
+      )
 
 
 (* NEG *)

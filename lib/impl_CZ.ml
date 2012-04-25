@@ -150,7 +150,7 @@ external direct_sycon :
   ar : int ->
   ac : int ->
   a : mat ->
-  ipiv : int_vec ->
+  ipiv : int32_vec ->
   work : vec ->
   anorm : float ->
   int * float = "lacaml_CPRECsycon_stub_bc" "lacaml_CPRECsycon_stub"

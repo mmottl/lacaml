@@ -34,6 +34,8 @@ type mat = (float, floatxx_elt, fortran_layout) Array2.t
 (** Matrices (precision: floatxx). *)
 
 type trans3 = [ `N | `T ]
+(** Transpose parameter (normal or transposed).  For complex matrices,
+    conjugate transpose is also offered, hence the name. *)
 
 val prec : (float, floatxx_elt) Bigarray.kind
 (** Precision for this submodule {!FPREC}.  Allows to write precision

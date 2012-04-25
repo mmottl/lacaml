@@ -239,3 +239,35 @@ CAMLprim value LFUN(ssqr_stub)(
 #define INIT 0.0
 #define FUNC(acc, x, y) x -= y; x *= x; acc += x
 #include "fold2_col.c"
+
+/* Since executing the (small) callback may dominate the running time,
+ * specialize the function when the order is the usual one on floats.
+ * In this case the callback is not used. */
+
+/* NaN are put last (greater than anything) to ensure the algo termination.
+   If both a and b are NaN, return false (consider NaN equal for this). */
+#define NAN_LAST(a, b, SORT)                            \
+  (isnan(b) ? (!isnan(a)) : (!isnan(a) && (SORT)))
+
+#define NAME LFUN(sort_incr)
+#define NAME_PERM LFUN(sort_incr_perm)
+#define BC_NAME_PERM LFUN(sort_incr_perm_bc)
+#define OCAML_SORT_LT(a, b) NAN_LAST(a, b, a < b)
+#include "vec_sort.c"
+
+#define NAME LFUN(sort_decr)
+#define NAME_PERM LFUN(sort_decr_perm)
+#define BC_NAME_PERM LFUN(sort_decr_perm_bc)
+#define OCAML_SORT_LT(a, b) NAN_LAST(a, b, a > b)
+#include "vec_sort.c"
+
+#define NAME LFUN(sort)
+#define NAME_PERM LFUN(sort_perm)
+#define BC_NAME_PERM LFUN(sort_perm_bc)
+#define OCAML_SORT_LT(a, b)                                     \
+  NAN_LAST(a, b, (va = caml_copy_double(a),                     \
+                  vb = caml_copy_double(b),                     \
+                  Int_val(caml_callback2(vCMP, va, vb)) < 0))
+#define OCAML_SORT_CALLBACK
+#include "vec_sort.c"
+#undef OCAML_SORT_CALLBACK
