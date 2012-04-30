@@ -1,3 +1,12 @@
+2012-04-30:  New major release version 7.0.0!
+
+               1) Changed "*int_vec" to "*int32_vec" in module Common.
+               2) Added Vec.sort.
+               3) Documentation improvements.
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
+             for most changes!
+
 2012-02-28:  Previous configuration bug fix did not work correctly, should
              be solved now.
 
