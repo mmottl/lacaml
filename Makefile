@@ -49,3 +49,4 @@ clean: setup.ml
 distclean: setup.ml
 	ocaml setup.ml -distclean
 	$(RM) $(wildcard *.ba[0-9] *.bak *~ *.odocl)
+	$(RM) $(wildcard lib/lacaml_*_[SDCZ].ml lib/lacaml_*_[SDCZ].mli)

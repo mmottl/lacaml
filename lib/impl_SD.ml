@@ -38,10 +38,10 @@ open Bigarray
 open Floatxx
 open Common
 open Utils
-open Impl4_FPREC
+open Lacaml_impl4_FPREC
 
-module Vec = Vec4_FPREC
-module Mat = Mat4_FPREC
+module Vec = Lacaml_vec4_FPREC
+module Mat = Lacaml_mat4_FPREC
 
 (* BLAS-1 *)
 

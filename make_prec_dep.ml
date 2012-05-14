@@ -3,6 +3,7 @@
  *)
 
 #load "str.cma";;
+open Printf
 
 let lib = "lib"
 
@@ -56,14 +57,19 @@ let substitute fname0 fname1 subs =
       let subst s =
         let mname = Str.matched_group 2 s in
         let fincl = String.uncapitalize mname ^ ".mli" in
-        input_file fincl ~comments:false ~prefix:(Str.matched_group 1 s) in
+        try
+          input_file fincl ~comments:false ~prefix:(Str.matched_group 1 s)
+        with Sys_error _ ->
+          failwith(sprintf "Trying to replace \"include module type of %s\" \
+                            in %S but the file %S does not exist"
+                           mname fname0 fincl) in
       Str.global_substitute module_type_of_re subst ml0
     ) in
   output_file fname1 ~content:ml0
 
 (* [derived] is a list of (new_suffix, substitutions).  Returns the
    list of created files. *)
-let derived_files fnames suffix derived =
+let derived_files ?(prefix=true) fnames suffix derived =
   let re = Str.regexp("\\([a-zA-Z]*\\)" ^ suffix ^ "$") in
   let derive l fname =
     if Str.string_match re fname 0 then (
@@ -71,6 +77,7 @@ let derived_files fnames suffix derived =
       if seed <> "lacaml" then (
         let derive1 l (new_suffix, subs) =
           let fname1 = seed ^ new_suffix in
+          let fname1 = if prefix then "lacaml_" ^ fname1 else fname1 in
           substitute fname fname1 subs;
           fname1 :: l
         in
@@ -82,8 +89,8 @@ let derived_files fnames suffix derived =
 let () =
   let fnames = Sys.readdir lib in
   let mods = ref [] in
-  let derive ?(add=false) suffix subs =
-    let l = derived_files fnames suffix subs in
+  let derive ?(add=false) ?prefix suffix subs =
+    let l = derived_files ?prefix fnames suffix subs in
     if add then mods := l :: !mods in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
 
@@ -112,12 +119,14 @@ let () =
   in
   derive "_SD.mli" [("2_S.mli", float32); ("2_D.mli", float64) ];
   derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64) ] ~add:true;
-  derive "SD.ml"   [("s.ml", float32);    ("d.ml", float64)] ~add:true;
-  derive "SD.mli"  [("s.mli", float32);    ("d.mli", float64)];
+  derive "SD.ml"   [("s.ml", float32);     ("d.ml", float64)] ~add:true
+         ~prefix:false;
+  derive "SD.mli"  [("s.mli", float32);    ("d.mli", float64)] ~prefix:false;
   derive "_CZ.mli" [("2_C.mli", complex32); ("2_Z.mli", complex64)];
   derive "_CZ.ml"  [("2_C.ml",  complex32); ("2_Z.ml",  complex64)] ~add:true;
-  derive "CZ.ml"   [("c.ml", complex32);    ("z.ml", complex64)] ~add:true;
-  derive "CZ.mli"  [("c.mli", complex32);   ("z.mli", complex64)];
+  derive "CZ.ml"   [("c.ml", complex32);  ("z.ml", complex64)] ~add:true
+         ~prefix:false;
+  derive "CZ.mli"  [("c.mli", complex32); ("z.mli", complex64)] ~prefix:false;
 
   (* Create lacaml.mlpack *)
   let fh = open_out (Filename.concat lib "lacaml.mlpack") in
@@ -137,7 +146,8 @@ let () =
              output_string fh m;
              output_char fh '\n')
             (List.flatten !mods);
-  close_out fh
+  close_out fh;
+  (try Sys.remove (Filename.concat lib "lacaml.mllib") with _ -> ())
 
 
 (* lacaml.mli
@@ -153,12 +163,17 @@ let prec_re = Str.regexp " *open *\\(Float[0-9]+\\|Complex[0-9]+\\) *[\n\r\t]*"
 
 let rec substitute_mli ?comments ?(prefix="") fname =
   let content = input_file ?comments ~prefix fname in
-  Str.global_substitute include_re (subst ~prefix) content
-and subst ~prefix s =
+  Str.global_substitute include_re (subst ~prefix ~fname) content
+
+and subst ~prefix ~fname s =
   let mname = Str.matched_group 2 s in
   let fincl = String.uncapitalize mname ^ ".mli" in
-  let m = substitute_mli fincl ~comments:false
-                         ~prefix:(Str.matched_group 1 s) in
+  let m =
+    try substitute_mli fincl ~comments:false
+                       ~prefix:(Str.matched_group 1 s)
+    with Sys_error _ ->
+      failwith(sprintf "Substituting \"include module type of %s\" in %S but \
+                        the file %S does not exist" mname fname fincl) in
   (* "open Bigarray" already present in the main file *)
   let m = Str.global_replace open_ba_re "" m in
   Str.global_replace prec_re "" m

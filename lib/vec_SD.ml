@@ -26,7 +26,7 @@
 *)
 
 open Bigarray
-open Vec4_FPREC
+open Lacaml_vec4_FPREC
 open Utils
 open Floatxx
 

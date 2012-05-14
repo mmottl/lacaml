@@ -39,12 +39,12 @@ open Floatxx
 open Complexxx
 open Common
 open Utils
-open Impl4_CPREC
+open Lacaml_impl4_CPREC
 
-module Vec = Vec4_CPREC
-module Mat = Mat4_CPREC
+module Vec = Lacaml_vec4_CPREC
+module Mat = Lacaml_mat4_CPREC
 
-module RVec = Vec4_CBPREC
+module RVec = Lacaml_vec4_CBPREC
 
 (* BLAS-1 interface *)
 

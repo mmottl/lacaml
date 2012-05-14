@@ -26,17 +26,17 @@
 
 include Floatxx
 
-include Impl2_FPREC
-include Impl4_FPREC
+include Lacaml_impl2_FPREC
+include Lacaml_impl4_FPREC
 
 include Real_io
 
 module Vec = struct
-  include Vec2_FPREC
-  include Vec4_FPREC
+  include Lacaml_vec2_FPREC
+  include Lacaml_vec4_FPREC
 end
 
 module Mat = struct
-  include Mat2_FPREC
-  include Mat4_FPREC
+  include Lacaml_mat2_FPREC
+  include Lacaml_mat4_FPREC
 end

@@ -35,10 +35,10 @@ open Numberxx
 open Common
 open Utils
 
-module Vec = Vec4_NPREC
-module Mat = Mat4_NPREC
+module Vec = Lacaml_vec4_NPREC
+module Mat = Lacaml_mat4_NPREC
 
-module RVec = Vec4_NBPREC
+module RVec = Lacaml_vec4_NBPREC
 
 
 (* BLAS-1 *)

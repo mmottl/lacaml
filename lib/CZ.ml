@@ -34,15 +34,15 @@ include Complexxx
 
 include Complex_io
 
-include Impl2_CPREC
-include Impl4_CPREC
+include Lacaml_impl2_CPREC
+include Lacaml_impl4_CPREC
 
 module Vec = struct
-  include Vec2_CPREC
-  include Vec4_CPREC
+  include Lacaml_vec2_CPREC
+  include Lacaml_vec4_CPREC
 end
 
 module Mat = struct
-  include Mat2_CPREC
-  include Mat4_CPREC
+  include Lacaml_mat2_CPREC
+  include Lacaml_mat4_CPREC
 end
