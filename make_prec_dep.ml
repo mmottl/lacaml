@@ -156,7 +156,7 @@ let () =
 (* Replace all [include module type of] to have a self contained
    interface that is easier to search. *)
 let include_re =
-  Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9]+_[SDCZ]\\|\
+  Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+_[SDCZ]\\|\
               Io\\|Common\\|[SDCZ]\\|Real_io\\|Complex_io\\)$"
 let open_ba_re = Str.regexp " *open Bigarray *[\n\r\t]?"
 let prec_re = Str.regexp " *open *\\(Float[0-9]+\\|Complex[0-9]+\\) *[\n\r\t]*"
