@@ -715,7 +715,7 @@ let () =
       flag
         ["compile"; "ocaml"] (S [A "-w"; A "@Aer"; A "-strict-sequence" ]);
 
-      flag ["compile"; "ocaml"] (S [A "-I"; A "+compiler-libs"]);
+      pflag ["compile"; "ocaml"] "I" (fun x -> S [A "-I"; A x]);
 
       (* Files included, tailored with macros. *)
       dep ["compile"; "c"]

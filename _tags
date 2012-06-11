@@ -120,6 +120,7 @@
 # OASIS_STOP
 
 <**/*.ml>: annot
+<lib/install_printers.ml>: I(+compiler-libs)
 
 <lib/*.cmx>: for-pack(Lacaml)
 <lib/lacaml.cmx>: -for-pack(Lacaml)
