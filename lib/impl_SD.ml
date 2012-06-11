@@ -293,10 +293,11 @@ let ormqr_get_opt_lwork loc ~side ~trans ~m ~n ~k ~tau ~ar ~ac ~a ~cr ~cc ~c =
   else ormqr_err ~loc ~side ~m ~n ~k ~lwork:1 ~a ~c ~err:info
 
 let ormqr_opt_lwork
-      ?(side = `L) ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a ?(cr = 1) ?(cc = 1) c =
+      ?(side = `L) ?(trans = `N) ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a
+      ?(cr = 1) ?(cc = 1) c =
   let loc = "Lacaml.FPREC.ormqr_opt_lwork" in
   let m, n, k = ormqr_get_params loc ~side ?m ?n ?k ~tau ~ar ~ac a ~cr ~cc c in
-  ormqr_get_opt_lwork loc ~side ~m ~n ~k ~tau ~ar ~ac ~a
+  ormqr_get_opt_lwork loc ~side ~trans ~m ~n ~k ~tau ~ar ~ac ~a ~cr ~cc ~c
 
 let ormqr
       ?(side = `L) ?(trans = `N) ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a

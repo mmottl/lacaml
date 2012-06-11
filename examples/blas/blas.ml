@@ -28,7 +28,6 @@
 (* $Id: blas.ml,v 1.12 2006/01/22 18:34:33 mottl Exp $ *)
 
 open Format
-open Bigarray
 
 open Lacaml.D
 open Lacaml.Io

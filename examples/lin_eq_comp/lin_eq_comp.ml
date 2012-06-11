@@ -32,7 +32,6 @@
 (* $Id: lin_eq_comp.ml,v 1.9 2006/01/22 18:34:33 mottl Exp $ *)
 
 open Format
-open Bigarray
 
 open Lacaml.D
 open Lacaml.Io

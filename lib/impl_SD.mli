@@ -203,9 +203,9 @@ val orgqr_opt_lwork :
   mat ->
   int
 (** [orgqr_opt_lwork ?m ?n ?k ~tau ?ar ?ac a] @return the optimum
-    length of the work-array used by the [orgqr_opt_lwork]-function
-    given matrix [a], optionally its logical dimensions [m] and
-    [n], and the number of reflectors [k].
+    length of the work-array used by the [orgqr]-function given matrix [a],
+    optionally its logical dimensions [m] and [n], and the number of reflectors
+    [k].
 
     @param m default = available number of rows in matrix [a]
     @param n default = available number of columns in matrix [a]
@@ -231,6 +231,30 @@ val orgqr :
 
 
 (* ORMQR *)
+
+val ormqr_opt_lwork :
+  ?side : side ->
+  ?trans : trans2 ->
+  ?m : int ->
+  ?n : int ->
+  ?k : int ->
+  tau : vec ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?cr : int ->
+  ?cc : int ->
+  mat ->
+  int
+(** [ormqr_opt_lwork ?side ?trans ?m ?n ?k ~tau ?ar ?ac a ?cr ?cc c]
+    @return the optimum length of the work-array used by the [ormqr]-function
+    given matrix [a] and [b], optionally its logical dimensions [m] and [n],
+    and the number of reflectors [k].
+
+    @param m default = available number of rows in matrix [a]
+    @param n default = available number of columns in matrix [a]
+    @param k default = available number of elements in vector [tau]
+*)
 
 val ormqr :
   ?side : side ->

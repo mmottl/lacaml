@@ -38,9 +38,6 @@ open Common
 (* Zero-sized dummy vector (int) *)
 let empty_int32_vec = create_int32_vec 0
 
-(* Char indicating if matrix is unit triangular *)
-let get_diag_char = function true -> 'U' | false -> 'N'
-
 (* Char indicating type of norm to retrieve for XlanYY routines *)
 let get_norm_char = function `M -> 'M' | `O -> 'O' | `I -> 'I' | `F -> 'F'
 

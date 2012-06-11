@@ -32,7 +32,6 @@
 (* $Id: eig.ml,v 1.16 2005/07/14 15:47:39 mottl Exp $ *)
 
 open Format
-open Bigarray
 
 open Lacaml.D
 open Lacaml.Io
@@ -88,7 +87,6 @@ let () =
 (* CGEEV DEMO *)
 
 open Lacaml.C
-open Complex
 
 let () =
   let n = 3 in

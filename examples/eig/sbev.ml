@@ -24,7 +24,6 @@
 (** Example based on http://www.nag.co.uk/lapack-ex/node61.html *)
 
 open Format
-open Bigarray
 
 open Lacaml.D
 open Lacaml.Io

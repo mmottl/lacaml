@@ -24,7 +24,6 @@
 (* $Id: lin_reg.ml,v 1.14 2005/03/10 16:10:11 mottl Exp $ *)
 
 open Format
-open Bigarray
 
 open Lacaml.D
 open Lacaml.Io

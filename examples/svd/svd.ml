@@ -31,7 +31,6 @@
 (* $Id: svd.ml,v 1.4 2005/07/14 15:37:30 mottl Exp $ *)
 
 open Format
-open Bigarray
 open Lacaml.Io
 
 (* REAL GESVD DEMO *)
@@ -51,7 +50,6 @@ let () =
 (* COMPLEX GESVD DEMO *)
 
 open Lacaml.C
-open Complex
 
 let () =
   let a = Mat.random 3 2 in
