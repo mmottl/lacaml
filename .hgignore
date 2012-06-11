@@ -12,6 +12,7 @@ setup.log$
 .*\.byte$
 .*\.native$
 lib/lacaml.mlpack$
+lib/lacaml.mllib$
 lib/lacaml_(impl|mat|vec)(2|4)_.*$
 lib/(s|d|c|z).ml(|i)$
 lib/lacaml.mli
