@@ -1,3 +1,5 @@
+2012-06-11:  Several fixes for the upcoming OCaml 4.00 release.
+
 2012-04-30:  New major release version 7.0.0!
 
                1) Changed "*int_vec" to "*int32_vec" in module Common.
