@@ -712,6 +712,11 @@ let package_default =
 let () =
   let additional_rules = function
     | After_rules ->
+      flag
+        ["compile"; "ocaml"] (S [A "-w"; A "@Aer"; A "-strict-sequence" ]);
+
+      flag ["compile"; "ocaml"] (S [A "-I"; A "+compiler-libs"]);
+
       (* Files included, tailored with macros. *)
       dep ["compile"; "c"]
           ["lib"/"fold_col.c"; "lib"/"fold2_col.c";
