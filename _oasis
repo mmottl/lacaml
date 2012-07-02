@@ -15,10 +15,11 @@ Authors:
   Oleg Trott <ot14@columbia.edu>,
   Martin Willensdorfer <ma.wi@gmx.at>
 License:         LGPL-2.1 with OCaml linking exception
-Plugins:         META (0.3), StdFiles (0.3)
+Plugins:         META (0.3), StdFiles (0.3), DevFiles (0.3)
 BuildTools:      ocamlbuild
 Homepage:        http://forge.ocamlcore.org/projects/lacaml
 PostConfCommand: ocaml make_prec_dep.ml
+XStdFilesREADME: false
 
 Library lacaml
   Path:	      lib
