@@ -119,6 +119,7 @@
 <examples/svd/*.ml{,i}>: pkg_bigarray
 # OASIS_STOP
 
+<**/*.ml{,i}>: warn_A, warn_e, warn_r
 <**/*.ml>: annot
 <lib/install_printers.ml>: I(+compiler-libs)
 

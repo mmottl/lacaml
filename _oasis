@@ -43,11 +43,11 @@ Library lacaml
   CCOpt: -O2 -DPIC
   CCLib: -lblas -llapack
   if system(macosx)
-    CCOpt: -O2 -DPIC -DEXTERNAL_EXP10 -framework vecLib
+    CCOpt+: -DEXTERNAL_EXP10 -framework vecLib
     CCLib: -framework vecLib
   # FIXME: mingw is untested!!!
   if system(mingw)
-    CCOpt: -O2 -DPIC -DEXTERNAL_EXP10
+    CCOpt+: -DEXTERNAL_EXP10
 
 Library lacaml_top
   Path:             lib
@@ -139,14 +139,13 @@ Executable svd
   DllPath:        ../../lib
 
 Document API
-  Title:           API reference for Lacaml
-  Type:            OCamlbuild (0.3)
-  InstallDir:      $docdir/api
-  BuildTools:      ocamldoc, ocamlbuild
-  XOCamlbuildPath: .
+  Title:                API reference for Lacaml
+  Type:                 OCamlbuild (0.3)
+  InstallDir:           $docdir/api
+  BuildTools:           ocamldoc, ocamlbuild
+  XOCamlbuildPath:      .
   XOCamlbuildLibraries: lacaml
 
 SourceRepository trunk
   Type:       hg
-  Location:   ssh://forge.ocamlcore.org//hg/lacaml
-#  Browser:    
+  Location:   ssh://hg@bitbucket.org/mmottl/lacaml

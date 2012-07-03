@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: a1a4033293a98e0195e45e7b389c3561) *)
+(* DO NOT EDIT (digest: 2a813279f74c02ad117dcf0b9b33ae7f) *)
 module OASISGettext = struct
 (* # 21 "/Users/mmottl/local/darwin11.3.0/src/oasis-0.3.0~rc6/src/oasis/OASISGettext.ml" *)
   
@@ -563,6 +563,16 @@ let package_default =
             [
                (OASISExpr.EBool true,
                  S [A "-ccopt"; A "-O2"; A "-ccopt"; A "-DPIC"]);
+               (OASISExpr.ETest ("system", "mingw"),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
                (OASISExpr.ETest ("system", "macosx"),
                  S
                    [
@@ -577,13 +587,21 @@ let package_default =
                       A "-ccopt";
                       A "vecLib"
                    ]);
-               (OASISExpr.ETest ("system", "mingw"),
+               (OASISExpr.EAnd
+                  (OASISExpr.ETest ("system", "macosx"),
+                    OASISExpr.ETest ("system", "mingw")),
                  S
                    [
                       A "-ccopt";
                       A "-O2";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-framework";
+                      A "-ccopt";
+                      A "vecLib";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10"
                    ])
@@ -657,7 +675,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 661 "myocamlbuild.ml"
+# 679 "myocamlbuild.ml"
 (* OASIS_STOP *)
 # 502 "myocamlbuild.ml"
 
@@ -712,46 +730,45 @@ let package_default =
 let () =
   let additional_rules = function
     | After_rules ->
-      flag
-        ["compile"; "ocaml"] (S [A "-w"; A "@Aer"; A "-strict-sequence" ]);
+        flag ["compile"; "ocaml"] (S [A "-strict-sequence" ]);
 
-      pflag ["compile"; "ocaml"] "I" (fun x -> S [A "-I"; A x]);
+        pflag ["compile"; "ocaml"] "I" (fun x -> S [A "-I"; A x]);
 
-      (* Files included, tailored with macros. *)
-      dep ["compile"; "c"]
-          ["lib"/"fold_col.c"; "lib"/"fold2_col.c";
-           "lib"/"vec_map.c"; "lib"/"vec_combine.c"; "lib"/"vec_sort.c"];
+        (* Files included, tailored with macros. *)
+        dep ["compile"; "c"]
+            ["lib"/"fold_col.c"; "lib"/"fold2_col.c";
+            "lib"/"vec_map.c"; "lib"/"vec_combine.c"; "lib"/"vec_sort.c"];
 
-      (* Special rules for precision dependent C code. *)
-      let lacaml_cc desc ~prod ~dep flags =
-        rule ("Lacaml: " ^ desc) ~prod ~dep
-             (fun env _build ->
-              let f = env dep and o = env prod in
-              let tags = tags_of_pathname f ++ "compile" ++ "c"
-                         ++ "oasis_library_lacaml_ccopt" in
+        (* Special rules for precision dependent C code. *)
+        let lacaml_cc desc ~prod ~dep flags =
+          rule ("Lacaml: " ^ desc) ~prod ~dep
+              (fun env _build ->
+                let f = env dep and o = env prod in
+                let tags = tags_of_pathname f ++ "compile" ++ "c"
+                          ++ "oasis_library_lacaml_ccopt" in
 
-              let add_ccopt f l = A"-ccopt" :: f :: l in
-              let flags = List.fold_right add_ccopt flags [] in
-              (* unfortunately -o is not respected for C files, use -ccopt. *)
-              let cmd = [A ocamlfind; A"ocamlc"; A"-ccopt"; A("-o " ^ o)]
-                        @ flags @ [T tags; A"-c"; P f] in
-              Seq[Cmd(S(cmd))]
-             ) in
-      lacaml_cc "simple of SD" ~prod:"%2_S_c.o" ~dep:"%_SD_c.c" [];
-      lacaml_cc "double of SD" ~prod:"%2_D_c.o" ~dep:"%_SD_c.c"
-                [A"-DLACAML_DOUBLE"];
-      lacaml_cc "simple of CZ" ~prod:"%2_C_c.o" ~dep:"%_CZ_c.c"
-                [A"-DLACAML_COMPLEX"];
-      lacaml_cc "double of CZ" ~prod:"%2_Z_c.o" ~dep:"%_CZ_c.c"
-                [A"-DLACAML_COMPLEX"; A"-DLACAML_DOUBLE"];
+                let add_ccopt f l = A"-ccopt" :: f :: l in
+                let flags = List.fold_right add_ccopt flags [] in
+                (* unfortunately -o is not respected for C files, use -ccopt. *)
+                let cmd = [A ocamlfind; A"ocamlc"; A"-ccopt"; A("-o " ^ o)]
+                          @ flags @ [T tags; A"-c"; P f] in
+                Seq[Cmd(S(cmd))]
+              ) in
+        lacaml_cc "simple of SD" ~prod:"%2_S_c.o" ~dep:"%_SD_c.c" [];
+        lacaml_cc "double of SD" ~prod:"%2_D_c.o" ~dep:"%_SD_c.c"
+                  [A"-DLACAML_DOUBLE"];
+        lacaml_cc "simple of CZ" ~prod:"%2_C_c.o" ~dep:"%_CZ_c.c"
+                  [A"-DLACAML_COMPLEX"];
+        lacaml_cc "double of CZ" ~prod:"%2_Z_c.o" ~dep:"%_CZ_c.c"
+                  [A"-DLACAML_COMPLEX"; A"-DLACAML_DOUBLE"];
 
-      lacaml_cc "simple of SDCZ" ~prod:"%4_S_c.o" ~dep:"%_SDCZ_c.c" [];
-      lacaml_cc "double of SDCZ" ~prod:"%4_D_c.o" ~dep:"%_SDCZ_c.c"
-                [A"-DLACAML_DOUBLE"];
-      lacaml_cc "complex32 of SDCZ" ~prod:"%4_C_c.o" ~dep:"%_SDCZ_c.c"
-                [A"-DLACAML_COMPLEX"];
-      lacaml_cc "complex64 of SDCZ" ~prod:"%4_Z_c.o" ~dep:"%_SDCZ_c.c"
-                [A"-DLACAML_COMPLEX"; A"-DLACAML_DOUBLE"];
+        lacaml_cc "simple of SDCZ" ~prod:"%4_S_c.o" ~dep:"%_SDCZ_c.c" [];
+        lacaml_cc "double of SDCZ" ~prod:"%4_D_c.o" ~dep:"%_SDCZ_c.c"
+                  [A"-DLACAML_DOUBLE"];
+        lacaml_cc "complex32 of SDCZ" ~prod:"%4_C_c.o" ~dep:"%_SDCZ_c.c"
+                  [A"-DLACAML_COMPLEX"];
+        lacaml_cc "complex64 of SDCZ" ~prod:"%4_Z_c.o" ~dep:"%_SDCZ_c.c"
+                  [A"-DLACAML_COMPLEX"; A"-DLACAML_DOUBLE"];
 
     | _ -> ()
   in
