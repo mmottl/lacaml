@@ -64,7 +64,6 @@ Executable blas
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable eig
   Path:           examples/eig
@@ -72,7 +71,6 @@ Executable eig
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable sbev
   Path:           examples/eig
@@ -80,7 +78,6 @@ Executable sbev
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable sbgv
   Path:           examples/eig
@@ -88,7 +85,6 @@ Executable sbgv
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable lin_eq
   Path:           examples/lin_eq
@@ -96,7 +92,6 @@ Executable lin_eq
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable gbsv
   Path:           examples/lin_eq
@@ -104,7 +99,6 @@ Executable gbsv
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable lin_eq_comp
   Path:           examples/lin_eq_comp
@@ -112,7 +106,6 @@ Executable lin_eq_comp
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable lin_reg
   Path:           examples/lin_reg
@@ -120,7 +113,6 @@ Executable lin_reg
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable qr
   Path:           examples/qr
@@ -128,7 +120,6 @@ Executable qr
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Executable svd
   Path:           examples/svd
@@ -136,7 +127,6 @@ Executable svd
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
-  DllPath:        ../../lib
 
 Document API
   Title:                API reference for Lacaml

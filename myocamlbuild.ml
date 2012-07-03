@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 2a813279f74c02ad117dcf0b9b33ae7f) *)
+(* DO NOT EDIT (digest: 89a2a8c3cc286a7c0bbf89b32573e9a3) *)
 module OASISGettext = struct
 (* # 21 "/Users/mmottl/local/darwin11.3.0/src/oasis-0.3.0~rc6/src/oasis/OASISGettext.ml" *)
   
@@ -618,47 +618,7 @@ let package_default =
                (OASISExpr.EBool true, S [A "-lblas"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-framework"; A "vecLib"])
-            ]);
-          (["oasis_executable_blas_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_blas_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_eig_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_eig_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_sbev_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_sbev_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_sbgv_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_sbgv_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_lin_eq_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_lin_eq_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_gbsv_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_gbsv_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_lin_eq_comp_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_lin_eq_comp_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_lin_reg_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_lin_reg_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_qr_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_qr_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_svd_dllpath"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])]);
-          (["oasis_executable_svd_dllpath"; "ocamlmklib"; "c"],
-            [(OASISExpr.EBool true, S [A "-dllpath"; P "../../lib"])])
+            ])
        ];
      includes =
        [
@@ -675,7 +635,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 679 "myocamlbuild.ml"
+# 639 "myocamlbuild.ml"
 (* OASIS_STOP *)
 # 502 "myocamlbuild.ml"
 
