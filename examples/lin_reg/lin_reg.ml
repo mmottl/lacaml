@@ -21,8 +21,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: lin_reg.ml,v 1.14 2005/03/10 16:10:11 mottl Exp $ *)
-
 open Format
 
 open Lacaml.D

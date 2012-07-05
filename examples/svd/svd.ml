@@ -28,8 +28,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-(* $Id: svd.ml,v 1.4 2005/07/14 15:37:30 mottl Exp $ *)
-
 open Format
 open Lacaml.Io
 
