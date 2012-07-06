@@ -618,7 +618,7 @@ let package_default =
 let () =
   let additional_rules = function
     | After_rules ->
-        flag ["compile"; "ocaml"] (S [A "-strict-sequence" ]);
+        flag ["compile"; "ocaml"] (S [A "-strict-sequence"]);
 
         pflag ["compile"; "ocaml"] "I" (fun x -> S [A "-I"; A x]);
 
