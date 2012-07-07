@@ -140,7 +140,8 @@ let () =
                     Complex64\n\
                     Io\n\
                     Real_io\n\
-                    Complex_io\n";
+                    Complex_io\n\
+                    Version\n";
   List.iter (fun m ->
              let m = String.capitalize(Filename.chop_extension m) in
              output_string fh m;
