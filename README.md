@@ -6,7 +6,8 @@ LACAML - Linear Algebra for OCaml
 What is LACAML?
 ---------------
 
-This OCaml-library interfaces two widely used mathematical FORTRAN-libraries:
+This [OCaml](http://www.ocaml.org)-library interfaces two widely used
+mathematical FORTRAN-libraries:
 
   * [BLAS - Basic Linear Algebra Subroutines](http://www.netlib.org/blas/index.html)
   * [LAPACK - Linear Algebra PACKage](http://www.netlib.org/lapack/index.html)
