@@ -139,7 +139,8 @@ submatrices for all matrix parameters.  For example, if some matrix is called
 `a` in the interface documentation, you can specify the left upper corner of
 the wanted submatrix for the operation by setting `ar` for the row and `ac`
 for the column (1 by default).  A vector `y` would have an extra optional
-parameter `ofsy` (also 1 by default).
+parameter `ofsy` (also 1 by default).  Parameters like `m` or `n` typically
+specify the numbers of rows or columns.
 
 ### Printing vectors and matrices
 
