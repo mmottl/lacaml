@@ -226,9 +226,9 @@ customization.
 
 #### API documentation
 
-Please refer to the API-documentation that will be generated in as HTML-files
-if requested (`make doc`).  It will give more details on the numerous
-functions and supported arguments in the library.
+Please refer to the API-documentation that will be generated as HTML-files if
+requested (`make doc`).  It will give more details on the numerous functions
+and supported arguments in the library.
 
 #### BLAS/LAPACK man pages
 
