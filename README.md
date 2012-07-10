@@ -33,7 +33,7 @@ Features
     information (e.g. row and column headers).  Users can specify easily how
     much context to print.  For example, it is usually sufficient to print
     small blocks of the four corners of a large result matrix to manually
-    verify the correctness of an algorithm.  LAPACK uses this approach to
+    verify the correctness of an algorithm.  LACAML uses this approach to
     limit the output to human-manageable size.
 
   * Integration into the OCaml-toplevel allows for easy experimentation for
@@ -121,8 +121,8 @@ variables at once).  The result is the rank of the matrix.  The matrices
 provided in the arguments will be overwritten with further results (here:
 the singular vectors and the solution matrix).
 
-If the above happened in a loop, this would be inefficient, because a
-work-array would have to be allocated (and later deallocated) at each call.
+If the above happened in a loop, this would be slightly inefficient, because
+a work-array would have to be allocated (and later deallocated) at each call.
 You can hoist the creation of this work array out of the loop, e.g. (`m`,
 `n`, `nrhs` are problem dependent parameters):
 
