@@ -241,7 +241,7 @@ positive-definite, complex, single precision matrix, you might enter:
 
 The corresponding function in Lacaml would be `Lacaml.C.potrf`.  The naming
 conventions and additional documentation for BLAS and LAPACK can be found
-at their corresponding website.
+at their respective websites.
 
 #### Examples
 
