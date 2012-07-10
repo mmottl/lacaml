@@ -778,16 +778,15 @@ external direct_gesdd :
 let gesdd_min_lwork ?(jobz = `A) ~m ~n () =
   let min_lwork =
     let min_m_n = min m n in
-    let max_m_n = max m n in
     let min_m_n_3 = 3 * min_m_n in
-    match jobz with
-    | `N -> min_m_n_3 + max max_m_n (min_m_n_3 + min_m_n_3)
-    | `O ->
-        min_m_n_3 * min_m_n +
-          max max_m_n (5*min_m_n*min_m_n + (min_m_n_3 + min_m_n))
-    | `S | `A ->
-        min_m_n_3 * min_m_n +
-          max max_m_n ((min_m_n_3 + min_m_n) * (min_m_n + 1)) in
+    let arg =
+      match jobz with
+      | `N -> 7
+      | `O -> 5 * min_m_n + 4
+      | `S | `A -> 4 * (min_m_n + 1)
+    in
+    min_m_n_3 + max (max m n) (arg * min_m_n)
+  in
   max 1 min_lwork
 
 let gesdd_liwork ~m ~n = 8 * min m n
