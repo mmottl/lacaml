@@ -160,9 +160,9 @@ Here is a toplevel example of printing a large random matrix:
        R99  0.104805  0.984924 -0.319127 ... -0.143679  -0.858269  0.859059
       R100  0.419968  0.333358  0.237761 ... -0.483535 -0.0224016  0.513944
 
-Only the corner sections of the matrix, which would otherwise too large to
-display readably, are being printed, and ellipses (`...`) are used in place
-of the removed parts of the matrix.
+Only the corner sections of the matrix, which would otherwise be too large
+to display readably, are being printed, and ellipses (`...`) are used in
+place of the removed parts of the matrix.
 
 If the user required even less context, the `Lacaml.Io.Toplevel.lsc` function,
 which is also available in each precision module for convenience (here:
