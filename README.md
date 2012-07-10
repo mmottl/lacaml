@@ -257,9 +257,9 @@ usually sell the most optimized implementations for their CPU-architectures.
 Some computer and OS-vendors like Apple distribute their own implementations
 with their products (e.g. `vecLib`).
 
-There is also [ATLAS](http://www.netlib.org/atlas), a very efficient
-and compatible substitute for BLAS.  It specializes code for specific
-architectures.  Binary packages (e.g. RPMs) for Linux should be available
+There is also [ATLAS](http://www.netlib.org/atlas), a very efficient and
+compatible substitute for BLAS.  It specializes code for the architecture it
+is compiled on.  Binary packages (e.g. RPMs) for Linux should be available
 from your distribution vendor's site.
 
 ---------------------------------------------------------------------------
