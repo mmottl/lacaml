@@ -77,9 +77,14 @@ Library lacaml_top
 
 # Examples
 
+Flag examples
+  Description:    Build examples
+  Default:        true
+
 Executable blas
   Path:           examples/blas
   MainIs:         blas.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -87,6 +92,7 @@ Executable blas
 Executable eig
   Path:           examples/eig
   MainIs:         eig.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -94,6 +100,7 @@ Executable eig
 Executable sbev
   Path:           examples/eig
   MainIs:         sbev.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -101,6 +108,7 @@ Executable sbev
 Executable sbgv
   Path:           examples/eig
   MainIs:         sbgv.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -108,6 +116,7 @@ Executable sbgv
 Executable lin_eq
   Path:           examples/lin_eq
   MainIs:         lin_eq.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -115,6 +124,7 @@ Executable lin_eq
 Executable gbsv
   Path:           examples/lin_eq
   MainIs:         gbsv.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -122,6 +132,7 @@ Executable gbsv
 Executable lin_eq_comp
   Path:           examples/lin_eq_comp
   MainIs:         lin_eq_comp.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -129,6 +140,7 @@ Executable lin_eq_comp
 Executable lin_reg
   Path:           examples/lin_reg
   MainIs:         lin_reg.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -136,6 +148,7 @@ Executable lin_reg
 Executable qr
   Path:           examples/qr
   MainIs:         qr.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
@@ -143,6 +156,7 @@ Executable qr
 Executable svd
   Path:           examples/svd
   MainIs:         svd.ml
+  Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
   CompiledObject: best
