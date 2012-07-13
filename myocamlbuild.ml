@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 1d3589f0ef7ed90f3b66744bac812d8e) *)
+(* DO NOT EDIT (digest: 8b06b8beb71c8257dd71e3e2a676985b) *)
 module OASISGettext = struct
 (* # 21 "/Users/mmottl/local/darwin11.3.0/src/oasis-0.3.0/src/oasis/OASISGettext.ml" *)
 
@@ -493,6 +493,8 @@ let package_default =
                  S
                    [
                       A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
                       A "-O2";
@@ -504,6 +506,8 @@ let package_default =
                (OASISExpr.ETest ("system", "mingw"),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -518,6 +522,8 @@ let package_default =
                (OASISExpr.ETest ("system", "macosx"),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -538,6 +544,8 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -560,6 +568,8 @@ let package_default =
                     OASISExpr.ETest ("ccomp_type", "cc")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -586,6 +596,8 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -614,6 +626,8 @@ let package_default =
                     OASISExpr.ETest ("system", "macosx")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -648,6 +662,8 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
                       A "-ccopt";
                       A "-std=c99";
                       A "-ccopt";
@@ -705,7 +721,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 709 "myocamlbuild.ml"
+# 725 "myocamlbuild.ml"
 (* OASIS_STOP *)
 # 502 "myocamlbuild.ml"
 

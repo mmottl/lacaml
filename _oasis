@@ -55,7 +55,7 @@ Library lacaml
                  lacaml_macros.h,
                  utils_c.h
   BuildDepends:  bigarray
-  CCOpt:         -std=c99 -O2 -fPIC -DPIC
+  CCOpt:         -g -std=c99 -O2 -fPIC -DPIC
   if flag(strict) && ccomp_type(cc)
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long
   CCLib:         -lblas -llapack
