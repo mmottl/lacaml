@@ -51,7 +51,7 @@ CAMLprim value lacaml_ilaenv_stub(
                           &N1, &N2, &N3, &N4, NAME_LEN, OPTS_LEN));
 }
 
-CAMLprim value lacaml_ilaenv_stub_bc(value *argv, int argn)
+CAMLprim value lacaml_ilaenv_stub_bc(value *argv, int __unused argn)
 {
   return lacaml_ilaenv_stub(argv[0], argv[1], argv[2],
                             argv[3], argv[4], argv[5], argv[6]);

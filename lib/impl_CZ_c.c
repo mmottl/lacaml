@@ -71,7 +71,7 @@ CAMLprim value LFUN(dotu_stub)(
   CAMLreturn(copy_two_doubles(res.r, res.i));
 }
 
-CAMLprim value LFUN(dotu_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(dotu_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(dotu_stub)(argv[0], argv[1], argv[2], argv[3],
                          argv[4], argv[5], argv[6]);
@@ -112,7 +112,7 @@ CAMLprim value LFUN(dotc_stub)(
   CAMLreturn(copy_two_doubles(res.r, res.i));
 }
 
-CAMLprim value LFUN(dotc_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(dotc_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(dotc_stub)(argv[0], argv[1], argv[2], argv[3],
                          argv[4], argv[5], argv[6]);
@@ -170,7 +170,7 @@ CAMLprim value LFUN(lansy_stub)(
   CAMLreturn(caml_copy_double(res));
 }
 
-CAMLprim value LFUN(lansy_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(lansy_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(lansy_stub)(
@@ -230,7 +230,7 @@ CAMLprim value LFUN(gecon_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(gecon_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gecon_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gecon_stub)(
@@ -289,7 +289,7 @@ CAMLprim value LFUN(sycon_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(sycon_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(sycon_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(sycon_stub)(
@@ -346,7 +346,7 @@ CAMLprim value LFUN(pocon_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(pocon_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(pocon_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(pocon_stub)(
@@ -414,7 +414,7 @@ CAMLprim value LFUN(gesvd_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(gesvd_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gesvd_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gesvd_stub)(
@@ -489,7 +489,7 @@ CAMLprim value LFUN(geev_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(geev_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(geev_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(geev_stub)(

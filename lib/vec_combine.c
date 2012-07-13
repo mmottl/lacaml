@@ -78,7 +78,7 @@ CAMLprim value NAME(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value BC_NAME(value *argv, int argn)
+CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
   return
     NAME(argv[0], argv[1], argv[2],argv[3], argv[4], argv[5],

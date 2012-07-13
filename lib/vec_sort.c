@@ -260,7 +260,7 @@ CAMLprim value NAME_PERM(value vCMP, value vN,
   VEC_PARAMS(X);
   intnat OFSX = Long_val(vOFSX);
   intnat *P_data = ((intnat *) Caml_ba_data_val(vP)) + (Long_val(vOFSP) - 1);
-  int i;
+  size_t i;
 
   NUMBER *const X = X_data - OFSX;  /* so P values are FORTRAN indices */
   intnat *const base_ptr = P_data;
@@ -287,7 +287,7 @@ CAMLprim value NAME_PERM(value vCMP, value vN,
 }
 
 
-CAMLprim value BC_NAME_PERM(value *argv, int argn)
+CAMLprim value BC_NAME_PERM(value *argv, int __unused argn)
 {
   return NAME_PERM(argv[0], argv[1], argv[2], argv[3], argv[4],
                    argv[5], argv[6], argv[7]);

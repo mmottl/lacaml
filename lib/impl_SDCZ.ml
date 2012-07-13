@@ -594,14 +594,13 @@ let lassq ?n ?(scale = 0.) ?(sumsq = 1.) ?ofsx ?incx x =
 
 external direct_larnv :
   idist : int ->
-  ofsiseed : int ->
   iseed : int32_vec ->
   n : int ->
   ofsx : int ->
   x : vec ->
-  unit = "lacaml_NPREClarnv_stub_bc" "lacaml_NPREClarnv_stub"
+  unit = "lacaml_NPREClarnv_stub"
 
-let larnv ?idist ?ofsiseed ?iseed ?n ?ofsx ?x () =
+let larnv ?idist ?iseed ?n ?ofsx ?x () =
   let loc = "Lacaml.NPREC.larnv" in
   let idist =
     match idist with
@@ -609,7 +608,7 @@ let larnv ?idist ?ofsiseed ?iseed ?n ?ofsx ?x () =
     | Some `Uniform1 -> 2
     | None | Some `Normal -> 3
   in
-  let ofsiseed = get_ofs loc iseed_str ofsiseed in
+  let ofsiseed = 1 in
   let iseed =
     match iseed with
     | None ->
@@ -659,7 +658,7 @@ let larnv ?idist ?ofsiseed ?iseed ?n ?ofsx ?x () =
         check_vec loc x_str x min_dim;
         n, ofsx, x
   in
-  direct_larnv ~idist ~ofsiseed ~iseed ~n ~ofsx ~x;
+  direct_larnv ~idist ~iseed ~n ~ofsx ~x;
   x
 
 

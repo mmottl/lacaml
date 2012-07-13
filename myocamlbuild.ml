@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 8fd8da14601100561d745f586bc6d700) *)
+(* DO NOT EDIT (digest: 1d3589f0ef7ed90f3b66744bac812d8e) *)
 module OASISGettext = struct
 (* # 21 "/Users/mmottl/local/darwin11.3.0/src/oasis-0.3.0/src/oasis/OASISGettext.ml" *)
 
@@ -490,12 +490,26 @@ let package_default =
           (["oasis_library_lacaml_ccopt"; "compile"],
             [
                (OASISExpr.EBool true,
-                 S [A "-ccopt"; A "-O2"; A "-ccopt"; A "-DPIC"]);
+                 S
+                   [
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC"
+                   ]);
                (OASISExpr.ETest ("system", "mingw"),
                  S
                    [
                       A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
                       A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
                       A "-ccopt";
@@ -505,7 +519,11 @@ let package_default =
                  S
                    [
                       A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
                       A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
                       A "-ccopt";
@@ -521,9 +539,133 @@ let package_default =
                  S
                    [
                       A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
                       A "-O2";
                       A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-framework";
+                      A "-ccopt";
+                      A "vecLib";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EFlag "strict",
+                    OASISExpr.ETest ("ccomp_type", "cc")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EFlag "strict",
+                       OASISExpr.ETest ("ccomp_type", "cc")),
+                    OASISExpr.ETest ("system", "mingw")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EFlag "strict",
+                       OASISExpr.ETest ("ccomp_type", "cc")),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-framework";
+                      A "-ccopt";
+                      A "vecLib"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EFlag "strict",
+                          OASISExpr.ETest ("ccomp_type", "cc")),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-O2";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -563,7 +705,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 567 "myocamlbuild.ml"
+# 709 "myocamlbuild.ml"
 (* OASIS_STOP *)
 # 502 "myocamlbuild.ml"
 

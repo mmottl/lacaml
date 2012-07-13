@@ -62,7 +62,7 @@ CAMLprim value LFUN(transpose_copy_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(transpose_copy_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(transpose_copy_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(transpose_copy_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
@@ -105,7 +105,7 @@ CAMLprim value LFUN(scal_mat_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(scal_mat_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
@@ -138,7 +138,7 @@ CAMLprim value LFUN(scal_cols_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(scal_cols_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(scal_cols_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(scal_cols_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
@@ -171,7 +171,7 @@ CAMLprim value LFUN(scal_rows_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(scal_rows_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(scal_rows_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(scal_rows_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
@@ -217,7 +217,7 @@ CAMLprim value LFUN(mat_axpy_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(mat_axpy_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(mat_axpy_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(mat_axpy_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
@@ -378,7 +378,7 @@ CAMLprim value LFUN(gemm_diag_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(gemm_diag_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gemm_diag_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(gemm_diag_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
@@ -445,7 +445,7 @@ CAMLprim value LFUN(syrk_diag_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(syrk_diag_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(syrk_diag_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(syrk_diag_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
@@ -604,7 +604,7 @@ end:
   CAMLreturn(COPY_NUMBER(res));
 }
 
-CAMLprim value LFUN(gemm_trace_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gemm_trace_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(gemm_trace_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
@@ -725,7 +725,7 @@ CAMLprim value LFUN(symm2_trace_stub)(
   CAMLreturn(COPY_NUMBER(res));
 }
 
-CAMLprim value LFUN(symm2_trace_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(symm2_trace_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(symm2_trace_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],

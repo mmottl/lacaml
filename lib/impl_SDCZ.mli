@@ -551,19 +551,17 @@ val lassq :
 
 val larnv :
   ?idist : [ `Uniform0 | `Uniform1 | `Normal ] ->
-  ?ofsiseed : int ->
   ?iseed : int32_vec ->
   ?n : int ->
   ?ofsx : int ->
   ?x : vec ->
   unit ->
   vec
-(** [larnv ?idist ?ofsiseed ?iseed ?n ?ofsx ?x ()] @return a random
+(** [larnv ?idist ?iseed ?n ?ofsx ?x ()] @return a random
     vector with random distribution as specifified by [idist], random seed
     [iseed], vector offset [ofsx] and optional vector [x].
 
     @param idist default = [`Normal]
-    @param ofsiseed default = [1]
     @param iseed default = integer vector of size 4 with all ones.
     @param n default = length of [x] if [x] is provided, [1] otherwise.
     @param ofsx default = [1]

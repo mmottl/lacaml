@@ -68,7 +68,7 @@ CAMLprim value LFUN(dot_stub)(
   CAMLreturn(caml_copy_double(res));
 }
 
-CAMLprim value LFUN(dot_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(dot_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(dot_stub)(argv[0], argv[1], argv[2], argv[3],
                         argv[4], argv[5], argv[6]);
@@ -153,7 +153,7 @@ CAMLprim value LFUN(sbmv_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(sbmv_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(sbmv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(sbmv_stub)(
@@ -202,7 +202,7 @@ CAMLprim value LFUN(ger_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(ger_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(ger_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(ger_stub)(
@@ -250,7 +250,7 @@ CAMLprim value LFUN(syr_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(syr_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(syr_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(syr_stub)(
@@ -298,7 +298,7 @@ CAMLprim value LFUN(lansy_stub)(
   CAMLreturn(caml_copy_double(res));
 }
 
-CAMLprim value LFUN(lansy_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(lansy_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(lansy_stub)(
@@ -359,7 +359,7 @@ CAMLprim value LFUN(orgqr_stub)(
   CAMLreturn(Val_int(INFO));
 }
 
-CAMLprim value LFUN(orgqr_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(orgqr_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(orgqr_stub)(
@@ -420,7 +420,7 @@ CAMLprim value LFUN(ormqr_stub)(
   CAMLreturn(Val_int(INFO));
 }
 
-CAMLprim value LFUN(ormqr_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(ormqr_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(ormqr_stub)(
@@ -479,7 +479,7 @@ CAMLprim value LFUN(gecon_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(gecon_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gecon_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gecon_stub)(
@@ -540,7 +540,7 @@ CAMLprim value LFUN(sycon_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(sycon_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(sycon_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(sycon_stub)(
@@ -597,7 +597,7 @@ CAMLprim value LFUN(pocon_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(pocon_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(pocon_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(pocon_stub)(
@@ -669,7 +669,7 @@ CAMLprim value LFUN(gelsy_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(gelsy_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gelsy_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gelsy_stub)(
@@ -742,7 +742,7 @@ CAMLprim value LFUN(gelsd_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(gelsd_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gelsd_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gelsd_stub)(
@@ -812,7 +812,7 @@ CAMLprim value LFUN(gelss_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(gelss_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gelss_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gelss_stub)(
@@ -875,7 +875,7 @@ CAMLprim value LFUN(gesvd_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(gesvd_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gesvd_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gesvd_stub)(
@@ -940,7 +940,7 @@ CAMLprim value LFUN(gesdd_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(gesdd_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(gesdd_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gesdd_stub)(
@@ -1014,7 +1014,7 @@ CAMLprim value LFUN(geev_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(geev_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(geev_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(geev_stub)(
@@ -1072,7 +1072,7 @@ CAMLprim value LFUN(syev_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(syev_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(syev_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(syev_stub)(
@@ -1131,7 +1131,7 @@ CAMLprim value LFUN(syevd_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(syevd_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(syevd_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(syevd_stub)(
@@ -1192,7 +1192,7 @@ CAMLprim value LFUN(sbev_stub)(
   CAMLreturn(Val_long(INFO));
 }
 
-CAMLprim value LFUN(sbev_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(sbev_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(sbev_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
@@ -1240,8 +1240,7 @@ CAMLprim value LFUN(syevr_stub)(
   value vZR, value vZC, value vZ,
   value vISUPPZ,
   value vWORK, value vLWORK,
-  value vIWORK, value vLIWORK,
-  value vINFO)
+  value vIWORK, value vLIWORK)
 {
   CAMLparam5(vA, vW, vZ, vISUPPZ, vWORK);
   CAMLxparam1(vIWORK);
@@ -1297,14 +1296,13 @@ CAMLprim value LFUN(syevr_stub)(
   CAMLreturn(v_res);
 }
 
-CAMLprim value LFUN(syevr_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(syevr_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(syevr_stub)(
       argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
       argv[8], argv[9], argv[10], argv[11], argv[12], argv[13], argv[14],
-      argv[15], argv[16], argv[17], argv[18], argv[19], argv[20], argv[21],
-      argv[22]);
+      argv[15], argv[16], argv[17], argv[18], argv[19], argv[20], argv[21]);
 }
 
 /** TODO: SYEVX */
@@ -1380,7 +1378,7 @@ CAMLprim value LFUN(sygv_stub)(
   CAMLreturn(Val_int(INFO));
 }
 
-CAMLprim value LFUN(sygv_stub_bc)(value *argv, int argn)
+CAMLprim value LFUN(sygv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(sygv_stub)(
@@ -1459,7 +1457,7 @@ CAMLexport value LFUN(sbgv_stub)(
   CAMLreturn(Val_int(INFO));
 }
 
-CAMLexport value LFUN(sbgv_stub_bc)(value *argv, int argn)
+CAMLexport value LFUN(sbgv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(sbgv_stub)(
