@@ -1,3 +1,9 @@
+2012-07-15:  Minor release version 7.0.2:
+
+               * Rewrote README in Markdown
+               * Added stricter compilation flags
+               * Fixed a few minor bugs discovered due to improved warnings
+
 2012-06-11:  Several fixes for the upcoming OCaml 4.00 release.
 
 2012-04-30:  New major release version 7.0.0!
