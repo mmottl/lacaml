@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 8b06b8beb71c8257dd71e3e2a676985b) *)
+(* DO NOT EDIT (digest: a9b66376854a48fc353889c41841d343) *)
 module OASISGettext = struct
 (* # 21 "/Users/mmottl/local/darwin11.3.0/src/oasis-0.3.0/src/oasis/OASISGettext.ml" *)
 
@@ -533,11 +533,7 @@ let package_default =
                       A "-ccopt";
                       A "-DPIC";
                       A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-framework";
-                      A "-ccopt";
-                      A "vecLib"
+                      A "-DEXTERNAL_EXP10"
                    ]);
                (OASISExpr.EAnd
                   (OASISExpr.ETest ("system", "macosx"),
@@ -556,10 +552,6 @@ let package_default =
                       A "-DPIC";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-framework";
-                      A "-ccopt";
-                      A "vecLib";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10"
                    ]);
@@ -647,11 +639,7 @@ let package_default =
                       A "-ccopt";
                       A "-Wno-long-long";
                       A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-framework";
-                      A "-ccopt";
-                      A "vecLib"
+                      A "-DEXTERNAL_EXP10"
                    ]);
                (OASISExpr.EAnd
                   (OASISExpr.EAnd
@@ -685,10 +673,6 @@ let package_default =
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
-                      A "-framework";
-                      A "-ccopt";
-                      A "vecLib";
-                      A "-ccopt";
                       A "-DEXTERNAL_EXP10"
                    ])
             ]);
@@ -721,7 +705,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 725 "myocamlbuild.ml"
+# 709 "myocamlbuild.ml"
 (* OASIS_STOP *)
 # 502 "myocamlbuild.ml"
 

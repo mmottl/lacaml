@@ -60,7 +60,7 @@ Library lacaml
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long
   CCLib:         -lblas -llapack
   if system(macosx)
-    CCOpt+:      -DEXTERNAL_EXP10 -framework vecLib
+    CCOpt+:      -DEXTERNAL_EXP10
     CCLib:       -framework vecLib
   # FIXME: mingw is untested!!!
   if system(mingw)
