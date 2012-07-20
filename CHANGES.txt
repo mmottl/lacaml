@@ -1,3 +1,6 @@
+2012-07-20:  Downgraded findlib version requirement to support the Debian
+             testing branch.
+
 2012-07-15:  Minor release version 7.0.2:
 
                * Rewrote README in Markdown
