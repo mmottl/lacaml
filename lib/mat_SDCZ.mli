@@ -315,10 +315,10 @@ val gemm_trace :
   mat ->
   num_type
 (** [gemm_trace ?n ?k ?transa ?ar ?ac a ?transb ?br ?bc b] computes
-    the trace of the product of the (sub-)matrices [a] and [b]
-    (taking into account potential transposing).  [n] is the number
-    of rows (columns) to consider in [a], and [k] the number of
-    columns (rows) in [b].
+    the trace of the product of the (sub-)matrices [a] and [b] (taking into
+    account potential transposing).  This is also sometimes referred to as
+    the Frobenius product.  [n] is the number of rows (columns) to consider in
+    [a], and [k] the number of columns (rows) in [b].
 
     @param n default = number of rows of [a] (or tr [a]) and
                        number of columns of [b] (or tr [b])
@@ -340,10 +340,10 @@ val syrk_trace :
   mat ->
   num_type
 (** [syrk_trace ?n ?k ?ar ?ac a] computes the trace of either [a' * a]
-    or [a * a'], whichever is more efficient (results are identical),
-    of the (sub-)matrix [a] multiplied by its own transpose.  [n]
-    is the number of rows to consider in [a], and [k] the number
-    of columns to consider.
+    or [a * a'], whichever is more efficient (results are identical), of the
+    (sub-)matrix [a] multiplied by its own transpose.  This is the same as
+    the square of the Frobenius norm of a matrix.  [n] is the number of rows
+    to consider in [a], and [k] the number of columns to consider.
 
     @param n default = number of rows of [a]
     @param k default = number of columns of [a]
