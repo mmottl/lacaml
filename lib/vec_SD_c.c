@@ -209,9 +209,34 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(dst, x) *dst = sqrt(x)
 #include "vec_map.c"
 
+#define NAME LFUN(exp_stub)
+#define BC_NAME LFUN(exp_stub_bc)
+#define FUNC(dst, x) *dst = exp(x)
+#include "vec_map.c"
+
+#define NAME LFUN(log_stub)
+#define BC_NAME LFUN(log_stub_bc)
+#define FUNC(dst, x) *dst = log(x)
+#include "vec_map.c"
+
+#define NAME LFUN(sin_stub)
+#define BC_NAME LFUN(sin_stub_bc)
+#define FUNC(dst, x) *dst = sin(x)
+#include "vec_map.c"
+
+#define NAME LFUN(cos_stub)
+#define BC_NAME LFUN(cos_stub_bc)
+#define FUNC(dst, x) *dst = cos(x)
+#include "vec_map.c"
+
 #define NAME LFUN(neg_stub)
 #define BC_NAME LFUN(neg_stub_bc)
 #define FUNC(dst, x) *dst = - x
+#include "vec_map.c"
+
+#define NAME LFUN(reci_stub)
+#define BC_NAME LFUN(reci_stub_bc)
+#define FUNC(dst, x) *dst = 1 / x
 #include "vec_map.c"
 
 #define NAME LFUN(add_stub)

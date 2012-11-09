@@ -1,3 +1,7 @@
+2012-11-09:  Added new functions:
+
+               * Vec.{reci,exp,log,sin,cos}  (currently for real numbers only)
+
 2012-07-20:  Downgraded findlib version requirement to support the Debian
              testing branch.
 

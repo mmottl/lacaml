@@ -137,7 +137,7 @@ external direct_copy :
 
 let of_col_vecs ar =
   let n = Array.length ar in
-  if n = 0 then create 0 0
+  if n = 0 then empty
   else
     let m = Array1.dim ar.(0) in
     let mat = create m n in

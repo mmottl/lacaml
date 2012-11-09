@@ -43,7 +43,31 @@ val random :
 
     @param rnd_state default = Random.get_state ()
     @param from default = -1.0
-    @param range default = 2.0 *)
+    @param range default = 2.0
+*)
+
+val reci :
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [reci ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the reciprocal value
+    of [n] elements of the vector [x] using [incx] as incremental steps.
+    If [y] is given, the result will be stored in there using increments of
+    [incy], otherwise a fresh vector will be used.  The resulting vector
+    is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
 
 val sqr :
   ?n : int ->
@@ -82,6 +106,96 @@ val sqrt :
     steps.   If [y] is given, the result will be stored in there
     using increments of [incy], otherwise a fresh vector will be
     used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val exp :
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [exp ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the exponential
+    of [n] elements of the vector [x] using [incx] as incremental
+    steps.   If [y] is given, the result will be stored in there
+    using increments of [incy], otherwise a fresh vector will be
+    used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val log :
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [log ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the logarithm
+    of [n] elements of the vector [x] using [incx] as incremental
+    steps.   If [y] is given, the result will be stored in there
+    using increments of [incy], otherwise a fresh vector will be
+    used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val sin :
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [sin ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the sine of [n] elements
+    of the vector [x] using [incx] as incremental steps.   If [y] is given,
+    the result will be stored in there using increments of [incy], otherwise
+    a fresh vector will be used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val cos :
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [cos ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the cosine of [n] elements
+    of the vector [x] using [incx] as incremental steps.   If [y] is given,
+    the result will be stored in there using increments of [incy], otherwise
+    a fresh vector will be used.  The resulting vector is returned.
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsy default = 1

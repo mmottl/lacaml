@@ -41,6 +41,32 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) n =
   if rnd_state = None then Random.set_state state;
   vec
 
+let get_y_params ~loc ~ofsy ~incy ~n y =
+  let min_dim_y = ofsy + (n - 1) * abs incy in
+  match y with
+  | Some y -> check_vec loc y_str y min_dim_y; y, ofsy, incy
+  | None -> create min_dim_y, 1, 1
+
+external direct_reci :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECreci_stub_bc" "lacaml_FPRECreci_stub"
+
+let vec_reci_loc = "Vec.reci"
+
+let reci ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_reci_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_reci_loc y_str ofsy incy in
+  let n = get_dim_vec vec_reci_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_reci_loc ~ofsy ~incy ~n y in
+  direct_reci ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
 external direct_sqr :
   n : int ->
   ofsy : int ->
@@ -51,19 +77,13 @@ external direct_sqr :
   x : vec ->
   unit = "lacaml_FPRECsqr_stub_bc" "lacaml_FPRECsqr_stub"
 
-let vec_sqr_str = "Vec.sqr"
-
-let get_y_params ~ofsy ~incy ~n y =
-  let min_dim_y = ofsy + (n - 1) * abs incy in
-  match y with
-  | Some y -> check_vec vec_sqr_str y_str y min_dim_y; y, ofsy, incy
-  | None -> create min_dim_y, 1, 1
+let vec_sqr_loc = "Vec.sqr"
 
 let sqr ?n ?ofsy ?incy ?y ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom vec_sqr_str x_str ofsx incx in
-  let ofsy, incy = get_vec_geom vec_sqr_str y_str ofsy incy in
-  let n = get_dim_vec vec_sqr_str x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~ofsy ~incy ~n y in
+  let ofsx, incx = get_vec_geom vec_sqr_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_sqr_loc y_str ofsy incy in
+  let n = get_dim_vec vec_sqr_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_sqr_loc ~ofsy ~incy ~n y in
   direct_sqr ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -77,12 +97,92 @@ external direct_sqrt :
   x : vec ->
   unit = "lacaml_FPRECsqrt_stub_bc" "lacaml_FPRECsqrt_stub"
 
-let vec_sqrt_str = "Vec.sqrt"
+let vec_sqrt_loc = "Vec.sqrt"
 
 let sqrt ?n ?ofsy ?incy ?y ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom vec_sqrt_str x_str ofsx incx in
-  let ofsy, incy = get_vec_geom vec_sqrt_str y_str ofsy incy in
-  let n = get_dim_vec vec_sqrt_str x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~ofsy ~incy ~n y in
+  let ofsx, incx = get_vec_geom vec_sqrt_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_sqrt_loc y_str ofsy incy in
+  let n = get_dim_vec vec_sqrt_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_sqrt_loc ~ofsy ~incy ~n y in
   direct_sqrt ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
+external direct_exp :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECexp_stub_bc" "lacaml_FPRECexp_stub"
+
+let vec_exp_loc = "Vec.exp"
+
+let exp ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_exp_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_exp_loc y_str ofsy incy in
+  let n = get_dim_vec vec_exp_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_exp_loc ~ofsy ~incy ~n y in
+  direct_exp ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
+external direct_log :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPREClog_stub_bc" "lacaml_FPREClog_stub"
+
+let vec_log_loc = "Vec.log"
+
+let log ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_log_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_log_loc y_str ofsy incy in
+  let n = get_dim_vec vec_log_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_log_loc ~ofsy ~incy ~n y in
+  direct_log ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
+external direct_sin :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECsin_stub_bc" "lacaml_FPRECsin_stub"
+
+let vec_sin_loc = "Vec.sin"
+
+let sin ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_sin_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_sin_loc y_str ofsy incy in
+  let n = get_dim_vec vec_sin_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_sin_loc ~ofsy ~incy ~n y in
+  direct_sin ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
+external direct_cos :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECcos_stub_bc" "lacaml_FPRECcos_stub"
+
+let vec_cos_loc = "Vec.cos"
+
+let cos ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_cos_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_cos_loc y_str ofsy incy in
+  let n = get_dim_vec vec_cos_loc x_str ofsx incx x n_str n in
+  let y, ofsy, incy = get_y_params ~loc:vec_cos_loc ~ofsy ~incy ~n y in
+  direct_cos ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
