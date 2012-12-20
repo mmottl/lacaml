@@ -148,7 +148,7 @@ let get_vec loc vec_name vec ofs inc min_elem vec_create =
   let min_dim = ofs + (min_elem - 1) * abs inc in
   match vec with
   | Some vec -> check_vec loc vec_name vec min_dim; vec
-  | _ -> vec_create min_dim
+  | None -> vec_create min_dim
 
 let check_dim1_mat loc mat_name mat mat_r m_name m =
   let dim1 = Array2.dim1 mat in
