@@ -1,5 +1,6 @@
 2012-12-20:  Fixed a bug in vector functions concerning the handling of
-             offsets and increments.  Minor fixes and cleanups.
+             offsets and increments.  Minor fixes and cleanups.  Documentation
+             improvements.
 
 2012-11-09:  Added new functions:
 

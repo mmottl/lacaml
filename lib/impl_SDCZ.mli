@@ -140,7 +140,8 @@ val gemv :
   vec ->
   vec
 (** [gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x]
-    see BLAS documentation!
+    see BLAS documentation!  BEWARE that, when [n=0], this function
+    has no effect while it should compute [y ← beta * y].
     @return vector [y], which is overwritten.
     @param m default = number of available rows in matrix [a]
     @param n default = available columns in matrix [a]
