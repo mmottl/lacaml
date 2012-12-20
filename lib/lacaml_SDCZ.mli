@@ -73,6 +73,11 @@ module Common : sig
   include module type of Common
 end
 
+(** Utility functions *)
+module Utils : sig
+  include module type of Utils
+end
+
 (** Double precision real BLAS and LAPACK functions. *)
 module D : sig
   include module type of D
