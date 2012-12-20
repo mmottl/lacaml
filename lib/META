@@ -1,6 +1,6 @@
 # OASIS_START
-# DO NOT EDIT (digest: c4321bd2788972728bc42a0d08fb43fc)
-version = "7.0.4"
+# DO NOT EDIT (digest: 76e95d2f708be489cc98439d3f294f70)
+version = "7.0.5"
 description = "OCaml-bindings to BLAS and LAPACK."
 requires = "bigarray"
 archive(byte) = "lacaml.cma"
@@ -9,7 +9,7 @@ archive(native) = "lacaml.cmxa"
 archive(native, plugin) = "lacaml.cmxs"
 exists_if = "lacaml.cma"
 package "top" (
- version = "7.0.4"
+ version = "7.0.5"
  description = "Toplevel module for Lacaml."
  requires = "lacaml"
  archive(byte) = "lacaml_top.cma"
