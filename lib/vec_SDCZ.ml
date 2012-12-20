@@ -159,10 +159,10 @@ let map f ?n ?ofsy ?incy ?y ?ofsx ?incx (x : vec) =
   let ofsy, incy = get_vec_geom vec_map_str y_str ofsy incy in
   let n = get_dim_vec vec_map_str x_str ofsx incx x n_str n in
   let min_dim_y = ofsy + (n - 1) * abs incy in
-  let y, ofsy, incy =
+  let y =
     match y with
-    | Some y -> check_vec vec_map_str y_str y min_dim_y; y, ofsy, incy
-    | None -> create min_dim_y, 1, 1
+    | Some y -> check_vec vec_map_str y_str y min_dim_y; y
+    | None -> create min_dim_y
   in
   let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
   let j_ref = ref (if incy > 0 then ofsy else min_dim_y) in
@@ -439,16 +439,13 @@ external direct_neg :
 
 let vec_neg_str = "Vec.neg"
 
+let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
+
 let neg ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_neg_str x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_neg_str y_str ofsy incy in
   let n = get_dim_vec vec_neg_str x_str ofsx incx x n_str n in
-  let y, ofsy, incy =
-    let min_dim_y = ofsy + (n - 1) * abs incy in
-    match y with
-    | Some y -> check_vec vec_neg_str y_str y min_dim_y; y, ofsy, incy
-    | None -> create min_dim_y, 1, 1
-  in
+  let y = get_y_vec ~loc:vec_neg_str ~ofsy ~incy ~n y in
   direct_neg ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -472,17 +469,15 @@ external direct_add :
 
 let vec_add_str = "Vec.add"
 
+let get_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n create
+
 let add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
   let ofsz, incz = get_vec_geom vec_add_str z_str ofsz incz
   and ofsx, incx = get_vec_geom vec_add_str x_str ofsx incx
   and ofsy, incy = get_vec_geom vec_add_str y_str ofsy incy in
   let n = get_dim_vec vec_add_str x_str ofsx incx x n_str n in
   check_vec vec_add_str y_str y (ofsy + (n - 1) * abs incy);
-  let z, ofsz, incz =
-    let min_dim_z = ofsz + (n - 1) * abs incz in
-    match z with
-    | Some z -> check_vec vec_add_str z_str z min_dim_z; z, ofsz, incz
-    | None -> create min_dim_z, 1, 1 in
+  let z = get_z_vec ~loc:vec_add_str ~ofsz ~incz ~n z in
   direct_add ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
   z
 
@@ -510,11 +505,7 @@ let sub ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
   and ofsy, incy = get_vec_geom vec_sub_str y_str ofsy incy in
   let n = get_dim_vec vec_sub_str x_str ofsx incx x n_str n in
   check_vec vec_sub_str y_str y (ofsy + (n - 1) * abs incy);
-  let z, ofsz, incz =
-    let min_dim_z = ofsz + (n - 1) * abs incz in
-    match z with
-    | Some z -> check_vec vec_sub_str z_str z min_dim_z; z, ofsz, incz
-    | None -> create min_dim_z, 1, 1 in
+  let z = get_z_vec ~loc:vec_sub_str ~ofsz ~incz ~n z in
   direct_sub ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
   z
 
@@ -542,11 +533,7 @@ let mul ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
   and ofsy, incy = get_vec_geom vec_mul_str y_str ofsy incy in
   let n = get_dim_vec vec_mul_str x_str ofsx incx x n_str n in
   check_vec vec_mul_str y_str y (ofsy + (n - 1) * abs incy);
-  let z, ofsz, incz =
-    let min_dim_z = ofsz + (n - 1) * abs incz in
-    match z with
-    | Some z -> check_vec vec_mul_str z_str z min_dim_z; z, ofsz, incz
-    | None -> create min_dim_z, 1, 1 in
+  let z = get_z_vec ~loc:vec_mul_str ~ofsz ~incz ~n z in
   direct_mul ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
   z
 
@@ -573,11 +560,7 @@ let div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
   and ofsy, incy = get_vec_geom vec_div_str y_str ofsy incy in
   let n = get_dim_vec vec_div_str x_str ofsx incx x n_str n in
   check_vec vec_div_str y_str y (ofsy + (n - 1) * abs incy);
-  let z, ofsz, incz =
-    let min_dim_z = ofsz + (n - 1) * abs incz in
-    match z with
-    | Some z -> check_vec vec_div_str z_str z min_dim_z; z, ofsz, incz
-    | None -> create min_dim_z, 1, 1 in
+  let z = get_z_vec ~loc:vec_div_str ~ofsz ~incz ~n z in
   direct_div ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
   z
 
