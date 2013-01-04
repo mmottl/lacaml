@@ -25,7 +25,6 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "f2c.h"
 #include "lacaml_macros.h"
 
 CAMLprim value NAME(

@@ -37,6 +37,7 @@
 #include <caml/bigarray.h>
 #include <caml/signals.h>
 
+#include "f2c.h"
 #include "utils_c.h"
 
 /* Defines precision-dependent macros */

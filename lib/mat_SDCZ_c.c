@@ -23,7 +23,6 @@
 
 #include <string.h>
 #include "lacaml_macros.h"
-#include "f2c.h"
 
 static integer integer_one = 1;
 static NUMBER number_zero = NUMBER_ZERO;

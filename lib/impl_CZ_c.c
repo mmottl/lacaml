@@ -33,7 +33,6 @@
 */
 
 #include "lacaml_macros.h"
-#include "f2c.h"
 
 /*** BLAS-1 */
 

@@ -23,7 +23,6 @@
 
 #include <math.h>
 #include "lacaml_macros.h"
-#include "f2c.h"
 
 static REAL LACAML_INF = 1. / 0.;
 static COMPLEX LACAML_COMPLEX_INF = { 1. / 0., 1. / 0. };

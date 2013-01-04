@@ -22,7 +22,6 @@
 */
 
 #include "lacaml_macros.h"
-#include "f2c.h"
 
 /** ILAENV: fetch problem-dependent parameters for LAPACK-functions */
 
