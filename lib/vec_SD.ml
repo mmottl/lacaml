@@ -41,11 +41,7 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) n =
   if rnd_state = None then Random.set_state state;
   vec
 
-let get_y_params ~loc ~ofsy ~incy ~n y =
-  let min_dim_y = ofsy + (n - 1) * abs incy in
-  match y with
-  | Some y -> check_vec loc y_str y min_dim_y; y, ofsy, incy
-  | None -> create min_dim_y, 1, 1
+let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 
 external direct_reci :
   n : int ->
@@ -63,7 +59,7 @@ let reci ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_reci_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_reci_loc y_str ofsy incy in
   let n = get_dim_vec vec_reci_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_reci_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_reci_loc ~ofsy ~incy ~n y in
   direct_reci ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -83,7 +79,7 @@ let sqr ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_sqr_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_sqr_loc y_str ofsy incy in
   let n = get_dim_vec vec_sqr_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_sqr_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_sqr_loc ~ofsy ~incy ~n y in
   direct_sqr ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -103,7 +99,7 @@ let sqrt ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_sqrt_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_sqrt_loc y_str ofsy incy in
   let n = get_dim_vec vec_sqrt_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_sqrt_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_sqrt_loc ~ofsy ~incy ~n y in
   direct_sqrt ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -123,7 +119,7 @@ let exp ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_exp_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_exp_loc y_str ofsy incy in
   let n = get_dim_vec vec_exp_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_exp_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_exp_loc ~ofsy ~incy ~n y in
   direct_exp ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -143,7 +139,7 @@ let log ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_log_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_log_loc y_str ofsy incy in
   let n = get_dim_vec vec_log_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_log_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_log_loc ~ofsy ~incy ~n y in
   direct_log ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -163,7 +159,7 @@ let sin ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_sin_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_sin_loc y_str ofsy incy in
   let n = get_dim_vec vec_sin_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_sin_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_sin_loc ~ofsy ~incy ~n y in
   direct_sin ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
@@ -183,6 +179,6 @@ let cos ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_cos_loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_cos_loc y_str ofsy incy in
   let n = get_dim_vec vec_cos_loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy = get_y_params ~loc:vec_cos_loc ~ofsy ~incy ~n y in
+  let y = get_y_vec ~loc:vec_cos_loc ~ofsy ~incy ~n y in
   direct_cos ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y

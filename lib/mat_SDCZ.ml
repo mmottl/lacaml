@@ -67,20 +67,21 @@ let make_mvec m x = make m 1 x
 let mvec_of_array ar =
   let n = Array.length ar in
   let mat = create_mvec n in
-  if n <> 0 then
-    for row = 1 to n do mat.{row, 1} <- ar.(row - 1) done;
+  for row = 1 to n do mat.{row, 1} <- ar.(row - 1) done;
   mat
 
 let dim1 (mat : mat) = Array2.dim1 mat
 let dim2 (mat : mat) = Array2.dim2 mat
 
 let mvec_to_array mat =
-  let n = dim1 mat in
-  if n = 0 then [||]
+  if dim2 mat <> 1 then failwith "mvec_to_array: more than one column"
   else
-    let ar = Array.make n mat.{1, 1} in
-    for row = 2 to n do ar.(row - 1) <- mat.{row, 1} done;
-    ar
+    let n = dim1 mat in
+    if n = 0 then [||]
+    else
+      let ar = Array.make n mat.{1, 1} in
+      for row = 2 to n do ar.(row - 1) <- mat.{row, 1} done;
+      ar
 
 let from_col_vec vec = reshape_2 (genarray_of_array1 vec) (Array1.dim vec) 1
 let from_row_vec vec = reshape_2 (genarray_of_array1 vec) 1 (Array1.dim vec)
