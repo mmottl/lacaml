@@ -161,6 +161,14 @@ Executable svd
   Install:        false
   CompiledObject: best
 
+Executable nag_gbsv
+  Path:           examples/nag
+  MainIs:         nag_gbsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 #
 
 Document API
