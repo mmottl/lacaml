@@ -37,6 +37,9 @@ setup.data:
 
 # OASIS_STOP
 
+setup.ml: _oasis
+	oasis setup -setup-update dynamic
+
 WEB = lacaml.forge.ocamlcore.org:/home/groups/lacaml/htdocs/
 
 upload-doc: doc

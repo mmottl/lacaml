@@ -161,6 +161,80 @@ Executable svd
   Install:        false
   CompiledObject: best
 
+# NAG example (http://www.nag.com/lapack-ex/lapack-ex.html)
+
+Executable nag_gbsv
+  Path:           examples/nag
+  MainIs:         nag_gbsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_gesv
+  Path:           examples/nag
+  MainIs:         nag_gesv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_gtsv
+  Path:           examples/nag
+  MainIs:         nag_gtsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_pbsv
+  Path:           examples/nag
+  MainIs:         nag_pbsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_posv
+  Path:           examples/nag
+  MainIs:         nag_posv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_ppsv
+  Path:           examples/nag
+  MainIs:         nag_ppsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_ptsv
+  Path:           examples/nag
+  MainIs:         nag_ptsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_spsv
+  Path:           examples/nag
+  MainIs:         nag_spsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_sysv
+  Path:           examples/nag
+  MainIs:         nag_sysv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 #
 
 Document API
