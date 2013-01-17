@@ -227,6 +227,14 @@ Executable nag_spsv
   Install:        false
   CompiledObject: best
 
+Executable nag_sysv
+  Path:           examples/nag
+  MainIs:         nag_sysv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 #
 
 Document API
