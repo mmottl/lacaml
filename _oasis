@@ -179,6 +179,14 @@ Executable nag_gesv
   Install:        false
   CompiledObject: best
 
+Executable nag_gtsv
+  Path:           examples/nag
+  MainIs:         nag_gtsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 #
 
 Document API
