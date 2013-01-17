@@ -161,9 +161,19 @@ Executable svd
   Install:        false
   CompiledObject: best
 
+# NAG example (http://www.nag.com/lapack-ex/lapack-ex.html)
+
 Executable nag_gbsv
   Path:           examples/nag
   MainIs:         nag_gbsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable nag_gesv
+  Path:           examples/nag
+  MainIs:         nag_gesv.ml
   Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
