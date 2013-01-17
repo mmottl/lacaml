@@ -203,6 +203,14 @@ Executable nag_posv
   Install:        false
   CompiledObject: best
 
+Executable nag_ppsv
+  Path:           examples/nag
+  MainIs:         nag_ppsv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 #
 
 Document API
