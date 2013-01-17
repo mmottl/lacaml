@@ -1,3 +1,15 @@
+2012-01-17:  Improved build file generation to avoid regenerating
+             build files during the development process, which would clobber
+             the VCS changelog.  The build files will now only be rebuilt
+             manually shortly before a release.
+
+             Added numerous examples from NAG (Numerical Algorithm Group):
+
+               http://www.nag.com/lapack-ex/node3.html
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
+             for the examples and improvements!
+
 2012-12-20:  Fixed a bug in vector functions concerning the handling of
              offsets and increments.  Minor fixes and cleanups.  Documentation
              improvements.
