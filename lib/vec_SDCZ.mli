@@ -259,9 +259,6 @@ val sort :
     @param incx default = 1
  *)
 
-
-(** {6 Operations on two vectors} *)
-
 val neg :
   ?n : int ->
   ?ofsy : int ->
@@ -281,6 +278,9 @@ val neg :
     @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
     @param ofsx default = 1
     @param incx default = 1 *)
+
+
+(** {6 Operations on two vectors} *)
 
 val add :
   ?n : int ->
