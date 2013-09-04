@@ -27,7 +27,6 @@
 
 (* Matrix operations *)
 
-open Bigarray
 open Common
 open Numberxx
 

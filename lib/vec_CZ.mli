@@ -27,7 +27,6 @@
 
 (** {5 Vector operations} *)
 
-open Bigarray
 open Complexxx
 
 (** {6 Creation of vectors} *)

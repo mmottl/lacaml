@@ -72,6 +72,7 @@ end
 module Common : sig
   include module type of Common
 end
+open Common
 
 (** Utility functions *)
 module Utils : sig

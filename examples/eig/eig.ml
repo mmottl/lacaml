@@ -31,7 +31,6 @@
 
 open Format
 
-open Lacaml.D
 open Lacaml.Io
 
 let () = Random.self_init ()
@@ -39,6 +38,7 @@ let () = Random.self_init ()
 (* SYEV DEMO *)
 
 let () =
+  let open Lacaml.D in
   let n = 5 in
 
   let a = Mat.random ~from:(-500.) ~range:1000. n n in
@@ -56,6 +56,7 @@ let () =
 (* GEEV DEMO *)
 
 let () =
+  let open Lacaml.D in
   let n = 5 in
 
   let a = Mat.make0 n n in
@@ -84,9 +85,8 @@ let () =
 
 (* CGEEV DEMO *)
 
-open Lacaml.C
-
 let () =
+  let open Lacaml.C in
   let n = 3 in
 
   let a =

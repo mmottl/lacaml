@@ -27,7 +27,6 @@
 
 (** {5 Matrix operations} *)
 
-open Bigarray
 open Floatxx
 
 (** {6 Creation of matrices} *)

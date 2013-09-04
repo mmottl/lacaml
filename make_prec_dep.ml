@@ -159,7 +159,7 @@ let () =
 let include_re =
   Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+_[SDCZ]\\|\
               Io\\|Common\\|[SDCZ]\\|Real_io\\|Complex_io\\)$"
-let open_ba_re = Str.regexp " *open Bigarray *[\n\r\t]?"
+let bad_open_re = Str.regexp " *open \\(Bigarray\\|Common\\) *[\n\r\t]?"
 let prec_re = Str.regexp " *open *\\(Float[0-9]+\\|Complex[0-9]+\\) *[\n\r\t]*"
 
 let rec substitute_mli ?comments ?(prefix="") fname =
@@ -176,7 +176,7 @@ and subst ~prefix ~fname s =
       failwith(sprintf "Substituting \"include module type of %s\" in %S but \
                         the file %S does not exist" mname fname fincl) in
   (* "open Bigarray" already present in the main file *)
-  let m = Str.global_replace open_ba_re "" m in
+  let m = Str.global_replace bad_open_re "" m in
   Str.global_replace prec_re "" m
 
 let () =

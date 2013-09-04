@@ -241,12 +241,12 @@ let orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a =
 
 let orgqr_opt_lwork ?m ?n ?k ~tau ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.orgqr_opt_lwork" in
-  let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
+  let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ~ar ~ac a in
   orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a
 
 let orgqr ?m ?n ?k ?work ~tau ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.orgqr" in
-  let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ?ar ?ac a in
+  let m, n, k = orgqr_get_params loc ?m ?n ?k ~tau ~ar ~ac a in
   let work, lwork =
     let min_lwork = orgqr_min_lwork ~n in
     let opt_lwork = orgqr_get_opt_lwork loc ~m ~n ~k ~tau ~ar ~ac ~a in

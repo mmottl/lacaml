@@ -31,7 +31,6 @@
 
 (* Interface to BLAS/LAPACK *)
 
-open Bigarray
 open Common
 open Numberxx
 

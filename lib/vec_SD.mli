@@ -27,7 +27,6 @@
 
 (** {5 Vector operations} *)
 
-open Bigarray
 open Floatxx
 
 (** {6 Creation of vectors} *)

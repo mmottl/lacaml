@@ -27,7 +27,6 @@
 
 (** {5 Matrix operations} *)
 
-open Bigarray
 open Complexxx
 
 (** {6 Creation of matrices} *)

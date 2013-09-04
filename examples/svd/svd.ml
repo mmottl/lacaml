@@ -33,9 +33,8 @@ open Lacaml.Io
 
 (* REAL GESVD DEMO *)
 
-open Lacaml.D
-
 let () =
+  let open Lacaml.D in
   let n = 3 in
   let a = Mat.hilbert n in
   printf "@[<2>General real matrix A = @[%a@]@]@\n@\n" pp_fmat a;
@@ -47,9 +46,8 @@ let () =
 
 (* COMPLEX GESVD DEMO *)
 
-open Lacaml.C
-
 let () =
+  let open Lacaml.C in
   let a = Mat.random 3 2 in
   printf "@\n%s@\n@\n" (String.make 80 '-');
   printf "@[<2>General complex matrix A =@\n@\n  @[%a@]@]@\n@\n" pp_cmat a;

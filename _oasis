@@ -1,6 +1,6 @@
 OASISFormat:      0.3
 Name:             lacaml
-Version:          7.0.7
+Version:          7.0.8
 Synopsis:         OCaml-bindings to BLAS and LAPACK.
 Description:      This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
@@ -68,6 +68,7 @@ Library lacaml
 
 Library lacaml_top
   Path:             lib
+  Pack:             true
   FindlibName:      top
   FindlibParent:    lacaml
   Modules:          Install_printers
