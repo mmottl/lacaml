@@ -258,6 +258,16 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(dst, x, y) *dst = x/y
 #include "vec_combine.c"
 
+#define NAME LFUN(zpxy_stub)
+#define BC_NAME LFUN(zpxy_stub_bc)
+#define FUNC(dst, x, y) *dst += x*y
+#include "vec_combine.c"
+
+#define NAME LFUN(zmxy_stub)
+#define BC_NAME LFUN(zmxy_stub_bc)
+#define FUNC(dst, x, y) *dst -= x*y
+#include "vec_combine.c"
+
 #define NAME LFUN(ssqr_diff_stub)
 #define BC_NAME LFUN(ssqr_diff_stub_bc)
 #define INIT 0.0

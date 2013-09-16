@@ -278,6 +278,29 @@ val neg :
     @param ofsx default = 1
     @param incx default = 1 *)
 
+val reci :
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [reci ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the reciprocal value
+    of [n] elements of the vector [x] using [incx] as incremental steps.
+    If [y] is given, the result will be stored in there using increments of
+    [incy], otherwise a fresh vector will be used.  The resulting vector
+    is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
 
 (** {6 Operations on two vectors} *)
 
@@ -376,6 +399,64 @@ val div :
     as incremental steps respectively. If [z] is given, the result will
     be stored in there using increments of [incz], otherwise a fresh
     vector will be used. The resulting vector is returned.
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsz default = 1
+    @param incz default = 1
+    @param z default = fresh vector with [ofsz+(n - 1)(abs incz)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+    @param ofsy default = 1
+    @param incy default = 1 *)
+
+val zpxy :
+  ?n : int ->
+  ?ofsz : int ->
+  ?incz : int ->
+  ?z : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec ->
+  ?ofsy : int ->
+  ?incy : int ->
+  vec
+  -> vec
+(** [zpxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] multiplies [n]
+    elements of vectors [x] and [y] elementwise, using [incx] and [incy] as
+    incremental steps respectively, and adds the result to and stores it in
+    the specified range in [z] if provided.  If [z] is given, the result will
+    be stored in there using increments of [incz], otherwise a fresh vector
+    will be used and assumed to be zero.  The resulting vector is returned.
+    This function is useful for convolutions.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsz default = 1
+    @param incz default = 1
+    @param z default = fresh vector with [ofsz+(n - 1)(abs incz)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+    @param ofsy default = 1
+    @param incy default = 1 *)
+
+val zmxy :
+  ?n : int ->
+  ?ofsz : int ->
+  ?incz : int ->
+  ?z : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec ->
+  ?ofsy : int ->
+  ?incy : int ->
+  vec
+  -> vec
+(** [zmxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] multiplies [n]
+    elements of vectors [x] and [y] elementwise, using [incx] and [incy]
+    as incremental steps respectively, and substracts the result from and
+    stores it in the specified range in [z] if provided.  If [z] is given,
+    the result will be stored in there using increments of [incz], otherwise
+    a fresh vector will be used and assumed to be zero.  The resulting vector
+    is returned.  This function is useful for convolutions.
+
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsz default = 1
     @param incz default = 1

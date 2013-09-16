@@ -424,6 +424,7 @@ let sort ?cmp ?(decr = false) ?n ?ofsp ?incp ?p ?ofsx ?incx x =
            direct_sort_perm ~cmp ~n ~ofsp ~incp ~p ~ofsx ~incx ~x
       )
 
+let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 
 (* NEG *)
 
@@ -439,14 +440,34 @@ external direct_neg :
 
 let vec_neg_str = "Vec.neg"
 
-let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
-
 let neg ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_neg_str x_str ofsx incx in
   let ofsy, incy = get_vec_geom vec_neg_str y_str ofsy incy in
   let n = get_dim_vec vec_neg_str x_str ofsx incx x n_str n in
   let y = get_y_vec ~loc:vec_neg_str ~ofsy ~incy ~n y in
   direct_neg ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
+(* RECI *)
+
+external direct_reci :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECreci_stub_bc" "lacaml_NPRECreci_stub"
+
+let vec_reci_loc = "Vec.reci"
+
+let reci ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_reci_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_reci_loc y_str ofsy incy in
+  let n = get_dim_vec vec_reci_loc x_str ofsx incx x n_str n in
+  let y = get_y_vec ~loc:vec_reci_loc ~ofsy ~incy ~n y in
+  direct_reci ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
 
@@ -562,6 +583,62 @@ let div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
   check_vec vec_div_str y_str y (ofsy + (n - 1) * abs incy);
   let z = get_z_vec ~loc:vec_div_str ~ofsz ~incz ~n z in
   direct_div ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
+  z
+
+(* ZPXY *)
+
+let get_zero_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n make0
+
+external direct_zpxy :
+  n : int ->
+  ofsz : int ->
+  incz : int ->
+  z : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  unit = "lacaml_NPRECzpxy_stub_bc" "lacaml_NPRECzpxy_stub"
+
+let vec_zpxy_str = "Vec.zpxy"
+
+let zpxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
+  let ofsz, incz = get_vec_geom vec_zpxy_str z_str ofsz incz
+  and ofsx, incx = get_vec_geom vec_zpxy_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_zpxy_str y_str ofsy incy in
+  let n = get_dim_vec vec_zpxy_str x_str ofsx incx x n_str n in
+  check_vec vec_zpxy_str y_str y (ofsy + (n - 1) * abs incy);
+  let z = get_zero_z_vec ~loc:vec_zpxy_str ~ofsz ~incz ~n z in
+  direct_zpxy ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
+  z
+
+(* ZMXY *)
+
+external direct_zmxy :
+  n : int ->
+  ofsz : int ->
+  incz : int ->
+  z : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  unit = "lacaml_NPRECzmxy_stub_bc" "lacaml_NPRECzmxy_stub"
+
+let vec_zmxy_str = "Vec.zmxy"
+
+let zmxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
+  let ofsz, incz = get_vec_geom vec_zmxy_str z_str ofsz incz
+  and ofsx, incx = get_vec_geom vec_zmxy_str x_str ofsx incx
+  and ofsy, incy = get_vec_geom vec_zmxy_str y_str ofsy incy in
+  let n = get_dim_vec vec_zmxy_str x_str ofsx incx x n_str n in
+  check_vec vec_zmxy_str y_str y (ofsy + (n - 1) * abs incy);
+  let z = get_zero_z_vec ~loc:vec_zmxy_str ~ofsz ~incz ~n z in
+  direct_zmxy ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
   z
 
 (* SSQR_DIFF *)

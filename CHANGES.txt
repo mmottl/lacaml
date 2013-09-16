@@ -1,3 +1,10 @@
+2013-09-15:  Added new functions:
+
+               * Vec.zpxy  (useful for convolutions)
+               * Vec.zmxy  (useful for convolutions)
+
+             Made Vec.reci work with complex numbers.
+
 2012-01-17:  Improved build file generation to avoid regenerating
              build files during the development process, which would clobber
              the VCS changelog.  The build files will now only be rebuilt

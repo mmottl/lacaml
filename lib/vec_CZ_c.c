@@ -281,6 +281,22 @@ CAMLprim value LFUN(ssqr_stub)(
   dst->i = - x.i
 #include "vec_map.c"
 
+#define NAME LFUN(reci_stub)
+#define BC_NAME LFUN(reci_stub_bc)
+#define FUNC(dst, x) \
+  if (abs(x.r) >= abs(x.i)) { \
+    REAL r = x.i / x.r; \
+    REAL d = x.r + r * x.i; \
+    dst->r = 1 / d; \
+    dst->i = -r/d; \
+  } else { \
+    REAL r = x.r / x.i; \
+    REAL d = x.i + r * x.r; \
+    dst->r = r / d; \
+    dst->i = -1 / d; \
+  }
+#include "vec_map.c"
+
 #define NAME LFUN(add_stub)
 #define BC_NAME LFUN(add_stub_bc)
 #define FUNC(dst, x, y) \
@@ -315,6 +331,20 @@ CAMLprim value LFUN(ssqr_stub)(
     dst->r = (r*xr + xi)/d; \
     dst->i = (r*xi - xr)/d; \
   }
+#include "vec_combine.c"
+
+#define NAME LFUN(zpxy_stub)
+#define BC_NAME LFUN(zpxy_stub_bc)
+#define FUNC(dst, x, y) \
+  dst->r += x.r*y.r - x.i*y.i; \
+  dst->i += x.r*y.i + x.i*y.r
+#include "vec_combine.c"
+
+#define NAME LFUN(zmxy_stub)
+#define BC_NAME LFUN(zmxy_stub_bc)
+#define FUNC(dst, x, y) \
+  dst->r -= x.r*y.r - x.i*y.i; \
+  dst->i -= x.r*y.i + x.i*y.r
 #include "vec_combine.c"
 
 #define NAME LFUN(ssqr_diff_stub)

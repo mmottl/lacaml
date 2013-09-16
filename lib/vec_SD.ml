@@ -43,26 +43,6 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) n =
 
 let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 
-external direct_reci :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
-  y : vec ->
-  ofsx : int ->
-  incx : int ->
-  x : vec ->
-  unit = "lacaml_FPRECreci_stub_bc" "lacaml_FPRECreci_stub"
-
-let vec_reci_loc = "Vec.reci"
-
-let reci ?n ?ofsy ?incy ?y ?ofsx ?incx x =
-  let ofsx, incx = get_vec_geom vec_reci_loc x_str ofsx incx in
-  let ofsy, incy = get_vec_geom vec_reci_loc y_str ofsy incy in
-  let n = get_dim_vec vec_reci_loc x_str ofsx incx x n_str n in
-  let y = get_y_vec ~loc:vec_reci_loc ~ofsy ~incy ~n y in
-  direct_reci ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
-  y
-
 external direct_sqr :
   n : int ->
   ofsy : int ->
