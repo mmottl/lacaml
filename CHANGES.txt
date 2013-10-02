@@ -1,3 +1,7 @@
+2013-10-02:  Added new function:
+
+               * Vec.fill  (more flexible than the Bigarray fill-function)
+
 2013-09-15:  Added new functions:
 
                * Vec.zpxy  (useful for convolutions)

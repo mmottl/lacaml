@@ -1,6 +1,6 @@
-(* File: version.ml
+/* File: vec_SD_c.c
 
-   Copyright (C) 2012-
+   Copyright (C) 2013-
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -19,6 +19,39 @@
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*)
+*/
 
-let version = "7.0.10"
+#include <math.h>
+#include "lacaml_macros.h"
+
+CAMLprim value LFUN(fill_stub)(
+  value vN, value vOFSX, value vINCX, value vX, value vA)
+{
+  CAMLparam1(vX);
+
+  int GET_INT(N), GET_INT(INCX);
+
+  CREATE_NUMBER(A);
+  VEC_PARAMS(X);
+
+  NUMBER *start, *last;
+
+  INIT_NUMBER(A);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+
+  if (INCX > 0) {
+    start = X_data;
+    last = start + N*INCX;
+  }
+  else {
+    start = X_data - (N - 1)*INCX;
+    last = X_data + INCX;
+  };
+
+  while (start != last) { *start = A; start += INCX; };
+
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}

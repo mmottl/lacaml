@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 77abc98cc3d82b85f6c99d9c8414b7a0)
+# DO NOT EDIT (digest: 7c4d7474cb87bf24ea19a083b7bafabe)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -22,18 +22,22 @@
 "lib/vec2_D_c.c": oasis_library_lacaml_ccopt
 "lib/vec2_C_c.c": oasis_library_lacaml_ccopt
 "lib/vec2_Z_c.c": oasis_library_lacaml_ccopt
+"lib/vec4_S_c.c": oasis_library_lacaml_ccopt
+"lib/vec4_D_c.c": oasis_library_lacaml_ccopt
+"lib/vec4_C_c.c": oasis_library_lacaml_ccopt
+"lib/vec4_Z_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_S_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_D_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_C_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_Z_c.c": oasis_library_lacaml_ccopt
-"lib/impl4_S_c.c": oasis_library_lacaml_ccopt
-"lib/impl4_D_c.c": oasis_library_lacaml_ccopt
-"lib/impl4_C_c.c": oasis_library_lacaml_ccopt
-"lib/impl4_Z_c.c": oasis_library_lacaml_ccopt
 "lib/impl2_S_c.c": oasis_library_lacaml_ccopt
 "lib/impl2_D_c.c": oasis_library_lacaml_ccopt
 "lib/impl2_C_c.c": oasis_library_lacaml_ccopt
 "lib/impl2_Z_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_S_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_D_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_C_c.c": oasis_library_lacaml_ccopt
+"lib/impl4_Z_c.c": oasis_library_lacaml_ccopt
 "lib/exp10.c": oasis_library_lacaml_ccopt
 <lib/lacaml.{cma,cmxa}>: oasis_library_lacaml_cclib
 "lib/liblacaml_stubs.lib": oasis_library_lacaml_cclib
@@ -48,18 +52,22 @@
 "lib/vec2_D_c.c": pkg_bigarray
 "lib/vec2_C_c.c": pkg_bigarray
 "lib/vec2_Z_c.c": pkg_bigarray
+"lib/vec4_S_c.c": pkg_bigarray
+"lib/vec4_D_c.c": pkg_bigarray
+"lib/vec4_C_c.c": pkg_bigarray
+"lib/vec4_Z_c.c": pkg_bigarray
 "lib/mat4_S_c.c": pkg_bigarray
 "lib/mat4_D_c.c": pkg_bigarray
 "lib/mat4_C_c.c": pkg_bigarray
 "lib/mat4_Z_c.c": pkg_bigarray
-"lib/impl4_S_c.c": pkg_bigarray
-"lib/impl4_D_c.c": pkg_bigarray
-"lib/impl4_C_c.c": pkg_bigarray
-"lib/impl4_Z_c.c": pkg_bigarray
 "lib/impl2_S_c.c": pkg_bigarray
 "lib/impl2_D_c.c": pkg_bigarray
 "lib/impl2_C_c.c": pkg_bigarray
 "lib/impl2_Z_c.c": pkg_bigarray
+"lib/impl4_S_c.c": pkg_bigarray
+"lib/impl4_D_c.c": pkg_bigarray
+"lib/impl4_C_c.c": pkg_bigarray
+"lib/impl4_Z_c.c": pkg_bigarray
 "lib/exp10.c": pkg_bigarray
 # Library lacaml_top
 "lib/lacaml_top.cmxs": use_lacaml_top

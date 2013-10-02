@@ -1,6 +1,6 @@
 OASISFormat:      0.3
 Name:             lacaml
-Version:          7.0.9
+Version:          7.0.10
 Synopsis:         OCaml-bindings to BLAS and LAPACK.
 Description:      This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
@@ -16,9 +16,9 @@ Maintainers:      Markus Mottl <markus.mottl@gmail.com>,
 Copyrights:       (C) 2000-2012 Egbert Ammicht <eammicht@lucent.com>,
                   (C) 2000-2012 Patrick Cousot <Patrick.Cousot@ens.fr>,
                   (C) 2000-2012 Jane Street Capital LLC <opensource@janestreet.com>,
-                  (C) 2000-2012 Markus Mottl <markus.mottl@gmail.com>,
+                  (C) 2000-2013 Markus Mottl <markus.mottl@gmail.com>,
                   (C) 2000-2012 Liam Stewart <liam@cs.toronto.edu>,
-                  (C) 2000-2012 Christophe Troestler <Christophe.Troestler@umons.ac.be>,
+                  (C) 2000-2013 Christophe Troestler <Christophe.Troestler@umons.ac.be>,
                   (C) 2000-2012 Oleg Trott <ot14@columbia.edu>
 License:          LGPL-2.1+ with OCaml linking exception
 OCamlVersion:     >= 3.12
@@ -47,9 +47,10 @@ Library lacaml
   CSources:      impl_c.c,
                  utils_c.c,
                  vec2_S_c.c, vec2_D_c.c, vec2_C_c.c, vec2_Z_c.c,
+                 vec4_S_c.c, vec4_D_c.c, vec4_C_c.c, vec4_Z_c.c,
                  mat4_S_c.c, mat4_D_c.c, mat4_C_c.c, mat4_Z_c.c,
-                 impl4_S_c.c, impl4_D_c.c, impl4_C_c.c, impl4_Z_c.c,
                  impl2_S_c.c, impl2_D_c.c, impl2_C_c.c, impl2_Z_c.c,
+                 impl4_S_c.c, impl4_D_c.c, impl4_C_c.c, impl4_Z_c.c,
                  exp10.c,
                  f2c.h,
                  lacaml_macros.h,

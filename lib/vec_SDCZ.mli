@@ -147,6 +147,13 @@ val fold :
 
 (** {6 Operations on one vector} *)
 
+val fill : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type -> unit
+(** [fill ?n ?ofsx ?incx x a] fills vector [x] with value [a] in the
+    designated range.
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
 val rev : vec -> vec
 (** [rev x] reverses vector [x] (non-destructive). *)
 

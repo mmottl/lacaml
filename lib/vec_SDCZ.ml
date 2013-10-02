@@ -226,6 +226,23 @@ let rev (x : vec) =
   done;
   res
 
+(* FILL *)
+
+external direct_fill :
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  a : num_type ->
+  unit = "lacaml_NPRECfill_stub"
+
+let vec_fill_str = "Vec.fill"
+
+let fill ?n ?ofsx ?incx x a =
+  let ofsx, incx = get_vec_geom vec_fill_str x_str ofsx incx in
+  let n = get_dim_vec vec_fill_str x_str ofsx incx x n_str n in
+  direct_fill ~n ~ofsx ~incx ~x ~a
+
 (* MAX *)
 
 external direct_max :
