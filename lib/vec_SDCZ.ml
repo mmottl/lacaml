@@ -234,7 +234,7 @@ external direct_fill :
   incx : int ->
   x : vec ->
   a : num_type ->
-  unit = "lacaml_NPRECfill_stub"
+  unit = "lacaml_NPRECfill_vec_stub"
 
 let vec_fill_str = "Vec.fill"
 
@@ -282,7 +282,7 @@ external direct_sum :
   ofsx : int ->
   incx : int ->
   x : vec ->
-  num_type = "lacaml_NPRECsum_stub"
+  num_type = "lacaml_NPRECsum_vec_stub"
 
 let vec_sum_str = "Vec.sum"
 

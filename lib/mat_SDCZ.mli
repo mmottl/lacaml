@@ -186,6 +186,15 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 
 (** {6 Arithmetic and other matrix operations} *)
 
+val sum : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
+(** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
+    the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)
+
+val fill :
+  ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type -> unit
+(** [fill ?m ?n ?ar ?ac a x] fills the specified sub-matrix in [a] with value
+    [x]. *)
+
 val copy_diag : mat -> vec
 (** [copy_diag m] @return the diagonal of matrix [m] as a vector.
     If [m] is not a square matrix, the longest possible sequence

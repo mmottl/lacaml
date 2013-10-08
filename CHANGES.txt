@@ -1,3 +1,8 @@
+2013-10-08:  Added new functions:
+
+               * Mat.sum
+               * Mat.fill  (more flexible than the Bigarray fill-function)
+
 2013-10-02:  Added new function:
 
                * Vec.fill  (more flexible than the Bigarray fill-function)

@@ -30,6 +30,67 @@ static NUMBER number_one = NUMBER_ONE;
 static NUMBER number_minus_one = NUMBER_MINUS_ONE;
 
 
+/* sum_mat */
+
+CAMLprim value LFUN(sum_mat_stub)(
+  value vM, value vN,
+  value vAR, value vAC, value vA)
+{
+  CAMLparam1(vA);
+  integer GET_INT(M), GET_INT(N);
+
+  NUMBER res = NUMBER_ZERO;
+
+  if (M > 0 && N > 0) {
+    int i;
+    MAT_PARAMS(A);
+    NUMBER *A_last = A_data + rows_A * N;
+    caml_enter_blocking_section();
+      do {
+        for (i = 0; i < M; ++i) res = ADD_NUMBER(res, A_data[i]);
+        A_data += rows_A;
+      } while (A_data != A_last);
+    caml_leave_blocking_section();
+  }
+
+  CAMLreturn(COPY_NUMBER(res));
+}
+
+
+/* fill_mat */
+
+CAMLprim value LFUN(fill_mat_stub)(
+  value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vX)
+{
+  CAMLparam1(vA);
+  integer GET_INT(M), GET_INT(N);
+
+  if (M > 0 && N > 0) {
+    int i;
+    MAT_PARAMS(A);
+    CREATE_NUMBER(X);
+    NUMBER *A_last = A_data + rows_A * N;
+    INIT_NUMBER(X);
+    caml_enter_blocking_section();
+      do {
+        for (i = 0; i < M; ++i) A_data[i] = X;
+        A_data += rows_A;
+      } while (A_data != A_last);
+    caml_leave_blocking_section();
+  }
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(fill_mat_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(fill_mat_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+}
+
+
 /* transpose_copy */
 
 extern void FUN(copy)(

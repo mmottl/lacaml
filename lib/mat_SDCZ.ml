@@ -250,6 +250,35 @@ let unpacked ?(up = true) ?n (src : vec) =
     done;
   a
 
+external direct_sum :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  num_type = "lacaml_NPRECsum_mat_stub"
+
+let sum ?m ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.sum" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  direct_sum ~m ~n ~ar ~ac ~a
+
+external direct_fill :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  x : num_type ->
+  unit = "lacaml_NPRECfill_mat_stub_bc" "lacaml_NPRECfill_mat_stub"
+
+let fill ?m ?n ?(ar = 1) ?(ac = 1) a x =
+  let loc = "Lacaml.NPREC.Mat.fill" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  direct_fill ~m ~n ~ar ~ac ~a ~x
+
 let copy_diag mat =
   let m = dim1 mat in
   let n = dim2 mat in

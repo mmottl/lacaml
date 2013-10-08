@@ -138,7 +138,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 #define FUNC(acc, x) if (x < acc) acc = x
 #include "fold_col.c"
 
-#define NAME LFUN(sum_stub)
+#define NAME LFUN(sum_vec_stub)
 #define INIT 0.0
 #define FUNC(acc, x) acc += x
 #include "fold_col.c"

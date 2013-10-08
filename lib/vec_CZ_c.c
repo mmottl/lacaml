@@ -208,7 +208,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
   }
 #include "fold_col.c"
 
-#define NAME LFUN(sum_stub)
+#define NAME LFUN(sum_vec_stub)
 #define INIT { 0.0, 0.0 }
 #define FUNC(acc, x) acc.r += x.r; acc.i += x.i
 #include "fold_col.c"

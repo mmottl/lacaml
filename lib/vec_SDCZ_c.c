@@ -24,7 +24,7 @@
 #include <math.h>
 #include "lacaml_macros.h"
 
-CAMLprim value LFUN(fill_stub)(
+CAMLprim value LFUN(fill_vec_stub)(
   value vN, value vOFSX, value vINCX, value vX, value vA)
 {
   CAMLparam1(vX);
