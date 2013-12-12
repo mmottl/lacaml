@@ -189,6 +189,28 @@ val prod : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
     @param ofsx default = 1
     @param incx default = 1 *)
 
+val add_const :
+  num_type ->
+  ?n : int ->
+  ?ofsy : int ->
+  ?incy : int ->
+  ?y : vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> vec
+(** [add_const c ?n ?ofsy ?incy ?y ?ofsx ?incx x] adds constant [c] to the [n]
+    elements of vector [x] and stores the result in [y], using [incx] and [incy]
+    as incremental steps respectively.  If [y] is given, the result will
+    be stored in there using increments of [incy], otherwise a fresh
+    vector will be used.  The resulting vector is returned.
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
 val sqr_nrm2 :
   ?stable : bool -> ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
 (** [sqr_nrm2 ?stable ?n ?c ?ofsx ?incx x] computes the square of

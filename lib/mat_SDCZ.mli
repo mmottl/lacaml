@@ -186,6 +186,30 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 
 (** {6 Arithmetic and other matrix operations} *)
 
+val add_const :
+  num_type ->
+  ?m : int ->
+  ?n : int ->
+  ?br : int ->
+  ?bc : int ->
+  ?b : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> mat
+(** [add_const c ?m ?n ?br ?bc ?b ?ar ?ac a] adds constant [c] to the
+    designated [m] by [n] submatrix in [a] and stores the result in the
+    designated submatrix in [b].
+
+    @param m default = [Mat.dim1 a]
+    @param n default = [Mat.dim2 a]
+    @param ar default = [1]
+    @param ac default = [1]
+    @param br default = [1]
+    @param bc default = [1]
+    @param b default = fresh matrix of size [m] by [n]
+*)
+
 val sum : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
 (** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
     the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)

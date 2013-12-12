@@ -24,6 +24,8 @@
 #include <math.h>
 #include "lacaml_macros.h"
 
+/* fill_vec */
+
 CAMLprim value LFUN(fill_vec_stub)(
   value vN, value vOFSX, value vINCX, value vX, value vA)
 {
@@ -54,4 +56,56 @@ CAMLprim value LFUN(fill_vec_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(Val_unit);
+}
+
+
+/* add_const_vec */
+
+CAMLprim value LFUN(add_const_vec_stub)(
+  value vC, value vN,
+  value vOFSY, value vINCY, value vY,
+  value vOFSX, value vINCX, value vX)
+{
+  CAMLparam2(vX, vY);
+
+  NUMBER C;
+  int GET_INT(N), GET_INT(INCX), GET_INT(INCY);
+
+  VEC_PARAMS(X);
+  VEC_PARAMS(Y);
+
+  NUMBER *start_src, *last_src, *dst;
+  INIT_NUMBER(C);
+
+  caml_enter_blocking_section();  /* Allow other threads */
+
+  if (INCX > 0) {
+    start_src = X_data;
+    last_src = start_src + N*INCX;
+  }
+  else {
+    start_src = X_data - (N - 1)*INCX;
+    last_src = X_data + INCX;
+  };
+
+  if (INCY > 0) dst = Y_data;
+  else dst = Y_data - (N - 1)*INCY;
+
+  while (start_src != last_src) {
+    NUMBER src = *start_src;
+    *dst = ADD_NUMBER(src, C);
+    start_src += INCX;
+    dst += INCY;
+  };
+
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(add_const_vec_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(add_const_vec_stub)(argv[0], argv[1], argv[2],argv[3], argv[4], argv[5],
+                             argv[6], argv[7]);
 }

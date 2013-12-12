@@ -91,6 +91,55 @@ CAMLprim value LFUN(fill_mat_stub_bc)(value *argv, int __unused argn)
 }
 
 
+/* add_const_mat */
+
+CAMLprim value LFUN(add_const_mat_stub)(
+  value vC, value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB)
+{
+  CAMLparam2(vA, vB);
+
+  int GET_INT(M), GET_INT(N);
+
+  if (M > 0 && N > 0) {
+    NUMBER C;
+    MAT_PARAMS(A);
+    MAT_PARAMS(B);
+
+    NUMBER *A_last = A_data + rows_A * N;
+    INIT_NUMBER(C);
+
+    caml_enter_blocking_section();  /* Allow other threads */
+
+      do {
+        NUMBER *A_src = A_data;
+        NUMBER *B_dst = B_data;
+        NUMBER *A_last_row = A_src + M;
+        do {
+          NUMBER A = *A_src;
+          *B_dst = ADD_NUMBER(A, C);
+          A_src++;
+          B_dst++;
+        } while (A_src != A_last_row);
+        A_data += rows_A;
+        B_data += rows_B;
+      } while (A_data != A_last);
+
+    caml_leave_blocking_section();  /* Disallow other threads */
+  }
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(add_const_mat_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(add_const_mat_stub)(argv[0], argv[1], argv[2],argv[3], argv[4],
+                             argv[5], argv[6], argv[7], argv[8]);
+}
+
+
 /* transpose_copy */
 
 extern void FUN(copy)(

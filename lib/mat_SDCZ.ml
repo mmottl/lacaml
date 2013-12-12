@@ -162,6 +162,30 @@ let as_vec mat =
   let gen = genarray_of_array2 mat in
   reshape_1 gen (dim1 mat * dim2 mat)
 
+external direct_add_const :
+  c : num_type ->
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_NPRECadd_const_mat_stub_bc" "lacaml_NPRECadd_const_mat_stub"
+
+let add_const c ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.add_const" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b, br, bc =
+    match b with
+    | None -> create m n, 1, 1
+    | Some b -> check_dim_mat loc b_str br bc b m n; b, br, bc
+  in
+  direct_add_const ~c ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
 external direct_transpose_copy :
   m : int ->
   n : int ->
@@ -493,7 +517,7 @@ let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) (a : mat) =
   let b, br, bc =
     match b with
     | None -> create m n, 1, 1
-    | Some b -> check_dim_mat loc c_str br bc b m n; b, br, bc
+    | Some b -> check_dim_mat loc b_str br bc b m n; b, br, bc
   in
   let max_row = m - 1 in
   for i = 0 to n - 1 do

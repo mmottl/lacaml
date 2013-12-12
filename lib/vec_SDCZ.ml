@@ -34,6 +34,9 @@ open Utils
 
 let create n = Array1.create prec fortran_layout n
 
+let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
+let get_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n create
+
 let make n x =
   let v = create n in
   Array1.fill v x;
@@ -307,6 +310,29 @@ let prod ?n ?ofsx ?incx x =
   let n = get_dim_vec vec_prod_str x_str ofsx incx x n_str n in
   direct_prod ~n ~ofsx ~incx ~x
 
+(* ADD_CONST *)
+
+external direct_add_const :
+  c : num_type ->
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_NPRECadd_const_vec_stub_bc" "lacaml_NPRECadd_const_vec_stub"
+
+let vec_add_const_str = "Vec.add_const"
+
+let add_const c ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_add_const_str x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_add_const_str y_str ofsy incy in
+  let n = get_dim_vec vec_add_const_str x_str ofsx incx x n_str n in
+  let y = get_y_vec ~loc:vec_add_const_str ~ofsy ~incy ~n y in
+  direct_add_const ~c ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
 (* SQR_NRM2 *)
 
 external direct_sqr_nrm2 :
@@ -441,8 +467,6 @@ let sort ?cmp ?(decr = false) ?n ?ofsp ?incp ?p ?ofsx ?incx x =
            direct_sort_perm ~cmp ~n ~ofsp ~incp ~p ~ofsx ~incx ~x
       )
 
-let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
-
 (* NEG *)
 
 external direct_neg :
@@ -506,8 +530,6 @@ external direct_add :
   unit = "lacaml_NPRECadd_stub_bc" "lacaml_NPRECadd_stub"
 
 let vec_add_str = "Vec.add"
-
-let get_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n create
 
 let add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
   let ofsz, incz = get_vec_geom vec_add_str z_str ofsz incz
