@@ -1,6 +1,6 @@
-OASISFormat:      0.3
+OASISFormat:      0.4
 Name:             lacaml
-Version:          7.0.12
+Version:          7.0.13
 Synopsis:         OCaml-bindings to BLAS and LAPACK.
 Description:      This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
@@ -27,7 +27,7 @@ Homepage:         https://bitbucket.org/mmottl/lacaml
 #Categories:
 FilesAB:          lib/version.ml.ab
 
-Plugins:          META (0.3), StdFiles (0.3), DevFiles (0.3)
+Plugins:          META (0.4), StdFiles (0.4), DevFiles (0.4)
 XStdFilesREADME:  false
 
 PostConfCommand:  ocaml make_prec_dep.ml
@@ -241,7 +241,7 @@ Executable nag_sysv
 
 Document API
   Title:                API reference for Lacaml
-  Type:                 OCamlbuild (0.3)
+  Type:                 OCamlbuild (0.4)
   InstallDir:           $docdir/api
   XOCamlbuildPath:      .
   XOCamlbuildLibraries: lacaml

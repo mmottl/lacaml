@@ -1,7 +1,7 @@
 # OASIS_START
-# DO NOT EDIT (digest: 7c4d7474cb87bf24ea19a083b7bafabe)
-# Ignore VCS directories, you can use the same kind of rule outside 
-# OASIS_START/STOP if you want to exclude directories that contains 
+# DO NOT EDIT (digest: a5bf89569fe62e26997e995b20911d7d)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
 <**/.svn>: -traverse
 <**/.svn>: not_hygienic
@@ -147,8 +147,13 @@
 <examples/nag/*.ml{,i}>: pkg_bigarray
 # OASIS_STOP
 
-<**/*.ml{,i}>: warn_A, warn_e, warn_r, annot, strict_sequence
+true: -traverse
+<{lib,examples}/**>: traverse
+
+<**/*.ml{,i}>: warn(Aer-44), strict_sequence, annot
+
 <lib/install_printers.ml>: I(+compiler-libs)
 
 <lib/*.cmx> and not <lib/lacaml_top.cmx>: for-pack(Lacaml)
 <lib/lacaml.cmx>: -for-pack(Lacaml)
+"lib/lacaml.cmxs": use_liblacaml_stubs

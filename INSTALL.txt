@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: ae499069bf1c5de7f5f274d07f80c1eb) *)
+(* DO NOT EDIT (digest: a85e54910574a78e1efd345a07945dcb) *)
 This is the INSTALL file for the lacaml distribution.
 
 This package uses OASIS to generate its build system. See section OASIS for
@@ -23,7 +23,7 @@ Installing
 Uninstalling
 ============
 
-1. Go to the root of the package 
+1. Go to the root of the package
 2. Run 'ocaml setup.ml -uninstall'
 
 OASIS
