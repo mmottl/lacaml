@@ -1,14 +1,16 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: a85e54910574a78e1efd345a07945dcb) *)
+(* DO NOT EDIT (digest: 38952fee639af20c3a0c96afa87439af) *)
+
 This is the INSTALL file for the lacaml distribution.
 
 This package uses OASIS to generate its build system. See section OASIS for
-full information. 
+full information.
 
 Dependencies
 ============
 
 In order to compile this package, you will need:
+
 * ocaml (>= 3.12) for all, doc API
 * findlib (>= 1.3.1)
 
@@ -45,10 +47,8 @@ If the libraries are installed in a non-standard place, you may
 need to set the paths (or additional flags) to setup.conf.
 They will override the defaults set in setup.ml from _oasis.
 
-If you use MacOS X, you may have to install vecLib, which is
-available here:
-
-  http://developer.apple.com/releasenotes/MacOSX/vecLib.html
+If you use MacOS X, you may have to install vecLib, which is part of Apple's
+Accelerate-framework.
 
 
 Makefile compilation

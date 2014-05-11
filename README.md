@@ -252,11 +252,12 @@ library for various linear algebra problems.
 Improving Performance
 ---------------------
 
-It is highly recommended that users install a variant of BLAS (or even LAPACK)
-that has been optimized for their system.  Processor vendors (e.g. Intel)
-usually sell the most optimized implementations for their CPU-architectures.
-Some computer and OS-vendors like Apple distribute their own implementations
-with their products (e.g. `vecLib`).
+It is highly recommended that users install a variant of BLAS (or even
+LAPACK) that has been optimized for their system.  Processor vendors
+(e.g. Intel) usually sell the most optimized implementations for their
+CPU-architectures.  Some computer and OS-vendors like Apple distribute their
+own implementations with their products, e.g. `vecLib`, which is part of
+Apple's `Accelerate`-framework.
 
 There is also [ATLAS](http://www.netlib.org/atlas), a very efficient and
 compatible substitute for BLAS.  It specializes code for the architecture it

@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: a5bf89569fe62e26997e995b20911d7d)
+# DO NOT EDIT (digest: 22a1aa4eb400fa150e62fae3f2eaba95)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -73,78 +73,78 @@
 "lib/lacaml_top.cmxs": use_lacaml_top
 "lib/install_printers.cmx": for-pack(Lacaml_top)
 # Executable blas
-<examples/blas/blas.{native,byte}>: use_lacaml
 <examples/blas/blas.{native,byte}>: pkg_bigarray
-<examples/blas/*.ml{,i}>: use_lacaml
+<examples/blas/blas.{native,byte}>: use_lacaml
 <examples/blas/*.ml{,i}>: pkg_bigarray
+<examples/blas/*.ml{,i}>: use_lacaml
 # Executable eig
-<examples/eig/eig.{native,byte}>: use_lacaml
 <examples/eig/eig.{native,byte}>: pkg_bigarray
+<examples/eig/eig.{native,byte}>: use_lacaml
 # Executable sbev
-<examples/eig/sbev.{native,byte}>: use_lacaml
 <examples/eig/sbev.{native,byte}>: pkg_bigarray
+<examples/eig/sbev.{native,byte}>: use_lacaml
 # Executable sbgv
-<examples/eig/sbgv.{native,byte}>: use_lacaml
 <examples/eig/sbgv.{native,byte}>: pkg_bigarray
-<examples/eig/*.ml{,i}>: use_lacaml
+<examples/eig/sbgv.{native,byte}>: use_lacaml
 <examples/eig/*.ml{,i}>: pkg_bigarray
+<examples/eig/*.ml{,i}>: use_lacaml
 # Executable lin_eq
-<examples/lin_eq/lin_eq.{native,byte}>: use_lacaml
 <examples/lin_eq/lin_eq.{native,byte}>: pkg_bigarray
+<examples/lin_eq/lin_eq.{native,byte}>: use_lacaml
 # Executable gbsv
-<examples/lin_eq/gbsv.{native,byte}>: use_lacaml
 <examples/lin_eq/gbsv.{native,byte}>: pkg_bigarray
-<examples/lin_eq/*.ml{,i}>: use_lacaml
+<examples/lin_eq/gbsv.{native,byte}>: use_lacaml
 <examples/lin_eq/*.ml{,i}>: pkg_bigarray
+<examples/lin_eq/*.ml{,i}>: use_lacaml
 # Executable lin_eq_comp
-<examples/lin_eq_comp/lin_eq_comp.{native,byte}>: use_lacaml
 <examples/lin_eq_comp/lin_eq_comp.{native,byte}>: pkg_bigarray
-<examples/lin_eq_comp/*.ml{,i}>: use_lacaml
+<examples/lin_eq_comp/lin_eq_comp.{native,byte}>: use_lacaml
 <examples/lin_eq_comp/*.ml{,i}>: pkg_bigarray
+<examples/lin_eq_comp/*.ml{,i}>: use_lacaml
 # Executable lin_reg
-<examples/lin_reg/lin_reg.{native,byte}>: use_lacaml
 <examples/lin_reg/lin_reg.{native,byte}>: pkg_bigarray
-<examples/lin_reg/*.ml{,i}>: use_lacaml
+<examples/lin_reg/lin_reg.{native,byte}>: use_lacaml
 <examples/lin_reg/*.ml{,i}>: pkg_bigarray
+<examples/lin_reg/*.ml{,i}>: use_lacaml
 # Executable qr
-<examples/qr/qr.{native,byte}>: use_lacaml
 <examples/qr/qr.{native,byte}>: pkg_bigarray
-<examples/qr/*.ml{,i}>: use_lacaml
+<examples/qr/qr.{native,byte}>: use_lacaml
 <examples/qr/*.ml{,i}>: pkg_bigarray
+<examples/qr/*.ml{,i}>: use_lacaml
 # Executable svd
-<examples/svd/svd.{native,byte}>: use_lacaml
 <examples/svd/svd.{native,byte}>: pkg_bigarray
-<examples/svd/*.ml{,i}>: use_lacaml
+<examples/svd/svd.{native,byte}>: use_lacaml
 <examples/svd/*.ml{,i}>: pkg_bigarray
+<examples/svd/*.ml{,i}>: use_lacaml
 # Executable nag_gbsv
-<examples/nag/nag_gbsv.{native,byte}>: use_lacaml
 <examples/nag/nag_gbsv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_gbsv.{native,byte}>: use_lacaml
 # Executable nag_gesv
-<examples/nag/nag_gesv.{native,byte}>: use_lacaml
 <examples/nag/nag_gesv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_gesv.{native,byte}>: use_lacaml
 # Executable nag_gtsv
-<examples/nag/nag_gtsv.{native,byte}>: use_lacaml
 <examples/nag/nag_gtsv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_gtsv.{native,byte}>: use_lacaml
 # Executable nag_pbsv
-<examples/nag/nag_pbsv.{native,byte}>: use_lacaml
 <examples/nag/nag_pbsv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_pbsv.{native,byte}>: use_lacaml
 # Executable nag_posv
-<examples/nag/nag_posv.{native,byte}>: use_lacaml
 <examples/nag/nag_posv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_posv.{native,byte}>: use_lacaml
 # Executable nag_ppsv
-<examples/nag/nag_ppsv.{native,byte}>: use_lacaml
 <examples/nag/nag_ppsv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_ppsv.{native,byte}>: use_lacaml
 # Executable nag_ptsv
-<examples/nag/nag_ptsv.{native,byte}>: use_lacaml
 <examples/nag/nag_ptsv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_ptsv.{native,byte}>: use_lacaml
 # Executable nag_spsv
-<examples/nag/nag_spsv.{native,byte}>: use_lacaml
 <examples/nag/nag_spsv.{native,byte}>: pkg_bigarray
+<examples/nag/nag_spsv.{native,byte}>: use_lacaml
 # Executable nag_sysv
-<examples/nag/nag_sysv.{native,byte}>: use_lacaml
 <examples/nag/nag_sysv.{native,byte}>: pkg_bigarray
-<examples/nag/*.ml{,i}>: use_lacaml
+<examples/nag/nag_sysv.{native,byte}>: use_lacaml
 <examples/nag/*.ml{,i}>: pkg_bigarray
+<examples/nag/*.ml{,i}>: use_lacaml
 # OASIS_STOP
 
 true: -traverse
