@@ -33,7 +33,7 @@ open Printf
 open Bigarray
 open Numberxx
 open Common
-open Utils
+open Lacaml_utils
 
 module Vec = Lacaml_vec4_NPREC
 module Mat = Lacaml_mat4_NPREC

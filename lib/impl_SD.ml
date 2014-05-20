@@ -37,7 +37,7 @@ open Printf
 open Bigarray
 open Floatxx
 open Common
-open Utils
+open Lacaml_utils
 open Lacaml_impl4_FPREC
 
 module Vec = Lacaml_vec4_FPREC

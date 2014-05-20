@@ -26,7 +26,7 @@
 *)
 
 open Lacaml_vec4_FPREC
-open Utils
+open Lacaml_utils
 open Floatxx
 
 let random ?rnd_state ?(from = -1.) ?(range = 2.) n =

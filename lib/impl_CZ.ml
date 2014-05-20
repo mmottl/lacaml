@@ -37,7 +37,7 @@ open Bigarray
 open Complex
 open Complexxx
 open Common
-open Utils
+open Lacaml_utils
 open Lacaml_impl4_CPREC
 
 module Vec = Lacaml_vec4_CPREC

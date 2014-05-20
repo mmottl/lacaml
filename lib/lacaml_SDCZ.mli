@@ -76,7 +76,7 @@ open Common
 
 (** Utility functions *)
 module Utils : sig
-  include module type of Utils
+  include module type of Lacaml_utils
 end
 
 (** Double precision real BLAS and LAPACK functions. *)
