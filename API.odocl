@@ -1,15 +1,18 @@
+# OASIS_START
+# DO NOT EDIT (digest: 4c366d3fa0520725188b31ad831b3e7d)
 lib/Lacaml
 lib/Lacaml_common
+lib/Lacaml_io
+lib/Lacaml_S
+lib/Lacaml_D
+lib/Lacaml_C
+lib/Lacaml_Z
 lib/Lacaml_utils
 lib/Lacaml_version
 lib/Lacaml_float32
 lib/Lacaml_float64
 lib/Lacaml_complex32
 lib/Lacaml_complex64
-lib/Lacaml_io
 lib/Lacaml_real_io
 lib/Lacaml_complex_io
-lib/Lacaml_S
-lib/Lacaml_D
-lib/Lacaml_C
-lib/Lacaml_Z
+# OASIS_STOP

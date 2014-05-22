@@ -29,6 +29,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
+(** [Lacaml.common] contains definitions independent of the precision. *)
+
 open Bigarray
 
 type trans2 = [ `N | `T ]

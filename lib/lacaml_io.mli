@@ -22,10 +22,10 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
+(** [Lacaml.Io]: generic matrix printing functions. *)
+
 open Format
 open Bigarray
-
-(** {6 Generic matrix printing functions} *)
 
 module Context : sig
   type t

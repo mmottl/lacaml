@@ -20,6 +20,15 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
+
+(** This module [Lacaml.CPREC] contains linear algebra routines for
+    complex numbers (precision: complexxx).  It is recommended to use this
+    module by writing
+    {[
+    open Lacaml.CPREC
+    ]}
+    at the top of your file.  *)
+
 open Bigarray
 
 type prec = complexxx_elt

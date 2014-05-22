@@ -20,6 +20,15 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
+
+(** This module [Lacaml.FPREC] contains linear algebra routines for
+    real numbers (precision: floatxx).  It is recommended to use this
+    module by writing
+    {[
+    open Lacaml.FPREC
+    ]}
+    at the top of your file.  *)
+
 open Bigarray
 
 type prec = floatxx_elt
