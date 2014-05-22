@@ -32,8 +32,8 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open Common
-open Complexxx
+open Lacaml_common
+open Lacaml_complexxx
 
 (** {6 BLAS-1 interface} *)
 

@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 22a1aa4eb400fa150e62fae3f2eaba95)
+# DO NOT EDIT (digest: 0863262ae1b4b418bc60ce6b69cae8b5)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -71,7 +71,6 @@
 "lib/exp10.c": pkg_bigarray
 # Library lacaml_top
 "lib/lacaml_top.cmxs": use_lacaml_top
-"lib/install_printers.cmx": for-pack(Lacaml_top)
 # Executable blas
 <examples/blas/blas.{native,byte}>: pkg_bigarray
 <examples/blas/blas.{native,byte}>: use_lacaml
@@ -154,6 +153,4 @@ true: -traverse
 
 <lib/install_printers.ml>: I(+compiler-libs)
 
-<lib/*.cmx> and not <lib/lacaml_top.cmx>: for-pack(Lacaml)
-<lib/lacaml.cmx>: -for-pack(Lacaml)
 "lib/lacaml.cmxs": use_liblacaml_stubs

@@ -27,7 +27,7 @@
 
 open Bigarray
 open Lacaml_mat4_FPREC
-open Floatxx
+open Lacaml_floatxx
 
 let hilbert n =
   let mat = create n n in

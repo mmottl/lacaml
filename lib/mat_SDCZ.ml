@@ -26,7 +26,7 @@
 *)
 
 open Bigarray
-open Numberxx
+open Lacaml_numberxx
 open Lacaml_utils
 
 (* Creation of matrices *)

@@ -40,148 +40,111 @@ let ocaml_major, ocaml_minor =
 let has_module_type_of =
   ocaml_major > 3 || (ocaml_major = 3 && ocaml_minor >= 12)
 
+let has_type_level_module_aliases =
+  ocaml_major > 4 || (ocaml_major = 4 && ocaml_minor >= 2)
 
-(* Generating precision dependent files & mlpack
+(* Generating precision dependent files
  ***********************************************************************)
 
-let module_type_of_re =
-  Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9]+_[SDCZ]\\)"
+let sig_module_type_of_re =
+  Str.regexp ": *module type of +\\([A-Za-z0-9_]+\\)"
 
-let substitute fname0 fname1 subs =
+let inc_module_type_of_re =
+  Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+\\)"
+
+(* [full_doc] means that one wants all "include module type of" to be
+   replaced with the actual .mli content to be easier to read anb search. *)
+let rec substitute fname0 fname1 ?(full_doc=false) subs =
   let ml0 = input_file fname0 in
-  let ml0 = List.fold_left (fun l (r,s) -> Str.global_replace r s l) ml0 subs in
-  let ml0 =
-    if has_module_type_of then ml0
-    else (
-      (* Substitute the [module type of] which are not supported yet. *)
+  output_file fname1 ~content:(substitute_string ~full_doc ml0 subs)
+
+and substitute_string ~full_doc s subs =
+  let s = List.fold_left (fun l (r,s) -> Str.global_replace r s l) s subs in
+  (* Substitute [module type of] used alone as a sig. *)
+  let s =
+    if has_type_level_module_aliases then
+      Str.global_replace sig_module_type_of_re "= \\1" s
+    else if not has_module_type_of then
       let subst s =
-        let mname = Str.matched_group 2 s in
-        let fincl = String.uncapitalize mname ^ ".mli" in
-        try
-          input_file fincl ~comments:false ~prefix:(Str.matched_group 1 s)
-        with Sys_error _ ->
-          failwith(sprintf "Trying to replace \"include module type of %s\" \
-                            in %S but the file %S does not exist"
-                           mname fname0 fincl) in
-      Str.global_substitute module_type_of_re subst ml0
-    ) in
-  output_file fname1 ~content:ml0
+        let m = string_of_mod_name ~prefix:"  " ~full_doc
+                                   (Str.matched_group 1 s) subs in
+        String.concat "" [": sig\n"; m; "\nend\n"] in
+      Str.global_substitute sig_module_type_of_re subst s
+    else s in
+  (* Substitute [module type of] if not supported of explicit doc is desired. *)
+  if has_module_type_of && not full_doc then s
+  else (
+    let subst s =
+      string_of_mod_name ~prefix:(Str.matched_group 1 s) ~full_doc
+                         (Str.matched_group 2 s) subs in
+    Str.global_substitute inc_module_type_of_re subst s
+  )
+
+and string_of_mod_name ~prefix ~full_doc mname subs =
+  let fincl = String.uncapitalize mname ^ ".mli" in
+  try
+    let s' = input_file fincl ~comments:false ~prefix in
+    substitute_string ~full_doc s' subs
+  with Sys_error _ ->
+    failwith(sprintf "Trying to replace \"include module type of %s\" \
+                      but the file %S does not exist"
+                     mname fincl)
+
 
 (* [derived] is a list of (new_suffix, substitutions).  Returns the
    list of created files. *)
-let derived_files ?(prefix=true) fnames suffix derived =
+let derived_files ?(prefix=true) ?full_doc fnames suffix derived =
   let re = Str.regexp("\\([a-zA-Z]*\\)" ^ suffix ^ "$") in
-  let derive l fname =
+  let derive fname =
     if Str.string_match re fname 0 then (
       let seed = Str.matched_group 1 fname in
       if seed <> "lacaml" then (
-        let derive1 l (new_suffix, subs) =
+        let derive1 (new_suffix, subs) =
           let fname1 = seed ^ new_suffix in
           let fname1 = if prefix then "lacaml_" ^ fname1 else fname1 in
-          substitute fname fname1 subs;
-          fname1 :: l
+          substitute fname fname1 ?full_doc subs;
         in
-        List.fold_left derive1 l derived;
-      ) else l
-    ) else l in
-  Array.fold_left derive [] fnames
+        List.iter derive1 derived;
+    )) in
+  Array.iter derive fnames
 
 let () =
   let fnames = Sys.readdir lib in
-  let mods = ref [] in
-  let derive ?(add=false) ?prefix suffix subs =
-    let l = derived_files ?prefix fnames suffix subs in
-    if add then mods := l :: !mods in
+  let derive ?full_doc suffix subs =
+    derived_files ?full_doc fnames suffix subs in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
 
-  let float32 = r ["NPREC", "S";  "NBPREC", "S";
-                   "Numberxx", "Float32";  "numberxx", "float32"]
-  and float64 = r ["NPREC", "D"; "NBPREC", "D";
-                   "Numberxx", "Float64";  "numberxx", "float64"]
-  and complex32 = r ["NPREC", "C"; "NBPREC", "S";
-                     "Numberxx", "Complex32";  "numberxx", "complex32"]
-  and complex64 = r ["NPREC", "Z"; "NBPREC", "D";
-                     "Numberxx", "Complex64"; "numberxx", "complex64"]
+  let float32 = r ["NPREC", "S";  "NBPREC", "S"; "numberxx", "float32"]
+  and float64 = r ["NPREC", "D"; "NBPREC", "D"; "numberxx", "float64"]
+  and complex32 = r ["NPREC", "C"; "NBPREC", "S"; "numberxx", "complex32"]
+  and complex64 = r ["NPREC", "Z"; "NBPREC", "D"; "numberxx", "complex64"]
   in
   derive "_SDCZ.mli" [("4_S.mli", float32);   ("4_D.mli", float64);
                       ("4_C.mli", complex32); ("4_Z.mli", complex64) ];
   derive "_SDCZ.ml"  [("4_S.ml", float32);   ("4_D.ml", float64);
-                      ("4_C.ml", complex32); ("4_Z.ml", complex64) ] ~add:true;
+                      ("4_C.ml", complex32); ("4_Z.ml", complex64) ];
 
-  let float32 = r["FPREC", "S";  "Floatxx", "Float32";  "floatxx", "float32"]
-  and float64 = r["FPREC", "D";  "Floatxx", "Float64";  "floatxx", "float64"]
+  let float32 = r["FPREC", "S";  "floatxx", "float32"]
+  and float64 = r["FPREC", "D";  "floatxx", "float64"]
   and complex32 = r["CPREC", "C";  "CBPREC", "S";
-                    "Floatxx", "Float32";      "floatxx", "float32";
-                    "Complexxx", "Complex32";  "complexxx", "complex32"]
+                    "floatxx", "float32"; "complexxx", "complex32"]
   and complex64 = r["CPREC", "Z";  "CBPREC", "D";
-                    "Floatxx", "Float64";      "floatxx", "float64";
-                    "Complexxx", "Complex64";  "complexxx", "complex64"]
+                    "floatxx", "float64"; "complexxx", "complex64"]
   in
   derive "_SD.mli" [("2_S.mli", float32); ("2_D.mli", float64) ];
-  derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64) ] ~add:true;
-  derive "SD.ml"   [("s.ml", float32);     ("d.ml", float64)] ~add:true
-         ~prefix:false;
-  derive "SD.mli"  [("s.mli", float32);    ("d.mli", float64)] ~prefix:false;
+  derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64) ];
+  derive "SD.ml"   [("S.ml", float32);     ("D.ml", float64)];
+  derive "SD.mli"  [("S.mli", float32);    ("D.mli", float64)] ~full_doc:true;
   derive "_CZ.mli" [("2_C.mli", complex32); ("2_Z.mli", complex64)];
-  derive "_CZ.ml"  [("2_C.ml",  complex32); ("2_Z.ml",  complex64)] ~add:true;
-  derive "CZ.ml"   [("c.ml", complex32);  ("z.ml", complex64)] ~add:true
-         ~prefix:false;
-  derive "CZ.mli"  [("c.mli", complex32); ("z.mli", complex64)] ~prefix:false;
-
-  (* FIXME: copy lacaml_utils.ml → utils.ml *)
-  output_file "utils.ml" ~content:(input_file "lacaml_utils.ml");
-  (* Create lacaml.mlpack *)
-  let fh = open_out (Filename.concat lib "lacaml.mlpack") in
-  output_string fh "# Generated by the post-configure script \
-                    make_prec_dep.ml\n";
-  output_string fh "Common\n\
-                    Utils\n\
-                    Lacaml_utils\n\
-                    Float32\n\
-                    Float64\n\
-                    Complex32\n\
-                    Complex64\n\
-                    Io\n\
-                    Real_io\n\
-                    Complex_io\n\
-                    Version\n";
-  List.iter (fun m ->
-             let m = String.capitalize(Filename.chop_extension m) in
-             output_string fh m;
-             output_char fh '\n')
-            (List.flatten !mods);
-  close_out fh;
-  (try Sys.remove (Filename.concat lib "lacaml.mllib") with _ -> ())
+  derive "_CZ.ml"  [("2_C.ml",  complex32); ("2_Z.ml",  complex64)];
+  derive "CZ.ml"   [("C.ml", complex32);  ("Z.ml", complex64)];
+  derive "CZ.mli"  [("C.mli", complex32); ("Z.mli", complex64)] ~full_doc:true
 
 
 (* lacaml.mli
  ***********************************************************************)
 
-(* Replace all [include module type of] to have a self contained
-   interface that is easier to search. *)
-let include_re =
-  Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+_[SDCZ]\\|\
-              Io\\|Common\\|[SDCZ]\\|Real_io\\|Complex_io\\)$"
-let bad_open_re = Str.regexp " *open \\(Bigarray\\|Common\\) *[\n\r\t]?"
-let prec_re = Str.regexp " *open *\\(Float[0-9]+\\|Complex[0-9]+\\) *[\n\r\t]*"
-
-let rec substitute_mli ?comments ?(prefix="") fname =
-  let content = input_file ?comments ~prefix fname in
-  Str.global_substitute include_re (subst ~prefix ~fname) content
-
-and subst ~prefix ~fname s =
-  let mname = Str.matched_group 2 s in
-  let fincl = String.uncapitalize mname ^ ".mli" in
-  let m =
-    try substitute_mli fincl ~comments:false
-                       ~prefix:(Str.matched_group 1 s)
-    with Sys_error _ ->
-      failwith(sprintf "Substituting \"include module type of %s\" in %S but \
-                        the file %S does not exist" mname fname fincl) in
-  (* "open Bigarray" already present in the main file *)
-  let m = Str.global_replace bad_open_re "" m in
-  Str.global_replace prec_re "" m
-
 let () =
-  output_file "lacaml.mli" ~content:(substitute_mli "lacaml_SDCZ.mli")
+  (* Will also resolve the "module type of" *)
+  substitute "lacaml.mli.ab" "lacaml.mli" []
 

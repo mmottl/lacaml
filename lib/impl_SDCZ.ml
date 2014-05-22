@@ -31,8 +31,8 @@
 
 open Printf
 open Bigarray
-open Numberxx
-open Common
+open Lacaml_numberxx
+open Lacaml_common
 open Lacaml_utils
 
 module Vec = Lacaml_vec4_NPREC

@@ -51,7 +51,7 @@ module Mat : sig
   include module type of Lacaml_mat4_FPREC
 end
 
-include module type of Real_io
+include module type of Lacaml_real_io
 
 include module type of Lacaml_impl2_FPREC
 include module type of Lacaml_impl4_FPREC

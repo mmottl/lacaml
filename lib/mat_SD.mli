@@ -27,7 +27,7 @@
 
 (** {5 Matrix operations} *)
 
-open Floatxx
+open Lacaml_floatxx
 
 (** {6 Creation of matrices} *)
 

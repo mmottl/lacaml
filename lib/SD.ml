@@ -24,12 +24,12 @@
 (** Modules with functions specialized for simple (S) or double (D)
     precision numbers. *)
 
-include Floatxx
+include Lacaml_floatxx
 
 include Lacaml_impl2_FPREC
 include Lacaml_impl4_FPREC
 
-include Real_io
+include Lacaml_real_io
 
 module Vec = struct
   include Lacaml_vec2_FPREC

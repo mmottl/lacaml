@@ -31,8 +31,8 @@
 
 (* Interface to BLAS/LAPACK *)
 
-open Common
-open Numberxx
+open Lacaml_common
+open Lacaml_numberxx
 
 (** {6 BLAS-1 interface} *)
 

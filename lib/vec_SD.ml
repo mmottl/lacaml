@@ -27,7 +27,7 @@
 
 open Lacaml_vec4_FPREC
 open Lacaml_utils
-open Floatxx
+open Lacaml_floatxx
 
 let random ?rnd_state ?(from = -1.) ?(range = 2.) n =
   let vec = create n in

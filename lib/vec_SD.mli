@@ -27,7 +27,7 @@
 
 (** {5 Vector operations} *)
 
-open Floatxx
+open Lacaml_floatxx
 
 (** {6 Creation of vectors} *)
 

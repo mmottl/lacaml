@@ -51,7 +51,7 @@ module Mat : sig
   include module type of Lacaml_mat4_CPREC
 end
 
-include module type of Complex_io
+include module type of Lacaml_complex_io
 
 include module type of Lacaml_impl2_CPREC
 include module type of Lacaml_impl4_CPREC

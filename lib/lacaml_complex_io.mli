@@ -1,14 +1,10 @@
-(* File: real_io.ml
+(* File: complex_io.mli
 
-   Copyright (C) 2001-
-
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Copyright (C) 2010-
 
      Christophe Troestler
      email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+     WWW: http://math.umons.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -25,8 +21,12 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *)
 
-open Io
+val pp_num : Format.formatter -> Complex.t -> unit
+(** [pp_num ppf el] is equivalent to [fprintf ppf "(%G, %Gi)"
+    el.re el.im]. *)
 
-let pp_num ppf n = !pp_float_el_default ppf n
-let pp_vec = pp_fvec
-let pp_mat = pp_fmat
+val pp_vec : (Complex.t, 'a) Lacaml_io.pp_vec
+(** Pretty-printer for column vectors. *)
+
+val pp_mat : (Complex.t, 'a) Lacaml_io.pp_mat
+(** Pretty-printer for matrices. *)

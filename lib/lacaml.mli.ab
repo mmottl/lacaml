@@ -1,4 +1,4 @@
-(* File: lacaml.mli
+(* File: lacaml.mli						-*-tuareg-*-
 
    Copyright (C) 2010-
 
@@ -44,57 +44,36 @@
     or [M-x woman] (all systems).
  *)
 
-open Bigarray
-
 (** {2 Pretty printing} *)
 
 (** Pretty-printing of vector and matrices. *)
-module Io : sig
-  include module type of Io
-end
+module Io : module type of Lacaml_io
 
 (** Pretty printing of real vector and matrices.  See the
     {!Lacaml.Io} module for more versatile functions. *)
-module Real_io : sig
-  include module type of Real_io
-end
+module Real_io : module type of Lacaml_real_io
 
 (** Pretty printing of complex vector and matrices.  See the
     {!Lacaml.Io} module for more versatile functions. *)
-module Complex_io : sig
-  include module type of Complex_io
-end
+module Complex_io : module type of Lacaml_complex_io
 
 
 (** {2 Precision dependent modules} *)
 
 (** Types and functions common to all precision dependent sub-modules. *)
-module Common : sig
-  include module type of Common
-end
-open Common
-
-(** Utility functions *)
-module Utils : sig
-  include module type of Lacaml_utils
-end
+module Common : module type of Lacaml_common
 
 (** Double precision real BLAS and LAPACK functions. *)
-module D : sig
-  include module type of D
-end
+module D : module type of Lacaml_D
 
 (** Single precision real BLAS and LAPACK functions. *)
-module S : sig
-  include module type of S
-end
+module S : module type of Lacaml_S
 
 (** Double precision complex BLAS and LAPACK functions. *)
-module Z : sig
-  include module type of Z
-end
+module Z : module type of Lacaml_Z
 
 (** Single precision complex BLAS and LAPACK functions. *)
-module C : sig
-  include module type of C
-end
+module C : module type of Lacaml_C
+
+(** Utility functions *)
+module Utils : module type of Lacaml_utils

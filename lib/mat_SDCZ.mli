@@ -27,8 +27,8 @@
 
 (* Matrix operations *)
 
-open Common
-open Numberxx
+open Lacaml_common
+open Lacaml_numberxx
 
 (** {6 Creation of matrices and accessors} *)
 
