@@ -42,7 +42,7 @@ Flag strict
 # There are special rules for generating C code in myocamlbuild.ml
 Library lacaml
   Path:          lib
-  Modules:       Lacaml, Lacaml_common, Lacaml_io, 
+  Modules:       Lacaml, Lacaml_common, Lacaml_io,
                  Lacaml_S, Lacaml_D, Lacaml_C, Lacaml_Z,
                  Lacaml_utils, Lacaml_version,
                  Lacaml_float32, Lacaml_float64,
