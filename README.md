@@ -288,7 +288,7 @@ contact the maintainers:
   * Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
 Up-to-date information concerning this tool should be available at:
-<https://mmottl.github.io/lacaml>
+<http://mmottl.github.io/lacaml>
 
 Enjoy!
 
