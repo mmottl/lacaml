@@ -1,0 +1,541 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml_common" rel="Chapter" href="Lacaml_common.html">
+<link title="Lacaml_io" rel="Chapter" href="Lacaml_io.html">
+<link title="Lacaml_S" rel="Chapter" href="Lacaml_S.html">
+<link title="Lacaml_D" rel="Chapter" href="Lacaml_D.html">
+<link title="Lacaml_C" rel="Chapter" href="Lacaml_C.html">
+<link title="Lacaml_Z" rel="Chapter" href="Lacaml_Z.html">
+<link title="Lacaml_utils" rel="Chapter" href="Lacaml_utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
+<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
+<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
+<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml.Utils</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty_int32_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_norm_char&nbsp;:&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">F</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">I</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">M</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_uplo_char&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_trans_char&nbsp;:&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_side_char&nbsp;:&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">R</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_diag_char&nbsp;:&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_s_d_job_char&nbsp;:&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">A</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">S</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_job_char&nbsp;:&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;job_char_true&nbsp;:&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;job_char_false&nbsp;:&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;a_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ab_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;alphas_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ap_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;b_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;c_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;d_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dl_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;du_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;e_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ipiv_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;iseed_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;k_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ka_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;kb_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;work_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;lwork_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;liwork_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;kd_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;kl_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ku_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;m_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;n_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;nrhs_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;s_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tau_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;u_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;um_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;un_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;vm_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;vn_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;vt_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;w_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;wi_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;wr_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;x_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;y_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;z_str&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_work&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;calc_unpacked_dim&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_unpacked_dim&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">external</span>&nbsp;ilaenv&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;<span class="string">"lacaml_ilaenv_stub_bc"</span>&nbsp;<span class="string">"lacaml_ilaenv_stub"</span><br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_var_ltz&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_vec&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_vec&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_dim1_mat&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_dim2_mat&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_dim_mat&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_mat&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_dim_vec&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_dim1_mat&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_dim2_mat&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_k_mat_sb&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_dim_mat_packed&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_inc&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_ofs&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_vec_geom&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_n_of_square&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_n_of_a&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_nrhs_of_b&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;orgqr_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loc:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;work:(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;a:(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;err:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;orgqr_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;tau:(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ormqr_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loc:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;side:[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">R</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;lwork:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;a:(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;c:(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;err:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ormqr_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;side:[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">R</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;tau:(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;cr:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;cc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gelsX_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(m:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;nrhs:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gelsX_get_s&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gelsX_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxev_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxev_get_wx&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;geev_get_job_side&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;*&nbsp;char&nbsp;*&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;geev_gen_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;*&nbsp;char&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;*&nbsp;char&nbsp;*&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gXmv_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;*&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;symv_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;*&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trXv_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tpXv_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_c&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_rows_mat_tr&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_cols_mat_tr&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_inner_dim&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gemm_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;check_mat_square&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;symm_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">R</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trXm_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">R</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;char<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;syrk_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;syr2k_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">C</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;&gt;&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xlange_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxtrs_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxtrs_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxtri_singular_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxtri_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxcon_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;geXrf_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;getrf_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;getrf_lu_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;getrf_get_ipiv&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sytrf_get_ipiv&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sytrf_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sytrf_fact_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;potrf_chol_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;potrf_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;potrs_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trtrs_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tbtrs_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>g<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;getri_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trtri_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gecon_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;char&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gesvd_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>j<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gesvd_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">A</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">S</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">A</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">S</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;*&nbsp;char&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;*&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gesdd_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>j<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gesdd_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span><span class="constructor">A</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">S</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>g,&nbsp;<span class="keywordsign">'</span>h,&nbsp;<span class="keywordsign">'</span>i)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;*&nbsp;int&nbsp;*&nbsp;int&nbsp;*&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;*&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_err&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_lu_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_pos_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_ind_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_a_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>d<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_work_err&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_get_ipiv&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_common</span>.int32_vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;xxsv_get_params&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>d,&nbsp;<span class="keywordsign">'</span>e,&nbsp;<span class="keywordsign">'</span>f)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;*&nbsp;int<br>
+<span class="keyword">end</span></code></body></html>

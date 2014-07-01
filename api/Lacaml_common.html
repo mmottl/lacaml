@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Lacaml.html">
+<link rel="next" href="Lacaml_io.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml_common" rel="Chapter" href="Lacaml_common.html">
+<link title="Lacaml_io" rel="Chapter" href="Lacaml_io.html">
+<link title="Lacaml_S" rel="Chapter" href="Lacaml_S.html">
+<link title="Lacaml_D" rel="Chapter" href="Lacaml_D.html">
+<link title="Lacaml_C" rel="Chapter" href="Lacaml_C.html">
+<link title="Lacaml_Z" rel="Chapter" href="Lacaml_Z.html">
+<link title="Lacaml_utils" rel="Chapter" href="Lacaml_utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
+<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
+<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
+<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml_common</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Lacaml.html" title="Lacaml">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Lacaml_io.html" title="Lacaml_io">Next</a>
+</div>
+<h1>Module <a href="type_Lacaml_common.html">Lacaml_common</a></h1>
+
+<pre><span class="keyword">module</span> Lacaml_common: <code class="code">sig</code> <a href="Lacaml_common.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<code class="code">Lacaml.common</code> contains definitions independent of the precision.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEtrans2"><span class="keyword">type</span> <code class="type"></code>trans2</span> = <code class="type">[ `N | `T ]</code> </pre>
+<div class="info ">
+Transpose parameter (normal or transposed)<br>
+</div>
+
+
+<pre><span id="TYPEside"><span class="keyword">type</span> <code class="type"></code>side</span> = <code class="type">[ `L | `R ]</code> </pre>
+<div class="info ">
+Side parameter (left or right)<br>
+</div>
+
+
+<pre><span id="TYPEdiag"><span class="keyword">type</span> <code class="type"></code>diag</span> = <code class="type">[ `N | `U ]</code> </pre>
+<div class="info ">
+Diagonal parameter (unit or non-unit)<br>
+</div>
+
+
+<pre><span id="TYPEnorm2"><span class="keyword">type</span> <code class="type"></code>norm2</span> = <code class="type">[ `I | `O ]</code> </pre>
+<div class="info ">
+Type of 1-norm (<code class="code">`O</code>) and infinity norm (<code class="code">`I</code>)<br>
+</div>
+
+
+<pre><span id="TYPEnorm4"><span class="keyword">type</span> <code class="type"></code>norm4</span> = <code class="type">[ `F | `I | `M | `O ]</code> </pre>
+<div class="info ">
+Type of 1-norm (<code class="code">`O</code>), infinity norm (<code class="code">`I</code>) and the Frobenius norm (<code class="code">`F</code>).
+    <code class="code">`M</code> is the maximum of the absolute values (not a true matrix norm).<br>
+</div>
+
+
+<pre><span id="TYPEsvd_job"><span class="keyword">type</span> <code class="type"></code>svd_job</span> = <code class="type">[ `A | `N | `O | `S ]</code> </pre>
+<div class="info ">
+SVD computation flags<br>
+</div>
+
+
+<pre><span id="EXCEPTIONInternalError"><span class="keyword">exception</span> InternalError</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info ">
+<code class="code">InternalError msg</code> gets raised when BLAS or LAPACK exhibit undefined
+    behaviour.<br>
+</div>
+
+<pre><span id="TYPEint_vec"><span class="keyword">type</span> <code class="type"></code>int_vec</span> = <code class="type">(int, Bigarray.int_elt, Bigarray.fortran_layout) Bigarray.Array1.t</code> </pre>
+<div class="info ">
+Type of OCaml integer vectors.<br>
+</div>
+
+
+<pre><span id="VALcreate_int_vec"><span class="keyword">val</span> create_int_vec</span> : <code class="type">int -> <a href="Lacaml_common.html#TYPEint_vec">int_vec</a></code></pre><div class="info ">
+<code class="code">create_int_vec n</code><br>
+<b>Returns</b> an int-vector with <code class="code">n</code> rows.<br>
+</div>
+
+<pre><span id="TYPEint32_vec"><span class="keyword">type</span> <code class="type"></code>int32_vec</span> = <code class="type">(int32, Bigarray.int32_elt, Bigarray.fortran_layout) Bigarray.Array1.t</code> </pre>
+<div class="info ">
+Type of 32bit Fortran integer vectors.<br>
+</div>
+
+
+<pre><span id="VALcreate_int32_vec"><span class="keyword">val</span> create_int32_vec</span> : <code class="type">int -> <a href="Lacaml_common.html#TYPEint32_vec">int32_vec</a></code></pre><div class="info ">
+<code class="code">create_int32_vec n</code><br>
+<b>Returns</b> an int32-vector with <code class="code">n</code> rows.<br>
+</div>
+
+<pre><span id="VALmat_from_vec"><span class="keyword">val</span> mat_from_vec</span> : <code class="type">('a, 'b, 'c) Bigarray.Array1.t -> ('a, 'b, 'c) Bigarray.Array2.t</code></pre><div class="info ">
+<code class="code">mat_from_vec a</code> converts the vector <code class="code">a</code> into a matrix with <code class="code">Array1.dim a</code>
+    rows and 1 column.  The data is shared between the two matrices.<br>
+</div>
+</body></html>

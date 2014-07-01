@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Lacaml_C.Vec.html">
+<link rel="Up" href="Lacaml_C.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml_common" rel="Chapter" href="Lacaml_common.html">
+<link title="Lacaml_io" rel="Chapter" href="Lacaml_io.html">
+<link title="Lacaml_S" rel="Chapter" href="Lacaml_S.html">
+<link title="Lacaml_D" rel="Chapter" href="Lacaml_D.html">
+<link title="Lacaml_C" rel="Chapter" href="Lacaml_C.html">
+<link title="Lacaml_Z" rel="Chapter" href="Lacaml_Z.html">
+<link title="Lacaml_utils" rel="Chapter" href="Lacaml_utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
+<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
+<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
+<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><link title="Matrix operations" rel="Section" href="#5_Matrixoperations">
+<link title="Creation of matrices" rel="Subsection" href="#6_Creationofmatrices">
+<link title="Creation of matrices and accessors" rel="Subsection" href="#6_Creationofmatricesandaccessors">
+<link title="Matrix transformations" rel="Subsection" href="#6_Matrixtransformations">
+<link title="Arithmetic and other matrix operations" rel="Subsection" href="#6_Arithmeticandothermatrixoperations">
+<link title="Iterators over matrices" rel="Subsection" href="#6_Iteratorsovermatrices">
+<title>Lacaml_C.Mat</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Lacaml_C.Vec.html" title="Lacaml_C.Vec">Previous</a>
+&nbsp;<a class="up" href="Lacaml_C.html" title="Lacaml_C">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Lacaml_C.Mat.html">Lacaml_C.Mat</a></h1>
+
+<pre><span class="keyword">module</span> Mat: <code class="code">sig</code> <a href="Lacaml_C.Mat.html">..</a> <code class="code">end</code></pre><hr width="100%">
+<br>
+<h5 id="5_Matrixoperations">Matrix operations</h5><br>
+<br>
+<h6 id="6_Creationofmatrices">Creation of matrices</h6><br>
+
+<pre><span id="VALrandom"><span class="keyword">val</span> random</span> : <code class="type">?rnd_state:Random.State.t -><br>       ?re_from:float -><br>       ?re_range:float -><br>       ?im_from:float -> ?im_range:float -> int -> int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">random ?rnd_state ?re_from ?re_range ?im_from ?im_range m n</code><br>
+<b>Returns</b> an <code class="code">m</code>x<code class="code">n</code> matrix initialized with random elements sampled
+      uniformly from <code class="code">re_range</code> and <code class="code">im_range</code> starting at <code class="code">re_from</code> and
+      <code class="code">im_from</code> for real and imaginary numbers respectively.  A random state
+      <code class="code">rnd_state</code> can be passed.<br>
+</div>
+<div class="param_info"><code class="code">rnd_state</code> : default = Random.get_state ()</div>
+<div class="param_info"><code class="code">re_from</code> : default = -1.0</div>
+<div class="param_info"><code class="code">re_range</code> : default = 2.0</div>
+<div class="param_info"><code class="code">im_from</code> : default = -1.0</div>
+<div class="param_info"><code class="code">im_range</code> : default = 2.0</div>
+<br>
+<h6 id="6_Creationofmatricesandaccessors">Creation of matrices and accessors</h6><br>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">int -> int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">create m n</code><br>
+<b>Returns</b> a matrix containing <code class="code">m</code> rows and <code class="code">n</code> columns.<br>
+</div>
+
+<pre><span id="VALmake"><span class="keyword">val</span> make</span> : <code class="type">int -> int -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">make m n x</code><br>
+<b>Returns</b> a matrix containing <code class="code">m</code> rows and <code class="code">n</code> columns
+      initialized with value <code class="code">x</code>.<br>
+</div>
+
+<pre><span id="VALmake0"><span class="keyword">val</span> make0</span> : <code class="type">int -> int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">make0 m n x</code><br>
+<b>Returns</b> a matrix containing <code class="code">m</code> rows and <code class="code">n</code> columns
+      initialized with the zero element.<br>
+</div>
+
+<pre><span id="VALof_array"><span class="keyword">val</span> of_array</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> array array -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">of_array ar</code><br>
+<b>Returns</b> a matrix initialized from the array of arrays
+      <code class="code">ar</code>.  It is assumed that the OCaml matrix is in row major order
+      (standard).<br>
+</div>
+
+<pre><span id="VALto_array"><span class="keyword">val</span> to_array</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> array array</code></pre><div class="info ">
+<code class="code">to_array mat</code><br>
+<b>Returns</b> an array of arrays initialized from matrix
+      <code class="code">mat</code>.<br>
+</div>
+
+<pre><span id="VALof_col_vecs"><span class="keyword">val</span> of_col_vecs</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> array -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">of_col_vecs ar</code><br>
+<b>Returns</b> a matrix whose columns are initialized from
+      the array of vectors <code class="code">ar</code>.  The vectors must be of same length.<br>
+</div>
+
+<pre><span id="VALto_col_vecs"><span class="keyword">val</span> to_col_vecs</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> array</code></pre><div class="info ">
+<code class="code">to_col_vecs mat</code><br>
+<b>Returns</b> an array of column vectors initialized
+      from matrix <code class="code">mat</code>.<br>
+</div>
+
+<pre><span id="VALas_vec"><span class="keyword">val</span> as_vec</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">as_vec mat</code><br>
+<b>Returns</b> a vector containing all elements of the
+      matrix in column-major order.  The data is shared.<br>
+</div>
+
+<pre><span id="VALinit_rows"><span class="keyword">val</span> init_rows</span> : <code class="type">int -><br>       int -> (int -> int -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a>) -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">init_cols m n f</code><br>
+<b>Returns</b> a matrix containing <code class="code">m</code> rows and <code class="code">n</code>
+      columns, where each element at <code class="code">row</code> and <code class="code">col</code> is initialized by the
+      result of calling <code class="code">f row col</code>. The elements are passed row-wise.<br>
+</div>
+
+<pre><span id="VALinit_cols"><span class="keyword">val</span> init_cols</span> : <code class="type">int -><br>       int -> (int -> int -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a>) -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">init_cols m n f</code><br>
+<b>Returns</b> a matrix containing <code class="code">m</code> rows and <code class="code">n</code>
+      columns, where each element at <code class="code">row</code> and <code class="code">col</code> is initialized by the
+      result of calling <code class="code">f row col</code>. The elements are passed column-wise.<br>
+</div>
+
+<pre><span id="VALcreate_mvec"><span class="keyword">val</span> create_mvec</span> : <code class="type">int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">create_mvec m</code><br>
+<b>Returns</b> a matrix with one column containing <code class="code">m</code> rows.<br>
+</div>
+
+<pre><span id="VALmake_mvec"><span class="keyword">val</span> make_mvec</span> : <code class="type">int -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">make_mvec m x</code><br>
+<b>Returns</b> a matrix with one column containing <code class="code">m</code> rows
+      initialized with value <code class="code">x</code>.<br>
+</div>
+
+<pre><span id="VALmvec_of_array"><span class="keyword">val</span> mvec_of_array</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> array -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">mvec_of_array ar</code><br>
+<b>Returns</b> a matrix with one column
+      initialized with values from array <code class="code">ar</code>.<br>
+</div>
+
+<pre><span id="VALmvec_to_array"><span class="keyword">val</span> mvec_to_array</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> array</code></pre><div class="info ">
+<code class="code">mvec_to_array mat</code><br>
+<b>Returns</b> an array initialized with values from
+      the first (not necessarily only) column vector of matrix <code class="code">mat</code>.<br>
+</div>
+
+<pre><span id="VALfrom_col_vec"><span class="keyword">val</span> from_col_vec</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">from_col_vec v</code><br>
+<b>Returns</b> a matrix with one column representing vector <code class="code">v</code>.
+      The data is shared.<br>
+</div>
+
+<pre><span id="VALfrom_row_vec"><span class="keyword">val</span> from_row_vec</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">from_row_vec v</code><br>
+<b>Returns</b> a matrix with one row representing vector <code class="code">v</code>.
+      The data is shared.<br>
+</div>
+
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">empty</code>, the empty matrix.<br>
+</div>
+
+<pre><span id="VALidentity"><span class="keyword">val</span> identity</span> : <code class="type">int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">identity n</code><br>
+<b>Returns</b> the <code class="code">n</code>x<code class="code">n</code> identity matrix.<br>
+</div>
+
+<pre><span id="VALof_diag"><span class="keyword">val</span> of_diag</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">of_diag v</code><br>
+<b>Returns</b> the diagonal matrix with diagonals elements from <code class="code">v</code>.<br>
+</div>
+
+<pre><span id="VALdim1"><span class="keyword">val</span> dim1</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> int</code></pre><div class="info ">
+<code class="code">dim1 m</code><br>
+<b>Returns</b> the first dimension of matrix <code class="code">m</code> (number of rows).<br>
+</div>
+
+<pre><span id="VALdim2"><span class="keyword">val</span> dim2</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> int</code></pre><div class="info ">
+<code class="code">dim2 m</code><br>
+<b>Returns</b> the second dimension of matrix <code class="code">m</code> (number of columns).<br>
+</div>
+
+<pre><span id="VALcol"><span class="keyword">val</span> col</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">col m n</code><br>
+<b>Returns</b> the <code class="code">n</code>th column of matrix <code class="code">m</code> as a vector.
+      The data is shared.<br>
+</div>
+
+<pre><span id="VALcopy_row"><span class="keyword">val</span> copy_row</span> : <code class="type">?vec:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">copy_row ?vec mat int</code><br>
+<b>Returns</b> a copy of the <code class="code">n</code>th row of matrix <code class="code">m</code>
+      in vector <code class="code">vec</code>.<br>
+</div>
+<div class="param_info"><code class="code">vec</code> : default = fresh vector of length <code class="code">dim2 mat</code></div>
+<br>
+<h6 id="6_Matrixtransformations">Matrix transformations</h6><br>
+
+<pre><span id="VALtranspose_copy"><span class="keyword">val</span> transpose_copy</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">transpose_copy ?m ?n ?ar ?ac a ?br ?bc b</code> copy the transpose
+      of (sub-)matrix <code class="code">a</code> into (sub-)matrix <code class="code">b</code>.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = <code class="code">Mat.dim1 a</code></div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">Mat.dim2 a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALtranspose"><span class="keyword">val</span> transpose</span> : <code class="type">?m:int -><br>       ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">transpose ?m ?n ?ar ?ac aa</code><br>
+<b>Returns</b> the transpose of (sub-)matrix <code class="code">a</code>.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = <code class="code">Mat.dim1 a</code></div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">Mat.dim2 a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALdetri"><span class="keyword">val</span> detri</span> : <code class="type">?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">detri ?up ?n ?ar ?ac a</code> takes a triangular (sub-)matrix <code class="code">a</code>, i.e. one
+      where only the upper (iff <code class="code">up</code> is true) or lower triangle is defined,
+      and makes it a symmetric matrix by mirroring the defined triangle
+      along the diagonal.<br>
+</div>
+<div class="param_info"><code class="code">up</code> : default = <code class="code">true</code></div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">Mat.dim1 a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALpacked"><span class="keyword">val</span> packed</span> : <code class="type">?up:bool -><br>       ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">packed ?up ?n ?ar ?ac a</code><br>
+<b>Returns</b> (sub-)matrix <code class="code">a</code> in packed
+      storage format.<br>
+</div>
+<div class="param_info"><code class="code">up</code> : default = <code class="code">true</code></div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">Mat.dim2 a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALunpacked"><span class="keyword">val</span> unpacked</span> : <code class="type">?up:bool -> ?n:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">unpacked ?up x</code><br>
+<b>Returns</b> an upper or lower (depending on <code class="code">up</code>)
+      triangular matrix from packed representation <code class="code">vec</code>.  The other
+      triangle of the matrix will be filled with zeros.<br>
+</div>
+<div class="param_info"><code class="code">up</code> : default = <code class="code">true</code></div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">Vec.dim x</code></div>
+<br>
+<h6 id="6_Arithmeticandothermatrixoperations">Arithmetic and other matrix operations</h6><br>
+
+<pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">add_const c ?m ?n ?br ?bc ?b ?ar ?ac a</code> adds constant <code class="code">c</code> to the
+      designated <code class="code">m</code> by <code class="code">n</code> submatrix in <code class="code">a</code> and stores the result in the
+      designated submatrix in <code class="code">b</code>.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = <code class="code">Mat.dim1 a</code></div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">Mat.dim2 a</code></div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">b</code> : default = fresh matrix of size <code class="code">m</code> by <code class="code">n</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a></code></pre><div class="info ">
+<code class="code">sum ?m ?n ?ar ?ac a</code> computes the sum of all elements in
+      the <code class="code">m</code>-by-<code class="code">n</code> submatrix starting at row <code class="code">ar</code> and column <code class="code">ac</code>.<br>
+</div>
+
+<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> unit</code></pre><div class="info ">
+<code class="code">fill ?m ?n ?ar ?ac a x</code> fills the specified sub-matrix in <code class="code">a</code> with value
+      <code class="code">x</code>.<br>
+</div>
+
+<pre><span id="VALcopy_diag"><span class="keyword">val</span> copy_diag</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">copy_diag m</code><br>
+<b>Returns</b> the diagonal of matrix <code class="code">m</code> as a vector.
+      If <code class="code">m</code> is not a square matrix, the longest possible sequence
+      of diagonal elements will be returned.<br>
+</div>
+
+<pre><span id="VALtrace"><span class="keyword">val</span> trace</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a></code></pre><div class="info ">
+<code class="code">trace m</code><br>
+<b>Returns</b> the trace of matrix <code class="code">m</code>.  If <code class="code">m</code> is not a
+      square matrix, the sum of the longest possible sequence of
+      diagonal elements will be returned.<br>
+</div>
+
+<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?m:int -><br>       ?n:int -><br>       <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">scal ?m ?n alpha ?ar ?ac a</code> BLAS <code class="code">scal</code> function for (sub-)matrices.<br>
+</div>
+
+<pre><span id="VALscal_cols"><span class="keyword">val</span> scal_cols</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> ?ofs:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">scal_cols ?m ?n ?ar ?ac a ?ofs alphas</code> column-wise <code class="code">scal</code>
+      function for matrices.<br>
+</div>
+
+<pre><span id="VALscal_rows"><span class="keyword">val</span> scal_rows</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ofs:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">scal_rows ?m ?n ?ofs alphas ?ar ?ac a</code> row-wise <code class="code">scal</code>
+      function for matrices.<br>
+</div>
+
+<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?alpha:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?xr:int -><br>       ?xc:int -><br>       x:<a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> ?yr:int -> ?yc:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">axpy ?m ?n ?alpha ?xr ?xc ~x ?yr ?yc y</code> BLAS <code class="code">axpy</code> function for
+      matrices.<br>
+</div>
+
+<pre><span id="VALgemm_diag"><span class="keyword">val</span> gemm_diag</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?beta:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ofsy:int -><br>       ?y:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?transa:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?alpha:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?transb:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">gemm_diag ?n ?k ?beta ?ofsy ?y ?transa ?transb ?alpha ?ar ?ac a ?br ?bc b</code>
+      computes the diagonal of the product of the (sub-)matrices <code class="code">a</code>
+      and <code class="code">b</code> (taking into account potential transposing), multiplying
+      it with <code class="code">alpha</code> and adding <code class="code">beta</code> times <code class="code">y</code>, storing the result in
+      <code class="code">y</code> starting at the specified offset.  <code class="code">n</code> elements of the diagonal
+      will be computed, and <code class="code">k</code> elements of the matrices will be part of
+      the dot product associated with each diagonal element.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code> (or tr <code class="code">a</code>) and
+                         number of columns of <code class="code">b</code> (or tr <code class="code">b</code>)</div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code> (or tr <code class="code">a</code>) and
+                         number of rows of <code class="code">b</code> (or tr <code class="code">b</code>)</div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">0</code></div>
+<div class="param_info"><code class="code">ofsy</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">y</code> : default = fresh vector of size <code class="code">n + ofsy - 1</code></div>
+<div class="param_info"><code class="code">transa</code> : default = <code class="code">`N</code></div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">transb</code> : default = <code class="code">`N</code></div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALsyrk_diag"><span class="keyword">val</span> syrk_diag</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?beta:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ofsy:int -><br>       ?y:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?trans:<a href="Lacaml_common.html#TYPEtrans2">Lacaml_common.trans2</a> -><br>       ?alpha:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<code class="code">syrk_diag ?n ?k ?beta ?ofsy ?y ?trans ?alpha ?ar ?ac a</code>
+      computes the diagonal of the symmetric rank-k product of the
+      (sub-)matrix <code class="code">a</code>, multiplying it with <code class="code">alpha</code> and adding <code class="code">beta</code>
+      times <code class="code">y</code>, storing the result in <code class="code">y</code> starting at the specified
+      offset.  <code class="code">n</code> elements of the diagonal will be computed, and <code class="code">k</code>
+      elements of the matrix will be part of the dot product associated
+      with each diagonal element.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code> (or tr<code class="code">a</code>)</div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code> (or tr<code class="code">a</code>)</div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">0</code></div>
+<div class="param_info"><code class="code">ofsy</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">y</code> : default = fresh vector of size <code class="code">n + ofsy - 1</code></div>
+<div class="param_info"><code class="code">trans</code> : default = <code class="code">`N</code></div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALgemm_trace"><span class="keyword">val</span> gemm_trace</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?transa:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?transb:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a></code></pre><div class="info ">
+<code class="code">gemm_trace ?n ?k ?transa ?ar ?ac a ?transb ?br ?bc b</code> computes
+      the trace of the product of the (sub-)matrices <code class="code">a</code> and <code class="code">b</code> (taking into
+      account potential transposing).  This is also sometimes referred to as
+      the Frobenius product.  <code class="code">n</code> is the number of rows (columns) to consider in
+      <code class="code">a</code>, and <code class="code">k</code> the number of columns (rows) in <code class="code">b</code>.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code> (or tr <code class="code">a</code>) and
+                         number of columns of <code class="code">b</code> (or tr <code class="code">b</code>)</div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code> (or tr <code class="code">a</code>) and
+                         number of rows of <code class="code">b</code> (or tr <code class="code">b</code>)</div>
+<div class="param_info"><code class="code">transa</code> : default = <code class="code">`N</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">transb</code> : default = <code class="code">`N</code></div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALsyrk_trace"><span class="keyword">val</span> syrk_trace</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a></code></pre><div class="info ">
+<code class="code">syrk_trace ?n ?k ?ar ?ac a</code> computes the trace of either <code class="code">a' * a</code>
+      or <code class="code">a * a'</code>, whichever is more efficient (results are identical), of the
+      (sub-)matrix <code class="code">a</code> multiplied by its own transpose.  This is the same as
+      the square of the Frobenius norm of a matrix.  <code class="code">n</code> is the number of rows
+      to consider in <code class="code">a</code>, and <code class="code">k</code> the number of columns to consider.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code></div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+
+<pre><span id="VALsymm2_trace"><span class="keyword">val</span> symm2_trace</span> : <code class="type">?n:int -><br>       ?upa:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?upb:bool -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a></code></pre><div class="info ">
+<code class="code">symm2_trace ?n ?upa ?ar ?ac a ?upb ?br ?bc b</code> computes the
+      trace of the product of the symmetric (sub-)matrices <code class="code">a</code> and
+      <code class="code">b</code>.  <code class="code">n</code> is the number of rows and columns to consider in <code class="code">a</code>
+      and <code class="code">b</code>.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = dimensions of <code class="code">a</code> and <code class="code">b</code></div>
+<div class="param_info"><code class="code">upa</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">upb</code> : default = true (upper triangular portion of <code class="code">b</code> is accessed)</div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+<br>
+<h6 id="6_Iteratorsovermatrices">Iterators over matrices</h6><br>
+
+<pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">(<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a>) -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
+<code class="code">map f ?m ?n ?br ?bc ?b ?ar ?ac a</code><br>
+<b>Returns</b> matrix with <code class="code">f</code> applied to each element of <code class="code">a</code>.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">a</code></div>
+<div class="param_info"><code class="code">b</code> : default = fresh matrix of size m by n</div>
+
+<pre><span id="VALfold_cols"><span class="keyword">val</span> fold_cols</span> : <code class="type">('a -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> 'a) -><br>       ?n:int -> ?ac:int -> 'a -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> 'a</code></pre><div class="info ">
+<code class="code">fold_cols f ?n ?ac acc a</code><br>
+<b>Returns</b> accumulator resulting from folding over each column vector.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">a</code></div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+</body></html>

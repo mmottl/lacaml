@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Lacaml_complex32.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml_common" rel="Chapter" href="Lacaml_common.html">
+<link title="Lacaml_io" rel="Chapter" href="Lacaml_io.html">
+<link title="Lacaml_S" rel="Chapter" href="Lacaml_S.html">
+<link title="Lacaml_D" rel="Chapter" href="Lacaml_D.html">
+<link title="Lacaml_C" rel="Chapter" href="Lacaml_C.html">
+<link title="Lacaml_Z" rel="Chapter" href="Lacaml_Z.html">
+<link title="Lacaml_utils" rel="Chapter" href="Lacaml_utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
+<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
+<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
+<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml_complex64</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Lacaml_complex32.html" title="Lacaml_complex32">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Lacaml_complex64.html">Lacaml_complex64</a></h1>
+
+<pre><span class="keyword">module</span> Lacaml_complex64: <code class="code">sig</code> <a href="Lacaml_complex64.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="TYPEprec"><span class="keyword">type</span> <code class="type"></code>prec</span> = <code class="type">Bigarray.complex64_elt</code> </pre>
+
+
+<pre><span id="TYPEnum_type"><span class="keyword">type</span> <code class="type"></code>num_type</span> = <code class="type">Complex.t</code> </pre>
+
+
+<pre><span id="TYPEvec"><span class="keyword">type</span> <code class="type"></code>vec</span> = <code class="type">(Complex.t, Bigarray.complex64_elt, Bigarray.fortran_layout)<br>       Bigarray.Array1.t</code> </pre>
+
+
+<pre><span id="TYPErvec"><span class="keyword">type</span> <code class="type"></code>rvec</span> = <code class="type">(float, Bigarray.float64_elt, Bigarray.fortran_layout) Bigarray.Array1.t</code> </pre>
+
+
+<pre><span id="TYPEmat"><span class="keyword">type</span> <code class="type"></code>mat</span> = <code class="type">(Complex.t, Bigarray.complex64_elt, Bigarray.fortran_layout)<br>       Bigarray.Array2.t</code> </pre>
+
+
+<pre><span id="TYPEtrans3"><span class="keyword">type</span> <code class="type"></code>trans3</span> = <code class="type">[ `C | `N | `T ]</code> </pre>
+
+
+<pre><span id="VALprec"><span class="keyword">val</span> prec</span> : <code class="type">(Complex.t, Bigarray.complex64_elt) Bigarray.kind</code></pre>
+<pre><span id="VALzero"><span class="keyword">val</span> zero</span> : <code class="type">Complex.t</code></pre>
+<pre><span id="VALone"><span class="keyword">val</span> one</span> : <code class="type">Complex.t</code></pre>
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type">Complex.t -> Complex.t -> Complex.t</code></pre>
+<pre><span id="VALint_of_complex64"><span class="keyword">val</span> int_of_complex64</span> : <code class="type">Complex.t -> int</code></pre></body></html>
