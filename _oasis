@@ -1,6 +1,6 @@
 OASISFormat:      0.4
 Name:             lacaml
-Version:          7.1.2
+Version:          7.1.3
 Synopsis:         OCaml-bindings to BLAS and LAPACK.
 Description:      This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
@@ -23,7 +23,7 @@ Copyrights:       (C) 2000-2012 Egbert Ammicht <eammicht@lucent.com>,
 License:          LGPL-2.1+ with OCaml linking exception
 OCamlVersion:     >= 3.12
 FindlibVersion:   >= 1.3.1
-Homepage:         https://bitbucket.org/mmottl/lacaml
+Homepage:         https://github.com/mmottl/lacaml
 #Categories:
 FilesAB:          lib/lacaml_version.ml.ab
 
@@ -256,8 +256,8 @@ Document API
   XOCamlbuildPath:      .
   XOCamlbuildLibraries: lacaml
 
-SourceRepository trunk
-  Type:       hg
-  Location:   ssh://hg@bitbucket.org/mmottl/lacaml
-  Browser:    https://bitbucket.org/mmottl/lacaml
-  Tag:        release-$(pkg_version)
+SourceRepository head
+  Type:       Git
+  Location:   https://github.com/mmottl/lacaml.git
+  Browser:    https://github.com/mmottl/lacaml
+  Tag:        v$(pkg_version)

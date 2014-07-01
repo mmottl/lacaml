@@ -90,11 +90,12 @@ Using LACAML
 You can make use of this library by referring to the corresponding module
 for the required precision and number type.  E.g.:
 
-    :::ocaml
-    open Lacaml.S  (* Single-precision real numbers *)
-    open Lacaml.D  (* Double-precision real numbers *)
-    open Lacaml.C  (* Single-precision complex numbers *)
-    open Lacaml.Z  (* Double-precision complex numbers *)
+```ocaml
+open Lacaml.S  (* Single-precision real numbers *)
+open Lacaml.D  (* Double-precision real numbers *)
+open Lacaml.C  (* Single-precision complex numbers *)
+open Lacaml.Z  (* Double-precision complex numbers *)
+```
 
 These modules become available if you link the `lacaml`-library with your
 application.  The widely used OCaml-tool `findlib` will take care of linking
@@ -109,9 +110,10 @@ Most functions were implemented using optional arguments (= default arguments).
 If you do not provide them at the call-site, sane defaults will be used
 instead.  Here is an example of a function call:
 
-    :::ocaml
-    let rank = gelss in_mat out_mat in
-    (* ... *)
+```ocaml
+let rank = gelss in_mat out_mat in
+(* ... *)
+```
 
 This example computes the solution to a general least squares problem (=
 linear regression) using the SVD-algorithm with `in_mat` as the matrix
@@ -126,13 +128,14 @@ a work-array would have to be allocated (and later deallocated) at each call.
 You can hoist the creation of this work array out of the loop, e.g. (`m`,
 `n`, `nrhs` are problem dependent parameters):
 
-    :::ocaml
-    let work = gelss_min_work ~m ~n ~nrhs in
-    for i = 1 to 1000 do
-      (* ... *)
-      let rank = gelss in_mat ~work out_mat in
-      (* ... *)
-    done
+```ocaml
+let work = gelss_min_work ~m ~n ~nrhs in
+for i = 1 to 1000 do
+  (* ... *)
+  let rank = gelss in_mat ~work out_mat in
+  (* ... *)
+done
+```
 
 All matrices can be accessed in a restricted way, i.e. you can specify
 submatrices for all matrix parameters.  For example, if some matrix is called
@@ -146,19 +149,20 @@ specify the numbers of rows or columns.
 
 Here is a toplevel example of printing a large random matrix:
 
-    :::ocaml
-    # #require "lacaml";;
-    # open Lacaml.D;;
-    # let mat = Mat.random 100 200;;
-    val mat : Lacaml.D.mat =
-                  C1        C2        C3          C198       C199      C200
-        R1 -0.314362 -0.530711  0.309887 ...  0.519965  -0.230156 0.0479154
-        R2  0.835658  0.581404  0.161607 ... -0.749358  -0.630019 -0.858998
-        R3 -0.403421  0.458116 -0.497516 ...  0.210811   0.422094  0.589661
-                 ...       ...       ... ...       ...        ...       ...
-       R98 -0.352474  0.878897  0.357842 ...  0.150786   -0.74011  0.353253
-       R99  0.104805  0.984924 -0.319127 ... -0.143679  -0.858269  0.859059
-      R100  0.419968  0.333358  0.237761 ... -0.483535 -0.0224016  0.513944
+```ocaml
+# #require "lacaml";;
+# open Lacaml.D;;
+# let mat = Mat.random 100 200;;
+val mat : Lacaml.D.mat =
+              C1        C2        C3          C198       C199      C200
+    R1 -0.314362 -0.530711  0.309887 ...  0.519965  -0.230156 0.0479154
+    R2  0.835658  0.581404  0.161607 ... -0.749358  -0.630019 -0.858998
+    R3 -0.403421  0.458116 -0.497516 ...  0.210811   0.422094  0.589661
+             ...       ...       ... ...       ...        ...       ...
+   R98 -0.352474  0.878897  0.357842 ...  0.150786   -0.74011  0.353253
+   R99  0.104805  0.984924 -0.319127 ... -0.143679  -0.858269  0.859059
+  R100  0.419968  0.333358  0.237761 ... -0.483535 -0.0224016  0.513944
+```
 
 Only the corner sections of the matrix, which would otherwise be too large
 to display readably, are being printed, and ellipses (`...`) are used in
@@ -169,54 +173,57 @@ which is also available in each precision module for convenience (here:
 `Lacaml.D`), could be used to indicate how much.  In the following example
 only two-by-two blocks are requested in each corner of the matrix:
 
-    :::ocaml
-    # lsc 2;;
-    - : unit = ()
-    # mat;;
-    - : Lacaml.D.mat =
-                C1        C2           C199      C200
-      R1 -0.314362 -0.530711 ...  -0.230156 0.0479154
-      R2  0.835658  0.581404 ...  -0.630019 -0.858998
-               ...       ... ...        ...       ...
-     R99  0.104805  0.984924 ...  -0.858269  0.859059
-    R100  0.419968  0.333358 ... -0.0224016  0.513944
+```ocaml
+# lsc 2;;
+- : unit = ()
+# mat;;
+- : Lacaml.D.mat =
+            C1        C2           C199      C200
+  R1 -0.314362 -0.530711 ...  -0.230156 0.0479154
+  R2  0.835658  0.581404 ...  -0.630019 -0.858998
+           ...       ... ...        ...       ...
+ R99  0.104805  0.984924 ...  -0.858269  0.859059
+R100  0.419968  0.333358 ... -0.0224016  0.513944
+```
 
 Applications can use the standard `Format`-module in the OCaml-distribution
 together with LACAML printing functions to output vectors and matrices.
 Here is an example using labels and showing the high customizability of the
 printing functions:
 
-    :::ocaml
-    open Lacaml.D
-    open Lacaml.Io
+```ocaml
+open Lacaml.D
+open Lacaml.Io
 
-    let () =
-      let rows, cols = 200, 100 in
-      let a = Mat.random rows cols in
-      Format.printf "@[<2>This is an indented random matrix:@\n@\n%a@]@."
-        (Lacaml.Io.pp_lfmat
-          ~row_labels:
-            (Array.init rows (fun i -> Printf.sprintf "Row %d" (i + 1)))
-          ~col_labels:
-            (Array.init cols (fun i -> Printf.sprintf "Col %d" (i + 1)))
-          ~vertical_context:(Some (Context.create 2))
-          ~horizontal_context:(Some (Context.create 3))
-          ~ellipsis:"*"
-          ~print_right:false
-          ~print_foot:false ())
-        a
+let () =
+  let rows, cols = 200, 100 in
+  let a = Mat.random rows cols in
+  Format.printf "@[<2>This is an indented random matrix:@\n@\n%a@]@."
+    (Lacaml.Io.pp_lfmat
+      ~row_labels:
+        (Array.init rows (fun i -> Printf.sprintf "Row %d" (i + 1)))
+      ~col_labels:
+        (Array.init cols (fun i -> Printf.sprintf "Col %d" (i + 1)))
+      ~vertical_context:(Some (Context.create 2))
+      ~horizontal_context:(Some (Context.create 3))
+      ~ellipsis:"*"
+      ~print_right:false
+      ~print_foot:false ())
+    a
+```
 
 The above code might print:
 
-    :::text
-    This is an indented random matrix:
+```text
+This is an indented random matrix:
 
-                  Col 1     Col 2       Col 3      Col 98    Col 99   Col 100
-        Row 1  0.852078 -0.316723    0.195646 *  0.513697  0.656419  0.545189
-        Row 2 -0.606197  0.411059    0.158064 * -0.368989    0.2174    0.9001
-                      *         *           * *         *         *         *
-      Row 199 -0.684374 -0.939027 0.000699582 *  0.117598 -0.285587 -0.654935
-      Row 200  0.929341 -0.823264    0.895798 *  0.198334  0.725029 -0.621723
+              Col 1     Col 2       Col 3      Col 98    Col 99   Col 100
+    Row 1  0.852078 -0.316723    0.195646 *  0.513697  0.656419  0.545189
+    Row 2 -0.606197  0.411059    0.158064 * -0.368989    0.2174    0.9001
+                  *         *           * *         *         *         *
+  Row 199 -0.684374 -0.939027 0.000699582 *  0.117598 -0.285587 -0.654935
+  Row 200  0.929341 -0.823264    0.895798 *  0.198334  0.725029 -0.621723
+```
 
 Many other options, e.g. for different padding, printing numbers in
 other formats or with different precision, etc., are available for output
@@ -229,7 +236,7 @@ customization.
 Please refer to the API-documentation that will be generated as HTML-files
 if requested (`make doc`).  It will give more details on the numerous
 functions and supported arguments in the library.  It can also be found
-[online](http://mmottl.bitbucket.org/projects/lacaml/api/).
+[online](http://mmottl.github.io/lacaml/api).
 
 #### BLAS/LAPACK man pages
 
@@ -237,8 +244,9 @@ BLAS and LAPACK binary packages for Unix operating systems usually come
 with appropriate man-pages.  E.g. to quickly look up how to factorize a
 positive-definite, complex, single precision matrix, you might enter:
 
-    :::sh
-    man cpotrf
+```sh
+man cpotrf
+```
 
 The corresponding function in Lacaml would be `Lacaml.C.potrf`.  The naming
 conventions and additional documentation for BLAS and LAPACK can be found
@@ -280,7 +288,7 @@ contact the maintainers:
   * Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
 Up-to-date information concerning this tool should be available at:
-<https://bitbucket.org/mmottl/lacaml>
+<https://mmottl.github.io/lacaml>
 
 Enjoy!
 
