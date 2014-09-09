@@ -154,3 +154,4 @@ true: -traverse
 <lib/install_printers.ml>: I(+compiler-libs)
 
 "lib/lacaml.cmxs": use_liblacaml_stubs
+<**/*>: no_alias_deps
