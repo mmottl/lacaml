@@ -1,3 +1,10 @@
+2014-10-02:  Improved separate compilation and executable sizes when compiling
+             with OCaml 4.02.  Added some support for continuous integration
+             with Travis.
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
+             for the improvements!
+
 2014-07-01:  Switched version control repository to GitHub.
 
 2014-05-23:  Improved library packing, renamed internal modules, and removed
