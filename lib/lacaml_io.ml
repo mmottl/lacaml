@@ -47,6 +47,7 @@ let pad_str pad_c max_len str =
   let diff = max_len - str_len in
   if diff = 0 then str
   else
+    let open Lacaml_compat in
     let res = Bytes.make max_len pad_c in
     Bytes.blit_string str 0 res diff str_len;
     Bytes.unsafe_to_string res

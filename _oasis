@@ -21,7 +21,7 @@ Copyrights:       (C) 2000-2012 Egbert Ammicht <eammicht@lucent.com>,
                   (C) 2000-2014 Christophe Troestler <Christophe.Troestler@umons.ac.be>,
                   (C) 2000-2012 Oleg Trott <ot14@columbia.edu>
 License:          LGPL-2.1+ with OCaml linking exception
-OCamlVersion:     >= 4.02
+OCamlVersion:     >= 3.12
 FindlibVersion:   >= 1.3.1
 Homepage:         http://mmottl.github.io/lacaml
 #Categories:
@@ -48,7 +48,7 @@ Library lacaml
                  Lacaml_float32, Lacaml_float64,
                  Lacaml_complex32, Lacaml_complex64
   InternalModules:
-                 Lacaml_real_io, Lacaml_complex_io,
+                 Lacaml_compat, Lacaml_real_io, Lacaml_complex_io,
                  Lacaml_impl4_S, Lacaml_impl4_D, Lacaml_impl4_C, Lacaml_impl4_Z,
                  Lacaml_impl2_S, Lacaml_impl2_D, Lacaml_impl2_C, Lacaml_impl2_Z,
                  Lacaml_vec4_S, Lacaml_vec4_D, Lacaml_vec4_C, Lacaml_vec4_Z,
