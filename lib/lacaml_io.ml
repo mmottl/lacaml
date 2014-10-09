@@ -46,7 +46,10 @@ let pad_str pad_c max_len str =
   let str_len = String.length str in
   let diff = max_len - str_len in
   if diff = 0 then str
-  else String.init max_len (fun i -> if i < str_len then str.[i] else pad_c)
+  else
+    let res = Bytes.make max_len pad_c in
+    Bytes.blit_string str 0 res diff str_len;
+    Bytes.unsafe_to_string res
 
 let pp_padded_str ppf pad_c max_len str =
   pp_print_string ppf (pad_str pad_c max_len str)
