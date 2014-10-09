@@ -2,6 +2,10 @@
 
    Copyright (C) 2005-
 
+     Markus Mottl
+     email: markus.mottl@gmail.com
+     WWW: http://www.ocaml.info
+
      Jane Street Holding, LLC
      Author: Markus Mottl
      email: markus.mottl@gmail.com
@@ -42,10 +46,7 @@ let pad_str pad_c max_len str =
   let str_len = String.length str in
   let diff = max_len - str_len in
   if diff = 0 then str
-  else
-    let res = String.make max_len pad_c in
-    String.blit str 0 res diff str_len;
-    res
+  else String.init max_len (fun i -> if i < str_len then str.[i] else pad_c)
 
 let pp_padded_str ppf pad_c max_len str =
   pp_print_string ppf (pad_str pad_c max_len str)
