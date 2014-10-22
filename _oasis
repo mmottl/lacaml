@@ -1,6 +1,6 @@
 OASISFormat:      0.4
 Name:             lacaml
-Version:          7.1.4
+Version:          7.1.5
 Synopsis:         OCaml-bindings to BLAS and LAPACK.
 Description:      This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
@@ -22,7 +22,7 @@ Copyrights:       (C) 2000-2012 Egbert Ammicht <eammicht@lucent.com>,
                   (C) 2000-2012 Oleg Trott <ot14@columbia.edu>
 License:          LGPL-2.1+ with OCaml linking exception
 OCamlVersion:     >= 3.12
-FindlibVersion:   >= 1.3.1
+FindlibVersion:   >= 1.5
 Homepage:         http://mmottl.github.io/lacaml
 #Categories:
 FilesAB:          lib/lacaml_version.ml.ab
@@ -48,7 +48,7 @@ Library lacaml
                  Lacaml_float32, Lacaml_float64,
                  Lacaml_complex32, Lacaml_complex64
   InternalModules:
-                 Lacaml_compat, Lacaml_real_io, Lacaml_complex_io,
+                 Lacaml_real_io, Lacaml_complex_io,
                  Lacaml_impl4_S, Lacaml_impl4_D, Lacaml_impl4_C, Lacaml_impl4_Z,
                  Lacaml_impl2_S, Lacaml_impl2_D, Lacaml_impl2_C, Lacaml_impl2_Z,
                  Lacaml_vec4_S, Lacaml_vec4_D, Lacaml_vec4_C, Lacaml_vec4_Z,
@@ -66,7 +66,7 @@ Library lacaml
                  f2c.h,
                  lacaml_macros.h,
                  utils_c.h
-  BuildDepends:  bigarray
+  BuildDepends:  bigarray, bytes
   CCOpt:         -g -std=c99 -O2 -fPIC -DPIC
   if flag(strict) && ccomp_type(cc)
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long

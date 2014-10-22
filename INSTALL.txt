@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 38952fee639af20c3a0c96afa87439af) *)
+(* DO NOT EDIT (digest: b55e8a050eab352a4f82a65c3bdd6f63) *)
 
 This is the INSTALL file for the lacaml distribution.
 
@@ -12,7 +12,8 @@ Dependencies
 In order to compile this package, you will need:
 
 * ocaml (>= 3.12) for all, doc API
-* findlib (>= 1.3.1)
+* findlib (>= 1.5)
+* bytes for library lacaml
 
 Installing
 ==========

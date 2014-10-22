@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 18dc2849b0d762c72143285c8322e7c6)
+# DO NOT EDIT (digest: 5b99eb6dede45a1934fda3a7fa57eb97)
 Lacaml
 Lacaml_common
 Lacaml_io
@@ -13,7 +13,6 @@ Lacaml_float32
 Lacaml_float64
 Lacaml_complex32
 Lacaml_complex64
-Lacaml_compat
 Lacaml_real_io
 Lacaml_complex_io
 Lacaml_impl4_S
