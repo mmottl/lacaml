@@ -6,6 +6,7 @@ Description:      This library interfaces the BLAS-library (Basic Linear Algebra
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
                   Patrick Cousot <Patrick.Cousot@ens.fr>,
                   Sam Ehrlichman <sehrlichman@janestreet.com>,
+                  Florent Hoareau <h.florent@gmail.com>,
                   Markus Mottl <markus.mottl@gmail.com>,
                   Liam Stewart <liam@cs.toronto.edu>,
                   Christophe Troestler <Christophe.Troestler@umons.ac.be>,
@@ -242,6 +243,24 @@ Executable nag_spsv
 Executable nag_sysv
   Path:           examples/nag
   MainIs:         nag_sysv.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+# Florent
+
+Executable schur_real
+  Path:           examples/schur
+  MainIs:         schur_real.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
+Executable schur_complex
+  Path:           examples/schur
+  MainIs:         schur_complex.ml
   Build$:         flag(examples)
   BuildDepends:   lacaml
   Install:        false
