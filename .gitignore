@@ -1,5 +1,6 @@
 _build
 API.docdir
+*~
 *.bak
 .*.swp
 setup.data
