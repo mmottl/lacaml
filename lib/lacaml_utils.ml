@@ -14,6 +14,10 @@
      email: Christophe.Troestler@umons.ac.be
      WWW: http://math.umh.ac.be/an/
 
+     Florent Hoareau
+     email: h.florent@gmail.com
+     WWW: none
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
@@ -96,6 +100,9 @@ let um_str = "um"
 let un_str = "un"
 let vm_str = "vm"
 let vn_str = "vn"
+let vs_str = "vs"
+let vsr_str = "vsr"
+let vsc_str = "vsc"
 let vt_str = "vt"
 let w_str = "w"
 let wi_str = "wi"
@@ -728,6 +735,88 @@ let gecon_err loc norm_char n a err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+(* gees -- auxiliary functions *)
+
+let gees_err loc n err =
+  if err > 0 && err <= n then
+    failwith (sprintf "%s: %d eigenvalue elements did not converge" loc err)
+  else if err = n + 1 then
+    failwith (
+      sprintf "%s: eigenvalues not reordered, too close to separate" loc)
+  else if err = n + 2 then
+    failwith (
+      sprintf "%s: after reordering, roundoff changed values of some \
+                   complex eigenvalues so that leading eigenvalues in \
+                   the Schur form no longer satisfy SELECT" loc)
+  else
+    let msg =
+      match err with
+      | -4 -> sprintf "n: valid=[0..[ got=%d" n
+      (* TODO: add all error codes *)
+      | n -> raise (InternalError (sprintf "%s: error code %d" loc n))
+    in
+    invalid_arg (sprintf "%s: %s" loc msg)
+
+let dummy_select_fun _ = false
+
+let gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs =
+  let n = get_n_of_a loc ar ac a n in
+  let jobvs, min_ldvs =
+    match jobvs with
+    | `No_Schur_vectors -> 'N', 1
+    | `Compute_Schur_vectors -> 'V', n
+  in
+  let vs =
+    match vs with
+    | Some vs ->
+        (* TODO: verify that these checks are correct! *)
+        check_dim1_mat loc vs_str vs vsr vsr_str min_ldvs;
+        check_dim2_mat loc vs_str vs vsc vsc_str n;
+        vs
+    | None when jobvs = 'N' ->
+        (* TODO: would mat_empty also work here (no allocation!)? *)
+        mat_create 1 1
+    | None -> mat_create min_ldvs n
+  in
+  let sort, select, select_fun =
+    match sort with
+    | `No_sort -> 'N', 0, dummy_select_fun
+    | `Select_left_plane -> 'S', 0, dummy_select_fun
+    | `Select_right_plane -> 'S', 1, dummy_select_fun
+    | `Select_interior_disk -> 'S', 2, dummy_select_fun
+    | `Select_exterior_disk -> 'S', 3, dummy_select_fun
+    | `Select_custom select_fun -> 'S', 4, select_fun
+  in
+  jobvs, sort, select, select_fun, n, vs
+
+let gees_get_params_real
+      loc vec_create mat_create jobvs sort n ar ac a wr wi vsr vsc vs =
+  let jobvs, sort, select, select_fun, n, vs =
+    gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs
+  in
+  let wr =
+    match wr with
+    | None -> vec_create n
+    | Some wr -> check_vec loc wr_str wr n; wr
+  in
+  let wi =
+    match wi with
+    | None -> vec_create n
+    | Some wi -> check_vec loc wi_str wi n; wi
+  in
+  jobvs, sort, select, select_fun, n, vs, wr, wi
+
+let gees_get_params_complex
+      loc vec_create mat_create jobvs sort n ar ac a w vsr vsc vs =
+  let jobvs, sort, select, select_fun, n, vs =
+    gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs
+  in
+  let w =
+    match w with
+    | None -> vec_create n
+    | Some w -> check_vec loc w_str w n; w
+  in
+  jobvs, sort, select, select_fun, n, vs, w
 
 (* gesvd -- auxiliary functions *)
 

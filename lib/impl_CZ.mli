@@ -17,6 +17,10 @@
      email: ot14@columbia.edu
      WWW: http://www.columbia.edu/~ot14
 
+     Florent Hoareau
+     email: h.florent@gmail.com
+     WWW: none
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
@@ -192,6 +196,21 @@ val pocon :
     @param rwork default = automatically allocated workspace
     @param anorm default = 1-norm of the matrix [a] as returned by [lange] *)
 
+(** {7 General Schur factorization} *)
+
+val gees :
+  ?n : int ->
+  ?jobvs : Lacaml_common.schur_vectors ->
+  ?sort : Lacaml_common.eigen_value_sort ->
+  ?w : vec ->
+  ?vsr : int -> ?vsc : int -> ?vs : mat ->
+  ?work : vec ->
+  ?ar : int -> ?ac : int ->
+  mat -> int * vec * mat
+  (** [gees ?n ?jobvs ?sort ?w ?vsr ?vsc ?vs ?work ?ar ?ac a]
+      See [gees]-function for details about arguments.
+      @return (sdim, w, vs) *)
+
 
 (** {7 General SVD routines} *)
 
@@ -246,10 +265,9 @@ val geev_opt_lwork :
   ?ofsw : int -> ?w : vec ->
   ?ar : int -> ?ac : int -> mat ->
   int
- (** [geev ?work ?rwork ?n ?vlr ?vlc ?vl
-       ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a]
-    See [geev]-function for details about arguments.
-    @return "optimal" work size *)
+  (** [geev ?work ?rwork ?n ?vlr ?vlc ?vl ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a]
+      See [geev]-function for details about arguments.
+      @return "optimal" work size *)
 
 val geev :
   ?n : int ->

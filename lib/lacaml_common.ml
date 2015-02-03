@@ -14,6 +14,10 @@
      email: Christophe.Troestler@umons.ac.be
      WWW: http://math.umh.ac.be/an/
 
+     Florent Hoareau
+     email: h.florent@gmail.com
+     WWW: none
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
@@ -51,3 +55,14 @@ type norm2 = [ `O | `I ]
 type norm4 = [ `M | `O | `I | `F ]
 
 type svd_job = [ `A | `S | `O | `N ]
+
+type schur_vectors = [ `No_Schur_vectors | `Compute_Schur_vectors ]
+
+type eigen_value_sort = [
+  | `No_sort
+  | `Select_left_plane
+  | `Select_right_plane
+  | `Select_interior_disk
+  | `Select_exterior_disk
+  | `Select_custom of Complex.t -> bool
+]

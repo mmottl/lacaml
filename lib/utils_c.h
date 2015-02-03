@@ -26,6 +26,7 @@
 #ifndef UTILS_C
 #define UTILS_C
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <caml/mlvalues.h>
 
@@ -91,5 +92,9 @@
 
 /* Create an OCaml record of two floats */
 value copy_two_doubles(double d0, double d1);
+
+/* Tries to sleep the given number of milliseconds.
+ * Returns 0 on success. */
+int portable_sleep(int milliseconds);
 
 #endif /* UTILS_C */

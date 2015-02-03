@@ -17,6 +17,10 @@
      email: ot14@columbia.edu
      WWW: http://www.columbia.edu/~ot14
 
+     Florent Hoareau
+     email: h.florent@gmail.com
+     WWW: none
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
@@ -207,6 +211,87 @@ let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
   let info, rcond = direct_pocon ~uplo ~n ~ar ~ac ~a ~work ~rwork ~anorm in
   if info = 0 then rcond
   else xxcon_err loc n a info
+
+
+(* General Schur factorization *)
+
+(* GEES *)
+
+external direct_gees :
+  jobvs : char ->
+  sort : char ->
+  select : int ->
+  select_fun : (Complex.t -> bool) ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  w : vec ->
+  vsr : int ->
+  vsc : int ->
+  vs : mat ->
+  work : vec ->
+  lwork : int ->
+  rwork : rvec ->
+  bwork : int32_vec
+  -> int * int = "lacaml_CPRECgees_stub_bc" "lacaml_CPRECgees_stub"
+  (* result : (SDIM, INFO) *)
+
+external init_gees : unit -> unit = "lacaml_CPRECinit_gees"
+
+let () = init_gees ()
+
+let gees_get_opt_lwork
+      ~loc ~jobvs ~sort ~select ~select_fun ~n
+      ~ar ~ac ~a ~w ~vsr ~vsc ~vs ~rwork ~bwork =
+  let lwork = -1 in
+  let work = Vec.create 1 in
+  let _, info =
+    direct_gees ~jobvs ~sort ~select ~select_fun ~n ~ar ~ac ~a
+      ~w ~vsr ~vsc ~vs ~work ~lwork ~rwork ~bwork
+  in
+  if info = 0 then int_of_float work.{1}.re
+  else gees_err loc n info
+
+let gees
+    ?n
+    ?(jobvs = `Compute_Schur_vectors)
+    ?(sort = `No_sort)
+    ?w
+    ?(vsr = 1)
+    ?(vsc = 1)
+    ?vs
+    ?work
+    ?(ar = 1)
+    ?(ac = 1)
+    a =
+  let loc = "Lacaml.CPREC.gees" in
+  let jobvs, sort_int, select, select_fun, n, vs, w =
+    gees_get_params_complex
+      loc Vec.create Mat.create jobvs sort n ar ac a w vsr vsc vs
+  in
+  let bwork =
+    match sort with
+    | `No_sort -> empty_int32_vec
+    | _ -> create_int32_vec n
+  in
+  let rwork = RVec.create n in
+  let work, lwork =
+    match work with
+    | Some work -> work, Array1.dim work
+    | None ->
+        let lwork =
+          gees_get_opt_lwork ~loc ~jobvs ~sort:sort_int ~select ~select_fun
+            ~n ~ar ~ac ~a ~w ~vsr ~vsc ~vs ~rwork ~bwork
+        in
+        Vec.create lwork, lwork
+  in
+  let sdim, info =
+    direct_gees ~jobvs ~sort:sort_int ~select ~select_fun
+      ~n ~ar ~ac ~a ~w ~vsr ~vsc ~vs ~work ~lwork ~rwork ~bwork
+  in
+  if info = 0 then sdim, w, vs
+  else gees_err loc n info
 
 
 (* General SVD routines *)

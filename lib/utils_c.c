@@ -24,10 +24,30 @@
 #include "utils_c.h"
 #include <caml/alloc.h>
 
+#ifdef WIN32
+  #include <windows.h>
+#else
+  #include <time.h>
+#endif // WIN32
+
 value copy_two_doubles(double d0, double d1)
 {
   value res = caml_alloc_small(2 * Double_wosize, Double_array_tag);
   Store_double_field(res, 0, d0);
   Store_double_field(res, 1, d1);
   return res;
+}
+
+int portable_sleep(int milliseconds)
+{
+#ifdef WIN32
+  Sleep(milliseconds);
+  return 0;
+#else
+  struct timespec tim, tim2;
+  tim.tv_sec = 0;
+  tim.tv_nsec = milliseconds * 1000000;
+
+  return nanosleep(&tim , &tim2);
+#endif // WIN32
 }

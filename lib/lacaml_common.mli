@@ -52,6 +52,19 @@ type norm4 = [ norm2 | `M | `F ]
 type svd_job = [ `A | `S | `O | `N ]
 (** SVD computation flags *)
 
+type schur_vectors = [ `No_Schur_vectors | `Compute_Schur_vectors ]
+(** GEES job option *)
+
+type eigen_value_sort = [
+  | `No_sort
+  | `Select_left_plane
+  | `Select_right_plane
+  | `Select_interior_disk
+  | `Select_exterior_disk
+  | `Select_custom of Complex.t -> bool
+]
+(** GEES eigenvalue sort option *)
+
 exception InternalError of string
 (** [InternalError msg] gets raised when BLAS or LAPACK exhibit undefined
     behaviour. *)

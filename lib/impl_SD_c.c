@@ -14,6 +14,10 @@
      email: Christophe.Troestler@umons.ac.be
      WWW: http://math.umh.ac.be/an/
 
+     Florent Hoareau
+     email: h.florent@gmail.com
+     WWW: none
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
@@ -819,6 +823,203 @@ CAMLprim value LFUN(gelss_stub_bc)(value *argv, int __unused argn)
       argv[8], argv[9], argv[10], argv[11], argv[12], argv[13]);
 }
 
+/* General Schur factorization
+************************************************************************/
+
+/** GEES */
+
+/* Predefined callbacks for eigenvalue selection */
+
+static inline integer select_left_plane(
+  const REAL *re_ptr, const REAL *im_ptr __attribute__((unused)))
+{
+  return (*re_ptr < 0) ? 1 : 0;
+}
+
+static inline integer select_right_plane(
+  const REAL *re_ptr, const REAL *im_ptr __attribute__((unused)) )
+{
+  return (*re_ptr > 0) ? 1 : 0;
+}
+
+static inline integer select_disk_interior(
+  const REAL *re_ptr, const REAL *im_ptr)
+{
+  REAL re = *re_ptr;
+  REAL im = *im_ptr;
+  return (re * re + im * im < 1) ? 1 : 0;
+}
+
+static inline integer select_disk_exterior(
+  const REAL *re_ptr, const REAL *im_ptr)
+{
+  REAL re = *re_ptr;
+  REAL im = *im_ptr;
+  return (re * re + im * im > 1) ? 1 : 0;
+}
+
+/* Custom callback handling for eigenvalue selection */
+
+static value select_ocaml_callback = Val_unit;
+static value select_ocaml_callback_exn = Val_unit;
+static bool select_ocaml_locked_runtime = false;
+
+CAMLprim value LFUN(init_gees)(value __unused v_unit)
+{
+  caml_register_generational_global_root(&select_ocaml_callback);
+  caml_register_generational_global_root(&select_ocaml_callback_exn);
+  return Val_unit;
+}
+
+static integer select_ocaml_exec_callback(
+  const REAL *re_ptr, const REAL *im_ptr)
+{
+  value v_res, v_arg;
+
+  if (!select_ocaml_locked_runtime) {
+    caml_leave_blocking_section(); /* Disallow other threads */
+    select_ocaml_locked_runtime = true;
+  }
+
+  v_arg = caml_alloc_small(2, Double_array_tag);
+  Store_double_field(v_arg, 0, (double) (*re_ptr));
+  Store_double_field(v_arg, 1, (double) (*im_ptr));
+
+  v_res = caml_callback_exn(select_ocaml_callback, v_arg);
+
+  if (!Is_exception_result(v_res)) return Bool_val(v_res);
+  else {
+    /* Callout raised an exception */
+    if (select_ocaml_callback_exn == Val_unit) {
+      value v_exn = Extract_exception(v_res);
+      caml_modify_generational_global_root(&select_ocaml_callback_exn, v_exn);
+    }
+    return 0;
+  }
+}
+
+typedef integer (*LAPACK_SELECT2)(const REAL *, const REAL *);
+
+extern void FUN(gees)(
+  char *JOBVS, char *SORT,
+  LAPACK_SELECT2 SELECT,
+  integer *N,
+  REAL *A, integer *LDA,
+  integer *SDIM,
+  REAL *WR, REAL *WI,
+  REAL *VS, integer *LDVS,
+  REAL *WORK,
+  integer *LWORK,
+  integer *BWORK,
+  integer *INFO);
+
+CAMLprim value LFUN(gees_stub)(
+  value vJOBVS, value vSORT,
+  value vSELECT, value vSELECT_FUN,
+  value vN,
+  value vAR, value vAC, value vA,
+  value vWR, value vWI,
+  value vVSR, value vVSC, value vVS,
+  value vWORK,
+  value vLWORK,
+  value vBWORK)
+{
+  CAMLparam5(vA, vVS, vWI, vWR, vWORK);
+  CAMLxparam2(vBWORK, vSELECT_FUN);
+  CAMLlocal1(v_res);
+
+  char GET_INT(JOBVS),
+       GET_INT(SORT);
+
+  integer GET_INT(SELECT),
+          GET_INT(N),
+          GET_INT(LWORK),
+          SDIM,
+          INFO;
+
+  MAT_PARAMS(A);
+  MAT_PARAMS(VS);
+  VEC_PARAMS1(WI);
+  VEC_PARAMS1(WORK);
+  VEC_PARAMS1(WR);
+  INT_VEC_PARAMS(BWORK);
+
+  LAPACK_SELECT2 select_function = NULL;
+  bool custom_sort = false;
+
+  if (SORT == 'S') {
+    switch (SELECT) {
+      case 0 :
+        select_function = select_left_plane;
+        break;
+      case 1 :
+        select_function = select_right_plane;
+        break;
+      case 2 :
+        select_function = select_disk_interior;
+        break;
+      case 3 :
+        select_function = select_disk_exterior;
+        break;
+      case 4 :
+        custom_sort = true;
+        select_function = select_ocaml_exec_callback;
+        while (select_ocaml_callback != Val_unit) {
+          caml_enter_blocking_section(); /* Allow other threads */
+          /* Wait 1ms before polling again */
+          portable_sleep(1);
+          caml_leave_blocking_section(); /* Disallow other threads */
+        }
+        caml_modify_generational_global_root(
+          &select_ocaml_callback, vSELECT_FUN);
+        break;
+      default :
+        caml_failwith("internal error: unknown SELECT value in gees_stub");
+    }
+  }
+
+  caml_enter_blocking_section(); /* Allow other threads */
+
+  FUN(gees)(
+    &JOBVS, &SORT,
+    select_function,
+    &N,
+    A_data, &rows_A,
+    &SDIM,
+    WR_data, WI_data,
+    VS_data, &rows_VS,
+    WORK_data,
+    &LWORK, BWORK_data,
+    &INFO);
+
+  if (custom_sort) {
+    if (select_ocaml_locked_runtime) select_ocaml_locked_runtime = false;
+    else caml_leave_blocking_section(); /* Disallow other threads */
+    caml_modify_generational_global_root(&select_ocaml_callback, Val_unit);
+    if (select_ocaml_callback_exn != Val_unit) {
+      CAMLlocal1(v_exn);
+      v_exn = select_ocaml_callback_exn;
+      caml_modify_generational_global_root(
+        &select_ocaml_callback_exn, Val_unit);
+      caml_raise(v_exn);
+    }
+  } else caml_leave_blocking_section(); /* Disallow other threads */
+
+  v_res = caml_alloc_small(2, 0);
+  Field(v_res, 0) = Val_long(SDIM);
+  Field(v_res, 1) = Val_long(INFO);
+
+  CAMLreturn(v_res);
+}
+
+CAMLprim value LFUN(gees_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(gees_stub)(
+      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
+      argv[6], argv[7], argv[8], argv[9], argv[10], argv[11],
+      argv[12], argv[13], argv[14], argv[15]);
+}
 
 /* General SVD routines
 ************************************************************************/

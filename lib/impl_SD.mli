@@ -18,6 +18,10 @@
      email: ot14@columbia.edu
      WWW: http://www.columbia.edu/~ot14
 
+     Florent Hoareau
+     email: h.florent@gmail.com
+     WWW: none
+
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
    License as published by the Free Software Foundation; either
@@ -541,6 +545,23 @@ val gelss :
     @param s default = vec of length [min m n]
     @param work default = vec of optimum length (-> [gelss_opt_lwork])
     @param nrhs default = available number of columns in matrix [b] *)
+
+
+(** {7 General Schur factorization} *)
+
+val gees :
+  ?n : int ->
+  ?jobvs : Lacaml_common.schur_vectors ->
+  ?sort : Lacaml_common.eigen_value_sort ->
+  ?wr : vec ->
+  ?wi : vec ->
+  ?vsr : int -> ?vsc : int -> ?vs : mat ->
+  ?work : vec ->
+  ?ar : int -> ?ac : int ->
+  mat -> int * vec * vec * mat
+  (** [gees ?n ?jobvs ?sort ?w ?vsr ?vsc ?vs ?work ?ar ?ac a]
+      See [gees]-function for details about arguments.
+      @return (sdim, wr, wi, vs) *)
 
 
 (** {7 General SVD routines} *)
