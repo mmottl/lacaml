@@ -760,7 +760,8 @@ let gees_err loc n err jobvs sort =
 
 let dummy_select_fun _ = false
 
-let gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs =
+let gees_get_params_generic
+      loc mat_create mat_empty jobvs sort n ar ac a vsr vsc vs =
   let n = get_n_of_a loc ar ac a n in
   let jobvs, min_ldvs =
     match jobvs with
@@ -773,10 +774,7 @@ let gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs =
         check_dim1_mat loc vs_str vs vsr vsr_str min_ldvs;
         check_dim2_mat loc vs_str vs vsc vsc_str n;
         vs
-    | None when jobvs = 'N' ->
-        (* mat_empty also works here (no allocation!) but needs to be given
-        as argument through two functions, no real advantage *)
-        mat_create 1 1
+    | None when jobvs = 'N' -> mat_empty
     | None -> mat_create min_ldvs n
   in
   let sort, select, select_fun =
@@ -791,9 +789,11 @@ let gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs =
   jobvs, sort, select, select_fun, n, vs
 
 let gees_get_params_real
-      loc vec_create mat_create jobvs sort n ar ac a wr wi vsr vsc vs =
+      loc vec_create mat_create mat_empty
+      jobvs sort n ar ac a wr wi vsr vsc vs =
   let jobvs, sort, select, select_fun, n, vs =
-    gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs
+    gees_get_params_generic
+      loc mat_create mat_empty jobvs sort n ar ac a vsr vsc vs
   in
   let wr =
     match wr with
@@ -808,9 +808,10 @@ let gees_get_params_real
   jobvs, sort, select, select_fun, n, vs, wr, wi
 
 let gees_get_params_complex
-      loc vec_create mat_create jobvs sort n ar ac a w vsr vsc vs =
+      loc vec_create mat_create mat_empty jobvs sort n ar ac a w vsr vsc vs =
   let jobvs, sort, select, select_fun, n, vs =
-    gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs
+    gees_get_params_generic
+      loc mat_create mat_empty jobvs sort n ar ac a vsr vsc vs
   in
   let w =
     match w with

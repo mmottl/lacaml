@@ -733,7 +733,7 @@ let gees
   let loc = "Lacaml.FPREC.gees" in
   let jobvs, sort_char, select, select_fun, n, vs, wr, wi =
     gees_get_params_real
-      loc Vec.create Mat.create jobvs sort n ar ac a wr wi vsr vsc vs
+      loc Vec.create Mat.create Mat.empty jobvs sort n ar ac a wr wi vsr vsc vs
   in
   let bwork =
     match sort with
