@@ -737,7 +737,7 @@ let gecon_err loc norm_char n a err =
 
 (* gees -- auxiliary functions *)
 
-let gees_err loc n err =
+let gees_err loc n err jobvs sort =
   if err > 0 && err <= n then
     failwith (sprintf "%s: %d eigenvalue elements did not converge" loc err)
   else if err = n + 1 then
@@ -751,8 +751,9 @@ let gees_err loc n err =
   else
     let msg =
       match err with
+      | -1 -> sprintf "JOBVS: valid=['N', V'] got='%c'" jobvs
+      | -2 -> sprintf "SORT: valid=['N', S'] got='%c'" sort
       | -4 -> sprintf "n: valid=[0..[ got=%d" n
-      (* TODO: add all error codes *)
       | n -> raise (InternalError (sprintf "%s: error code %d" loc n))
     in
     invalid_arg (sprintf "%s: %s" loc msg)
@@ -769,12 +770,12 @@ let gees_get_params_generic loc mat_create jobvs sort n ar ac a vsr vsc vs =
   let vs =
     match vs with
     | Some vs ->
-        (* TODO: verify that these checks are correct! *)
         check_dim1_mat loc vs_str vs vsr vsr_str min_ldvs;
         check_dim2_mat loc vs_str vs vsc vsc_str n;
         vs
     | None when jobvs = 'N' ->
-        (* TODO: would mat_empty also work here (no allocation!)? *)
+        (* mat_empty also works here (no allocation!) but needs to be given
+        as argument through two functions, no real advantage *)
         mat_create 1 1
     | None -> mat_create min_ldvs n
   in

@@ -715,7 +715,7 @@ let gees_get_opt_lwork
       ~wr ~wi ~vsr ~vsc ~vs ~work ~lwork ~bwork
   in
   if info = 0 then int_of_floatxx work.{1}
-  else gees_err loc n info
+  else gees_err loc n info jobvs sort
 
 let gees
     ?n
@@ -731,7 +731,7 @@ let gees
     ?(ac = 1)
     a =
   let loc = "Lacaml.FPREC.gees" in
-  let jobvs, sort_int, select, select_fun, n, vs, wr, wi =
+  let jobvs, sort_char, select, select_fun, n, vs, wr, wi =
     gees_get_params_real
       loc Vec.create Mat.create jobvs sort n ar ac a wr wi vsr vsc vs
   in
@@ -745,17 +745,17 @@ let gees
     | Some work -> work, Array1.dim work
     | None ->
         let lwork =
-          gees_get_opt_lwork ~loc ~jobvs ~sort:sort_int ~select ~select_fun
+          gees_get_opt_lwork ~loc ~jobvs ~sort:sort_char ~select ~select_fun
             ~n ~ar ~ac ~a ~wr ~wi ~vsr ~vsc ~vs ~bwork
         in
         Vec.create lwork, lwork
   in
   let sdim, info =
-    direct_gees ~jobvs ~sort:sort_int ~select ~select_fun
+    direct_gees ~jobvs ~sort:sort_char ~select ~select_fun
       ~n ~ar ~ac ~a ~wr ~wi ~vsr ~vsc ~vs ~work ~lwork ~bwork
   in
   if info = 0 then sdim, wr, wi, vs
-  else gees_err loc n info
+  else gees_err loc n info jobvs sort_char
 
 
 (* General SVD routines *)
