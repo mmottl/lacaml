@@ -1,4 +1,5 @@
 depexts: [
   [["debian"] ["libblas-dev" "liblapack-dev"]]
   [["ubuntu"] ["libblas-dev" "liblapack-dev"]]
+  [["centos"] ["blas-devel" "lapack-devel"]]
 ]
