@@ -45,36 +45,36 @@ val dotu :
   ?n : int ->
   ?ofsx : int ->
   ?incx : int ->
-  x : vec ->
+  vec ->
   ?ofsy : int ->
   ?incy : int ->
   vec
   -> num_type
-(** [dotu ?n ?ofsy ?incy y ?ofsx ?incx x] see BLAS documentation!
+(** [dotu ?n ?ofsx ?incx x ?ofsy ?incy y] see BLAS documentation!
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
-    @param ofsy default = 1
-    @param incy default = 1
     @param ofsx default = 1
     @param incx default = 1
+    @param ofsy default = 1
+    @param incy default = 1
 *)
 
 val dotc :
   ?n : int ->
   ?ofsx : int ->
   ?incx : int ->
-  x : vec ->
+  vec ->
   ?ofsy : int ->
   ?incy : int ->
   vec
   -> num_type
-(** [dotc ?n ?ofsy ?incy y ?ofsx ?incx x] see BLAS documentation!
+(** [dotc ?n ?ofsx ?incx x ?ofsy ?incy y] see BLAS documentation!
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
-    @param ofsy default = 1
-    @param incy default = 1
     @param ofsx default = 1
     @param incx default = 1
+    @param ofsy default = 1
+    @param incy default = 1
 *)
 
 

@@ -53,30 +53,30 @@ module RVec = Lacaml_vec4_CBPREC
 
 external direct_dotu :
   n : int ->
-  ofsy : int ->
-  incy : int ->
-  y : vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
   num_type = "lacaml_CPRECdotu_stub_bc" "lacaml_CPRECdotu_stub"
 
 external direct_dotc :
   n : int ->
-  ofsy : int ->
-  incy : int ->
-  y : vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
   num_type = "lacaml_CPRECdotc_stub_bc" "lacaml_CPRECdotc_stub"
 
-let gen_dot loc dot_fun ?n ?ofsx ?incx ~x ?ofsy ?incy y =
+let gen_dot loc dot_fun = (); fun ?n ?ofsx ?incx x ?ofsy ?incy y ->
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
-  dot_fun ~n ~ofsy ~incy ~y ~ofsx ~incx ~x
+  dot_fun ~n ~ofsx ~incx ~x ~ofsy ~incy ~y
 
 let dotu = gen_dot "Lacaml.CPREC.dotu" direct_dotu
 let dotc = gen_dot "Lacaml.CPREC.dotc" direct_dotc

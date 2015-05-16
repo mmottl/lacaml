@@ -49,8 +49,8 @@ extern COMPLEX FUN(dotu)(
 
 CAMLprim value LFUN(dotu_stub)(
   value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX)
+  value vOFSX, value vINCX, value vX,
+  value vOFSY, value vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 
@@ -90,8 +90,8 @@ extern COMPLEX FUN(dotc)(
 
 CAMLprim value LFUN(dotc_stub)(
   value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX)
+  value vOFSX, value vINCX, value vX,
+  value vOFSY, value vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 

@@ -53,21 +53,21 @@ module Mat = Lacaml_mat4_FPREC
 
 external direct_dot :
   n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
   ofsy : int ->
   incy : int ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
-  x : vec
-  -> float = "lacaml_FPRECdot_stub_bc" "lacaml_FPRECdot_stub"
+  float = "lacaml_FPRECdot_stub_bc" "lacaml_FPRECdot_stub"
 
-let dot ?n ?ofsx ?incx ~x ?ofsy ?incy y =
+let dot ?n ?ofsx ?incx x ?ofsy ?incy y =
   let loc = "Lacaml.FPREC.dot" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
-  direct_dot ~n ~ofsy ~incy ~y ~ofsx ~incx ~x
+  direct_dot ~n ~ofsx ~incx ~x ~ofsy ~incy ~y
 
 
 (* ASUM *)

@@ -46,8 +46,8 @@ extern REAL FUN(dot)(
 
 CAMLprim value LFUN(dot_stub)(
   value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX)
+  value vOFSX, value vINCX, value vX,
+  value vOFSY, value vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 
