@@ -193,10 +193,10 @@ extern void FUN(axpy)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(axpy_stub)(
-  value vN,
-  value vOFSY, value vINCY, value vY,
   value vALPHA,
-  value vOFSX, value vINCX, value vX)
+  value vN,
+  value vOFSX, value vINCX, value vX,
+  value vOFSY, value vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 

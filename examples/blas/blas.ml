@@ -43,7 +43,7 @@ let () =
   printf "y = @[%a@]@\n@\n" pp_rfvec y;
 
   printf "y <- y + %g * x@\n@\n" alpha;
-  axpy ~alpha ~x y;
+  axpy ~alpha x y;
   printf "y = @[%a@]@\n@\n" pp_rfvec y;
 
   printf "x <- %g * x@\n@\n" alpha;

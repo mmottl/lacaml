@@ -126,23 +126,23 @@ let nrm2 ?n ?ofsx ?incx x =
 (* AXPY *)
 
 external direct_axpy :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
-  y : vec ->
   alpha : num_type ->
+  n : int ->
   ofsx : int ->
   incx : int ->
   x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
   unit = "lacaml_NPRECaxpy_stub_bc" "lacaml_NPRECaxpy_stub"
 
-let axpy ?n ?(alpha = one) ?ofsx ?incx ~x ?ofsy ?incy y =
+let axpy ?(alpha = one) ?n ?ofsx ?incx x ?ofsy ?incy y =
   let loc = "Lacaml.NPREC.axpy" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
-  direct_axpy ~n ~ofsy ~incy ~y ~alpha ~ofsx ~incx ~x
+  direct_axpy ~alpha ~n ~ofsx ~incx ~x ~ofsy ~incy ~y
 
 
 (* AMAX *)

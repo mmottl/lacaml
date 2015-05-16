@@ -84,18 +84,18 @@ val nrm2 : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
 *)
 
 val axpy :
-  ?n : int ->
   ?alpha : num_type ->
+  ?n : int ->
   ?ofsx : int ->
   ?incx : int ->
-  x : vec ->
+  vec ->
   ?ofsy : int ->
   ?incy : int ->
   vec ->
   unit
-(** [axpy ?n ?alpha ?ofsx ?incx ~x ?ofsy ?incy y] see BLAS documentation!
-    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+(** [axpy ?alpha ?n ?ofsx ?incx x ?ofsy ?incy y] see BLAS documentation!
     @param alpha default = [{ re = 1.; im = 0. }]
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
     @param ofsy default = 1
