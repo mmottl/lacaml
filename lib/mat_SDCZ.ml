@@ -514,10 +514,12 @@ let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.NPREC.Mat.map" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b, br, bc =
+  let b =
     match b with
-    | None -> create m n, 1, 1
-    | Some b -> check_dim_mat loc b_str br bc b m n; b, br, bc
+    | None when br < 1 -> raise_mat_ofs_neg loc 'r' b_str br
+    | None when bc < 1 -> raise_mat_ofs_neg loc 'c' b_str bc
+    | None -> create (br + m - 1) (bc + n - 1)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
   in
   let max_row = m - 1 in
   for i = 0 to n - 1 do
