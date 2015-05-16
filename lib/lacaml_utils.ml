@@ -157,13 +157,19 @@ let get_vec loc vec_name vec ofs inc min_elem vec_create =
   | Some vec -> check_vec loc vec_name vec min_dim; vec
   | None -> vec_create min_dim
 
+let raise_mat_ofs_neg loc kind mat_name rc =
+  invalid_arg (
+    sprintf "%s: mat_%c(%s): valid=[1..] got=%d" loc kind mat_name rc)
+
+let raise_mat_ofs loc kind mat_name dim rc =
+  invalid_arg (
+    sprintf "%s: mat_%c(%s): valid=[1..%d] got=%d" loc kind mat_name dim rc)
+
 let check_dim1_mat loc mat_name mat mat_r m_name m =
   let dim1 = Array2.dim1 mat in
   let dim1_rest = dim1 - mat_r + 1 in
-  if mat_r < 1 || dim1_rest < 1 then
-    invalid_arg (
-      sprintf "%s: mat_r(%s): valid=[1..%d] got=%d" loc mat_name dim1 mat_r);
-  if m < 0 || dim1_rest < m then
+  if mat_r < 1 || dim1_rest < 1 then raise_mat_ofs loc 'r' mat_name dim1 mat_r
+  else if m < 0 || dim1_rest < m then
     invalid_arg (
       sprintf "%s: %s(%s): valid=[0..%d] got=%d"
         loc m_name mat_name dim1_rest m)
@@ -171,10 +177,8 @@ let check_dim1_mat loc mat_name mat mat_r m_name m =
 let check_dim2_mat loc mat_name mat mat_c n_name n =
   let dim2 = Array2.dim2 mat in
   let dim2_rest = dim2 - mat_c + 1 in
-  if mat_c < 1 || dim2_rest < 1 then
-    invalid_arg (
-      sprintf "%s: mat_c(%s): valid=[1..%d] got=%d" loc mat_name dim2 mat_c);
-  if n < 0 || dim2_rest < n then
+  if mat_c < 1 || dim2_rest < 1 then raise_mat_ofs loc 'c' mat_name dim2 mat_c
+  else if n < 0 || dim2_rest < n then
     invalid_arg (
       sprintf "%s: %s(%s): valid=[0..%d] got=%d"
         loc n_name mat_name dim2_rest n)
