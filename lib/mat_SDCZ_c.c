@@ -296,8 +296,8 @@ extern void FUN(axpy)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(mat_axpy_stub)(
-  value vM, value vN,
   value vALPHA,
+  value vM, value vN,
   value vXR, value vXC, value vX,
   value vYR, value vYC, value vY)
 {

@@ -250,17 +250,17 @@ val scal_rows :
     function for matrices. *)
 
 val axpy :
+  ?alpha : num_type ->
   ?m : int ->
   ?n : int ->
-  ?alpha : num_type ->
   ?xr : int ->
   ?xc : int ->
-  x : mat ->
+  mat ->
   ?yr : int ->
   ?yc : int ->
   mat
   -> unit
-(** [axpy ?m ?n ?alpha ?xr ?xc ~x ?yr ?yc y] BLAS [axpy] function for
+(** [axpy ?alpha ?m ?n ?xr ?xc x ?yr ?yc y] BLAS [axpy] function for
     matrices. *)
 
 val gemm_diag :

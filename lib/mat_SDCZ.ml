@@ -373,9 +373,9 @@ let scal_rows ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   direct_scal_rows ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
 external direct_mat_axpy :
+  alpha : num_type ->
   m : int ->
   n : int ->
-  alpha : num_type ->
   xr : int ->
   xc : int ->
   x : mat ->
@@ -384,12 +384,12 @@ external direct_mat_axpy :
   y : mat ->
   unit = "lacaml_NPRECmat_axpy_stub_bc" "lacaml_NPRECmat_axpy_stub"
 
-let axpy ?m ?n ?(alpha = one) ?(xr = 1) ?(xc = 1) ~x ?(yr = 1) ?(yc = 1) y =
+let axpy ?(alpha = one) ?m ?n ?(xr = 1) ?(xc = 1) x ?(yr = 1) ?(yc = 1) y =
   let loc = "Lacaml.NPREC.Mat.axpy" in
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
-  direct_mat_axpy ~m ~n ~alpha ~xr ~xc ~x ~yr ~yc ~y
+  direct_mat_axpy ~alpha ~m ~n ~xr ~xc ~x ~yr ~yc ~y
 
 let vec_create n = Array1.create prec fortran_layout n
 
