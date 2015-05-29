@@ -98,11 +98,11 @@ let copy ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
-  let y, ofsy, incy =
+  let y =
     let min_dim_y = ofsy + (n - 1) * abs incy in
     match y with
-    | Some y -> check_vec loc y_str y min_dim_y; y, ofsy, incy
-    | None -> Vec.create min_dim_y, 1, 1 in
+    | Some y -> check_vec loc y_str y min_dim_y; y
+    | None -> Vec.create min_dim_y in
   direct_copy ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
