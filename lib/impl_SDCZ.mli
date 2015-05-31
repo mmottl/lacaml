@@ -558,15 +558,15 @@ val larnv :
   ?x : vec ->
   unit ->
   vec
-(** [larnv ?idist ?iseed ?n ?ofsx ?x ()] @return a random
-    vector with random distribution as specifified by [idist], random seed
-    [iseed], vector offset [ofsx] and optional vector [x].
+(** [larnv ?idist ?iseed ?n ?ofsx ?x ()] @return a random vector with random
+    distribution as specifified by [idist], random seed [iseed], vector offset
+    [ofsx] and optional vector [x].
 
     @param idist default = [`Normal]
     @param iseed default = integer vector of size 4 with all ones.
-    @param n default = length of [x] if [x] is provided, [1] otherwise.
+    @param n default = [dim x - ofsx + 1] if [x] is provided, [1] otherwise.
     @param ofsx default = [1]
-    @param x default = vector of length [n] if [n] is provided.
+    @param x default = vector of length [ofsx - 1 + n] if [n] is provided.
 *)
 
 val lange_min_lwork : int -> norm4 -> int

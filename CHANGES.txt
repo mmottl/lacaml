@@ -1,3 +1,9 @@
+2015-05-31:  Fixed several offset calculation bugs for certain default
+             argument combinations.
+
+             Thanks to Chris Hardin <chardin@janestreet.com> for the first
+             patch!
+
 2015-03-16:  Added support for the general Schur factorization for both real
              and complex numbers:
 

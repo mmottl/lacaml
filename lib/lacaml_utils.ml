@@ -74,6 +74,8 @@ let ab_str = "ab"
 let alphas_str = "alphas"
 let ap_str = "ap"
 let b_str = "b"
+let br_str = "br"
+let bc_str = "bc"
 let c_str = "c"
 let d_str = "d"
 let dl_str = "dl"
@@ -408,8 +410,12 @@ let xxev_get_wx vec_create loc wname ofsw w n =
 
 (* geev -- auxiliary functions *)
 
-let geev_get_job_side loc mat_empty mat_create mat_name n r c = function
-  | None -> 1, 1, mat_create n n, job_char_true, true
+let geev_get_job_side loc mat_empty mat_create mat_name n r c mat_opt =
+  match mat_opt with
+  | None ->
+      if r < 1 then failwith (sprintf "%s: %sr < 1" loc mat_name)
+      else if c < 1 then failwith (sprintf "%s: %sc < 1" loc mat_name)
+      else r, c, mat_create (n + r - 1) (n + c - 1), job_char_true, true
   | Some None -> 1, 1, mat_empty, job_char_false, false
   | Some (Some mat) ->
       check_dim1_mat loc mat_name mat r n_str n;
@@ -417,12 +423,12 @@ let geev_get_job_side loc mat_empty mat_create mat_name n r c = function
       r, c, mat, job_char_true, true
 
 let geev_gen_get_params loc mat_empty mat_create ar ac a n
-    leftr leftc left rightr rightc right =
+      leftr leftc left rightr rightc right =
   let n = get_n_of_a loc ar ac a n in
   let leftr, leftc, vl, jobvl, lvs =
-    geev_get_job_side loc mat_empty mat_create "lv" n leftr leftc left in
+    geev_get_job_side loc mat_empty mat_create "vl" n leftr leftc left in
   let rightr, rightc, vr, jobvr, rvs =
-    geev_get_job_side loc mat_empty mat_create "rv" n rightr rightc right in
+    geev_get_job_side loc mat_empty mat_create "vr" n rightr rightc right in
   n, leftr, leftc, vl, jobvl, rightr, rightc, vr, jobvr, lvs || rvs
 
 

@@ -178,10 +178,13 @@ let add_const c ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.add_const" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b, br, bc =
+  let b =
     match b with
-    | None -> create m n, 1, 1
-    | Some b -> check_dim_mat loc b_str br bc b m n; b, br, bc
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
   in
   direct_add_const ~c ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b

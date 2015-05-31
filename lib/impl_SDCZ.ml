@@ -557,10 +557,15 @@ let lacpy ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.lacpy" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b, br, bc =
+  let b =
     match b with
-    | Some b -> check_dim_mat loc b_str br bc b m n; b, br, bc
-    | None -> Mat.create m n, 1, 1
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        let min_bm = m + br - 1 in
+        let min_bn = n + bc - 1 in
+        Mat.create min_bm min_bn
   in
   let uplo =
     match uplo with
@@ -627,36 +632,19 @@ let larnv ?idist ?iseed ?n ?ofsx ?x () =
         if (Int32.to_int iseed.{ofsiseed + 3}) land 1 = 1 then iseed
         else invalid_arg (sprintf "%s: last iseed entry must be odd" loc)
   in
-  let n, ofsx, x =
-    match n, ofsx, x with
-    | None, None, None -> 1, 1, Vec.create 1
-    | Some n, None, None ->
+  let ofsx = get_ofs loc x_str ofsx in
+  let n, x =
+    match n, x with
+    | None, None -> 1, Vec.create ofsx
+    | Some n, None ->
         check_var_ltz loc n_str n;
-        n, 1, Vec.create n
-    | None, Some _, None ->
-        let ofsx = get_ofs loc x_str ofsx in
-        1, ofsx, Vec.create ofsx
-    | None, None, Some x -> Vec.dim x, 1, x
-    | Some n, Some _, None ->
-        let ofsx = get_ofs loc x_str ofsx in
+        n, Vec.create (ofsx - 1 + n)
+    | None, Some x -> Vec.dim x - ofsx + 1, x
+    | Some n, Some x ->
         check_var_ltz loc n_str n;
-        let n = n + ofsx - 1 in
-        n, ofsx, Vec.create n
-    | Some n, None, Some x ->
-        check_var_ltz loc n_str n;
-        check_vec loc x_str x n;
-        n, 1, x
-    | None, Some _, Some x ->
-        let ofsx = get_ofs loc x_str ofsx in
-        let n = Vec.dim x - ofsx + 1 in
-        check_var_ltz loc n_str n;
-        n, ofsx, x
-    | Some n, Some _, Some x ->
-        check_var_ltz loc n_str n;
-        let ofsx = get_ofs loc x_str ofsx in
-        let min_dim = n + ofsx - 1 in
+        let min_dim = ofsx - 1 + n in
         check_vec loc x_str x min_dim;
-        n, ofsx, x
+        n, x
   in
   direct_larnv ~idist ~iseed ~n ~ofsx ~x;
   x
