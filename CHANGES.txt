@@ -1,3 +1,7 @@
+2015-06-29:  Improved portability to some Linux-platforms.
+
+             Thanks to Akinori Abe for the patch!
+
 2015-06-03:  Fixed Oasis-related linking problem (again).
 
 2015-05-31:  Fixed several offset calculation bugs for certain default
