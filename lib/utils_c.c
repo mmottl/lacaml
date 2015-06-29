@@ -21,6 +21,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+// Enable POSIX.1-2001 for use of `struct timespec' and `nanosleep'
+#define _POSIX_C_SOURCE 200112L
+
 #include "utils_c.h"
 #include <caml/alloc.h>
 
