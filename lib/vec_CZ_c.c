@@ -353,8 +353,8 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(acc, x, y) \
   x.r -= y.r; \
   x.i -= y.i; \
-  acc.r += x.r*x.r - y.i*y.i; \
-  acc.i += x.r*y.i + x.i*y.r
+  acc.r += x.r*x.r - x.i*x.i; \
+  acc.i += 2*x.r*x.i
 #include "fold2_col.c"
 
 /* Since executing the (small) callback may dominate the running time,
