@@ -559,10 +559,10 @@ module MyOCamlbuildBase = struct
                       need that file to be up to date.
                       This holds both for programs and for libraries.
                     *)
-  		 dep ["link"; "ocaml"; tag_libstubs lib]
+       dep ["link"; "ocaml"; "program"; tag_libstubs lib]
   		     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
-  		 dep  ["compile"; "ocaml"; tag_libstubs lib]
+       dep  ["compile"; "ocaml"; "program"; tag_libstubs lib]
   		      [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
                    (* TODO: be more specific about what depends on headers *)

@@ -1,3 +1,8 @@
+2015-06-30:  Fixed Oasis-related linking problem (again).
+
+             Really annoying, but Oasis still generates code that prevents
+             proper linking.
+
 2015-06-29:  Improved portability to some Linux-platforms.
 
              Thanks to Akinori Abe for the patch!
