@@ -1,3 +1,7 @@
+2015-07-01:  Fixed a bug in the complex version of Vec.ssqr_diff.
+
+             Thanks to Akinori Abe for the patch!
+
 2015-06-30:  Fixed Oasis-related linking problem (again).
 
              Really annoying, but Oasis still generates code that prevents
