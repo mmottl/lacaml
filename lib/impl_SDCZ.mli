@@ -528,6 +528,27 @@ val lacpy :
     @param uplo default = whole matrix
 *)
 
+val laswp :
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?k1 : int ->
+  ?k2 : int ->
+  ?incx : int ->
+  int32_vec ->
+  unit
+  (** [laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv] swap rows of [a]
+    according to [ipiv]
+
+    @param n default = number of columns of matrix
+    @param ar default = 1
+    @param ac default = 1
+    @param k1 default = 1
+    @param k2 default = dimension of ipiv
+    @param incx default = 1
+*)
+
 val lassq :
   ?n : int ->
   ?scale : float ->

@@ -89,6 +89,8 @@ let kb_str = "kb"
 let work_str = "work"
 let lwork_str = "lwork"
 let liwork_str = "liwork"
+let k1_str = "k1"
+let k2_str = "k2"
 let kd_str = "kd"
 let kl_str = "kl"
 let ku_str = "ku"
@@ -146,6 +148,14 @@ external ilaenv : int -> string -> string -> int -> int -> int -> int -> int
 
 let check_var_ltz loc var_name var =
   if var < 0 then invalid_arg (sprintf "%s: %s < 0: %d" loc var_name var)
+
+let check_var_within loc var_name var lb ub c =
+  if var < lb then
+    invalid_arg (sprintf "%s: %s %s < %s" loc var_name (c var) (c lb))
+  else if var > ub then
+    invalid_arg (sprintf "%s: %s %s > %s" loc var_name (c var) (c ub))
+  else
+    ()
 
 let check_vec loc vec_name vec min_dim =
   let dim = Array1.dim vec in

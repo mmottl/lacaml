@@ -1070,6 +1070,54 @@ CAMLprim value LFUN(lacpy_stub_bc)(value *argv, int __unused argn)
     argv[5], argv[6], argv[7], argv[8]);
 }
 
+/** LASWP */
+
+extern void FUN(laswp)(
+  integer *N,
+  NUMBER *A,
+  integer *LDA,
+  integer *K1,
+  integer *K2,
+  integer *IPIV,
+  integer *INCX);
+
+CAMLprim value LFUN(laswp_stub)(
+  value vN,
+  value vAR,
+  value vAC,
+  value vA,
+  value vK1,
+  value vK2,
+  value vIPIV,
+  value vINCX)
+{
+
+  CAMLparam1(vA);
+  integer GET_INT(N), 
+          GET_INT(K1),
+          GET_INT(K2),
+          GET_INT(INCX);
+ 
+  MAT_PARAMS(A);
+  INT_VEC_PARAMS(IPIV);
+
+  caml_enter_blocking_section();  /* Correct documentation? Allow other threads */
+  FUN(laswp)(
+    &N,
+    A_data, &rows_A,
+    &K1, &K2,
+    IPIV_data, &INCX);
+  caml_leave_blocking_section();  /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(laswp_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(laswp_stub)(
+    argv[0], argv[1], argv[2], argv[3],
+    argv[4], argv[5], argv[6], argv[7]);
+}
 
 /** LASSQ */
 

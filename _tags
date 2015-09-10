@@ -207,6 +207,14 @@ true: annot, bin_annot
 <examples/schur/*.ml{,i,y}>: pkg_bigarray
 <examples/schur/*.ml{,i,y}>: pkg_bytes
 <examples/schur/*.ml{,i,y}>: use_lacaml
+# Executable shuffle
+<examples/shuffle/shuffle.{native,byte}>: pkg_bigarray
+<examples/shuffle/shuffle.{native,byte}>: pkg_bytes
+<examples/shuffle/shuffle.{native,byte}>: use_lacaml
+<examples/shuffle/*.ml{,i,y}>: pkg_bigarray
+<examples/shuffle/*.ml{,i,y}>: pkg_bytes
+<examples/shuffle/*.ml{,i,y}>: use_lacaml
+
 # OASIS_STOP
 
 true: -traverse
