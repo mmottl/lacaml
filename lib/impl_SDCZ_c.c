@@ -1101,13 +1101,14 @@ CAMLprim value LFUN(laswp_stub)(
   MAT_PARAMS(A);
   INT_VEC_PARAMS(IPIV);
 
-  caml_enter_blocking_section();  /* Correct documentation? Allow other threads */
+  caml_release_runtime_system(); /* Allow other threads */
+
   FUN(laswp)(
     &N,
     A_data, &rows_A,
     &K1, &K2,
     IPIV_data, &INCX);
-  caml_leave_blocking_section();  /* Disallow other threads */
+  caml_acquire_runtime_system(); /* Disallow other threads */
 
   CAMLreturn(Val_unit);
 }

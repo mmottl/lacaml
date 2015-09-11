@@ -36,6 +36,7 @@
 #include <caml/callback.h>
 #include <caml/bigarray.h>
 #include <caml/signals.h>
+#include <caml/threads.h>
 
 #include "f2c.h"
 #include "utils_c.h"
