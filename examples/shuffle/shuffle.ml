@@ -5,12 +5,10 @@ open Lacaml.D
 open Lacaml.Io
 open Bigarray
 
-let shuffle arr =
-  for n = Array.length arr - 1 downto 1 do
-    let k = Random.int (n + 1) in
-    let temp = arr.(n) in
-    arr.(n) <- arr.(k);
-    arr.(k) <- temp
+let shuffle n =
+  let arr = Array.init n (fun i -> i) in
+  for i = 0 to n - 2 do
+    arr.(i) <- arr.(i) + Random.int (n - i)
   done;
   arr
 
@@ -19,8 +17,8 @@ let () =
   let r = 10 in
   let m = Mat.random r 3 in
   let ipiv =
-    Array.init r (fun i -> Int32.of_int (i + 1))
-    |> shuffle
+    shuffle r
+    |> Array.map (fun i -> Int32.of_int (i + 1))
     |> Array1.of_array Int32 Fortran_layout 
   in
   printf "Before: m = @[%a@]@\n@\n" pp_fmat m;
