@@ -538,7 +538,7 @@ val laswp :
   ?incx : int ->
   int32_vec ->
   unit
-  (** [laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv] swap rows of [a]
+(** [laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv] swap rows of [a]
     according to [ipiv]
 
     @param n default = number of columns of matrix
@@ -548,6 +548,25 @@ val laswp :
     @param k2 default = dimension of ipiv
     @param incx default = 1
 *)
+
+val lapmt :
+  ?forward : bool ->
+  ?m : int ->
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  int32_vec ->
+  unit
+(** [lapmt ?forward ?n ?m ?ar ?ac a k] swap columns of [a]
+    according to the permutations in [k]
+
+    @param forward default = true
+    @param m default = number of rows of matrix
+    @param n default = number of columns of matrix
+    @param ar default = 1
+    @param ac default = 1
+  *)
 
 val lassq :
   ?n : int ->

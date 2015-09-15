@@ -609,6 +609,32 @@ let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
   done;
   direct_laswp ~n ~ar ~ac ~a ~k1 ~k2 ~ipiv ~incx
 
+(* LAPMT  *)
+
+external direct_lapmt :
+  forward : bool ->
+  (*ldx : int -> *)
+  m : int ->
+  n : int ->
+  k : int32_vec ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  unit = "lacaml_NPREClapmt_stub_bc" "lacaml_NPREClapmt_stub"
+
+let lapmt ?(forward = true) ?m ?n ?(ar = 1) ?(ac = 1) a k =
+  let loc = "Lacaml.NPREC.lapmt" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let k_n = Array1.dim k in
+  check_vec loc k_str k n;
+  let ub = Int32.of_int (Array2.dim2 a) in
+  for i = 1 to k_n do
+    let r = Array1.get k i in
+    check_var_within loc (sprintf "%s(%d)" k_str i) r 1l ub Int32.to_string
+  done;
+  direct_lapmt ~forward ~m ~n ~k ~ar ~ac ~a
+
 (* LASSQ *)
 
 external direct_lassq :

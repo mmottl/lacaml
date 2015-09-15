@@ -1093,11 +1093,11 @@ CAMLprim value LFUN(laswp_stub)(
 {
 
   CAMLparam1(vA);
-  integer GET_INT(N), 
+  integer GET_INT(N),
           GET_INT(K1),
           GET_INT(K2),
           GET_INT(INCX);
- 
+
   MAT_PARAMS(A);
   INT_VEC_PARAMS(IPIV);
 
@@ -1119,6 +1119,57 @@ CAMLprim value LFUN(laswp_stub_bc)(value *argv, int __unused argn)
     argv[0], argv[1], argv[2], argv[3],
     argv[4], argv[5], argv[6], argv[7]);
 }
+
+/** LAPMT */
+
+extern void FUN(lapmt)(
+  logical *FORWRD,
+  integer *M,
+  integer *N,
+  NUMBER  *X,
+  integer *LDX,
+  integer *K);
+
+CAMLprim value LFUN(lapmt_stub)(
+  value vF,
+  value vM,
+  value vN,
+  value vK,
+  value vAR,
+  value vAC,
+  value vA){
+
+  CAMLparam1(vA);
+
+  logical GET_BOOL(F);
+
+  integer GET_INT(M),
+          GET_INT(N);
+
+  MAT_PARAMS(A);
+  INT_VEC_PARAMS(K);
+
+  caml_release_runtime_system(); /* Allow other threads */
+
+  FUN(lapmt)(
+    &F,
+    &M, &N,
+    A_data,
+    &rows_A,
+    K_data);
+  caml_acquire_runtime_system(); /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+
+}
+
+CAMLprim value LFUN(lapmt_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(lapmt_stub)(
+    argv[0], argv[1], argv[2], argv[3],
+    argv[4], argv[5], argv[6]); //, argv[7]);
+}
+
 
 /** LASSQ */
 

@@ -117,6 +117,9 @@
 #define COMLEX_CONJ(X) ((NUMBER) { X.r, -X.i })
 #endif
 
+/* Fetch boolean parameters */
+#define GET_BOOL(V) V = Bool_val(v##V)
+
 /* Fetch integer parameters */
 #define GET_INT(V) V = Long_val(v##V)
 
