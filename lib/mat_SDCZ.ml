@@ -158,6 +158,33 @@ let to_col_vecs mat =
     for i = 2 to n do ar.(i - 1) <- col mat i done;
     ar
 
+let of_col_vecs_list = function
+  | []  -> create 0 0
+  | (h :: _) as lst ->
+    let n = List.length lst in
+    let m = Array1.dim h in
+    let mat = create m n in
+    let rec loop i = function
+      | [] -> mat
+      | h :: t ->
+        if Array1.dim h <> m then
+          failwith "of_col_vecs_list: vectors not of same length";
+        direct_copy ~n:m ~ofsy:1 ~incy:1 ~y:(col mat i) ~ofsx:1 ~incx:1 ~x:h;
+        loop (i + 1) t
+    in
+    loop 1 lst
+
+let to_col_vecs_list mat =
+  let n = dim2 mat in
+  if n = 0 then []
+  else
+    let rec loop i acc =
+      if i < 1 then acc
+      else
+        loop (i - 1) (col mat i :: acc)
+    in
+    loop n []
+
 let as_vec mat =
   let gen = genarray_of_array2 mat in
   reshape_1 gen (dim1 mat * dim2 mat)

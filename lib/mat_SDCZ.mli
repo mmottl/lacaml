@@ -60,6 +60,14 @@ val to_col_vecs : mat -> vec array
 (** [to_col_vecs mat] @return an array of column vectors initialized
     from matrix [mat]. *)
 
+val of_col_vecs_list : vec list -> mat
+(** [of_col_vecs_list ar] @return a matrix whose columns are initialized from
+    the list of vectors [ar].  The vectors must be of same length. *)
+
+val to_col_vecs_list : mat -> vec list
+(** [to_col_vecs_list mat] @return a list of column vectors initialized
+    from matrix [mat]. *)
+
 val as_vec : mat -> vec
 (** [as_vec mat] @return a vector containing all elements of the
     matrix in column-major order.  The data is shared. *)
