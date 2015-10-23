@@ -627,12 +627,7 @@ let lapmt ?(forward = true) ?m ?n ?(ar = 1) ?(ac = 1) a k =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let k_n = Array1.dim k in
-  check_vec loc k_str k n;
-  let ub = Int32.of_int (Array2.dim2 a) in
-  for i = 1 to k_n do
-    let r = Array1.get k i in
-    check_var_within loc (sprintf "%s(%d)" k_str i) r 1l ub Int32.to_string
-  done;
+  check_vec_is_perm loc k_str k n;
   direct_lapmt ~forward ~m ~n ~k ~ar ~ac ~a
 
 (* LASSQ *)

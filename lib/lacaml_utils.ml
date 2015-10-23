@@ -163,6 +163,18 @@ let check_vec loc vec_name vec min_dim =
     invalid_arg (sprintf "%s: dim(%s): valid=[%d..[ got=%d"
                    loc vec_name min_dim dim)
 
+let check_vec_is_perm loc vec_name vec des_dim =
+  let dim = Array1.dim vec in
+  if dim <> des_dim then
+    invalid_arg (sprintf "%s: dim(%s): valid=%d got=%d"
+                   loc vec_name des_dim dim)
+  else
+    let ub = Int32.of_int des_dim in
+    for i = 1 to dim do
+      let r = Array1.get vec i in
+      check_var_within loc (sprintf "%s(%d)" k_str i) r 1l ub Int32.to_string
+  done
+
 let get_vec loc vec_name vec ofs inc min_elem vec_create =
   let min_dim = ofs + (min_elem - 1) * abs inc in
   match vec with
