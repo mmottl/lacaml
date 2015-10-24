@@ -159,17 +159,17 @@ let to_col_vecs mat =
     ar
 
 let of_col_vecs_list = function
-  | [] -> create 0 0
-  | (h :: _) as lst ->
+  | [] -> empty
+  | (vec :: _) as lst ->
     let n = List.length lst in
-    let m = Array1.dim h in
+    let m = Array1.dim vec in
     let mat = create m n in
     let rec loop i = function
       | [] -> mat
-      | h :: t ->
-        if Array1.dim h <> m then
+      | vec :: t ->
+        if Array1.dim vec <> m then
           failwith "of_col_vecs_list: vectors not of same length";
-        direct_copy ~n:m ~ofsy:1 ~incy:1 ~y:(col mat i) ~ofsx:1 ~incx:1 ~x:h;
+        direct_copy ~n:m ~ofsy:1 ~incy:1 ~y:(col mat i) ~ofsx:1 ~incx:1 ~x:vec;
         loop (i + 1) t
     in
     loop 1 lst
@@ -184,7 +184,7 @@ let to_col_vecs_list mat =
   loop n []
 
 let of_list = function
-  | [] -> create 0 0
+  | [] -> empty
   | (h :: _) as lst ->
     let m = List.length lst in
     let n = List.length h in
@@ -192,8 +192,11 @@ let of_list = function
     let rec loop i = function
       | [] -> mat
       | h :: t ->
-        List.iteri (fun jm1 e -> mat.{i, jm1+1} <- e) h;
-        loop (i + 1) t
+        let s = List.fold_left (fun j e -> mat.{i, j} <- e; j + 1) 1 h in
+        if s <= n then
+          invalid_arg "list not long enough"
+        else
+          loop (i + 1) t
     in
     try loop 1 lst
     with Invalid_argument _ ->
