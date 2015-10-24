@@ -159,7 +159,7 @@ let to_col_vecs mat =
     ar
 
 let of_col_vecs_list = function
-  | []  -> create 0 0
+  | [] -> create 0 0
   | (h :: _) as lst ->
     let n = List.length lst in
     let m = Array1.dim h in
@@ -176,14 +176,41 @@ let of_col_vecs_list = function
 
 let to_col_vecs_list mat =
   let n = dim2 mat in
-  if n = 0 then []
-  else
-    let rec loop i acc =
-      if i < 1 then acc
-      else
-        loop (i - 1) (col mat i :: acc)
+  let rec loop i acc =
+    if i < 1 then acc
+    else
+      loop (i - 1) (col mat i :: acc)
+  in
+  loop n []
+
+let of_list = function
+  | [] -> create 0 0
+  | (h :: _) as lst ->
+    let m = List.length lst in
+    let n = List.length h in
+    let mat = create m n in
+    let rec loop i = function
+      | [] -> mat
+      | h :: t ->
+        List.iteri (fun jm1 e -> mat.{i, jm1+1} <- e) h;
+        loop (i + 1) t
     in
-    loop n []
+    try loop 1 lst
+    with Invalid_argument _ ->
+      failwith "of_list: vectors not of same length"
+
+let to_list mat =
+  let m = dim1 mat in
+  let n = dim2 mat in
+  let row_to_list r =
+    let rec l j a = if j < 1 then a else l (j - 1) (mat.{r,j} :: a) in
+    l n []
+  in
+  let rec loop i acc =
+    if i < 1 then acc
+    else loop (i - 1) (row_to_list i :: acc)
+  in
+  loop m []
 
 let as_vec mat =
   let gen = genarray_of_array2 mat in
