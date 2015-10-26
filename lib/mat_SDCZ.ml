@@ -185,22 +185,19 @@ let to_col_vecs_list mat =
 
 let of_list = function
   | [] -> empty
-  | (h :: _) as lst ->
+  | (h :: t) as lst ->
     let m = List.length lst in
     let n = List.length h in
+    List.iter (fun l -> if List.length l <> n then
+      failwith "of_list: vectors not of same length") t;
     let mat = create m n in
     let rec loop i = function
       | [] -> mat
       | h :: t ->
-        let s = List.fold_left (fun j e -> mat.{i, j} <- e; j + 1) 1 h in
-        if s <= n then
-          invalid_arg "list not long enough"
-        else
-          loop (i + 1) t
+        List.iteri (fun j e -> mat.{i, j + 1} <- e) h;
+        loop (i + 1) t
     in
-    try loop 1 lst
-    with Invalid_argument _ ->
-      failwith "of_list: vectors not of same length"
+    loop 1 lst
 
 let to_list mat =
   let m = dim1 mat in
