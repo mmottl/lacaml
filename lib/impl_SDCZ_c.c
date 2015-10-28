@@ -1092,7 +1092,8 @@ CAMLprim value LFUN(laswp_stub)(
   value vIPIV,
   value vINCX)
 {
-  CAMLparam1(vA);
+  CAMLparam2(vA, vIPIV);
+
   integer GET_INT(N),
           GET_INT(K1),
           GET_INT(K2),
@@ -1131,7 +1132,7 @@ extern void FUN(lapmt)(
   integer *K);
 
 CAMLprim value LFUN(lapmt_stub)(
-  value vF,
+  value vFORWRD,
   value vM,
   value vN,
   value vK,
@@ -1139,9 +1140,9 @@ CAMLprim value LFUN(lapmt_stub)(
   value vAC,
   value vA)
 {
-  CAMLparam1(vA);
+  CAMLparam2(vA, vK);
 
-  logical GET_BOOL(F);
+  logical GET_BOOL(FORWRD);
 
   integer GET_INT(M),
           GET_INT(N);
@@ -1151,7 +1152,7 @@ CAMLprim value LFUN(lapmt_stub)(
 
   caml_release_runtime_system(); /* Allow other threads */
   FUN(lapmt)(
-    &F,
+    &FORWRD,
     &M, &N,
     A_data,
     &rows_A,
