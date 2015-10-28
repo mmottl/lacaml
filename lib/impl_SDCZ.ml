@@ -613,7 +613,6 @@ let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
 
 external direct_lapmt :
   forward : bool ->
-  (*ldx : int -> *)
   m : int ->
   n : int ->
   k : int32_vec ->

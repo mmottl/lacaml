@@ -574,7 +574,7 @@ val lapmt :
       to {b undefined} behavior. Furthermore, LAPACK uses [k] as a workspace and
       restore it upon completion, sharing this permutation array is not thread
       safe.
-  *)
+*)
 
 val lassq :
   ?n : int ->
