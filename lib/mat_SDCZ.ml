@@ -146,7 +146,8 @@ let of_col_vecs ar =
       let vec = ar.(c - 1) in
       if Array1.dim vec <> m then
         failwith "of_col_vecs: vectors not of same length";
-      direct_copy ~n:m ~ofsy:1 ~incy:1 ~y:(col mat c) ~ofsx:1 ~incx:1 ~x:vec
+      if m > 0 then
+        direct_copy ~n:m ~ofsy:1 ~incy:1 ~y:(col mat c) ~ofsx:1 ~incx:1 ~x:vec
     done;
     mat
 
@@ -157,6 +158,60 @@ let to_col_vecs mat =
     let ar = Array.make n (col mat 1) in
     for i = 2 to n do ar.(i - 1) <- col mat i done;
     ar
+
+let of_col_vecs_list = function
+  | [] -> empty
+  | (vec :: _) as lst ->
+      let n = List.length lst in
+      let m = Array1.dim vec in
+      let mat = create m n in
+      let rec loop i = function
+        | [] -> mat
+        | vec :: t ->
+            if Array1.dim vec <> m then
+              failwith "of_col_vecs_list: vectors not of same length";
+            if m > 0 then
+              direct_copy
+                ~n:m ~ofsy:1 ~incy:1 ~y:(col mat i) ~ofsx:1 ~incx:1 ~x:vec;
+            loop (i + 1) t
+      in
+      loop 1 lst
+
+let to_col_vecs_list mat =
+  let rec loop i acc = if i < 1 then acc else loop (i - 1) (col mat i :: acc) in
+  loop (dim2 mat) []
+
+let of_list = function
+  | [] -> empty
+  | (h :: t) as lst ->
+      let m = List.length lst in
+      let n = List.length h in
+      List.iter (fun l ->
+        if List.length l <> n then
+          failwith "of_list: vectors not of same length") t;
+      let mat = create m n in
+      let rec loop_cols i j = function
+        | [] -> ()
+        | el :: cols -> mat.{i, j} <- el; loop_cols i (j + 1) cols
+      in
+      let rec loop_rows i = function
+        | [] -> mat
+        | cols :: rows -> loop_cols i 1 cols; loop_rows (i + 1) rows
+      in
+      loop_rows 1 lst
+
+let to_list mat =
+  let m = dim1 mat in
+  let n = dim2 mat in
+  let row_to_list r =
+    let rec l j a = if j < 1 then a else l (j - 1) (mat.{r, j} :: a) in
+    l n []
+  in
+  let rec loop i acc =
+    if i < 1 then acc
+    else loop (i - 1) (row_to_list i :: acc)
+  in
+  loop m []
 
 let as_vec mat =
   let gen = genarray_of_array2 mat in
