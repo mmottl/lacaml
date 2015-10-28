@@ -52,12 +52,30 @@ val to_array : mat -> num_type array array
 (** [to_array mat] @return an array of arrays initialized from matrix
     [mat]. *)
 
+val of_list : num_type list list -> mat
+(** [of_list ls] @return a matrix initialized from the list of lists
+    [ls]. Each sublist of [ls] represents a row of the desired matrix,
+    and must be of the same length.
+
+    @raise Invalid_argument if sublists are not of the same length.*)
+
+val to_list : mat -> num_type list list
+(** [to_array mat] @return [mat] in row major order as lists. *)
+
 val of_col_vecs : vec array -> mat
 (** [of_col_vecs ar] @return a matrix whose columns are initialized from
     the array of vectors [ar].  The vectors must be of same length. *)
 
 val to_col_vecs : mat -> vec array
 (** [to_col_vecs mat] @return an array of column vectors initialized
+    from matrix [mat]. *)
+
+val of_col_vecs_list : vec list -> mat
+(** [of_col_vecs_list ar] @return a matrix whose columns are initialized from
+    the list of vectors [ar]. The vectors must be of same length. *)
+
+val to_col_vecs_list : mat -> vec list
+(** [to_col_vecs_list mat] @return a list of column vectors initialized
     from matrix [mat]. *)
 
 val as_vec : mat -> vec
