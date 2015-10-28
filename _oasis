@@ -270,6 +270,14 @@ Executable schur_complex
   Install:        false
   CompiledObject: best
 
+Executable shuffle
+  Path:           examples/shuffle
+  MainIs:         shuffle.ml
+  Build$:         flag(examples)
+  BuildDepends:   lacaml
+  Install:        false
+  CompiledObject: best
+
 #
 
 Document API

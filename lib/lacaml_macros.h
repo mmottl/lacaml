@@ -36,6 +36,7 @@
 #include <caml/callback.h>
 #include <caml/bigarray.h>
 #include <caml/signals.h>
+#include <caml/threads.h>
 
 #include "f2c.h"
 #include "utils_c.h"
@@ -115,6 +116,9 @@
 #define NEG_NUMBER(X) ((NUMBER) { -X.r, -X.i })
 #define COMLEX_CONJ(X) ((NUMBER) { X.r, -X.i })
 #endif
+
+/* Fetch boolean parameters */
+#define GET_BOOL(V) V = Bool_val(v##V)
 
 /* Fetch integer parameters */
 #define GET_INT(V) V = Long_val(v##V)

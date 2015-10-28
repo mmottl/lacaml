@@ -528,6 +528,54 @@ val lacpy :
     @param uplo default = whole matrix
 *)
 
+val laswp :
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?k1 : int ->
+  ?k2 : int ->
+  ?incx : int ->
+  int32_vec ->
+  unit
+(** [laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv] swap rows of [a]
+    according to [ipiv].
+    See LAPACK-documentation for details!
+
+    @param n default = number of columns of matrix
+    @param ar default = 1
+    @param ac default = 1
+    @param k1 default = 1
+    @param k2 default = dimension of ipiv
+    @param incx default = 1
+    @param ipiv is a vector of sequential row interchanges.
+*)
+
+val lapmt :
+  ?forward : bool ->
+  ?m : int ->
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  int32_vec ->
+  unit
+(** [lapmt ?forward ?n ?m ?ar ?ac a k] swap columns of [a]
+    according to the permutations in [k].
+    See LAPACK-documentation for details!
+
+    @param forward default = true
+    @param m default = number of rows of matrix
+    @param n default = number of columns of matrix
+    @param ar default = 1
+    @param ac default = 1
+    @param k is vector of column permutations and must be of length [n].  Note
+      that checking for duplicates in [k] is not performed and this could lead
+      to {b undefined} behavior. Furthermore, LAPACK uses [k] as a workspace and
+      restore it upon completion, sharing this permutation array is not thread
+      safe.
+*)
+
 val lassq :
   ?n : int ->
   ?scale : float ->

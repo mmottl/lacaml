@@ -7866,6 +7866,35 @@ let setup_t =
                       bs_nativeopt = [(OASISExpr.EBool true, [])]
                    },
                    {exec_custom = false; exec_main_is = "schur_complex.ml"});
+                Executable
+                 ({
+                     cs_name = "shuffle";
+                     cs_data = PropList.Data.create ();
+                     cs_plugin_data = []
+                  },
+                   {
+                      bs_build =
+                        [
+                           (OASISExpr.EBool true, false);
+                           (OASISExpr.EFlag "examples", true)
+                        ];
+                      bs_install = [(OASISExpr.EBool true, false)];
+                      bs_path = "examples/shuffle";
+                      bs_compiled_object = Best;
+                      bs_build_depends = [InternalLibrary "lacaml"];
+                      bs_build_tools =
+                        [ExternalTool "ocamlbuild"; ExternalTool "ocamldoc"];
+                      bs_c_sources = [];
+                      bs_data_files = [];
+                      bs_ccopt = [(OASISExpr.EBool true, [])];
+                      bs_cclib = [(OASISExpr.EBool true, [])];
+                      bs_dlllib = [(OASISExpr.EBool true, [])];
+                      bs_dllpath = [(OASISExpr.EBool true, [])];
+                      bs_byteopt = [(OASISExpr.EBool true, [])];
+                      bs_nativeopt = [(OASISExpr.EBool true, [])]
+                   },
+                   {exec_custom = false; exec_main_is = "shuffle.ml"});
+
                Doc
                  ({
                      cs_name = "API";

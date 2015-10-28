@@ -1071,6 +1071,104 @@ CAMLprim value LFUN(lacpy_stub_bc)(value *argv, int __unused argn)
 }
 
 
+/** LASWP */
+
+extern void FUN(laswp)(
+  integer *N,
+  NUMBER *A,
+  integer *LDA,
+  integer *K1,
+  integer *K2,
+  integer *IPIV,
+  integer *INCX);
+
+CAMLprim value LFUN(laswp_stub)(
+  value vN,
+  value vAR,
+  value vAC,
+  value vA,
+  value vK1,
+  value vK2,
+  value vIPIV,
+  value vINCX)
+{
+  CAMLparam2(vA, vIPIV);
+
+  integer GET_INT(N),
+          GET_INT(K1),
+          GET_INT(K2),
+          GET_INT(INCX);
+
+  MAT_PARAMS(A);
+  INT_VEC_PARAMS(IPIV);
+
+  caml_release_runtime_system(); /* Allow other threads */
+  FUN(laswp)(
+    &N,
+    A_data, &rows_A,
+    &K1, &K2,
+    IPIV_data, &INCX);
+  caml_acquire_runtime_system(); /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(laswp_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(laswp_stub)(
+    argv[0], argv[1], argv[2], argv[3],
+    argv[4], argv[5], argv[6], argv[7]);
+}
+
+
+/** LAPMT */
+
+extern void FUN(lapmt)(
+  logical *FORWRD,
+  integer *M,
+  integer *N,
+  NUMBER *X,
+  integer *LDX,
+  integer *K);
+
+CAMLprim value LFUN(lapmt_stub)(
+  value vFORWRD,
+  value vM,
+  value vN,
+  value vK,
+  value vAR,
+  value vAC,
+  value vA)
+{
+  CAMLparam2(vA, vK);
+
+  logical GET_BOOL(FORWRD);
+
+  integer GET_INT(M),
+          GET_INT(N);
+
+  MAT_PARAMS(A);
+  INT_VEC_PARAMS(K);
+
+  caml_release_runtime_system(); /* Allow other threads */
+  FUN(lapmt)(
+    &FORWRD,
+    &M, &N,
+    A_data,
+    &rows_A,
+    K_data);
+  caml_acquire_runtime_system(); /* Disallow other threads */
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(lapmt_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(lapmt_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+}
+
+
 /** LASSQ */
 
 extern void FUN(lassq)(

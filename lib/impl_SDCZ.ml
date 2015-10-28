@@ -576,6 +576,58 @@ let lacpy ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   direct_lacpy ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
+(* LASWP  *)
+
+external direct_laswp :
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  k1 : int ->
+  k2 : int ->
+  ipiv : int32_vec ->
+  incx : int ->
+  unit = "lacaml_NPREClaswp_stub_bc" "lacaml_NPREClaswp_stub"
+
+let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
+  let loc = "Lacaml.NPREC.laswp" in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let ipiv_n = Array1.dim ipiv in
+  check_var_within loc k1_str k1 1 ipiv_n string_of_int;
+  let k2 =
+    match k2 with
+    | None     -> ipiv_n
+    | Some k2v ->
+        check_var_within loc k2_str k2v 1 ipiv_n string_of_int;
+        k2v
+  in
+  check_vec loc ipiv_str ipiv (k2 * abs incx);
+  let ub = Int32.of_int (Array2.dim1 a) in
+  for i = 1 to ipiv_n do
+    let r = Array1.get ipiv i in
+    check_var_within loc (sprintf "%s(%d)" ipiv_str i) r 1l ub Int32.to_string
+  done;
+  direct_laswp ~n ~ar ~ac ~a ~k1 ~k2 ~ipiv ~incx
+
+(* LAPMT  *)
+
+external direct_lapmt :
+  forward : bool ->
+  m : int ->
+  n : int ->
+  k : int32_vec ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  unit = "lacaml_NPREClapmt_stub_bc" "lacaml_NPREClapmt_stub"
+
+let lapmt ?(forward = true) ?m ?n ?(ar = 1) ?(ac = 1) a k =
+  let loc = "Lacaml.NPREC.lapmt" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let k_n = Array1.dim k in
+  check_vec_is_perm loc k_str k n;
+  direct_lapmt ~forward ~m ~n ~k ~ar ~ac ~a
 
 (* LASSQ *)
 
