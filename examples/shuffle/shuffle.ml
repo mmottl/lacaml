@@ -1,4 +1,3 @@
-
 open Format
 
 open Lacaml.D
@@ -47,4 +46,3 @@ let () =
     pp_ivec k;
   lapmt ~forward m k;
   printf "After: m = @[%a@]@\n@\n" pp_fmat m;
- 
