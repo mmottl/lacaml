@@ -54,10 +54,8 @@ val to_array : mat -> num_type array array
 
 val of_list : num_type list list -> mat
 (** [of_list ls] @return a matrix initialized from the list of lists
-    [ls]. Each sublist of [ls] represents a row of the desired matrix,
-    and must be of the same length.
-
-    @raise Invalid_argument if sublists are not of the same length.*)
+    [ls].  Each sublist of [ls] represents a row of the desired matrix,
+    and must be of the same length. *)
 
 val to_list : mat -> num_type list list
 (** [to_array mat] @return [mat] in row major order as lists. *)
