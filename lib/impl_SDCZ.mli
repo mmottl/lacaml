@@ -538,8 +538,8 @@ val laswp :
   ?incx : int ->
   int32_vec ->
   unit
-(** [laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv] swap rows of [a]
-    according to [ipiv].
+(** [laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv] swap rows of [a] according to
+    [ipiv].
     See LAPACK-documentation for details!
 
     @param n default = number of columns of matrix

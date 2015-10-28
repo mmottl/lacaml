@@ -596,7 +596,7 @@ let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
   check_var_within loc k1_str k1 1 ipiv_n string_of_int;
   let k2 =
     match k2 with
-    | None     -> ipiv_n
+    | None -> ipiv_n
     | Some k2v ->
         check_var_within loc k2_str k2v 1 ipiv_n string_of_int;
         k2v
@@ -604,7 +604,7 @@ let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
   check_vec loc ipiv_str ipiv (k2 * abs incx);
   let ub = Int32.of_int (Array2.dim1 a) in
   for i = 1 to ipiv_n do
-    let r = Array1.get ipiv i in
+    let r = ipiv.{i} in
     check_var_within loc (sprintf "%s(%d)" ipiv_str i) r 1l ub Int32.to_string
   done;
   direct_laswp ~n ~ar ~ac ~a ~k1 ~k2 ~ipiv ~incx
