@@ -103,6 +103,26 @@ let exp ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   direct_exp ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
+external direct_expm1 :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECexpm1_stub_bc" "lacaml_FPRECexpm1_stub"
+
+let vec_exp1m_loc = "Vec.expm1"
+
+let expm1 ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_exp1m_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_exp1m_loc y_str ofsy incy in
+  let n = get_dim_vec vec_exp1m_loc x_str ofsx incx x n_str n in
+  let y = get_y_vec ~loc:vec_exp1m_loc ~ofsy ~incy ~n y in
+  direct_expm1 ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
 external direct_log :
   n : int ->
   ofsy : int ->
@@ -121,6 +141,26 @@ let log ?n ?ofsy ?incy ?y ?ofsx ?incx x =
   let n = get_dim_vec vec_log_loc x_str ofsx incx x n_str n in
   let y = get_y_vec ~loc:vec_log_loc ~ofsy ~incy ~n y in
   direct_log ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
+external direct_log1p :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPREClog1p_stub_bc" "lacaml_FPREClog1p_stub"
+
+let vec_log1p_loc = "Vec.log1p"
+
+let log1p ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_log1p_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_log1p_loc y_str ofsy incy in
+  let n = get_dim_vec vec_log1p_loc x_str ofsx incx x n_str n in
+  let y = get_y_vec ~loc:vec_log1p_loc ~ofsy ~incy ~n y in
+  direct_log1p ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
   y
 
 external direct_sin :
