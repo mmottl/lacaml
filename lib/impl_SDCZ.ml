@@ -625,7 +625,6 @@ let lapmt ?(forward = true) ?m ?n ?(ar = 1) ?(ac = 1) a k =
   let loc = "Lacaml.NPREC.lapmt" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let k_n = Array1.dim k in
   check_vec_is_perm loc k_str k n;
   direct_lapmt ~forward ~m ~n ~k ~ar ~ac ~a
 
