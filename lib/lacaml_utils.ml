@@ -337,6 +337,7 @@ let orgqr_get_params loc ?m ?n ?k ~tau ~ar ~ac a =
   let k = get_dim_vec loc tau_str 1 1 tau k_str k in
   m, n, k
 
+
 (* ORMQR - Auxiliary Functions *)
 
 let ormqr_err ~loc ~side ~m ~n ~k ~lwork ~a ~c ~err =
@@ -466,7 +467,9 @@ let gXmv_get_params loc vec_create m n ofsx incx x ofsy incy y trans =
   let y = get_vec loc y_str y ofsy incy ly vec_create in
   ofsx, incx, ofsy, incy, y, trans_char
 
+
 (* symv -- auxiliary functions *)
+
 let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
   let n = get_dim1_mat loc a_str a ar n_str n in
   check_dim2_mat loc a_str a ac n_str n;
@@ -477,7 +480,9 @@ let symv_get_params loc vec_create ar ac a n ofsx incx x ofsy incy y up =
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
   n, ofsx, incx, ofsy, incy, y, get_uplo_char up
 
+
 (* tr?v -- auxiliary functions *)
+
 let trXv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
   let n = get_dim1_mat loc a_str a ar n_str n in
   check_dim2_mat loc a_str a ac n_str n;
@@ -487,7 +492,9 @@ let trXv_get_params loc ar ac a n ofsx incx x up trans unit_triangular =
   check_vec loc x_str x (ofsx + (n - 1) * abs incx);
   n, ofsx, incx, get_uplo_char up, trans_char, diag_char
 
+
 (* tp?v -- auxiliary functions *)
+
 let tpXv_get_params loc ofsap ap ?n ofsx incx x up trans unit_triangular =
   let ofsap = get_ofs loc ap_str ofsap in
   let n = get_unpacked_dim loc ?n (Array1.dim ap - ofsap + 1) in
@@ -496,6 +503,7 @@ let tpXv_get_params loc ofsap ap ?n ofsx incx x up trans unit_triangular =
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   check_vec loc x_str x (ofsx + (n - 1) * abs incx);
   n, ofsap, ofsx, incx, get_uplo_char up, trans_char, diag_char
+
 
 (* gemm -- auxiliary functions *)
 
@@ -530,6 +538,7 @@ let gemm_get_params loc mat_create ar ac a transa br bc b cr transb cc c m n k =
   let c = get_c loc mat_create cr cc c m n in
   m, n, k, transa, transb, c
 
+
 (* symm -- auxiliary functions *)
 
 let check_mat_square loc mat_str mat mat_r mat_c n =
@@ -546,6 +555,7 @@ let symm_get_params loc mat_create ar ac a br bc b cr cc c m n side up =
   let c = get_c loc mat_create cr cc c m n in
   m, n, side_char, uplo_char, c
 
+
 (* trmm -- auxiliary functions *)
 
 let trXm_get_params loc ar ac a br bc b m n side up transa diag =
@@ -559,6 +569,7 @@ let trXm_get_params loc ar ac a br bc b m n side up transa diag =
   let diag_char = get_diag_char diag in
   m, n, side_char, uplo_char, transa, diag_char
 
+
 (* syrk -- auxiliary functions *)
 
 let syrk_get_params loc mat_create ar ac a cr cc c n k up trans =
@@ -568,6 +579,7 @@ let syrk_get_params loc mat_create ar ac a cr cc c n k up trans =
   let uplo_char = get_uplo_char up in
   let c = get_c loc mat_create cr cc c n n in
   n, k, uplo_char, trans_char, c
+
 
 (* syr2k -- auxiliary functions *)
 
@@ -587,12 +599,14 @@ let syr2k_get_params loc mat_create ar ac a br bc b cr cc c n k up trans =
   let c = get_c loc mat_create cr cc c n n in
   n, k, uplo_char, trans_char, c
 
+
 (* ?lange -- auxiliary functions *)
 
 let xlange_get_params loc m n ar ac a =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   m, n
+
 
 (* ??trs -- auxiliary functions *)
 
@@ -611,6 +625,7 @@ let xxtrs_err loc n nrhs a b err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* ??tri -- auxiliary functions *)
 
 let xxtri_singular_err loc err =
@@ -624,6 +639,7 @@ let xxtri_err loc n a err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* ??con -- auxiliary functions *)
 
 let xxcon_err loc n a err =
@@ -634,12 +650,14 @@ let xxcon_err loc n a err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* geXrf -- auxiliary functions *)
 
 let geXrf_get_params loc m n ar ac a =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   m, n
+
 
 (* getrf -- auxiliary functions *)
 
@@ -662,6 +680,7 @@ let getrf_get_ipiv loc ipiv m n =
       check_vec loc ipiv_str ipiv (min m n);
       ipiv
 
+
 (* sytrf -- auxiliary functions *)
 
 let sytrf_get_ipiv loc ipiv n =
@@ -682,6 +701,7 @@ let sytrf_err loc n a err =
 let sytrf_fact_err loc err =
   failwith (sprintf "%s: D(%i,%i)=0 in the factorization" loc err err)
 
+
 (* potrf -- auxiliary functions *)
 
 let potrf_chol_err loc err =
@@ -696,6 +716,7 @@ let potrf_err loc n a err =
     | _ -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* potrs -- auxiliary functions *)
 
 let potrs_err loc n nrhs a b err =
@@ -708,6 +729,7 @@ let potrs_err loc n nrhs a b err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* trtrs -- auxiliary functions *)
 
 let trtrs_err loc n nrhs a b err =
@@ -719,6 +741,7 @@ let trtrs_err loc n nrhs a b err =
     | -9 -> sprintf "dim1(b): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 b)
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
+
 
 (* tbtrs -- auxiliary functions *)
 
@@ -733,6 +756,7 @@ let tbtrs_err loc n nrhs kd ab b err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* getri -- auxiliary functions *)
 
 let getri_err loc getri_min_lwork n a lwork err =
@@ -746,6 +770,7 @@ let getri_err loc getri_min_lwork n a lwork err =
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
+
 (* trtri -- auxiliary functions *)
 
 let trtri_err loc n a err =
@@ -755,6 +780,7 @@ let trtri_err loc n a err =
     | -5 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
+
 
 (* gecon -- auxiliary functions *)
 
@@ -766,6 +792,7 @@ let gecon_err loc norm_char n a err =
     | -4 -> sprintf "dim1(a): valid=%d..[ got=%d" (max 1 n) (Array2.dim1 a)
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
+
 
 (* gees -- auxiliary functions *)
 
@@ -851,6 +878,7 @@ let gees_get_params_complex
     | Some w -> check_vec loc w_str w n; w
   in
   jobvs, sort, select, select_fun, n, vs, w
+
 
 (* gesvd -- auxiliary functions *)
 
