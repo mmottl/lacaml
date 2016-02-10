@@ -27,6 +27,7 @@
 
 open Bigarray
 open Lacaml_mat4_FPREC
+open Lacaml_utils
 open Lacaml_floatxx
 
 let hilbert n =
@@ -137,3 +138,263 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) m n =
   done;
   if rnd_state = None then Random.set_state state;
   mat
+
+
+(* Unary matrix operations *)
+
+external direct_sqr :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsqr_mat_stub_bc" "lacaml_FPRECsqr_mat_stub"
+
+let sqr ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.sqr" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_sqr ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_sqrt :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsqrt_mat_stub_bc" "lacaml_FPRECsqrt_mat_stub"
+
+let sqrt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.sqrt" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_sqrt ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_exp :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECexp_mat_stub_bc" "lacaml_FPRECexp_mat_stub"
+
+let exp ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.exp" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_exp ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_log :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPREClog_mat_stub_bc" "lacaml_FPREClog_mat_stub"
+
+let log ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.log" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_log ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_sin :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsin_mat_stub_bc" "lacaml_FPRECsin_mat_stub"
+
+let sin ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.sin" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_sin ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_cos :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECcos_mat_stub_bc" "lacaml_FPRECcos_mat_stub"
+
+let cos ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.cos" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_cos ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_tan :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECtan_mat_stub_bc" "lacaml_FPRECtan_mat_stub"
+
+let tan ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.tan" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_tan ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_tanh :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECtanh_mat_stub_bc" "lacaml_FPRECtanh_mat_stub"
+
+let tanh ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.tanh" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_tanh ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+
+(* Ternary matrix operations *)
+
+external direct_cpab :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPRECcpab_stub_bc" "lacaml_FPRECcpab_stub"
+
+let cpab ?m ?n
+      ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.FPREC.Mat.cpab" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  check_dim_mat loc c_str cr cc c m n;
+  direct_cpab ~m ~n ~cr ~cc ~c ~ar ~ac ~a ~br ~bc ~b
+
+external direct_cmab :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPRECcmab_stub_bc" "lacaml_FPRECcmab_stub"
+
+let cmab ?m ?n
+      ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.FPREC.Mat.cmab" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  check_dim_mat loc c_str cr cc c m n;
+  direct_cmab ~m ~n ~cr ~cc ~c ~ar ~ac ~a ~br ~bc ~b

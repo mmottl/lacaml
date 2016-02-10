@@ -147,13 +147,6 @@ val fold :
 
 (** {6 Operations on one vector} *)
 
-val fill : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type -> unit
-(** [fill ?n ?ofsx ?incx x a] fills vector [x] with value [a] in the
-    designated range.
-    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
-    @param ofsx default = 1
-    @param incx default = 1 *)
-
 val rev : vec -> vec
 (** [rev x] reverses vector [x] (non-destructive). *)
 
@@ -171,6 +164,51 @@ val min : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
     in vector [x] (2-norm), separated by [incx] incremental steps.
     NaNs are ignored. If only NaNs are encountered, the [infinity] value
     will be returned.
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsx default = 1
+    @param incx default = 1 *)
+
+val sort :
+  ?cmp : (num_type -> num_type -> int) ->
+  ?decr : bool ->
+  ?n : int ->
+  ?ofsp : int ->
+  ?incp : int ->
+  ?p : int_vec ->
+  ?ofsx : int ->
+  ?incx : int ->
+  vec
+  -> unit
+(** [sort ?cmp ?n ?ofsx ?incx x] sorts the array [x] in increasing
+    order according to the comparison function [cmp].
+
+    @param cmp a function such that [cmp a b < 0] if [a] is less than
+      [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
+      greater than [b] for the desired order.  Default: the usual
+      order on floating point values or the lexicographic order on
+      complex ones (a special routine makes it fast).  Whatever the
+      order you choose, NaNs (in any component for complex numbers)
+      are considered larger than any other value (so they will be
+      last, in no specified order, in the sorted vector).  Therefore,
+      NaN are never passed to [cmp].
+
+    @param p if you pass a vector of size [ofsp+(n - 1)(abs incp)],
+      the vector [x] will be unchanged and the permutation to sort it
+      will be stored in [p].  Thus [x.{p.{ofsp + (i-1) * incp}}] will
+      give the elements of [x] in increasing order.  Default: no
+      vector is provided.
+
+    @param decr sort in decreasing order (stays fast for the default [cmp]).
+    @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsp default = 1
+    @param incp default = 1
+    @param ofsx default = 1
+    @param incx default = 1
+ *)
+
+val fill : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type -> unit
+(** [fill ?n ?ofsx ?incx x a] fills vector [x] with value [a] in the
+    designated range.
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1 *)
@@ -248,44 +286,6 @@ val ssqr :
     @param ofsx default = 1
     @param incx default = 1
 *)
-
-val sort :
-  ?cmp : (num_type -> num_type -> int) ->
-  ?decr : bool ->
-  ?n : int ->
-  ?ofsp : int ->
-  ?incp : int ->
-  ?p : int_vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> unit
-(** [sort ?cmp ?n ?ofsx ?incx x] sorts the array [x] in increasing
-    order according to the comparison function [cmp].
-
-    @param cmp a function such that [cmp a b < 0] if [a] is less than
-      [b], [cmp a b = 0] if [a] equal [b] and [cmp a b > 0] if [a] is
-      greater than [b] for the desired order.  Default: the usual
-      order on floating point values or the lexicographic order on
-      complex ones (a special routine makes it fast).  Whatever the
-      order you choose, NaNs (in any component for complex numbers)
-      are considered larger than any other value (so they will be
-      last, in no specified order, in the sorted vector).  Therefore,
-      NaN are never passed to [cmp].
-
-    @param p if you pass a vector of size [ofsp+(n - 1)(abs incp)],
-      the vector [x] will be unchanged and the permutation to sort it
-      will be stored in [p].  Thus [x.{p.{ofsp + (i-1) * incp}}] will
-      give the elements of [x] in increasing order.  Default: no
-      vector is provided.
-
-    @param decr sort in decreasing order (stays fast for the default [cmp]).
-    @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
-    @param ofsp default = 1
-    @param incp default = 1
-    @param ofsx default = 1
-    @param incx default = 1
- *)
 
 val neg :
   ?n : int ->
@@ -441,26 +441,22 @@ val zpxy :
   ?n : int ->
   ?ofsz : int ->
   ?incz : int ->
-  ?z : vec ->
+  vec ->
   ?ofsx : int ->
   ?incx : int ->
   vec ->
   ?ofsy : int ->
   ?incy : int ->
   vec
-  -> vec
-(** [zpxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] multiplies [n]
-    elements of vectors [x] and [y] elementwise, using [incx] and [incy] as
-    incremental steps respectively, and adds the result to and stores it in
-    the specified range in [z] if provided.  If [z] is given, the result will
-    be stored in there using increments of [incz], otherwise a fresh vector
-    will be used and assumed to be zero.  The resulting vector is returned.
-    This function is useful for convolutions.
+  -> unit
+(** [zpxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y] multiplies [n]
+    elements of vectors [x] and [y] elementwise, using [incx] and [incy]
+    as incremental steps respectively, and adds the result to and stores it
+    in the specified range in [z].  This function is useful for convolutions.
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsz default = 1
     @param incz default = 1
-    @param z default = fresh vector with [ofsz+(n - 1)(abs incz)] rows
     @param ofsx default = 1
     @param incx default = 1
     @param ofsy default = 1
@@ -470,26 +466,23 @@ val zmxy :
   ?n : int ->
   ?ofsz : int ->
   ?incz : int ->
-  ?z : vec ->
+  vec ->
   ?ofsx : int ->
   ?incx : int ->
   vec ->
   ?ofsy : int ->
   ?incy : int ->
   vec
-  -> vec
-(** [zmxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] multiplies [n]
+  -> unit
+(** [zmxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y] multiplies [n]
     elements of vectors [x] and [y] elementwise, using [incx] and [incy]
-    as incremental steps respectively, and substracts the result from and
-    stores it in the specified range in [z] if provided.  If [z] is given,
-    the result will be stored in there using increments of [incz], otherwise
-    a fresh vector will be used and assumed to be zero.  The resulting vector
-    is returned.  This function is useful for convolutions.
+    as incremental steps respectively, and substracts the result from
+    and stores it in the specified range in [z].  This function is
+    useful for convolutions.
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsz default = 1
     @param incz default = 1
-    @param z default = fresh vector with [ofsz+(n - 1)(abs incz)] rows
     @param ofsx default = 1
     @param incx default = 1
     @param ofsy default = 1

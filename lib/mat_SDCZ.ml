@@ -217,8 +217,8 @@ let as_vec mat =
   let gen = genarray_of_array2 mat in
   reshape_1 gen (dim1 mat * dim2 mat)
 
-external direct_add_const :
-  c : num_type ->
+external direct_swap :
+  uplo : char ->
   m : int ->
   n : int ->
   ar : int ->
@@ -227,22 +227,20 @@ external direct_add_const :
   br : int ->
   bc : int ->
   b : mat ->
-  unit = "lacaml_NPRECadd_const_mat_stub_bc" "lacaml_NPRECadd_const_mat_stub"
+  unit = "lacaml_NPRECswap_mat_stub_bc" "lacaml_NPRECswap_mat_stub"
 
-let add_const c ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.Mat.add_const" in
+let swap ?uplo ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.NPREC.Mat.swap" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  check_dim_mat loc b_str br bc b m n;
+  let uplo =
+    match uplo with
+    | None -> 'A'
+    | Some `U -> 'U'
+    | Some `L -> 'L'
   in
-  direct_add_const ~c ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+  direct_swap ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 external direct_transpose_copy :
   m : int ->
@@ -255,19 +253,19 @@ external direct_transpose_copy :
   b : mat ->
   unit = "lacaml_NPRECtranspose_copy_stub_bc" "lacaml_NPRECtranspose_copy_stub"
 
-let transpose_copy ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+let transpose_copy ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.transpose_copy" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  check_dim_mat loc b_str br bc b n m;
-  direct_transpose_copy ~m ~n ~ar ~ac ~a ~br ~bc ~b
-
-let transpose ?m ?n ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.Mat.transpose" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = create n m in
-  direct_transpose_copy ~m ~n ~ar ~ac ~a ~br:1 ~bc:1 ~b;
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + n) (bc - 1 + m)
+    | Some b -> check_dim_mat loc b_str br bc b n m; b
+  in
+  direct_transpose_copy ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 let detri ?(up = true) ?n ?(ar = 1) ?(ac = 1) (a : mat) =
@@ -331,35 +329,6 @@ let unpacked ?(up = true) ?n (src : vec) =
       done
     done;
   a
-
-external direct_sum :
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
-  a : mat ->
-  num_type = "lacaml_NPRECsum_mat_stub"
-
-let sum ?m ?n ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.Mat.sum" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_sum ~m ~n ~ar ~ac ~a
-
-external direct_fill :
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
-  a : mat ->
-  x : num_type ->
-  unit = "lacaml_NPRECfill_mat_stub_bc" "lacaml_NPRECfill_mat_stub"
-
-let fill ?m ?n ?(ar = 1) ?(ac = 1) a x =
-  let loc = "Lacaml.NPREC.Mat.fill" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_fill ~m ~n ~ar ~ac ~a ~x
 
 let copy_diag mat =
   let m = dim1 mat in
@@ -430,7 +399,284 @@ let scal_rows ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some m));
   direct_scal_rows ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
-external direct_mat_axpy :
+let vec_create n = Array1.create prec fortran_layout n
+
+external direct_syrk_trace :
+  n : int ->
+  k : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  num_type = "lacaml_NPRECsyrk_trace_stub"
+
+let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.syrk_trace" in
+  let n = get_dim1_mat loc a_str a ar n_str n in
+  let k = get_dim2_mat loc a_str a ac k_str k in
+  direct_syrk_trace ~n ~k ~ar ~ac ~a
+
+
+(* Operations on one matrix *)
+
+external direct_fill :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  x : num_type ->
+  unit = "lacaml_NPRECfill_mat_stub_bc" "lacaml_NPRECfill_mat_stub"
+
+let fill ?m ?n ?(ar = 1) ?(ac = 1) a x =
+  let loc = "Lacaml.NPREC.Mat.fill" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  direct_fill ~m ~n ~ar ~ac ~a ~x
+
+external direct_sum :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  num_type = "lacaml_NPRECsum_mat_stub"
+
+let sum ?m ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.sum" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  direct_sum ~m ~n ~ar ~ac ~a
+
+external direct_add_const :
+  c : num_type ->
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_NPRECadd_const_mat_stub_bc" "lacaml_NPRECadd_const_mat_stub"
+
+let add_const c ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.add_const" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_add_const ~c ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_neg :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_NPRECneg_mat_stub_bc" "lacaml_NPRECneg_mat_stub"
+
+let neg ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.neg" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_neg ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_reci :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_NPRECreci_mat_stub_bc" "lacaml_NPRECreci_mat_stub"
+
+let reci ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.reci" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b =
+    match b with
+    | None ->
+        check_var_ltz loc br_str br;
+        check_var_ltz loc bc_str bc;
+        create (br - 1 + m) (bc - 1 + n)
+    | Some b -> check_dim_mat loc b_str br bc b m n; b
+  in
+  direct_reci ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
+external direct_syrk_diag :
+  trans : char ->
+  n : int ->
+  k : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  ofsy : int ->
+  y : vec ->
+  alpha : num_type ->
+  beta : num_type ->
+  unit = "lacaml_NPRECsyrk_diag_stub_bc" "lacaml_NPRECsyrk_diag_stub"
+
+let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
+  ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.syrk_diag" in
+  let n = get_rows_mat_tr loc a_str a ar ac trans n_str n in
+  let k = get_cols_mat_tr loc a_str a ar ac trans k_str k in
+  let y = get_vec loc y_str y ofsy 1 n vec_create in
+  let trans = get_trans_char trans in
+  direct_syrk_diag ~trans ~n ~k ~ar ~ac ~a ~ofsy ~y ~alpha ~beta;
+  y
+
+
+(* Operations on two matrices *)
+
+external direct_mat_add :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_NPRECadd_mat_stub_bc" "lacaml_NPRECadd_mat_stub"
+
+let add ?m ?n
+      ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.NPREC.Mat.add" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  let c =
+    match c with
+    | None ->
+        check_var_ltz loc cr_str cr;
+        check_var_ltz loc cc_str cc;
+        create (cr - 1 + m) (cc - 1 + n)
+    | Some c -> check_dim_mat loc c_str cr cc c m n; c
+  in
+  direct_mat_add ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  c
+
+external direct_mat_sub :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_NPRECsub_mat_stub_bc" "lacaml_NPRECsub_mat_stub"
+
+let sub ?m ?n
+      ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.NPREC.Mat.sub" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  let c =
+    match c with
+    | None ->
+        check_var_ltz loc cr_str cr;
+        check_var_ltz loc cc_str cc;
+        create (cr - 1 + m) (cc - 1 + n)
+    | Some c -> check_dim_mat loc c_str cr cc c m n; c
+  in
+  direct_mat_sub ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  c
+
+external direct_mat_mul :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_NPRECmul_mat_stub_bc" "lacaml_NPRECmul_mat_stub"
+
+let mul ?m ?n
+      ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.NPREC.Mat.mul" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  let c =
+    match c with
+    | None ->
+        check_var_ltz loc cr_str cr;
+        check_var_ltz loc cc_str cc;
+        create (cr - 1 + m) (cc - 1 + n)
+    | Some c -> check_dim_mat loc c_str cr cc c m n; c
+  in
+  direct_mat_mul ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  c
+
+external direct_mat_div :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_NPRECdiv_mat_stub_bc" "lacaml_NPRECdiv_mat_stub"
+
+let div ?m ?n
+      ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.NPREC.Mat.div" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  let c =
+    match c with
+    | None ->
+        check_var_ltz loc cr_str cr;
+        check_var_ltz loc cc_str cc;
+        create (cr - 1 + m) (cc - 1 + n)
+    | Some c -> check_dim_mat loc c_str cr cc c m n; c
+  in
+  direct_mat_div ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  c
+
+external direct_axpy_mat :
   alpha : num_type ->
   m : int ->
   n : int ->
@@ -440,16 +686,14 @@ external direct_mat_axpy :
   yr : int ->
   yc : int ->
   y : mat ->
-  unit = "lacaml_NPRECmat_axpy_stub_bc" "lacaml_NPRECmat_axpy_stub"
+  unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
 
 let axpy ?(alpha = one) ?m ?n ?(xr = 1) ?(xc = 1) x ?(yr = 1) ?(yc = 1) y =
   let loc = "Lacaml.NPREC.Mat.axpy" in
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
-  direct_mat_axpy ~alpha ~m ~n ~xr ~xc ~x ~yr ~yc ~y
-
-let vec_create n = Array1.create prec fortran_layout n
+  direct_axpy_mat ~alpha ~m ~n ~xr ~xc ~x ~yr ~yc ~y
 
 external direct_gemm_diag :
   transa : char ->
@@ -482,29 +726,6 @@ let gemm_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
     ~transa ~transb ~n ~k ~ar ~ac ~a ~br ~bc ~b ~ofsy ~y ~alpha ~beta;
   y
 
-external direct_syrk_diag :
-  trans : char ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
-  a : mat ->
-  ofsy : int ->
-  y : vec ->
-  alpha : num_type ->
-  beta : num_type ->
-  unit = "lacaml_NPRECsyrk_diag_stub_bc" "lacaml_NPRECsyrk_diag_stub"
-
-let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
-  ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.Mat.syrk_diag" in
-  let n = get_rows_mat_tr loc a_str a ar ac trans n_str n in
-  let k = get_cols_mat_tr loc a_str a ar ac trans k_str k in
-  let y = get_vec loc y_str y ofsy 1 n vec_create in
-  let trans = get_trans_char trans in
-  direct_syrk_diag ~trans ~n ~k ~ar ~ac ~a ~ofsy ~y ~alpha ~beta;
-  y
-
 external direct_gemm_trace :
   transa : char ->
   transb : char ->
@@ -528,20 +749,6 @@ let gemm_trace ?n ?k ?(transa = `N) ?(ar = 1) ?(ac = 1) a
   let transb = get_trans_char transb in
   direct_gemm_trace ~transa ~transb ~n ~k ~ar ~ac ~a ~br ~bc ~b
 
-external direct_syrk_trace :
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
-  a : mat ->
-  num_type = "lacaml_NPRECsyrk_trace_stub"
-
-let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.NPREC.Mat.syrk_trace" in
-  let n = get_dim1_mat loc a_str a ar n_str n in
-  let k = get_dim2_mat loc a_str a ac k_str k in
-  direct_syrk_trace ~n ~k ~ar ~ac ~a
-
 external direct_symm2_trace :
   n : int ->
   uploa : char ->
@@ -564,6 +771,25 @@ let symm2_trace
   let uploa = get_uplo_char upa in
   let uplob = get_uplo_char upb in
   direct_symm2_trace ~n ~uploa ~ar ~ac ~a ~uplob ~br ~bc ~b
+
+external direct_ssqr_diff :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  num_type
+  = "lacaml_NPRECssqr_diff_mat_stub_bc" "lacaml_NPRECssqr_diff_mat_stub"
+
+let ssqr_diff ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.NPREC.Mat.ssqr_diff" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  direct_ssqr_diff ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 
 (* Iterators over matrices *)

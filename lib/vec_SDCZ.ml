@@ -37,10 +37,18 @@ let create n = Array1.create prec fortran_layout n
 let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 let get_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n create
 
-let make n x =
-  let v = create n in
-  Array1.fill v x;
-  v
+external direct_fill :
+  n : int ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  a : num_type ->
+  unit = "lacaml_NPRECfill_vec_stub"
+
+let make n a =
+  let x = create n in
+  direct_fill ~n ~ofsx:1 ~incx:1 ~x ~a;
+  x
 
 let make0 n = make n zero
 
@@ -230,14 +238,6 @@ let rev (x : vec) =
   res
 
 (* FILL *)
-
-external direct_fill :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
-  x : vec ->
-  a : num_type ->
-  unit = "lacaml_NPRECfill_vec_stub"
 
 let vec_fill_str = "Vec.fill"
 
@@ -626,8 +626,6 @@ let div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
 
 (* ZPXY *)
 
-let get_zero_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n make0
-
 external direct_zpxy :
   n : int ->
   ofsz : int ->
@@ -643,15 +641,14 @@ external direct_zpxy :
 
 let vec_zpxy_str = "Vec.zpxy"
 
-let zpxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
+let zpxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y =
   let ofsz, incz = get_vec_geom vec_zpxy_str z_str ofsz incz
   and ofsx, incx = get_vec_geom vec_zpxy_str x_str ofsx incx
   and ofsy, incy = get_vec_geom vec_zpxy_str y_str ofsy incy in
   let n = get_dim_vec vec_zpxy_str x_str ofsx incx x n_str n in
   check_vec vec_zpxy_str y_str y (ofsy + (n - 1) * abs incy);
-  let z = get_zero_z_vec ~loc:vec_zpxy_str ~ofsz ~incz ~n z in
-  direct_zpxy ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
-  z
+  check_vec vec_zpxy_str z_str z (ofsz + (n - 1) * abs incz);
+  direct_zpxy ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y
 
 (* ZMXY *)
 
@@ -670,15 +667,14 @@ external direct_zmxy :
 
 let vec_zmxy_str = "Vec.zmxy"
 
-let zmxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
+let zmxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y =
   let ofsz, incz = get_vec_geom vec_zmxy_str z_str ofsz incz
   and ofsx, incx = get_vec_geom vec_zmxy_str x_str ofsx incx
   and ofsy, incy = get_vec_geom vec_zmxy_str y_str ofsy incy in
   let n = get_dim_vec vec_zmxy_str x_str ofsx incx x n_str n in
   check_vec vec_zmxy_str y_str y (ofsy + (n - 1) * abs incy);
-  let z = get_zero_z_vec ~loc:vec_zmxy_str ~ofsz ~incz ~n z in
-  direct_zmxy ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y;
-  z
+  check_vec vec_zpxy_str z_str z (ofsz + (n - 1) * abs incz);
+  direct_zmxy ~n ~ofsz ~incz ~z ~ofsx ~incx ~x ~ofsy ~incy ~y
 
 (* SSQR_DIFF *)
 

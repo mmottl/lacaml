@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 979994f4f0f81b9d989c5bba8f277382) *)
+(* DO NOT EDIT (digest: 4c02f0d6d56735a71ff8a156548eeccb) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -559,10 +559,10 @@ module MyOCamlbuildBase = struct
                       need that file to be up to date.
                       This holds both for programs and for libraries.
                     *)
-       dep ["link"; "ocaml"; "program"; tag_libstubs lib]
+  		 dep ["link"; "ocaml"; tag_libstubs lib]
   		     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
-       dep  ["compile"; "ocaml"; "program"; tag_libstubs lib]
+  		 dep  ["compile"; "ocaml"; tag_libstubs lib]
   		      [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
                    (* TODO: be more specific about what depends on headers *)
@@ -1158,13 +1158,13 @@ let package_default =
           (["oasis_library_lacaml_cclib"; "link"],
             [
                (OASISExpr.EBool true,
-                 S [A "-cclib"; A "-lblas"; A "-cclib"; A "-llapack"]);
+                 S [A "-cclib"; A "-lf77blas"; A "-cclib"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-cclib"; A "-framework"; A "-cclib"; A "Accelerate"])
             ]);
           (["oasis_library_lacaml_cclib"; "ocamlmklib"; "c"],
             [
-               (OASISExpr.EBool true, S [A "-lblas"; A "-llapack"]);
+               (OASISExpr.EBool true, S [A "-lf77blas"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-framework"; A "Accelerate"])
             ])
@@ -1172,6 +1172,7 @@ let package_default =
      includes =
        [
           ("examples/svd", ["lib"]);
+          ("examples/shuffle", ["lib"]);
           ("examples/schur", ["lib"]);
           ("examples/qr", ["lib"]);
           ("examples/nag", ["lib"]);
@@ -1188,7 +1189,7 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 1192 "myocamlbuild.ml"
+# 1193 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let rec split_on is_delim s i0 i i1 =
@@ -1246,8 +1247,12 @@ let () =
 
         (* Files included, tailored with macros. *)
         dep ["compile"; "c"]
-            ["lib"/"fold_col.c"; "lib"/"fold2_col.c";
-            "lib"/"vec_map.c"; "lib"/"vec_combine.c"; "lib"/"vec_sort.c"];
+          [
+            "lib"/"fold_col.c"; "lib"/"fold2_col.c";
+            "lib"/"mat_fold.c"; "lib"/"mat_fold2.c";
+            "lib"/"mat_map.c"; "lib"/"mat_combine.c";
+            "lib"/"vec_map.c"; "lib"/"vec_combine.c"; "lib"/"vec_sort.c";
+          ];
 
         (* Special rules for precision dependent C code. *)
         let lacaml_cc desc ~prod ~dep flags =

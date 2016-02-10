@@ -33,7 +33,7 @@ static REAL LACAML_INF = 1. / 0.;
 CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
 {
   CAMLparam1(vY);
-  int i, GET_INT(N);
+  integer i, GET_INT(N);
   double a = Double_val(va),
          h = (Double_val(vb) - a)/(N - 1.),
          x = a;
@@ -60,7 +60,7 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
                                    value vbase, value vN)
 {
   CAMLparam1(vY);
-  int i, GET_INT(N);
+  integer i, GET_INT(N);
   double a = Double_val(va),
          h = (Double_val(vb) - a)/(N - 1.),
          base = Double_val(vbase),
@@ -113,7 +113,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 {
   CAMLparam1(vX);
 
-  int GET_INT(N), GET_INT(INCX);
+  integer GET_INT(N), GET_INT(INCX);
   doublereal res;
 
   VEC_PARAMS(X);
@@ -166,8 +166,8 @@ CAMLprim value LFUN(ssqr_stub)(
 {
   CAMLparam1(vX);
 
-  int GET_INT(N),
-      GET_INT(INCX);
+  integer GET_INT(N),
+          GET_INT(INCX);
 
   VEC_PARAMS(X);
 
@@ -197,6 +197,16 @@ CAMLprim value LFUN(ssqr_stub)(
 
   CAMLreturn(caml_copy_double(acc));
 }
+
+#define NAME LFUN(neg_stub)
+#define BC_NAME LFUN(neg_stub_bc)
+#define FUNC(dst, x) *dst = - x
+#include "vec_map.c"
+
+#define NAME LFUN(reci_stub)
+#define BC_NAME LFUN(reci_stub_bc)
+#define FUNC(dst, x) *dst = 1 / x
+#include "vec_map.c"
 
 #define NAME LFUN(sqr_stub)
 #define BC_NAME LFUN(sqr_stub_bc)
@@ -238,14 +248,14 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(dst, x) *dst = cos(x)
 #include "vec_map.c"
 
-#define NAME LFUN(neg_stub)
-#define BC_NAME LFUN(neg_stub_bc)
-#define FUNC(dst, x) *dst = - x
+#define NAME LFUN(tan_stub)
+#define BC_NAME LFUN(tan_stub_bc)
+#define FUNC(dst, x) *dst = tan(x)
 #include "vec_map.c"
 
-#define NAME LFUN(reci_stub)
-#define BC_NAME LFUN(reci_stub_bc)
-#define FUNC(dst, x) *dst = 1 / x
+#define NAME LFUN(tanh_stub)
+#define BC_NAME LFUN(tanh_stub_bc)
+#define FUNC(dst, x) *dst = tanh(x)
 #include "vec_map.c"
 
 #define NAME LFUN(add_stub)

@@ -60,6 +60,7 @@ Library lacaml
                  utils_c.c,
                  vec2_S_c.c, vec2_D_c.c, vec2_C_c.c, vec2_Z_c.c,
                  vec4_S_c.c, vec4_D_c.c, vec4_C_c.c, vec4_Z_c.c,
+                 mat2_S_c.c, mat2_D_c.c, mat2_C_c.c, mat2_Z_c.c,
                  mat4_S_c.c, mat4_D_c.c, mat4_C_c.c, mat4_Z_c.c,
                  impl2_S_c.c, impl2_D_c.c, impl2_C_c.c, impl2_Z_c.c,
                  impl4_S_c.c, impl4_D_c.c, impl4_C_c.c, impl4_Z_c.c,
@@ -75,7 +76,7 @@ Library lacaml
     CCOpt:      -g -std=c99 -O2 -fPIC -DPIC
   if flag(strict) && ccomp_type(cc)
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long
-  CCLib:         -lblas -llapack
+  CCLib:         -lf77blas -llapack
   if system(macosx)
     CCOpt+:      -DEXTERNAL_EXP10
     CCLib:       -framework Accelerate

@@ -40,12 +40,12 @@ val swap :
   ?n : int ->
   ?ofsx : int ->
   ?incx : int ->
-  x : vec ->
+  vec ->
   ?ofsy : int ->
   ?incy : int ->
   vec ->
   unit
-(** [swap ?n ?ofsx ?incx ~x ?ofsy ?incy y] see BLAS documentation!
+(** [swap ?n ?ofsx ?incx x ?ofsy ?incy y] see BLAS documentation!
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1

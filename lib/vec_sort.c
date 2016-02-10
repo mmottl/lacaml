@@ -222,7 +222,7 @@ CAMLprim value NAME(value vCMP, value vN,
   CAMLlocal2(va, vb);
 #endif
   const size_t GET_INT(N);
-  int GET_INT(INCX);
+  integer GET_INT(INCX);
   VEC_PARAMS(X);
 
   NUMBER *const base_ptr = X_data;
@@ -255,10 +255,10 @@ CAMLprim value NAME_PERM(value vCMP, value vN,
   CAMLlocal2(va, vb);
 #endif
   const size_t GET_INT(N);
-  int GET_INT(INCX),
-      GET_INT(INCP);
+  integer GET_INT(INCX),
+          GET_INT(OFSX),
+          GET_INT(INCP);
   VEC_PARAMS(X);
-  intnat OFSX = Long_val(vOFSX);
   intnat *P_data = ((intnat *) Caml_ba_data_val(vP)) + (Long_val(vOFSP) - 1);
   size_t i;
 

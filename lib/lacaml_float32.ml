@@ -37,3 +37,13 @@ let one = 1.0
 let add = (+.)
 
 let int_of_float32 = int_of_float
+
+module Types = struct
+  module Vec = struct
+    type unop = vec Lacaml_common.Types.Vec.unop
+  end  (* Vec *)
+
+  module Mat = struct
+    type unop = mat Lacaml_common.Types.Mat.unop
+  end  (* Mat *)
+end  (* Types *)

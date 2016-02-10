@@ -84,3 +84,36 @@ val create_int32_vec : int -> int32_vec
 val mat_from_vec : ('a, 'b, 'c) Array1.t -> ('a, 'b, 'c) Array2.t
 (** [mat_from_vec a] converts the vector [a] into a matrix with [Array1.dim a]
     rows and 1 column.  The data is shared between the two matrices. *)
+
+(** Common types used for vector and matrix operations *)
+
+module Types : sig
+  (** Common types used for vector operations *)
+  module Vec : sig
+    (** Type of unary operations *)
+    type 'vec unop = 
+      ?n : int ->
+      ?ofsy : int ->
+      ?incy : int ->
+      ?y : 'vec ->
+      ?ofsx : int ->
+      ?incx : int ->
+      'vec
+      -> 'vec
+  end  (* Vec *)
+
+  (** Common types used for matrix operations *)
+  module Mat : sig
+    (** Type of unary operations *)
+    type 'mat unop = 
+      ?m : int ->
+      ?n : int ->
+      ?br : int ->
+      ?bc : int ->
+      ?b : 'mat ->
+      ?ar : int ->
+      ?ac : int ->
+      'mat
+      -> 'mat
+  end  (* Mat *)
+end  (* Types *)

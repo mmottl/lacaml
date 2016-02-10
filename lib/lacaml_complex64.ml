@@ -37,3 +37,13 @@ let one = Complex.one
 let add = Complex.add
 
 let int_of_complex64 z = int_of_float z.Complex.re
+
+module Types = struct
+  module Vec = struct
+    type unop = vec Lacaml_common.Types.Vec.unop
+  end  (* Vec *)
+
+  module Mat = struct
+    type unop = mat Lacaml_common.Types.Mat.unop
+  end  (* Mat *)
+end  (* Types *)

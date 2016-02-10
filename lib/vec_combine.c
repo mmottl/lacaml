@@ -35,10 +35,10 @@ CAMLprim value NAME(
 {
   CAMLparam3(vX, vY, vZ);
 
-  int GET_INT(N),
-      GET_INT(INCX),
-      GET_INT(INCY),
-      GET_INT(INCZ);
+  integer GET_INT(N),
+          GET_INT(INCX),
+          GET_INT(INCY),
+          GET_INT(INCZ);
 
   VEC_PARAMS(X);
   VEC_PARAMS(Y);

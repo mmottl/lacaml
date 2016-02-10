@@ -22,6 +22,7 @@
 */
 
 #include <string.h>
+#include <assert.h>
 #include "lacaml_macros.h"
 
 static integer integer_one = 1;
@@ -42,7 +43,7 @@ CAMLprim value LFUN(sum_mat_stub)(
   NUMBER res = NUMBER_ZERO;
 
   if (M > 0 && N > 0) {
-    int i;
+    integer i;
     MAT_PARAMS(A);
     NUMBER *A_last = A_data + rows_A * N;
     caml_enter_blocking_section();
@@ -68,7 +69,7 @@ CAMLprim value LFUN(fill_mat_stub)(
   integer GET_INT(M), GET_INT(N);
 
   if (M > 0 && N > 0) {
-    int i;
+    integer i;
     MAT_PARAMS(A);
     CREATE_NUMBER(X);
     NUMBER *A_last = A_data + rows_A * N;
@@ -100,7 +101,7 @@ CAMLprim value LFUN(add_const_mat_stub)(
 {
   CAMLparam2(vA, vB);
 
-  int GET_INT(M), GET_INT(N);
+  integer GET_INT(M), GET_INT(N);
 
   if (M > 0 && N > 0) {
     NUMBER C;
@@ -140,7 +141,66 @@ CAMLprim value LFUN(add_const_mat_stub_bc)(value *argv, int __unused argn)
 }
 
 
-/* transpose_copy */
+/* swap */
+
+extern void FUN(swap)(
+  integer *N,
+  NUMBER *X, integer *INCX,
+  NUMBER *Y, integer *INCY);
+
+CAMLprim value LFUN(swap_mat_stub)(
+  value vUPLO,
+  value vM, value vN,
+  value vAR, value vAC, value vA,
+  value vBR, value vBC, value vB)
+{
+  CAMLparam2(vA, vB);
+  integer GET_INT(M), GET_INT(N);
+  char UPLO = GET_INT(UPLO);
+
+  if (M > 0 && N > 0) {
+    MAT_PARAMS(A);
+    MAT_PARAMS(B);
+    caml_enter_blocking_section();
+      if (M == rows_A && M == rows_B && UPLO == 'A') {
+        integer MN = M*N;
+        FUN(swap)(&MN, A_data, &integer_one, B_data, &integer_one);
+      } else {
+        NUMBER *A_last = A_data + rows_A * N;
+        integer LEN, LEN_DIFF, EXTREME_LEN;
+
+        switch (UPLO) {
+          case 'A' : LEN = M; LEN_DIFF = 0; EXTREME_LEN = M; break;
+          case 'U' : LEN = 1; LEN_DIFF = 1; EXTREME_LEN = M; break;
+          case 'L' :
+            LEN = M; LEN_DIFF = -1; EXTREME_LEN = 1;
+            rows_A++; rows_B++;
+            break;
+          default : assert(0);
+        }
+
+        do {
+          FUN(swap)(&LEN, A_data, &integer_one, B_data, &integer_one);
+          A_data += rows_A;
+          B_data += rows_B;
+          if (LEN != EXTREME_LEN) LEN += LEN_DIFF;
+        } while (A_data != A_last);
+      }
+    caml_leave_blocking_section();
+  }
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(swap_mat_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(swap_mat_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4],
+    argv[5], argv[6], argv[7], argv[8]);
+}
+
+
+/* transpose */
 
 extern void FUN(copy)(
   integer *N,
@@ -287,7 +347,7 @@ CAMLprim value LFUN(scal_rows_stub_bc)(value *argv, int __unused argn)
 }
 
 
-/* mat_axpy */
+/* axpy_mat */
 
 extern void FUN(axpy)(
   integer *N,
@@ -295,7 +355,7 @@ extern void FUN(axpy)(
   NUMBER *X, integer *INCX,
   NUMBER *Y, integer *INCY);
 
-CAMLprim value LFUN(mat_axpy_stub)(
+CAMLprim value LFUN(axpy_mat_stub)(
   value vALPHA,
   value vM, value vN,
   value vXR, value vXC, value vX,
@@ -326,9 +386,9 @@ CAMLprim value LFUN(mat_axpy_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(mat_axpy_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(axpy_mat_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(mat_axpy_stub)(
+  return LFUN(axpy_mat_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
     argv[5], argv[6], argv[7], argv[8]);
 }

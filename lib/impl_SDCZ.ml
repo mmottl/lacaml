@@ -47,15 +47,15 @@ module RVec = Lacaml_vec4_NBPREC
 
 external direct_swap :
   n : int ->
-  ofsy : int ->
-  incy : int ->
-  y : vec ->
   ofsx : int ->
   incx : int ->
   x : vec ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
   unit = "lacaml_NPRECswap_stub_bc" "lacaml_NPRECswap_stub"
 
-let swap ?n ?ofsx ?incx ~x ?ofsy ?incy y =
+let swap ?n ?ofsx ?incx x ?ofsy ?incy y =
   let loc = "Lacaml.NPREC.swap" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
@@ -384,12 +384,20 @@ external direct_gemm :
   beta : num_type ->
   unit = "lacaml_NPRECgemm_stub_bc" "lacaml_NPRECgemm_stub"
 
-let gemm ?m ?n ?k ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
+let gemm ?m ?n ?k ?beta ?(cr = 1) ?(cc = 1) ?c
       ?(transa = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a
       ?(transb = `N) ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.gemm" in
+  let beta =
+    match beta, c with
+    | None, _ -> zero
+    | Some beta, None ->
+        failwith (sprintf "%s: providing [beta] without [c] not allowed" loc)
+    | Some beta, Some _ -> beta
+  in
   let m, n, k, transa, transb, c =
-    gemm_get_params loc Mat.create ar ac a transa br bc b cr transb cc c m n k in
+    gemm_get_params
+      loc Mat.create ar ac a transa br bc b cr transb cc c m n k in
   direct_gemm
     ~transa ~transb ~m ~n ~k ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c
@@ -816,7 +824,9 @@ let getri_min_lwork n = max 1 n
 
 let getri_get_opt_lwork loc n ar ac a =
   let work = Vec.create 1 in
-  let info = direct_getri ~n ~ar ~ac ~a ~ipiv:empty_int32_vec ~work ~lwork:~-1 in
+  let info =
+    direct_getri ~n ~ar ~ac ~a ~ipiv:empty_int32_vec ~work ~lwork:~-1
+  in
   if info = 0 then int_of_numberxx work.{1}
   else getri_err loc getri_min_lwork n a 1 info
 
@@ -1404,7 +1414,9 @@ let sysv ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a
     | None ->
         let lwork = sysv_get_opt_lwork loc ar ac a n uplo nrhs br bc b in
         Vec.create lwork, lwork in
-  let info = direct_sysv ~ar ~ac ~a ~n ~uplo ~ipiv ~work ~lwork ~nrhs ~br ~bc ~b in
+  let info =
+    direct_sysv ~ar ~ac ~a ~n ~uplo ~ipiv ~work ~lwork ~nrhs ~br ~bc ~b
+  in
   match info with
   | 0 -> ()
   | i when i > 0 -> xxsv_ind_err loc info

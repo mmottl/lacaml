@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 6eb56e9f5fcc5927e49d26fed821c480)
+# DO NOT EDIT (digest: 5edfa7298450d5781b971359fa4996c6)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -27,6 +27,10 @@ true: annot, bin_annot
 "lib/vec4_D_c.c": oasis_library_lacaml_ccopt
 "lib/vec4_C_c.c": oasis_library_lacaml_ccopt
 "lib/vec4_Z_c.c": oasis_library_lacaml_ccopt
+"lib/mat2_S_c.c": oasis_library_lacaml_ccopt
+"lib/mat2_D_c.c": oasis_library_lacaml_ccopt
+"lib/mat2_C_c.c": oasis_library_lacaml_ccopt
+"lib/mat2_Z_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_S_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_D_c.c": oasis_library_lacaml_ccopt
 "lib/mat4_C_c.c": oasis_library_lacaml_ccopt
@@ -68,6 +72,14 @@ true: annot, bin_annot
 "lib/vec4_C_c.c": pkg_bytes
 "lib/vec4_Z_c.c": pkg_bigarray
 "lib/vec4_Z_c.c": pkg_bytes
+"lib/mat2_S_c.c": pkg_bigarray
+"lib/mat2_S_c.c": pkg_bytes
+"lib/mat2_D_c.c": pkg_bigarray
+"lib/mat2_D_c.c": pkg_bytes
+"lib/mat2_C_c.c": pkg_bigarray
+"lib/mat2_C_c.c": pkg_bytes
+"lib/mat2_Z_c.c": pkg_bigarray
+"lib/mat2_Z_c.c": pkg_bytes
 "lib/mat4_S_c.c": pkg_bigarray
 "lib/mat4_S_c.c": pkg_bytes
 "lib/mat4_D_c.c": pkg_bigarray
@@ -214,7 +226,6 @@ true: annot, bin_annot
 <examples/shuffle/*.ml{,i,y}>: pkg_bigarray
 <examples/shuffle/*.ml{,i,y}>: pkg_bytes
 <examples/shuffle/*.ml{,i,y}>: use_lacaml
-
 # OASIS_STOP
 
 true: -traverse

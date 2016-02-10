@@ -66,3 +66,30 @@ type eigen_value_sort = [
   | `Select_exterior_disk
   | `Select_custom of Complex.t -> bool
 ]
+
+module Types = struct
+  module Vec = struct
+    type 'vec unop = 
+      ?n : int ->
+      ?ofsy : int ->
+      ?incy : int ->
+      ?y : 'vec ->
+      ?ofsx : int ->
+      ?incx : int ->
+      'vec
+      -> 'vec
+  end  (* Vec *)
+
+  module Mat = struct
+    type 'mat unop = 
+      ?m : int ->
+      ?n : int ->
+      ?br : int ->
+      ?bc : int ->
+      ?b : 'mat ->
+      ?ar : int ->
+      ?ac : int ->
+      'mat
+      -> 'mat
+  end  (* Mat *)
+end  (* Types *)

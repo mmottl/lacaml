@@ -28,6 +28,7 @@
 (** {5 Vector operations} *)
 
 open Lacaml_floatxx
+open Types.Vec
 
 (** {6 Creation of vectors} *)
 
@@ -45,15 +46,9 @@ val random :
     @param range default = 2.0
 *)
 
-val sqr :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+(** {6 Unary vector operations} *)
+
+val sqr : unop
 (** [sqr ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the square
     of [n] elements of the vector [x] using [incx] as incremental
     steps.   If [y] is given, the result will be stored in there
@@ -68,15 +63,7 @@ val sqr :
     @param incx default = 1
 *)
 
-val sqrt :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val sqrt : unop
 (** [sqrt ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the square root
     of [n] elements of the vector [x] using [incx] as incremental
     steps.   If [y] is given, the result will be stored in there
@@ -91,15 +78,7 @@ val sqrt :
     @param incx default = 1
 *)
 
-val exp :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val exp : unop
 (** [exp ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the exponential
     of [n] elements of the vector [x] using [incx] as incremental
     steps.   If [y] is given, the result will be stored in there
@@ -114,15 +93,7 @@ val exp :
     @param incx default = 1
 *)
 
-val expm1 :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val expm1 : unop
 (** [expm1 ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the exponential
     minus 1 of [n] elements of the vector [x] using [incx] as incremental
     steps.   If [y] is given, the result will be stored in there
@@ -137,15 +108,7 @@ val expm1 :
     @param incx default = 1
 *)
 
-val log :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val log : unop
 (** [log ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the logarithm
     of [n] elements of the vector [x] using [incx] as incremental
     steps.   If [y] is given, the result will be stored in there
@@ -160,15 +123,7 @@ val log :
     @param incx default = 1
 *)
 
-val log1p :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val log1p : unop
 (** [log1p ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the logarithm
     plus 1 of [n] elements of the vector [x] using [incx] as incremental
     steps.   If [y] is given, the result will be stored in there
@@ -183,15 +138,7 @@ val log1p :
     @param incx default = 1
 *)
 
-val sin :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val sin : unop
 (** [sin ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the sine of [n] elements
     of the vector [x] using [incx] as incremental steps.   If [y] is given,
     the result will be stored in there using increments of [incy], otherwise
@@ -205,19 +152,39 @@ val sin :
     @param incx default = 1
 *)
 
-val cos :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val cos : unop
 (** [cos ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the cosine of [n] elements
     of the vector [x] using [incx] as incremental steps.   If [y] is given,
     the result will be stored in there using increments of [incy], otherwise
     a fresh vector will be used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val tan : unop
+(** [tan ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the tangent of [n] elements
+    of the vector [x] using [incx] as incremental steps.   If [y] is given,
+    the result will be stored in there using increments of [incy], otherwise
+    a fresh vector will be used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val tanh : unop
+(** [tanh ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the hyperbolic tangent of
+    [n] elements of the vector [x] using [incx] as incremental steps.   If [y]
+    is given, the result will be stored in there using increments of [incy],
+    otherwise a fresh vector will be used.  The resulting vector is returned.
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsy default = 1

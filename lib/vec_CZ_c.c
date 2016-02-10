@@ -31,7 +31,7 @@ static COMPLEX LACAML_COMPLEX_NEG_INF = { -1. / 0., -1. / 0. };
 CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
 {
   CAMLparam1(vY);
-  int i, GET_INT(N);
+  integer i, GET_INT(N);
   REAL ar = Double_field(va, 0),
        ai = Double_field(va, 1),
        N1 = N - 1.,
@@ -64,7 +64,7 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
                                    value vbase, value vN)
 {
   CAMLparam1(vY);
-  int i, GET_INT(N);
+  integer i, GET_INT(N);
   REAL ar = Double_field(va, 0),
        ai = Double_field(va, 1),
        N1 = N - 1.,
@@ -130,7 +130,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 {
   CAMLparam1(vX);
 
-  int GET_INT(N), GET_INT(INCX);
+  integer GET_INT(N), GET_INT(INCX);
   REAL res;
 
   VEC_PARAMS(X);
@@ -238,8 +238,8 @@ CAMLprim value LFUN(ssqr_stub)(
 {
   CAMLparam1(vX);
 
-  int GET_INT(N),
-      GET_INT(INCX);
+  integer GET_INT(N),
+          GET_INT(INCX);
 
   VEC_PARAMS(X);
 
@@ -353,7 +353,7 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(acc, x, y) \
   x.r -= y.r; \
   x.i -= y.i; \
-  acc.r += x.r*x.r - x.i*x.i; \
+  acc.r += (x.r - x.i) * (x.r + x.i); \
   acc.i += 2*x.r*x.i
 #include "fold2_col.c"
 

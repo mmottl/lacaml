@@ -31,7 +31,7 @@ CAMLprim value LFUN(fill_vec_stub)(
 {
   CAMLparam1(vX);
 
-  int GET_INT(N), GET_INT(INCX);
+  integer GET_INT(N), GET_INT(INCX);
 
   CREATE_NUMBER(A);
   VEC_PARAMS(X);
@@ -69,7 +69,7 @@ CAMLprim value LFUN(add_const_vec_stub)(
   CAMLparam2(vX, vY);
 
   NUMBER C;
-  int GET_INT(N), GET_INT(INCX), GET_INT(INCY);
+  integer GET_INT(N), GET_INT(INCX), GET_INT(INCY);
 
   VEC_PARAMS(X);
   VEC_PARAMS(Y);

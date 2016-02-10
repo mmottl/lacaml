@@ -29,6 +29,7 @@
 
 open Lacaml_common
 open Lacaml_numberxx
+open Types.Mat
 
 (** {6 Creation of matrices and accessors} *)
 
@@ -142,28 +143,35 @@ val copy_row : ?vec : vec -> mat -> int -> vec
 
 (** {6 Matrix transformations} *)
 
-val transpose_copy :
+val swap :
+  ?uplo : [ `U | `L ] ->
   ?m : int -> ?n : int ->
   ?ar : int -> ?ac : int -> mat ->
   ?br : int -> ?bc : int -> mat ->
   unit
-(** [transpose_copy ?m ?n ?ar ?ac a ?br ?bc b] copy the transpose
-    of (sub-)matrix [a] into (sub-)matrix [b].
+  (** [swap ?m ?n ?ar ?ac a ?br ?bc b] swaps the contents of (sub-matrices)
+      [a] and [b].
 
-    @param m default = [Mat.dim1 a]
-    @param n default = [Mat.dim2 a]
-    @param ar default = [1]
-    @param ac default = [1]
+      @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+      @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+      @param ar default = [1]
+      @param ac default = [1]
+      @param br default = [1]
+      @param bc default = [1]
+  *)
+
+val transpose_copy : unop
+(** [transpose_copy ?m ?n ?br ?bc ?b ?ar ?ac a] @return the transpose of
+    (sub-)matrix [a].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    NOTE: this operations does _not_ support in-place transposes!
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = [1]
     @param bc default = [1]
-*)
-
-
-val transpose : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> mat
-(** [transpose ?m ?n ?ar ?ac aa] @return the transpose of (sub-)matrix [a].
-
-    @param m default = [Mat.dim1 a]
-    @param n default = [Mat.dim2 a]
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
     @param ar default = [1]
     @param ac default = [1]
 *)
@@ -200,7 +208,16 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 *)
 
 
-(** {6 Arithmetic and other matrix operations} *)
+(** {6 Operations on one matrix} *)
+
+val fill :
+  ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type -> unit
+(** [fill ?m ?n ?ar ?ac a x] fills the specified sub-matrix in [a] with value
+    [x]. *)
+
+val sum : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
+(** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
+    the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)
 
 val add_const :
   num_type ->
@@ -226,14 +243,57 @@ val add_const :
     @param b default = fresh matrix of size [m] by [n]
 *)
 
-val sum : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
-(** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
-    the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)
+val neg :
+  ?m : int ->
+  ?n : int ->
+  ?br : int ->
+  ?bc : int ->
+  ?b : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> mat
+(** [neg ?m ?n ?br ?bc ?b ?ar ?ac a] computes the negative of the elements in
+    the [m] by [n] (sub-)matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
 
-val fill :
-  ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type -> unit
-(** [fill ?m ?n ?ar ?ac a x] fills the specified sub-matrix in [a] with value
-    [x]. *)
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val reci :
+  ?m : int ->
+  ?n : int ->
+  ?br : int ->
+  ?bc : int ->
+  ?b : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat
+  -> mat
+(** [reci ?m ?n ?br ?bc ?b ?ar ?ac a] computes the reciprocal of the elements in
+    the [m] by [n] (sub-)matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
 
 val copy_diag : mat -> vec
 (** [copy_diag m] @return the diagonal of matrix [m] as a vector.
@@ -264,6 +324,187 @@ val scal_rows :
   unit
 (** [scal_rows ?m ?n ?ofs alphas ?ar ?ac a] row-wise [scal]
     function for matrices. *)
+
+val syrk_trace :
+  ?n : int ->
+  ?k : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  num_type
+(** [syrk_trace ?n ?k ?ar ?ac a] computes the trace of either [a' * a]
+    or [a * a'], whichever is more efficient (results are identical), of the
+    (sub-)matrix [a] multiplied by its own transpose.  This is the same as
+    the square of the Frobenius norm of a matrix.  [n] is the number of rows
+    to consider in [a], and [k] the number of columns to consider.
+
+    @param n default = number of rows of [a]
+    @param k default = number of columns of [a]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
+val syrk_diag :
+  ?n : int ->
+  ?k : int ->
+  ?beta : num_type ->
+  ?ofsy : int ->
+  ?y : vec ->
+  ?trans : trans2 ->
+  ?alpha : num_type ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  vec
+(** [syrk_diag ?n ?k ?beta ?ofsy ?y ?trans ?alpha ?ar ?ac a]
+    computes the diagonal of the symmetric rank-k product of the
+    (sub-)matrix [a], multiplying it with [alpha] and adding [beta]
+    times [y], storing the result in [y] starting at the specified
+    offset.  [n] elements of the diagonal will be computed, and [k]
+    elements of the matrix will be part of the dot product associated
+    with each diagonal element.
+
+    @param n default = number of rows of [a] (or tr[a])
+    @param k default = number of columns of [a] (or tr[a])
+    @param beta default = [0]
+    @param ofsy default = [1]
+    @param y default = fresh vector of size [n + ofsy - 1]
+    @param trans default = [`N]
+    @param alpha default = [1]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
+
+(** {6 Operations on two matrices} *)
+
+val add :
+  ?m : int ->
+  ?n : int ->
+  ?cr : int ->
+  ?cc : int ->
+  ?c : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> mat
+(** [add ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the sum of the [m]
+    by [n] sub-matrix of the matrix [a] starting in row [ar] and column [ac]
+    with the corresponding sub-matrix of the matrix [b] starting in row
+    [br] and column [bc].  If [c] is given, the result will be stored in
+    there starting in row [cr] and column [cc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val sub :
+  ?m : int ->
+  ?n : int ->
+  ?cr : int ->
+  ?cc : int ->
+  ?c : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> mat
+(** [sub ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the difference of the
+    [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
+    [ac] with the corresponding sub-matrix of the matrix [b] starting in row
+    [br] and column [bc].  If [c] is given, the result will be stored in
+    there starting in row [cr] and column [cc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val mul :
+  ?m : int ->
+  ?n : int ->
+  ?cr : int ->
+  ?cc : int ->
+  ?c : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> mat
+(** [mul ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the product of the
+    [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
+    [ac] with the corresponding sub-matrix of the matrix [b] starting in row
+    [br] and column [bc].  If [c] is given, the result will be stored in
+    there starting in row [cr] and column [cc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val div :
+  ?m : int ->
+  ?n : int ->
+  ?cr : int ->
+  ?cc : int ->
+  ?c : mat ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat
+  -> mat
+(** [div ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the division of the
+    [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
+    [ac] with the corresponding sub-matrix of the matrix [b] starting in row
+    [br] and column [bc].  If [c] is given, the result will be stored in
+    there starting in row [cr] and column [cc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
 
 val axpy :
   ?alpha : num_type ->
@@ -319,37 +560,6 @@ val gemm_diag :
     @param bc default = [1]
 *)
 
-val syrk_diag :
-  ?n : int ->
-  ?k : int ->
-  ?beta : num_type ->
-  ?ofsy : int ->
-  ?y : vec ->
-  ?trans : trans2 ->
-  ?alpha : num_type ->
-  ?ar : int ->
-  ?ac : int ->
-  mat ->
-  vec
-(** [syrk_diag ?n ?k ?beta ?ofsy ?y ?trans ?alpha ?ar ?ac a]
-    computes the diagonal of the symmetric rank-k product of the
-    (sub-)matrix [a], multiplying it with [alpha] and adding [beta]
-    times [y], storing the result in [y] starting at the specified
-    offset.  [n] elements of the diagonal will be computed, and [k]
-    elements of the matrix will be part of the dot product associated
-    with each diagonal element.
-
-    @param n default = number of rows of [a] (or tr[a])
-    @param k default = number of columns of [a] (or tr[a])
-    @param beta default = [0]
-    @param ofsy default = [1]
-    @param y default = fresh vector of size [n + ofsy - 1]
-    @param trans default = [`N]
-    @param alpha default = [1]
-    @param ar default = [1]
-    @param ac default = [1]
-*)
-
 val gemm_trace :
   ?n : int ->
   ?k : int ->
@@ -380,25 +590,6 @@ val gemm_trace :
     @param bc default = [1]
 *)
 
-val syrk_trace :
-  ?n : int ->
-  ?k : int ->
-  ?ar : int ->
-  ?ac : int ->
-  mat ->
-  num_type
-(** [syrk_trace ?n ?k ?ar ?ac a] computes the trace of either [a' * a]
-    or [a * a'], whichever is more efficient (results are identical), of the
-    (sub-)matrix [a] multiplied by its own transpose.  This is the same as
-    the square of the Frobenius norm of a matrix.  [n] is the number of rows
-    to consider in [a], and [k] the number of columns to consider.
-
-    @param n default = number of rows of [a]
-    @param k default = number of columns of [a]
-    @param ar default = [1]
-    @param ac default = [1]
-*)
-
 val symm2_trace :
   ?n : int ->
   ?upa : bool ->
@@ -422,6 +613,29 @@ val symm2_trace :
     @param upb default = true (upper triangular portion of [b] is accessed)
     @param br default = [1]
     @param bc default = [1]
+*)
+
+val ssqr_diff :
+  ?m : int ->
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  num_type
+(** [ssqr_diff ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of squared
+    differences between the [m] by [n] sub-matrix of the matrix
+    [a] starting in row [ar] and column [ac] with the corresponding
+    sub-matrix of the matrix [b] starting in row [br] and column [bc].
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param ar default = 1
+    @param ac default = 1
+    @param br default = 1
+    @param bc default = 1
 *)
 
 

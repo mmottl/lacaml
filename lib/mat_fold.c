@@ -1,14 +1,10 @@
-/* File: fold_col.c
+/* File: mat_fold.c
 
-   Copyright (C) 2001-
+   Copyright (C) 2015-
 
      Markus Mottl
      email: markus.mottl@gmail.com
      WWW: http://www.ocaml.info
-
-     Christophe Troestler
-     email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -27,35 +23,34 @@
 
 #include "lacaml_macros.h"
 
-CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
+CAMLprim value NAME(value vM, value vN, value vAR, value vAC, value vA)
 {
-  CAMLparam1(vX);
+  CAMLparam1(vA);
 
-  integer GET_INT(N),
-          GET_INT(INCX);
+  integer GET_INT(M), GET_INT(N);
 
-  VEC_PARAMS(X);
+  MAT_PARAMS(A);
 
-  NUMBER *start, *last, acc = INIT;
+  if (M > 0) {
+    NUMBER acc = INIT, *last = A_data + N*rows_A;
+    integer diff_A = rows_A - M;
 
-  caml_enter_blocking_section();  /* Allow other threads */
+    caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start = X_data;
-    last = start + N*INCX;
+    while (A_data != last) {
+      NUMBER *A_col_last = A_data + M;
+
+      while (A_data != A_col_last) {
+        NUMBER x = *A_data;
+        FUNC(acc, x);
+        A_data++;
+      }
+
+      A_data += diff_A;
+    }
+
+    caml_leave_blocking_section();  /* Disallow other threads */
   }
-  else {
-    start = X_data - (N - 1)*INCX;
-    last = X_data + INCX;
-  };
-
-  while (start != last) {
-    NUMBER x = *start;
-    FUNC(acc, x);
-    start += INCX;
-  };
-
-  caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(COPY_NUMBER(acc));
 }

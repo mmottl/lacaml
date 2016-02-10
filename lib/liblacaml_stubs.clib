@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: db42f91f5e7f4ccb87db66e8f901a582)
+# DO NOT EDIT (digest: 0dcab1345f83d60f9c81f6157d05d5d6)
 impl_c.o
 utils_c.o
 vec2_S_c.o
@@ -10,6 +10,10 @@ vec4_S_c.o
 vec4_D_c.o
 vec4_C_c.o
 vec4_Z_c.o
+mat2_S_c.o
+mat2_D_c.o
+mat2_C_c.o
+mat2_Z_c.o
 mat4_S_c.o
 mat4_D_c.o
 mat4_C_c.o
