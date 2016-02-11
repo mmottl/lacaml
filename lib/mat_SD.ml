@@ -157,14 +157,7 @@ let sqr ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.sqr" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_sqr ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -183,14 +176,7 @@ let sqrt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.sqrt" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_sqrt ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -209,14 +195,7 @@ let exp ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.exp" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_exp ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -235,14 +214,7 @@ let log ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.log" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_log ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -261,14 +233,7 @@ let sin ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.sin" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_sin ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -287,14 +252,7 @@ let cos ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.cos" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_cos ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -313,14 +271,7 @@ let tan ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.tan" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_tan ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -339,14 +290,7 @@ let tanh ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.tanh" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_tanh ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
