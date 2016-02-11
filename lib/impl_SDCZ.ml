@@ -391,7 +391,7 @@ let gemm ?m ?n ?k ?beta ?(cr = 1) ?(cc = 1) ?c
   let beta =
     match beta, c with
     | None, _ -> zero
-    | Some beta, None ->
+    | Some _beta, None ->
         failwith (sprintf "%s: providing [beta] without [c] not allowed" loc)
     | Some beta, Some _ -> beta
   in
