@@ -225,13 +225,13 @@ external direct_gbmv :
 let gbmv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
       ?(ar = 1) ?(ac = 1) a kl ku ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.gbmv" in
-  check_var_ltz loc kl_str kl;
-  check_var_ltz loc ku_str ku;
+  check_var_lt0 ~loc ~name:kl_str kl;
+  check_var_lt0 ~loc ~name:ku_str ku;
   check_dim1_mat loc a_str a ar "kl + ku + 1 for " (kl + ku + 1);
   let n = get_dim2_mat loc a_str a ac n_str n in
   let m = match m with
     | None -> n
-    | Some m -> check_var_ltz loc m_str m; m in
+    | Some m -> check_var_lt0 ~loc ~name:m_str m; m in
   let ofsx, incx, ofsy, incy, y, trans =
     gXmv_get_params loc Vec.create m n ofsx incx x ofsy incy y trans
   in
@@ -561,8 +561,8 @@ let lacpy ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
     match b with
     | Some b -> check_dim_mat loc b_str br bc b m n; b
     | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
+        check_var_lt0 ~loc ~name:br_str br;
+        check_var_lt0 ~loc ~name:bc_str bc;
         let min_bm = m + br - 1 in
         let min_bn = n + bc - 1 in
         Mat.create min_bm min_bn
@@ -625,7 +625,6 @@ let lapmt ?(forward = true) ?m ?n ?(ar = 1) ?(ac = 1) a k =
   let loc = "Lacaml.NPREC.lapmt" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let k_n = Array1.dim k in
   check_vec_is_perm loc k_str k n;
   direct_lapmt ~forward ~m ~n ~k ~ar ~ac ~a
 
@@ -684,16 +683,16 @@ let larnv ?idist ?iseed ?n ?ofsx ?x () =
         if (Int32.to_int iseed.{ofsiseed + 3}) land 1 = 1 then iseed
         else invalid_arg (sprintf "%s: last iseed entry must be odd" loc)
   in
-  let ofsx = get_ofs loc x_str ofsx in
+  let ofsx = get_vec_ofs loc x_str ofsx in
   let n, x =
     match n, x with
     | None, None -> 1, Vec.create ofsx
     | Some n, None ->
-        check_var_ltz loc n_str n;
+        check_var_lt0 ~loc ~name:n_str n;
         n, Vec.create (ofsx - 1 + n)
     | None, Some x -> Vec.dim x - ofsx + 1, x
     | Some n, Some x ->
-        check_var_ltz loc n_str n;
+        check_var_lt0 ~loc ~name:n_str n;
         let min_dim = ofsx - 1 + n in
         check_vec loc x_str x min_dim;
         n, x
@@ -1233,9 +1232,9 @@ external direct_gtsv :
 
 let gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.gtsv" in
-  let ofsdl = get_ofs loc dl_str ofsdl in
-  let ofsd = get_ofs loc d_str ofsd in
-  let ofsdu = get_ofs loc du_str ofsdu in
+  let ofsdl = get_vec_ofs loc dl_str ofsdl in
+  let ofsd = get_vec_ofs loc d_str ofsd in
+  let ofsdu = get_vec_ofs loc du_str ofsdu in
   let n = get_dim_vec loc d_str ofsd 1 d n_str n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   check_vec loc dl_str dl (ofsdl + n - 2);
@@ -1286,7 +1285,7 @@ external direct_ppsv :
 
 let ppsv ?n ?(up = true) ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.ppsv" in
-  let ofsap = get_ofs loc ap_str ofsap in
+  let ofsap = get_vec_ofs loc ap_str ofsap in
   let n = get_dim_mat_packed loc ap_str ofsap ap n_str n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   let info =
@@ -1349,8 +1348,8 @@ external direct_ptsv :
 
 let ptsv ?n ?ofsd d ?ofse e ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.ptsv" in
-  let ofsd = get_ofs loc d_str ofsd in
-  let ofse = get_ofs loc e_str ofse in
+  let ofsd = get_vec_ofs loc d_str ofsd in
+  let ofse = get_vec_ofs loc e_str ofse in
   let n = get_dim_vec loc d_str ofsd 1 d n_str n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   check_vec loc e_str e (ofse + n - 2);
@@ -1428,7 +1427,7 @@ external direct_spsv :
 
 let spsv ?n ?(up = true) ?ipiv ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.spsv" in
-  let ofsap = get_ofs loc ap_str ofsap in
+  let ofsap = get_vec_ofs loc ap_str ofsap in
   let n = get_dim_mat_packed loc ap_str ofsap ap n_str n in
   let nrhs = get_nrhs_of_b loc n br bc b nrhs in
   let ipiv = xxsv_get_ipiv loc ipiv n in

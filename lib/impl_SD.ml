@@ -584,7 +584,7 @@ let gelsd ?m ?n ?(rcond = -1.0) ?ofss ?s ?work ?iwork
   let loc = "Lacaml.FPREC.gelsd" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
   let mn = min m n in
-  let ofss = get_ofs loc s_str ofss in
+  let ofss = get_vec_ofs loc s_str ofss in
   let s = gelsX_get_s Vec.create loc mn ofss s in
 
   let iwork =
@@ -662,7 +662,7 @@ let gelss ?m ?n ?(rcond = -1.0) ?ofss ?s ?work
       ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.FPREC.gelss" in
   let m, n, nrhs = gelsX_get_params loc ar ac a m n nrhs br bc b in
-  let ofss = get_ofs loc s_str ofss in
+  let ofss = get_vec_ofs loc s_str ofss in
   let s = gelsX_get_s Vec.create loc (min m n) ofss s in
   let work, lwork =
     match work with
@@ -1148,7 +1148,7 @@ let syev ?n ?(vectors = false) ?(up = true) ?work ?ofsw ?w ?(ar = 1)
     ?(ac = 1) a =
   let loc = "Lacaml.FPREC.syev" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
-  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw = get_vec_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
 
   let work, lwork =
@@ -1227,7 +1227,7 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
       ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.syevd" in
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
-  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw = get_vec_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let work, iwork, lwork, liwork =
     match work, iwork with
@@ -1444,7 +1444,7 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   let range, m, vl, vu, il, iu = syevr_get_params loc n range in
   let abstol = syevr_get_abstol abstol in
-  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw = get_vec_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let z = get_mat loc z_str Mat.create zr zc z n m (* order of n, m is ok! *) in
   let isuppz =
@@ -1578,7 +1578,7 @@ let sygv
   let n, jobz, uplo = xxev_get_params loc ar ac a n vectors up in
   check_dim1_mat loc b_str b br n_str n;
   check_dim2_mat loc b_str b bc n_str n;
-  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw = get_vec_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let itype = get_itype itype in
   let work, lwork =
@@ -1661,7 +1661,7 @@ let sbgv
     | Some z ->
       check_dim_mat loc z_str zr zc z n n;
       job_char_true, z in
-  let ofsw = get_ofs loc w_str ofsw in
+  let ofsw = get_vec_ofs loc w_str ofsw in
   let ofsw, w = xxev_get_wx Vec.create loc w_str ofsw w n in
   let work = match work with
     | Some work -> check_vec loc work_str work (sbgv_min_lwork n); work
