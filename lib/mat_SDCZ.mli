@@ -295,10 +295,25 @@ val reci :
     @param ac default = 1
 *)
 
-val copy_diag : mat -> vec
-(** [copy_diag m] @return the diagonal of matrix [m] as a vector.
-    If [m] is not a square matrix, the longest possible sequence
-    of diagonal elements will be returned. *)
+val copy_diag :
+  ?n : int ->
+  ?ofsy : int -> ?incy : int -> ?y : vec ->
+  ?ar : int -> ?ac : int -> mat ->
+  vec
+(** [copy_diag ?n ?ofsy ?incy ?y ?ar ?ac a] @return the diagonal of the
+    (sub-)matrix [a] in a vector.
+
+
+    If [a] is not a square matrix, the longest
+    possible sequence of diagonal elements will be returned.
+
+    @param n default = greatest n that does not exceed the matrix dimensions
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector of length [n]
+    @param ar default = 1
+    @param ac default = 1
+*)
 
 val trace : mat -> num_type
 (** [trace m] @return the trace of matrix [m].  If [m] is not a

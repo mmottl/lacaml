@@ -323,13 +323,18 @@ let unpacked ?(up = true) ?n (src : vec) =
     done;
   a
 
-let copy_diag mat =
-  let m = dim1 mat in
-  let n = dim2 mat in
-  let n_diag = min m n in
-  let vec = Array1.create prec fortran_layout n_diag in
-  for i = 1 to n_diag do vec.{i} <- mat.{i, i} done;
-  vec
+let copy_diag ?n ?(ofsy = 1) ?(incy = 1) ?y ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.copy_diag" in
+  let n1 = get_dim1_mat loc a_str a ar n_str n in
+  let n2 = get_dim2_mat loc a_str a ac n_str n in
+  let n_diag = min n1 n2 in
+  let y = get_vec loc y_str y ofsy incy n_diag vec_create in
+  let ofsy_ref = ref ofsy in
+  for i = 0 to n_diag - 1 do
+    y.{!ofsy_ref} <- a.{ar + i, ac + i};
+    ofsy_ref := !ofsy_ref + incy
+  done;
+  y
 
 let trace mat =
   let m = dim1 mat in

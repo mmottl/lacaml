@@ -32,7 +32,7 @@ open Lacaml_utils
 
 (* Creation of vectors and dimension accessor *)
 
-let create n = Array1.create prec fortran_layout n
+let create = vec_create
 
 let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 let get_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n create

@@ -36,6 +36,8 @@ let zero = Complex.zero
 let one = Complex.one
 let add = Complex.add
 
+let vec_create n = Array1.create prec fortran_layout n
+
 let int_of_complex64 z = int_of_float z.Complex.re
 
 module Types = struct

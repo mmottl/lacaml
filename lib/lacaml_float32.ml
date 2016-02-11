@@ -36,6 +36,8 @@ let zero = 0.0
 let one = 1.0
 let add = (+.)
 
+let vec_create n = Array1.create prec fortran_layout n
+
 let int_of_float32 = int_of_float
 
 module Types = struct
