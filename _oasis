@@ -76,7 +76,7 @@ Library lacaml
     CCOpt:      -g -std=c99 -O2 -fPIC -DPIC
   if flag(strict) && ccomp_type(cc)
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long
-  CCLib:         -lf77blas -llapack
+  CCLib:         -lblas -llapack
   if system(macosx)
     CCOpt+:      -DEXTERNAL_EXP10
     CCLib:       -framework Accelerate

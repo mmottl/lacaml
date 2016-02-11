@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 4c02f0d6d56735a71ff8a156548eeccb) *)
+(* DO NOT EDIT (digest: 8347832eef12be46afe6ee9f1bc6b51d) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -1158,13 +1158,13 @@ let package_default =
           (["oasis_library_lacaml_cclib"; "link"],
             [
                (OASISExpr.EBool true,
-                 S [A "-cclib"; A "-lf77blas"; A "-cclib"; A "-llapack"]);
+                 S [A "-cclib"; A "-lblas"; A "-cclib"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-cclib"; A "-framework"; A "-cclib"; A "Accelerate"])
             ]);
           (["oasis_library_lacaml_cclib"; "ocamlmklib"; "c"],
             [
-               (OASISExpr.EBool true, S [A "-lf77blas"; A "-llapack"]);
+               (OASISExpr.EBool true, S [A "-lblas"; A "-llapack"]);
                (OASISExpr.ETest ("system", "macosx"),
                  S [A "-framework"; A "Accelerate"])
             ])
