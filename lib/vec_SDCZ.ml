@@ -159,10 +159,6 @@ let logspace ?y a b ?(base = 10.0) n =
 
 (* Iterators over vectors *)
 
-let get_i_ref_last ~incx ~ofsx ~n =
-  if incx > 0 then ref ofsx, ofsx + n * incx
-  else ref (ofsx - (n - 1) * incx), ofsx + incx
-
 let vec_map_str = "Vec.map"
 
 let map f ?n ?ofsy ?incy ?y ?ofsx ?incx (x : vec) =
@@ -175,9 +171,10 @@ let map f ?n ?ofsy ?incy ?y ?ofsx ?incx (x : vec) =
     | Some y -> check_vec vec_map_str y_str y min_dim_y; y
     | None -> create min_dim_y
   in
-  let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
+  let start, stop = get_vec_start_stop ~incx ~ofsx ~n in
+  let i_ref = ref start in
   let j_ref = ref (if incy > 0 then ofsy else min_dim_y) in
-  while !i_ref <> last_i do
+  while !i_ref <> stop do
     y.{!j_ref} <- f x.{!i_ref};
     i_ref := !i_ref + incx;
     j_ref := !j_ref + incy;
@@ -189,8 +186,9 @@ let vec_iter_str = "Vec.iter"
 let iter f ?n ?ofsx ?incx (x : vec) =
   let ofsx, incx = get_vec_geom vec_iter_str x_str ofsx incx in
   let n = get_dim_vec vec_iter_str x_str ofsx incx x n_str n in
-  let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
-  while !i_ref <> last_i do
+  let start, stop = get_vec_start_stop ~incx ~ofsx ~n in
+  let i_ref = ref start in
+  while !i_ref <> stop do
     let i = !i_ref in
     f x.{i};
     i_ref := i + incx;
@@ -201,8 +199,9 @@ let vec_iteri_str = "Vec.iteri"
 let iteri f ?n ?ofsx ?incx (x : vec) =
   let ofsx, incx = get_vec_geom vec_iteri_str x_str ofsx incx in
   let n = get_dim_vec vec_iteri_str x_str ofsx incx x n_str n in
-  let i_ref, last_i = get_i_ref_last ~incx ~ofsx ~n in
-  while !i_ref <> last_i do
+  let start, stop = get_vec_start_stop ~incx ~ofsx ~n in
+  let i_ref = ref start in
+  while !i_ref <> stop do
     let i = !i_ref in
     f i x.{i};
     i_ref := i + incx;
@@ -213,12 +212,9 @@ let vec_fold_str = "Vec.fold"
 let fold f acc ?n ?ofsx ?incx (x : vec) =
   let ofsx, incx = get_vec_geom vec_fold_str x_str ofsx incx in
   let n = get_dim_vec vec_fold_str x_str ofsx incx x n_str n in
-  let start, last =
-    if incx > 0 then ofsx, ofsx + n * incx
-    else ofsx - (n - 1)*incx, ofsx + incx
-  in
+  let start, stop = get_vec_start_stop ~incx ~ofsx ~n in
   let rec loop acc i =
-    if i = last then acc
+    if i = stop then acc
     else loop (f acc x.{i}) (i + incx)
   in
   loop acc start

@@ -257,14 +257,7 @@ let transpose_copy ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.transpose_copy" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + n) (bc - 1 + m)
-    | Some b -> check_dim_mat loc b_str br bc b n m; b
-  in
+  let b = get_mat loc b_str create br bc b n m in
   direct_transpose_copy ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -377,7 +370,7 @@ let scal_cols ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
   let loc = "Lacaml.NPREC.Mat.scal_cols" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let ofs = get_ofs loc alphas_str ofs in
+  let ofs = get_vec_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some n));
   direct_scal_cols ~m ~n ~ar ~ac ~a ~ofs ~alphas
 
@@ -395,7 +388,7 @@ let scal_rows ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.scal_rows" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let ofs = get_ofs loc alphas_str ofs in
+  let ofs = get_vec_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some m));
   direct_scal_rows ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
@@ -463,14 +456,7 @@ let add_const c ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.add_const" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_add_const ~c ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -489,14 +475,7 @@ let neg ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.neg" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_neg ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -515,14 +494,7 @@ let reci ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.reci" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None ->
-        check_var_ltz loc br_str br;
-        check_var_ltz loc bc_str bc;
-        create (br - 1 + m) (bc - 1 + n)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   direct_reci ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
@@ -572,14 +544,7 @@ let add ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let c =
-    match c with
-    | None ->
-        check_var_ltz loc cr_str cr;
-        check_var_ltz loc cc_str cc;
-        create (cr - 1 + m) (cc - 1 + n)
-    | Some c -> check_dim_mat loc c_str cr cc c m n; c
-  in
+  let c = get_mat loc c_str create cr cc c m n in
   direct_mat_add ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
@@ -603,14 +568,7 @@ let sub ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let c =
-    match c with
-    | None ->
-        check_var_ltz loc cr_str cr;
-        check_var_ltz loc cc_str cc;
-        create (cr - 1 + m) (cc - 1 + n)
-    | Some c -> check_dim_mat loc c_str cr cc c m n; c
-  in
+  let c = get_mat loc c_str create cr cc c m n in
   direct_mat_sub ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
@@ -634,14 +592,7 @@ let mul ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let c =
-    match c with
-    | None ->
-        check_var_ltz loc cr_str cr;
-        check_var_ltz loc cc_str cc;
-        create (cr - 1 + m) (cc - 1 + n)
-    | Some c -> check_dim_mat loc c_str cr cc c m n; c
-  in
+  let c = get_mat loc c_str create cr cc c m n in
   direct_mat_mul ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
@@ -665,14 +616,7 @@ let div ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let c =
-    match c with
-    | None ->
-        check_var_ltz loc cr_str cr;
-        check_var_ltz loc cc_str cc;
-        create (cr - 1 + m) (cc - 1 + n)
-    | Some c -> check_dim_mat loc c_str cr cc c m n; c
-  in
+  let c = get_mat loc c_str create cr cc c m n in
   direct_mat_div ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
@@ -798,13 +742,7 @@ let map f ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) (a : mat) =
   let loc = "Lacaml.NPREC.Mat.map" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let b =
-    match b with
-    | None when br < 1 -> raise_mat_ofs_neg loc 'r' b_str br
-    | None when bc < 1 -> raise_mat_ofs_neg loc 'c' b_str bc
-    | None -> create (br + m - 1) (bc + n - 1)
-    | Some b -> check_dim_mat loc b_str br bc b m n; b
-  in
+  let b = get_mat loc b_str create br bc b m n in
   let max_row = m - 1 in
   for i = 0 to n - 1 do
     for j = 0 to max_row do b.{br + j, bc + i} <- f a.{ar + j, ac + i} done;
