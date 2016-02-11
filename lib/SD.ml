@@ -32,11 +32,15 @@ include Lacaml_impl4_FPREC
 include Lacaml_real_io
 
 module Vec = struct
+  type t = vec
+
   include Lacaml_vec2_FPREC
   include Lacaml_vec4_FPREC
 end
 
 module Mat = struct
+  type t = mat
+
   include Lacaml_mat2_FPREC
   include Lacaml_mat4_FPREC
 end
