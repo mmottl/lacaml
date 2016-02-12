@@ -93,7 +93,7 @@ let identity n =
   for i = 1 to n do mat.{i, i} <- one done;
   mat
 
-let of_diag ?n ?br ?bc ?b ?ofsx ?incx (x : vec) =
+let of_diag ?n ?(br = 1) ?(bc = 1) ?b ?ofsx ?incx (x : vec) =
   let loc = "Lacaml.NPREC.Mat.of_diag" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
