@@ -93,11 +93,17 @@ let identity n =
   for i = 1 to n do mat.{i, i} <- one done;
   mat
 
-let of_diag (vec : vec) =
-  let n = Array1.dim vec in
-  let mat = make n n zero in
-  for i = 1 to n do mat.{i, i} <- vec.{i} done;
-  mat
+let of_diag ?n ?br ?bc ?b ?ofsx ?incx (x : vec) =
+  let loc = "Lacaml.NPREC.Mat.of_diag" in
+  let ofsx, incx = get_vec_geom loc x_str ofsx incx in
+  let n = get_dim_vec loc x_str ofsx incx x n_str n in
+  let b = get_mat loc b_str create br bc b n n in
+  let ofsx_ref = ref ofsx in
+  for i = 0 to n - 1 do
+    b.{br + i, bc + i} <- x.{!ofsx_ref};
+    ofsx_ref := !ofsx_ref + incx
+  done;
+  b
 
 let to_array mat =
   let m = dim1 mat in

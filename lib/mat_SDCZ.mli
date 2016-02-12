@@ -120,8 +120,22 @@ val empty : mat
 val identity : int -> mat
 (** [identity n] @return the [n]x[n] identity matrix. *)
 
-val of_diag : vec -> mat
-(** [of_diag v] @return the diagonal matrix with diagonals elements from [v]. *)
+val of_diag :
+  ?n : int ->
+  ?br : int -> ?bc : int -> ?b : mat ->
+  ?ofsx : int -> ?incx : int -> vec ->
+  mat
+(** [of_diag ?n ?br ?bc ?b ?ofsx ?incx x] @return matrix [b] with diagonal
+    elements in the designated sub-matrix coming from the designated sub-vector
+    in [x].
+
+    @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param br default = [1]
+    @param bc default = [1]
+    @param b default = minimal fresh matrix consistent with [n], [br], and [bc]
+    @param ofsx default = 1
+    @param incx default = 1
+*)
 
 val dim1 : mat -> int
 (** [dim1 m] @return the first dimension of matrix [m] (number of rows). *)
