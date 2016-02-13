@@ -512,7 +512,7 @@ let check_dim2_mat loc mat_name mat mat_c n_name n =
   let dim2 = Array2.dim2 mat in
   check_mat_cols ~loc ~mat_name ~dim2 ~c:mat_c ~p:n ~param_name:n_name
 
-let check_dim_mat loc mat_name mat_c mat_r mat m n =
+let check_dim_mat loc mat_name mat_r mat_c mat m n =
   check_dim1_mat loc mat_name mat mat_r m_str m;
   check_dim2_mat loc mat_name mat mat_c n_str n
 
