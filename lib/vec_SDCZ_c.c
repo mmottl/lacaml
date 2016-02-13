@@ -106,6 +106,7 @@ CAMLprim value LFUN(add_const_vec_stub)(
 CAMLprim value LFUN(add_const_vec_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(add_const_vec_stub)(argv[0], argv[1], argv[2],argv[3], argv[4], argv[5],
-                             argv[6], argv[7]);
+    LFUN(add_const_vec_stub)(
+        argv[0], argv[1], argv[2],argv[3],
+        argv[4], argv[5], argv[6], argv[7]);
 }
