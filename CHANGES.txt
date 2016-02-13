@@ -1,3 +1,37 @@
+2016-02-12:  Major release version 8.0.0:
+
+               * Added types Vec.t and Mat.t
+
+               * Substantial changes to vector and matrix parameter checking
+                 code, which should fix some corner case bugs and make the
+                 checks more reusable outside of Lacaml
+
+                * Added new vector functions
+
+                  * sqr, sqrt, exp, log, sin, cos, tan, tanh
+                  * zpxy, zmxy
+                  * swap
+                  * tan, tanh
+                  * expm1, log1p
+
+                * Added new matrix functions
+
+                  * of_list, to_list
+                  * of_col_vecs_list, to_col_vecs_list
+                  * laswp and lapmt
+                  * neg, reci, sqr, sqrt, exp, log, sin, cos, tan, tanh
+                  * cpab, cmab
+                  * swap
+                  * add, sub, mul, div
+                  * ssqr_diff
+
+                * Replaced Mat.transpose with Mat.transpose_copy and changed
+                  documented behavior
+
+                * Improved API of Mat.of_diag and Mat.copy_diag
+
+                * Miscellaneous bug fixes and improvements
+
 2015-07-01:  Fixed a bug in the complex version of Vec.ssqr_diff.
 
              Thanks to Akinori Abe for the patch!
