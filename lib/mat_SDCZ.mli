@@ -315,13 +315,9 @@ val copy_diag :
   ?ar : int -> ?ac : int -> mat ->
   vec
 (** [copy_diag ?n ?ofsy ?incy ?y ?ar ?ac a] @return the diagonal of the
-    (sub-)matrix [a] in a vector.
+    (sub-)matrix [a] in a (sub-)vector.
 
-
-    If [a] is not a square matrix, the longest
-    possible sequence of diagonal elements will be returned.
-
-    @param n default = greatest n that does not exceed the matrix dimensions
+    @param n default = greatest [n] that does not exceed matrix dimensions
     @param ofsy default = 1
     @param incy default = 1
     @param y default = fresh vector of length [n]
