@@ -1,3 +1,10 @@
+2016-02-14:  Minor release version 8.0.4:
+
+               * Fixed a matrix bounds checking bug
+
+               * Fixed several build issues for backward compatibility with
+                 OCaml versions < 4.1
+
 2016-02-12:  Major release version 8.0.0:
 
                * Added types Vec.t and Mat.t
