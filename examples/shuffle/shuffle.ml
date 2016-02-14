@@ -13,9 +13,7 @@ let reorder arr =
   done;
   arr
 
-let reordered n =
-  Array.init n (fun i -> i)
-  |> reorder
+let reordered n = reorder (Array.init n (fun i -> i))
 
 let shuffle n =
   let arr = Array.init n (fun i -> i) in
@@ -25,8 +23,8 @@ let shuffle n =
   arr
 
 let to_vec arr =
-  Array.map (fun i -> Int32.of_int (i + 1)) arr
-  |> Array1.of_array Int32 Fortran_layout
+  Array1.of_array Int32 Fortran_layout (
+    Array.map (fun i -> Int32.of_int (i + 1)) arr)
 
 let () =
   let () = Random.self_init () in
