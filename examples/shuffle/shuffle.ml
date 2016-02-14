@@ -23,7 +23,7 @@ let shuffle n =
   arr
 
 let to_vec arr =
-  Array1.of_array Int32 Fortran_layout (
+  Array1.of_array int32 fortran_layout (
     Array.map (fun i -> Int32.of_int (i + 1)) arr)
 
 let () =
