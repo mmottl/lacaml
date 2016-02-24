@@ -97,7 +97,7 @@ let of_diag ?n ?(br = 1) ?(bc = 1) ?b ?ofsx ?incx (x : vec) =
   let loc = "Lacaml.NPREC.Mat.of_diag" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
-  let b = get_mat loc b_str create br bc b n n in
+  let b = get_mat loc b_str make0 br bc b n n in
   let ofsx_ref = ref ofsx in
   for i = 0 to n - 1 do
     b.{br + i, bc + i} <- x.{!ofsx_ref};
