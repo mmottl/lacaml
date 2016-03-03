@@ -68,7 +68,7 @@ Library lacaml
                  f2c.h,
                  lacaml_macros.h,
                  utils_c.h
-  BuildDepends:  bigarray, bytes
+  BuildDepends:  bigarray, bytes, conf-blas, conf-lapack
   # Linux specific: gnu99 is required to have nanosleep, others can just use c99 standard
   if system(linux) || system(linux_elf)
     CCOpt:      -g -std=gnu99 -O2 -fPIC -DPIC
