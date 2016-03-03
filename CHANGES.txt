@@ -1,3 +1,7 @@
+2016-03-03:  Minor release version 8.0.7:
+
+               * Fixed offset checking bugs
+
 2016-02-24:  Minor release version 8.0.6:
 
                * Fixed Mat.of_diag matrix initialization bug

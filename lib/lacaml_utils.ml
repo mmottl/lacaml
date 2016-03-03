@@ -164,18 +164,12 @@ let raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim =
 let check_vec_min_dim ~loc ~vec_name ~dim ~min_dim =
   if dim < min_dim then raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim
 
-(** [raise_bad_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs] @raise Invalid_argument
-    to indicate that an offset [ofs] named [ofs_name] for a value having
-    [name] is invalid (i.e. is outside of [1..max_ofs]). *)
-let raise_bad_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs =
-  invalid_arg (
-    sprintf "%s: %s%s: valid=[1..%d] got=%d" loc name ofs_name max_ofs ofs)
-
 (** [raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs] @raise Invalid_argument
     to indicate that vector offset [ofs] is invalid (i.e. is outside of
     [1..max_ofs]). *)
 let raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs =
-  raise_bad_ofs ~loc ~name:vec_name ~ofs_name:ofs_str ~ofs ~max_ofs
+  invalid_arg (
+    sprintf "%s: ofs%s: valid=[1..%d] got=%d" loc vec_name max_ofs ofs)
 
 (** [check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs] checks whether vector
     offset [ofs] for vector of name [vec_name] is invalid (i.e. outside of
@@ -247,9 +241,9 @@ let get_vec_n ~loc ~vec_name ~dim ~ofs ~inc ~n_name = function
     for a vector named [vec_name] at location [loc].  @raise Invalid_argument
     if any of the parameters are illegal. *)
 let get_vec_min_dim ~loc ~vec_name ~ofs ~inc ~n =
-  check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs:(n + 1);
   check_vec_inc ~loc ~vec_name inc;
-  calc_vec_min_dim ~ofs ~inc ~n
+  if ofs >= 1 then calc_vec_min_dim ~ofs ~inc ~n
+  else invalid_arg (sprintf "%s: ofs%s: valid=[1..] got=%d" loc vec_name ofs)
 
 (** [get_vec_start_stop ~ofsx ~incx ~n] @return [(start, stop)] where [start]
     and [stop] reflect the start and stop of an iteration respectively. *)
@@ -263,17 +257,24 @@ let get_vec_start_stop ~ofsx ~incx ~n =
 (** Valueless matrix checking and allocation functions (do not require a
     matrix value as argument *)
 
+(** [raise_bad_mat_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs] @raise
+    Invalid_argument to indicate that a matrix offset [ofs] named [ofs_name]
+    for a matrix having [name] is invalid (i.e. is outside of [1..max_ofs]). *)
+let raise_bad_mat_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs =
+  invalid_arg (
+    sprintf "%s: %s%s: valid=[1..%d] got=%d" loc name ofs_name max_ofs ofs)
+
 (** [raise_mat_bad_r ~loc ~mat_name ~r ~max_r] @raise Invalid_argument
     to indicate that matrix row offset [r] is invalid (i.e. is outside of
     [1..max_r]). *)
 let raise_mat_bad_r ~loc ~mat_name ~r ~max_r =
-  raise_bad_ofs ~loc ~name:mat_name ~ofs_name:r_str ~ofs:r ~max_ofs:max_r
+  raise_bad_mat_ofs ~loc ~name:mat_name ~ofs_name:r_str ~ofs:r ~max_ofs:max_r
 
 (** [raise_mat_bad_c ~loc ~mat_name ~c ~max_c] @raise Invalid_argument
     to indicate that matrix column offset [c] is invalid (i.e. is outside of
     [1..max_c]). *)
 let raise_mat_bad_c ~loc ~mat_name ~c ~max_c =
-  raise_bad_ofs ~loc ~name:mat_name ~ofs_name:c_str ~ofs:c ~max_ofs:max_c
+  raise_bad_mat_ofs ~loc ~name:mat_name ~ofs_name:c_str ~ofs:c ~max_ofs:max_c
 
 (** [check_mat_r ~loc ~vec_name ~r ~max_r] checks whether matrix row
     offset [r] for vector of name [vec_name] is invalid (i.e. outside of
