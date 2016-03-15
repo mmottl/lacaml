@@ -660,7 +660,7 @@ val geev :
 (** [geev ?work ?n
       ?vlr ?vlc ?vl
       ?vrr ?vrc ?vr
-      ?ofswr wr ?ofswi wi
+      ?ofswr ?wr ?ofswi ?wi
       ?ar ?ac a]
     @return ([lv], [wr], [wi], [rv]), where [wr] and [wv] are the real
       and imaginary components of the eigenvalues, and [lv] and [rv]
