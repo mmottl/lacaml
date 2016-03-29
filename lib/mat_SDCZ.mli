@@ -598,10 +598,11 @@ val gemm_trace :
   mat ->
   num_type
 (** [gemm_trace ?n ?k ?transa ?ar ?ac a ?transb ?br ?bc b] computes
-    the trace of the product of the (sub-)matrices [a] and [b] (taking into
-    account potential transposing).  This is also sometimes referred to as
-    the Frobenius product.  [n] is the number of rows (columns) to consider in
-    [a], and [k] the number of columns (rows) in [b].
+    the trace of the product of the (sub-)matrices [a] and [b] (taking
+    into account potential transposing).  When transposing [a], this
+    yields the so-called Frobenius product of [a] and [b].  [n] is the
+    number of rows (columns) to consider in [a] and the number of columns
+    (rows) in [b].  [k] is the inner dimension to use for the product.
 
     @param n default = number of rows of [a] (or tr [a]) and
                        number of columns of [b] (or tr [b])
