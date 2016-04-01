@@ -1,6 +1,6 @@
 OASISFormat:      0.4
 Name:             lacaml
-Version:          8.0.7
+Version:          8.1.0
 Synopsis:         OCaml-bindings to BLAS and LAPACK.
 Description:      This library interfaces the BLAS-library (Basic Linear Algebra Subroutines) and LAPACK-library (Linear Algebra routines), which are written in FORTRAN.
 Authors:          Egbert Ammicht <eammicht@lucent.com>,
@@ -68,7 +68,7 @@ Library lacaml
                  f2c.h,
                  lacaml_macros.h,
                  utils_c.h
-  BuildDepends:  bigarray, bytes, conf-blas, conf-lapack
+  BuildDepends:  bigarray, bytes
   # Linux specific: gnu99 is required to have nanosleep, others can just use c99 standard
   if system(linux) || system(linux_elf)
     CCOpt:      -g -std=gnu99 -O2 -fPIC -DPIC

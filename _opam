@@ -1,0 +1,4 @@
+depends: [
+  "conf-blas"
+  "conf-lapack"
+]
