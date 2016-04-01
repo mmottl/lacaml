@@ -24,6 +24,11 @@
 #include <math.h>
 #include "lacaml_macros.h"
 
+#define NAME LFUN(abs_mat_stub)
+#define BC_NAME LFUN(abs_mat_stub_bc)
+#define FUNC(dst, x) *dst = abs(x)
+#include "mat_map.c"
+
 #define NAME LFUN(neg_mat_stub)
 #define BC_NAME LFUN(neg_mat_stub_bc)
 #define FUNC(dst, x) *dst = - x

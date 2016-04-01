@@ -48,6 +48,21 @@ val random :
 
 (** {6 Unary vector operations} *)
 
+val abs : unop
+(** [abs ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the absolute value
+    of [n] elements of the vector [x] using [incx] as incremental
+    steps.   If [y] is given, the result will be stored in there
+    using increments of [incy], otherwise a fresh vector will be
+    used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
 val sqr : unop
 (** [sqr ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the square
     of [n] elements of the vector [x] using [incx] as incremental

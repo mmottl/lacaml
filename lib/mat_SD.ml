@@ -142,6 +142,25 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) m n =
 
 (* Unary matrix operations *)
 
+external direct_abs :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECabs_mat_stub_bc" "lacaml_FPRECabs_mat_stub"
+
+let abs ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.abs" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  let b = get_mat loc b_str create br bc b m n in
+  direct_abs ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  b
+
 external direct_sqr :
   m : int ->
   n : int ->

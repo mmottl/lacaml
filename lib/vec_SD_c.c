@@ -198,6 +198,11 @@ CAMLprim value LFUN(ssqr_stub)(
   CAMLreturn(caml_copy_double(acc));
 }
 
+#define NAME LFUN(abs_stub)
+#define BC_NAME LFUN(abs_stub_bc)
+#define FUNC(dst, x) *dst = abs(x)
+#include "vec_map.c"
+
 #define NAME LFUN(neg_stub)
 #define BC_NAME LFUN(neg_stub_bc)
 #define FUNC(dst, x) *dst = - x

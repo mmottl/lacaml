@@ -72,6 +72,23 @@ val random :
 
 (** {6 Unary matrix operations} *)
 
+val abs : unop
+(** [abs ?m ?n ?br ?bc ?b ?ar ?ac a] computes the absolute value of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
 val sqr : unop
 (** [sqr ?m ?n ?br ?bc ?b ?ar ?ac a] computes the square of the elements in
     the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]

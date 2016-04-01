@@ -46,6 +46,26 @@ let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 
 (* Unary vector operations *)
 
+external direct_abs :
+  n : int ->
+  ofsy : int ->
+  incy : int ->
+  y : vec ->
+  ofsx : int ->
+  incx : int ->
+  x : vec ->
+  unit = "lacaml_FPRECabs_stub_bc" "lacaml_FPRECabs_stub"
+
+let vec_abs_loc = "Vec.abs"
+
+let abs ?n ?ofsy ?incy ?y ?ofsx ?incx x =
+  let ofsx, incx = get_vec_geom vec_abs_loc x_str ofsx incx in
+  let ofsy, incy = get_vec_geom vec_abs_loc y_str ofsy incy in
+  let n = get_dim_vec vec_abs_loc x_str ofsx incx x n_str n in
+  let y = get_y_vec ~loc:vec_abs_loc ~ofsy ~incy ~n y in
+  direct_abs ~n ~ofsy ~incy ~y ~ofsx ~incx ~x;
+  y
+
 external direct_sqr :
   n : int ->
   ofsy : int ->
