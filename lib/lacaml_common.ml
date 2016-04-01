@@ -69,7 +69,7 @@ type eigen_value_sort = [
 
 module Types = struct
   module Vec = struct
-    type 'vec unop = 
+    type 'vec unop =
       ?n : int ->
       ?ofsy : int ->
       ?incy : int ->
@@ -78,10 +78,23 @@ module Types = struct
       ?incx : int ->
       'vec
       -> 'vec
+
+    type 'vec binop =
+      ?n : int ->
+      ?ofsz : int ->
+      ?incz : int ->
+      ?z : 'vec ->
+      ?ofsx : int ->
+      ?incx : int ->
+      'vec ->
+      ?ofsy : int ->
+      ?incy : int ->
+      'vec
+      -> 'vec
   end  (* Vec *)
 
   module Mat = struct
-    type 'mat unop = 
+    type 'mat unop =
       ?m : int ->
       ?n : int ->
       ?br : int ->
@@ -89,6 +102,20 @@ module Types = struct
       ?b : 'mat ->
       ?ar : int ->
       ?ac : int ->
+      'mat
+      -> 'mat
+
+    type 'mat binop =
+      ?m : int ->
+      ?n : int ->
+      ?cr : int ->
+      ?cc : int ->
+      ?c : 'mat ->
+      ?ar : int ->
+      ?ac : int ->
+      'mat ->
+      ?br : int ->
+      ?bc : int ->
       'mat
       -> 'mat
   end  (* Mat *)

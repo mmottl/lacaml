@@ -88,10 +88,8 @@ val mat_from_vec : ('a, 'b, 'c) Array1.t -> ('a, 'b, 'c) Array2.t
 (** Common types used for vector and matrix operations *)
 
 module Types : sig
-  (** Common types used for vector operations *)
   module Vec : sig
-    (** Type of unary operations *)
-    type 'vec unop = 
+    type 'vec unop =
       ?n : int ->
       ?ofsy : int ->
       ?incy : int ->
@@ -100,12 +98,23 @@ module Types : sig
       ?incx : int ->
       'vec
       -> 'vec
+
+    type 'vec binop =
+      ?n : int ->
+      ?ofsz : int ->
+      ?incz : int ->
+      ?z : 'vec ->
+      ?ofsx : int ->
+      ?incx : int ->
+      'vec ->
+      ?ofsy : int ->
+      ?incy : int ->
+      'vec
+      -> 'vec
   end  (* Vec *)
 
-  (** Common types used for matrix operations *)
   module Mat : sig
-    (** Type of unary operations *)
-    type 'mat unop = 
+    type 'mat unop =
       ?m : int ->
       ?n : int ->
       ?br : int ->
@@ -113,6 +122,20 @@ module Types : sig
       ?b : 'mat ->
       ?ar : int ->
       ?ac : int ->
+      'mat
+      -> 'mat
+
+    type 'mat binop =
+      ?m : int ->
+      ?n : int ->
+      ?cr : int ->
+      ?cc : int ->
+      ?c : 'mat ->
+      ?ar : int ->
+      ?ac : int ->
+      'mat ->
+      ?br : int ->
+      ?bc : int ->
       'mat
       -> 'mat
   end  (* Mat *)

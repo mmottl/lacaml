@@ -27,6 +27,7 @@
 
 open Lacaml_common
 open Lacaml_numberxx
+open Types.Vec
 
 (** {6 Creation/conversion of vectors and dimension accessor} *)
 
@@ -227,16 +228,7 @@ val prod : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
     @param ofsx default = 1
     @param incx default = 1 *)
 
-val add_const :
-  num_type ->
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val add_const : num_type -> unop
 (** [add_const c ?n ?ofsy ?incy ?y ?ofsx ?incx x] adds constant [c] to the [n]
     elements of vector [x] and stores the result in [y], using [incx] and [incy]
     as incremental steps respectively.  If [y] is given, the result will
@@ -287,15 +279,7 @@ val ssqr :
     @param incx default = 1
 *)
 
-val neg :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val neg : unop
 (** [neg ?n ?ofsy ?incy ?y ?ofsx ?incx x] negates [n] elements of the
     vector [x] using [incx] as incremental steps.   If [y] is given,
     the result will be stored in there using increments of [incy],
@@ -307,15 +291,7 @@ val neg :
     @param ofsx default = 1
     @param incx default = 1 *)
 
-val reci :
-  ?n : int ->
-  ?ofsy : int ->
-  ?incy : int ->
-  ?y : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec
-  -> vec
+val reci : unop
 (** [reci ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the reciprocal value
     of [n] elements of the vector [x] using [incx] as incremental steps.
     If [y] is given, the result will be stored in there using increments of
@@ -333,18 +309,7 @@ val reci :
 
 (** {6 Operations on two vectors} *)
 
-val add :
-  ?n : int ->
-  ?ofsz : int ->
-  ?incz : int ->
-  ?z : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec ->
-  ?ofsy : int ->
-  ?incy : int ->
-  vec
-  -> vec
+val add : binop
 (** [add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] adds [n]
     elements of vectors [x] and [y] elementwise, using [incx] and [incy]
     as incremental steps respectively. If [z] is given, the result will
@@ -359,18 +324,7 @@ val add :
     @param ofsy default = 1
     @param incy default = 1 *)
 
-val sub :
-  ?n : int ->
-  ?ofsz : int ->
-  ?incz : int ->
-  ?z : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec ->
-  ?ofsy : int ->
-  ?incy : int ->
-  vec
-  -> vec
+val sub : binop
 (** [sub ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] subtracts [n]
     elements of vectors [x] and [y] elementwise, using [incx] and [incy]
     as incremental steps respectively. If [z] is given, the result will
@@ -385,18 +339,7 @@ val sub :
     @param ofsy default = 1
     @param incy default = 1 *)
 
-val mul :
-  ?n : int ->
-  ?ofsz : int ->
-  ?incz : int ->
-  ?z : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec ->
-  ?ofsy : int ->
-  ?incy : int ->
-  vec
-  -> vec
+val mul : binop
 (** [mul ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] multiplies
     [n] elements of vectors [x] and [y] elementwise, using [incx]
     and [incy] as incremental steps respectively. If [z] is given, the
@@ -411,18 +354,7 @@ val mul :
     @param ofsy default = 1
     @param incy default = 1 *)
 
-val div :
-  ?n : int ->
-  ?ofsz : int ->
-  ?incz : int ->
-  ?z : vec ->
-  ?ofsx : int ->
-  ?incx : int ->
-  vec ->
-  ?ofsy : int ->
-  ?incy : int ->
-  vec
-  -> vec
+val div : binop
 (** [div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] divides [n]
     elements of vectors [x] and [y] elementwise, using [incx] and [incy]
     as incremental steps respectively. If [z] is given, the result will

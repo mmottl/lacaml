@@ -43,9 +43,11 @@ let int_of_float64 = int_of_float
 module Types = struct
   module Vec = struct
     type unop = vec Lacaml_common.Types.Vec.unop
+    type binop = vec Lacaml_common.Types.Vec.binop
   end  (* Vec *)
 
   module Mat = struct
     type unop = mat Lacaml_common.Types.Mat.unop
+    type binop = mat Lacaml_common.Types.Mat.binop
   end  (* Mat *)
 end  (* Types *)

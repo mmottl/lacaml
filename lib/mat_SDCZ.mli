@@ -233,17 +233,7 @@ val sum : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
 (** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
     the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)
 
-val add_const :
-  num_type ->
-  ?m : int ->
-  ?n : int ->
-  ?br : int ->
-  ?bc : int ->
-  ?b : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat
-  -> mat
+val add_const : num_type -> unop
 (** [add_const c ?m ?n ?br ?bc ?b ?ar ?ac a] adds constant [c] to the
     designated [m] by [n] submatrix in [a] and stores the result in the
     designated submatrix in [b].
@@ -257,16 +247,7 @@ val add_const :
     @param b default = fresh matrix of size [m] by [n]
 *)
 
-val neg :
-  ?m : int ->
-  ?n : int ->
-  ?br : int ->
-  ?bc : int ->
-  ?b : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat
-  -> mat
+val neg : unop
 (** [neg ?m ?n ?br ?bc ?b ?ar ?ac a] computes the negative of the elements in
     the [m] by [n] (sub-)matrix of the matrix [a] starting in row [ar]
     and column [ac].  If [b] is given, the result will be stored in there
@@ -283,16 +264,7 @@ val neg :
     @param ac default = 1
 *)
 
-val reci :
-  ?m : int ->
-  ?n : int ->
-  ?br : int ->
-  ?bc : int ->
-  ?b : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat
-  -> mat
+val reci : unop
 (** [reci ?m ?n ?br ?bc ?b ?ar ?ac a] computes the reciprocal of the elements in
     the [m] by [n] (sub-)matrix of the matrix [a] starting in row [ar]
     and column [ac].  If [b] is given, the result will be stored in there
@@ -403,19 +375,7 @@ val syrk_diag :
 
 (** {6 Operations on two matrices} *)
 
-val add :
-  ?m : int ->
-  ?n : int ->
-  ?cr : int ->
-  ?cc : int ->
-  ?c : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat ->
-  ?br : int ->
-  ?bc : int ->
-  mat
-  -> mat
+val add : binop
 (** [add ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the sum of the [m]
     by [n] sub-matrix of the matrix [a] starting in row [ar] and column [ac]
     with the corresponding sub-matrix of the matrix [b] starting in row
@@ -435,19 +395,7 @@ val add :
     @param ac default = 1
 *)
 
-val sub :
-  ?m : int ->
-  ?n : int ->
-  ?cr : int ->
-  ?cc : int ->
-  ?c : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat ->
-  ?br : int ->
-  ?bc : int ->
-  mat
-  -> mat
+val sub : binop
 (** [sub ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the difference of the
     [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
     [ac] with the corresponding sub-matrix of the matrix [b] starting in row
@@ -467,19 +415,7 @@ val sub :
     @param ac default = 1
 *)
 
-val mul :
-  ?m : int ->
-  ?n : int ->
-  ?cr : int ->
-  ?cc : int ->
-  ?c : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat ->
-  ?br : int ->
-  ?bc : int ->
-  mat
-  -> mat
+val mul : binop
 (** [mul ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the product of the
     [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
     [ac] with the corresponding sub-matrix of the matrix [b] starting in row
@@ -499,19 +435,7 @@ val mul :
     @param ac default = 1
 *)
 
-val div :
-  ?m : int ->
-  ?n : int ->
-  ?cr : int ->
-  ?cc : int ->
-  ?c : mat ->
-  ?ar : int ->
-  ?ac : int ->
-  mat ->
-  ?br : int ->
-  ?bc : int ->
-  mat
-  -> mat
+val div : binop
 (** [div ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the division of the
     [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
     [ac] with the corresponding sub-matrix of the matrix [b] starting in row
