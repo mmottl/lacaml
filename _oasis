@@ -80,9 +80,9 @@ Library lacaml
   if system(macosx)
     CCOpt+:      -DEXTERNAL_EXP10
     CCLib:       -framework Accelerate
-  # FIXME: mingw is untested!!!
-  if system(mingw)
-    CCOpt+:      -DEXTERNAL_EXP10
+  # building on Windows is only tested for mingw64 toolchain
+  if system(mingw64)
+    CCOpt+:      -DEXTERNAL_EXP10 -DWIN32
 
 Library lacaml_top
   Path:             lib
