@@ -171,18 +171,28 @@ let raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs =
   invalid_arg (
     sprintf "%s: ofs%s: valid=[1..%d] got=%d" loc vec_name max_ofs ofs)
 
+(** [bad_n ~n ~max_n] @return [true] iff [n] is smaller than zero or larger
+    than [max_n]. *)
+let bad_n ~n ~max_n = n < 0 || n > max_n
+
+(** [bad_ofs ~ofs ~max_ofs] @return [true] iff [ofs] is smaller than one or
+    exceeds [max_ofs]. *)
+let bad_ofs ~ofs ~max_ofs = ofs < 1 || ofs > max_ofs
+
+(** [bad_inc inc] @return [true] iff [inc] is illegal. *)
+let bad_inc inc = inc = 0
+
 (** [check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs] checks whether vector
     offset [ofs] for vector of name [vec_name] is invalid (i.e. outside of
     [1..max_ofs]).  @raise Invalid_argument in that case. *)
 let check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs =
-  if ofs < 1 || ofs > max_ofs then
-    raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs
+  if bad_ofs ~ofs ~max_ofs then raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs
 
 (** [check_vec_inc ~loc ~vec_name inc] checks whether vector increment [inc]
     for vector of name [vec_name] is invalid (i.e. [0]).  @raise
     Invalid_argument in that case. *)
 let check_vec_inc ~loc ~vec_name inc =
-  if inc = 0 then invalid_arg (sprintf "%s: inc%s = 0" loc vec_name)
+  if bad_inc inc then invalid_arg (sprintf "%s: inc%s = 0" loc vec_name)
 
 (** [calc_vec_max_n ~dim ~ofs ~inc] @return maximum operation length [n]
     for a vector given the dimension [dim] of the vector, the offset [ofs],
