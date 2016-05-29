@@ -416,12 +416,16 @@ val sub : binop
 *)
 
 val mul : binop
-(** [mul ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the product of the
-    [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
-    [ac] with the corresponding sub-matrix of the matrix [b] starting in row
-    [br] and column [bc].  If [c] is given, the result will be stored in
-    there starting in row [cr] and column [cc], otherwise a fresh matrix
-    will be used.  The resulting matrix is returned.
+(** [mul ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the element-wise
+    product of the [m] by [n] sub-matrix of the matrix [a] starting in row
+    [ar] and column [ac] with the corresponding sub-matrix of the matrix
+    [b] starting in row [br] and column [bc].  If [c] is given, the result
+    will be stored in there starting in row [cr] and column [cc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    NOTE: please do not confuse this function with matrix multiplication!
+    The LAPACK-function for matrix multiplication is called [gemm],
+    e.g. [Lacaml.D.gemm].
 
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
