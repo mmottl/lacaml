@@ -81,7 +81,7 @@ and substitute_string ~full_doc s subs =
   )
 
 and string_of_mod_name ~prefix ~full_doc mname subs =
-  let fincl = String.uncapitalize mname ^ ".mli" in
+  let fincl = String.uncapitalize_ascii mname ^ ".mli" in
   try
     let s' = input_file fincl ~comments:false ~prefix in
     substitute_string ~full_doc s' subs
