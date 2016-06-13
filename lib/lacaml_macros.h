@@ -49,6 +49,7 @@
 #define FABS fabsf
 
 #ifndef LACAML_COMPLEX          /* Real number */
+#define SDMATHH(name) name##f
 #define FUN(name) s##name##_
 #define FUN2(prefix,name) prefix##s##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_S##name
@@ -67,6 +68,7 @@
 #define FABS fabs
 
 #ifndef LACAML_COMPLEX          /* Real number */
+#define SDMATHH(name) name
 #define FUN(name) d##name##_
 #define FUN2(prefix,name) prefix##d##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_D##name

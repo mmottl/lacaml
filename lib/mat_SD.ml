@@ -142,6 +142,15 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) m n =
 
 (* Unary matrix operations *)
 
+let unop direct loc =
+  let loc = "Lacaml.FPREC.Mat." ^ loc in
+  fun ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a ->
+    let m = get_dim1_mat loc a_str a ar m_str m in
+    let n = get_dim2_mat loc a_str a ac n_str n in
+    let b = get_mat loc b_str create br bc b m n in
+    direct ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+    b
+
 external direct_abs :
   m : int ->
   n : int ->
@@ -153,13 +162,20 @@ external direct_abs :
   b : mat ->
   unit = "lacaml_FPRECabs_mat_stub_bc" "lacaml_FPRECabs_mat_stub"
 
-let abs ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.abs" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_abs ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let abs = unop direct_abs "abs"
+
+external direct_signum :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsignum_mat_stub_bc" "lacaml_FPRECsignum_mat_stub"
+
+let signum = unop direct_signum "signum"
 
 external direct_sqr :
   m : int ->
@@ -172,13 +188,7 @@ external direct_sqr :
   b : mat ->
   unit = "lacaml_FPRECsqr_mat_stub_bc" "lacaml_FPRECsqr_mat_stub"
 
-let sqr ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.sqr" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_sqr ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let sqr = unop direct_sqr "sqr"
 
 external direct_sqrt :
   m : int ->
@@ -191,13 +201,7 @@ external direct_sqrt :
   b : mat ->
   unit = "lacaml_FPRECsqrt_mat_stub_bc" "lacaml_FPRECsqrt_mat_stub"
 
-let sqrt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.sqrt" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_sqrt ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let sqrt = unop direct_sqrt "sqrt"
 
 external direct_exp :
   m : int ->
@@ -210,13 +214,33 @@ external direct_exp :
   b : mat ->
   unit = "lacaml_FPRECexp_mat_stub_bc" "lacaml_FPRECexp_mat_stub"
 
-let exp ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.exp" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_exp ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let exp = unop direct_exp "exp"
+
+external direct_exp2 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECexp2_mat_stub_bc" "lacaml_FPRECexp2_mat_stub"
+
+let exp2 = unop direct_exp2 "exp2"
+
+external direct_expm1 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECexpm1_mat_stub_bc" "lacaml_FPRECexpm1_mat_stub"
+
+let expm1 = unop direct_expm1 "expm1"
 
 external direct_log :
   m : int ->
@@ -229,13 +253,33 @@ external direct_log :
   b : mat ->
   unit = "lacaml_FPREClog_mat_stub_bc" "lacaml_FPREClog_mat_stub"
 
-let log ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.log" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_log ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let log = unop direct_log "log"
+
+external direct_log10 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPREClog10_mat_stub_bc" "lacaml_FPREClog10_mat_stub"
+
+let log10 = unop direct_log10 "log10"
+
+external direct_log1p :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPREClog1p_mat_stub_bc" "lacaml_FPREClog1p_mat_stub"
+
+let log1p = unop direct_log1p "log1p"
 
 external direct_sin :
   m : int ->
@@ -248,13 +292,7 @@ external direct_sin :
   b : mat ->
   unit = "lacaml_FPRECsin_mat_stub_bc" "lacaml_FPRECsin_mat_stub"
 
-let sin ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.sin" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_sin ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let sin = unop direct_sin "sin"
 
 external direct_cos :
   m : int ->
@@ -267,13 +305,7 @@ external direct_cos :
   b : mat ->
   unit = "lacaml_FPRECcos_mat_stub_bc" "lacaml_FPRECcos_mat_stub"
 
-let cos ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.cos" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_cos ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let cos = unop direct_cos "cos"
 
 external direct_tan :
   m : int ->
@@ -286,13 +318,72 @@ external direct_tan :
   b : mat ->
   unit = "lacaml_FPRECtan_mat_stub_bc" "lacaml_FPRECtan_mat_stub"
 
-let tan ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.tan" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_tan ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let tan = unop direct_tan "tan"
+
+external direct_asin :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECasin_mat_stub_bc" "lacaml_FPRECasin_mat_stub"
+
+let asin = unop direct_asin "asin"
+
+external direct_acos :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECacos_mat_stub_bc" "lacaml_FPRECacos_mat_stub"
+
+let acos = unop direct_acos "acos"
+
+external direct_atan :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECatan_mat_stub_bc" "lacaml_FPRECatan_mat_stub"
+
+let atan = unop direct_atan "atan"
+
+external direct_sinh :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsinh_mat_stub_bc" "lacaml_FPRECsinh_mat_stub"
+
+let sinh = unop direct_sinh "sinh"
+
+external direct_cosh :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECcosh_mat_stub_bc" "lacaml_FPRECcosh_mat_stub"
+
+let cosh = unop direct_cosh "cosh"
 
 external direct_tanh :
   m : int ->
@@ -305,16 +396,257 @@ external direct_tanh :
   b : mat ->
   unit = "lacaml_FPRECtanh_mat_stub_bc" "lacaml_FPRECtanh_mat_stub"
 
-let tanh ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
-  let loc = "Lacaml.FPREC.Mat.tanh" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  let b = get_mat loc b_str create br bc b m n in
-  direct_tanh ~m ~n ~ar ~ac ~a ~br ~bc ~b;
-  b
+let tanh = unop direct_tanh "tanh"
+
+external direct_asinh :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECasinh_mat_stub_bc" "lacaml_FPRECasinh_mat_stub"
+
+let asinh = unop direct_asinh "asinh"
+
+external direct_acosh :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECacosh_mat_stub_bc" "lacaml_FPRECacosh_mat_stub"
+
+let acosh = unop direct_acosh "acosh"
+
+external direct_atanh :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECatanh_mat_stub_bc" "lacaml_FPRECatanh_mat_stub"
+
+let atanh = unop direct_atanh "atanh"
+
+external direct_floor :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECfloor_mat_stub_bc" "lacaml_FPRECfloor_mat_stub"
+
+let floor = unop direct_floor "floor"
+
+external direct_ceil :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECceil_mat_stub_bc" "lacaml_FPRECceil_mat_stub"
+
+let ceil = unop direct_ceil "ceil"
+
+external direct_erf :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECerf_mat_stub_bc" "lacaml_FPRECerf_mat_stub"
+
+let erf = unop direct_erf "erf"
+
+external direct_erfc :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECerfc_mat_stub_bc" "lacaml_FPRECerfc_mat_stub"
+
+let erfc = unop direct_erfc "erfc"
+
+external direct_logistic :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPREClogistic_mat_stub_bc" "lacaml_FPREClogistic_mat_stub"
+
+let logistic = unop direct_logistic "logistic"
+
+external direct_relu :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECrelu_mat_stub_bc" "lacaml_FPRECrelu_mat_stub"
+
+let relu = unop direct_relu "relu"
+
+external direct_softplus :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsoftplus_mat_stub_bc" "lacaml_FPRECsoftplus_mat_stub"
+
+let softplus = unop direct_softplus "softplus"
+
+external direct_softsign :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECsoftsign_mat_stub_bc" "lacaml_FPRECsoftsign_mat_stub"
+
+let softsign = unop direct_softsign "softsign"
+
+
+(* Binary matrix operations *)
+
+let binop direct loc =
+  let loc = "Lacaml.FPREC.Mat." ^ loc in
+  fun ?m ?n
+    ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b ->
+    let m = get_dim1_mat loc a_str a ar m_str m in
+    let n = get_dim2_mat loc a_str a ac n_str n in
+    check_dim_mat loc b_str br bc b m n;
+    let c = get_mat loc c_str create cr cc c m n in
+    direct ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+    c
+
+external direct_pow :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPRECpow_mat_stub_bc" "lacaml_FPRECpow_mat_stub"
+
+let pow = binop direct_pow "pow"
+
+external direct_atan2 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPRECatan2_mat_stub_bc" "lacaml_FPRECatan2_mat_stub"
+
+let atan2 = binop direct_atan2 "atan2"
+
+external direct_hypot :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPREChypot_mat_stub_bc" "lacaml_FPREChypot_mat_stub"
+
+let hypot = binop direct_hypot "hypot"
+
+external direct_min2 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPRECmin2_mat_stub_bc" "lacaml_FPRECmin2_mat_stub"
+
+let min2 = binop direct_min2 "min2"
+
+external direct_max2 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  cr : int ->
+  cc : int ->
+  c : mat ->
+  unit = "lacaml_FPRECmax2_mat_stub_bc" "lacaml_FPRECmax2_mat_stub"
+
+let max2 = binop direct_max2 "max2"
 
 
 (* Ternary matrix operations *)
+
+let cqab direct loc =
+  let loc = "Lacaml.FPREC.Mat." ^ loc in
+  fun ?m ?n
+    ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b ->
+    let m = get_dim1_mat loc a_str a ar m_str m in
+    let n = get_dim2_mat loc a_str a ac n_str n in
+    check_dim_mat loc b_str br bc b m n;
+    check_dim_mat loc c_str cr cc c m n;
+    direct ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c
 
 external direct_cpab :
   m : int ->
@@ -330,14 +662,7 @@ external direct_cpab :
   c : mat ->
   unit = "lacaml_FPRECcpab_stub_bc" "lacaml_FPRECcpab_stub"
 
-let cpab ?m ?n
-      ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.FPREC.Mat.cpab" in
-  let m = get_dim1_mat loc a_str a ar m_str m in
-  let n = get_dim2_mat loc a_str a ac n_str n in
-  check_dim_mat loc b_str br bc b m n;
-  check_dim_mat loc c_str cr cc c m n;
-  direct_cpab ~m ~n ~cr ~cc ~c ~ar ~ac ~a ~br ~bc ~b
+let cpab = cqab direct_cpab "cpab"
 
 external direct_cmab :
   m : int ->
@@ -353,11 +678,21 @@ external direct_cmab :
   c : mat ->
   unit = "lacaml_FPRECcmab_stub_bc" "lacaml_FPRECcmab_stub"
 
-let cmab ?m ?n
-      ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
-  let loc = "Lacaml.FPREC.Mat.cmab" in
+let cmab = cqab direct_cmab "cmab"
+
+
+(* Misc functions *)
+
+external direct_log_sum_exp :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  num_type = "lacaml_FPREClog_sum_exp_mat_stub"
+
+let log_sum_exp ?m ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.FPREC.Mat.log_sum_exp" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  check_dim_mat loc b_str br bc b m n;
-  check_dim_mat loc c_str cr cc c m n;
-  direct_cmab ~m ~n ~cr ~cc ~c ~ar ~ac ~a ~br ~bc ~b
+  direct_log_sum_exp ~m ~n ~ar ~ac ~a

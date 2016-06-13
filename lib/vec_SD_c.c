@@ -28,14 +28,12 @@
 #include <math.h>
 #include "lacaml_macros.h"
 
-static REAL LACAML_INF = 1. / 0.;
-
 CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
 {
   CAMLparam1(vY);
   integer i, GET_INT(N);
   double a = Double_val(va),
-         h = (Double_val(vb) - a)/(N - 1.),
+         h = (Double_val(vb) - a)/(N - 1),
          x = a;
   VEC_PARAMS1(Y);
 
@@ -52,8 +50,6 @@ CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
   CAMLreturn(Val_unit);
 }
 
-extern double exp(double);
-extern double exp2(double);
 extern double exp10(double);
 
 CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
@@ -62,7 +58,7 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   CAMLparam1(vY);
   integer i, GET_INT(N);
   double a = Double_val(va),
-         h = (Double_val(vb) - a)/(N - 1.),
+         h = (Double_val(vb) - a)/(N - 1),
          base = Double_val(vbase),
          x = a;
   VEC_PARAMS1(Y);
@@ -129,13 +125,13 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 }
 
 #define NAME LFUN(max_stub)
-#define INIT -LACAML_INF
-#define FUNC(acc, x) if (x > acc) acc = x
+#define INIT -INFINITY
+#define FUNC(acc, x) acc = SDMATHH(fmax)(acc, x)
 #include "fold_col.c"
 
 #define NAME LFUN(min_stub)
-#define INIT LACAML_INF
-#define FUNC(acc, x) if (x < acc) acc = x
+#define INIT INFINITY
+#define FUNC(acc, x) acc = SDMATHH(fmin)(acc, x)
 #include "fold_col.c"
 
 #define NAME LFUN(sum_vec_stub)
@@ -172,7 +168,7 @@ CAMLprim value LFUN(ssqr_stub)(
   VEC_PARAMS(X);
 
   REAL *start, *last;
-  REAL acc = 0;
+  REAL acc = 0.0;
   REAL c = Double_val(vC);
   REAL diff;
 
@@ -198,10 +194,7 @@ CAMLprim value LFUN(ssqr_stub)(
   CAMLreturn(caml_copy_double(acc));
 }
 
-#define NAME LFUN(abs_stub)
-#define BC_NAME LFUN(abs_stub_bc)
-#define FUNC(dst, x) *dst = abs(x)
-#include "vec_map.c"
+/* Unary vector operations */
 
 #define NAME LFUN(neg_stub)
 #define BC_NAME LFUN(neg_stub_bc)
@@ -210,7 +203,17 @@ CAMLprim value LFUN(ssqr_stub)(
 
 #define NAME LFUN(reci_stub)
 #define BC_NAME LFUN(reci_stub_bc)
-#define FUNC(dst, x) *dst = 1 / x
+#define FUNC(dst, x) *dst = 1.0 / x
+#include "vec_map.c"
+
+#define NAME LFUN(abs_stub)
+#define BC_NAME LFUN(abs_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(fabs)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(signum_stub)
+#define BC_NAME LFUN(signum_stub_bc)
+#define FUNC(dst, x) *dst = (x > 0.0) ? 1.0 : (x < 0.0) ? -1.0 : x;
 #include "vec_map.c"
 
 #define NAME LFUN(sqr_stub)
@@ -220,48 +223,141 @@ CAMLprim value LFUN(ssqr_stub)(
 
 #define NAME LFUN(sqrt_stub)
 #define BC_NAME LFUN(sqrt_stub_bc)
-#define FUNC(dst, x) *dst = sqrt(x)
+#define FUNC(dst, x) *dst = SDMATHH(sqrt)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(exp_stub)
 #define BC_NAME LFUN(exp_stub_bc)
-#define FUNC(dst, x) *dst = exp(x)
+#define FUNC(dst, x) *dst = SDMATHH(exp)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(exp2_stub)
+#define BC_NAME LFUN(exp2_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(exp2)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(expm1_stub)
 #define BC_NAME LFUN(expm1_stub_bc)
-#define FUNC(dst, x) *dst = expm1(x)
+#define FUNC(dst, x) *dst = SDMATHH(expm1)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(log_stub)
 #define BC_NAME LFUN(log_stub_bc)
-#define FUNC(dst, x) *dst = log(x)
+#define FUNC(dst, x) *dst = SDMATHH(log)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(log10_stub)
+#define BC_NAME LFUN(log10_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(log10)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(log1p_stub)
 #define BC_NAME LFUN(log1p_stub_bc)
-#define FUNC(dst, x) *dst = log1p(x)
+#define FUNC(dst, x) *dst = SDMATHH(log1p)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(sin_stub)
 #define BC_NAME LFUN(sin_stub_bc)
-#define FUNC(dst, x) *dst = sin(x)
+#define FUNC(dst, x) *dst = SDMATHH(sin)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(cos_stub)
 #define BC_NAME LFUN(cos_stub_bc)
-#define FUNC(dst, x) *dst = cos(x)
+#define FUNC(dst, x) *dst = SDMATHH(cos)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(tan_stub)
 #define BC_NAME LFUN(tan_stub_bc)
-#define FUNC(dst, x) *dst = tan(x)
+#define FUNC(dst, x) *dst = SDMATHH(tan)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(asin_stub)
+#define BC_NAME LFUN(asin_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(asin)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(acos_stub)
+#define BC_NAME LFUN(acos_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(acos)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(atan_stub)
+#define BC_NAME LFUN(atan_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(atan)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(sinh_stub)
+#define BC_NAME LFUN(sinh_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(sinh)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(cosh_stub)
+#define BC_NAME LFUN(cosh_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(cosh)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(tanh_stub)
 #define BC_NAME LFUN(tanh_stub_bc)
-#define FUNC(dst, x) *dst = tanh(x)
+#define FUNC(dst, x) *dst = SDMATHH(tanh)(x)
 #include "vec_map.c"
+
+#define NAME LFUN(asinh_stub)
+#define BC_NAME LFUN(asinh_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(asinh)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(acosh_stub)
+#define BC_NAME LFUN(acosh_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(acosh)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(atanh_stub)
+#define BC_NAME LFUN(atanh_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(atanh)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(floor_stub)
+#define BC_NAME LFUN(floor_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(floor)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(ceil_stub)
+#define BC_NAME LFUN(ceil_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(ceil)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(erf_stub)
+#define BC_NAME LFUN(erf_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(erf)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(erfc_stub)
+#define BC_NAME LFUN(erfc_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(erfc)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(logistic_stub)
+#define BC_NAME LFUN(logistic_stub_bc)
+#define FUNC(dst, x) *dst = 1.0 / (1.0 + SDMATHH(exp)(-x))
+#include "vec_map.c"
+
+#define NAME LFUN(relu_stub)
+#define BC_NAME LFUN(relu_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(fmax)(x, 0)
+#include "vec_map.c"
+
+#define NAME LFUN(softplus_stub)
+#define BC_NAME LFUN(softplus_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(log1p)(SDMATHH(exp)(x))
+#include "vec_map.c"
+
+#define NAME LFUN(softsign_stub)
+#define BC_NAME LFUN(softsign_stub_bc)
+#define FUNC(dst, x) *dst = x / (1 + SDMATHH(fabs)(x))
+#include "vec_map.c"
+
+
+/* Binary vector operations */
 
 #define NAME LFUN(add_stub)
 #define BC_NAME LFUN(add_stub_bc)
@@ -283,9 +379,41 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(dst, x, y) *dst = x/y
 #include "vec_combine.c"
 
+#define NAME LFUN(pow_stub)
+#define BC_NAME LFUN(pow_stub_bc)
+#define FUNC(dst, x, y) *dst = SDMATHH(pow)(x, y)
+#include "vec_combine.c"
+
+#define NAME LFUN(atan2_stub)
+#define BC_NAME LFUN(atan2_stub_bc)
+#define FUNC(dst, x, y) *dst = SDMATHH(atan2)(x, y)
+#include "vec_combine.c"
+
+#define NAME LFUN(hypot_stub)
+#define BC_NAME LFUN(hypot_stub_bc)
+#define FUNC(dst, x, y) *dst = SDMATHH(hypot)(x, y)
+#include "vec_combine.c"
+
+#define NAME LFUN(min2_stub)
+#define BC_NAME LFUN(min2_stub_bc)
+#define FUNC(dst, x, y) *dst = SDMATHH(fmin)(x, y)
+#include "vec_combine.c"
+
+#define NAME LFUN(max2_stub)
+#define BC_NAME LFUN(max2_stub_bc)
+#define FUNC(dst, x, y) *dst = SDMATHH(fmax)(x, y)
+#include "vec_combine.c"
+
+
+/* Ternary matrix operations */
+
 #define NAME LFUN(zpxy_stub)
 #define BC_NAME LFUN(zpxy_stub_bc)
-#define FUNC(dst, x, y) *dst += x*y
+# ifdef FP_FAST_FMA
+#  define FUNC(dst, x, y) *dst = SDMATHH(fma)(x, y, *dst)
+# else
+#  define FUNC(dst, x, y) *dst += x*y
+# endif
 #include "vec_combine.c"
 
 #define NAME LFUN(zmxy_stub)
@@ -293,11 +421,30 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(dst, x, y) *dst -= x*y
 #include "vec_combine.c"
 
+
+/* Unary vector operations yielding floats */
+
+#define NAME LFUN(log_sum_exp_vec_stub)
+#define DECLARE_EXTRA NUMBER x_max = -INFINITY, *max_start
+#define INIT_HAVE_LOCK \
+  for (max_start = start; max_start != last; max_start += INCX) \
+    x_max = SDMATHH(fmax)(x_max, *max_start);
+#define INIT 0.0
+#define FUNC(acc, x) acc += SDMATHH(exp)(x - x_max)
+#define FINISH_HAVE_LOCK acc = SDMATHH(log)(acc) + x_max
+#include "fold_col.c"
+
+
+/* Binary vector operations yielding floats */
+
 #define NAME LFUN(ssqr_diff_stub)
 #define BC_NAME LFUN(ssqr_diff_stub_bc)
 #define INIT 0.0
 #define FUNC(acc, x, y) x -= y; x *= x; acc += x
 #include "fold2_col.c"
+
+
+/* Misc operations */
 
 /* Since executing the (small) callback may dominate the running time,
  * specialize the function when the order is the usual one on floats.

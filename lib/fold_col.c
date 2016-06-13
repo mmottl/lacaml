@@ -38,6 +38,11 @@ CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
 
   NUMBER *start, *last, acc = INIT;
 
+#ifdef DECLARE_EXTRA
+  DECLARE_EXTRA;
+#undef DECLARE_EXTRA
+#endif
+
   caml_enter_blocking_section();  /* Allow other threads */
 
   if (INCX > 0) {
@@ -49,11 +54,21 @@ CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
     last = X_data + INCX;
   };
 
+#ifdef INIT_HAVE_LOCK
+  INIT_HAVE_LOCK;
+#undef INIT_HAVE_LOCK
+#endif
+
   while (start != last) {
     NUMBER x = *start;
     FUNC(acc, x);
     start += INCX;
   };
+
+#ifdef FINISH_HAVE_LOCK
+  FINISH_HAVE_LOCK;
+#undef FINISH_HAVE_LOCK
+#endif
 
   caml_leave_blocking_section();  /* Disallow other threads */
 

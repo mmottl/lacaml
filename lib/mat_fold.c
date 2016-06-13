@@ -28,14 +28,25 @@ CAMLprim value NAME(value vM, value vN, value vAR, value vAC, value vA)
   CAMLparam1(vA);
 
   integer GET_INT(M), GET_INT(N);
+  NUMBER acc = INIT;
 
   MAT_PARAMS(A);
 
   if (M > 0) {
-    NUMBER acc = INIT, *last = A_data + N*rows_A;
+    NUMBER *last = A_data + N*rows_A;
     integer diff_A = rows_A - M;
 
+#ifdef DECLARE_EXTRA
+    DECLARE_EXTRA;
+#undef DECLARE_EXTRA
+#endif
+
     caml_enter_blocking_section();  /* Allow other threads */
+
+#ifdef INIT_HAVE_LOCK
+    INIT_HAVE_LOCK;
+#undef INIT_HAVE_LOCK
+#endif
 
     while (A_data != last) {
       NUMBER *A_col_last = A_data + M;
@@ -48,6 +59,11 @@ CAMLprim value NAME(value vM, value vN, value vAR, value vAC, value vA)
 
       A_data += diff_A;
     }
+
+#ifdef FINISH_HAVE_LOCK
+    FINISH_HAVE_LOCK;
+#undef FINISH_HAVE_LOCK
+#endif
 
     caml_leave_blocking_section();  /* Disallow other threads */
   }

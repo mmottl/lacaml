@@ -89,6 +89,24 @@ val abs : unop
     @param ac default = 1
 *)
 
+val signum : unop
+(** [signum ?m ?n ?br ?bc ?b ?ar ?ac a] computes the sign value ([-1] for
+    negative numbers, [0] (or [-0]) for zero, [1] for positive numbers,
+    [nan] for [nan]) of the elements in the [m] by [n] sub-matrix of the
+    matrix [a] starting in row [ar] and column [ac].  If [b] is given, the
+    result will be stored in there using offsets [br] and [bc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
 val sqr : unop
 (** [sqr ?m ?n ?br ?bc ?b ?ar ?ac a] computes the square of the elements in
     the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
@@ -140,9 +158,77 @@ val exp : unop
     @param ac default = 1
 *)
 
+val exp2 : unop
+(** [exp2 ?m ?n ?br ?bc ?b ?ar ?ac a] computes the base-2 exponential of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val expm1 : unop
+(** [expm1 ?m ?n ?br ?bc ?b ?ar ?ac a] computes [exp a -. 1.] of the elements
+    in the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
 val log : unop
 (** [log ?m ?n ?br ?bc ?b ?ar ?ac a] computes the logarithm of the elements in
     the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val log10 : unop
+(** [log10 ?m ?n ?br ?bc ?b ?ar ?ac a] computes the base-10 logarithm of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val log1p : unop
+(** [log1p ?m ?n ?br ?bc ?b ?ar ?ac a] computes [log (1 + a)] of the elements
+    in the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
     and column [ac].  If [b] is given, the result will be stored in there
     using offsets [br] and [bc], otherwise a fresh matrix will be used.
     The resulting matrix is returned.
@@ -208,6 +294,91 @@ val tan : unop
     @param ac default = 1
 *)
 
+val asin : unop
+(** [asin ?m ?n ?br ?bc ?b ?ar ?ac a] computes the arc sine of the elements in
+    the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val acos : unop
+(** [acos ?m ?n ?br ?bc ?b ?ar ?ac a] computes the arc cosine of the
+    elements in the [m] by [n] sub-matrix of the matrix [a] starting in row
+    [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val atan : unop
+(** [atan ?m ?n ?br ?bc ?b ?ar ?ac a] computes the arc tangent of the
+    elements in the [m] by [n] sub-matrix of the matrix [a] starting in row
+    [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val sinh : unop
+(** [sinh ?m ?n ?br ?bc ?b ?ar ?ac a] computes the hyperbolic sine of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val cosh : unop
+(** [cosh ?m ?n ?br ?bc ?b ?ar ?ac a] computes the hyperbolic cosine of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
 val tanh : unop
 (** [tanh ?m ?n ?br ?bc ?b ?ar ?ac a] computes the hyperbolic tangent of
     the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
@@ -221,6 +392,296 @@ val tanh : unop
     @param bc default = 1
     @param b default = fresh matrix with [br + m - 1] rows and
                        [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val asinh : unop
+(** [asinh ?m ?n ?br ?bc ?b ?ar ?ac a] computes the hyperbolic arc sine of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val acosh : unop
+(** [acosh ?m ?n ?br ?bc ?b ?ar ?ac a] computes the hyperbolic arc cosine of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val atanh : unop
+(** [atanh ?m ?n ?br ?bc ?b ?ar ?ac a] computes the hyperbolic arc tangent of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val floor : unop
+(** [floor ?m ?n ?br ?bc ?b ?ar ?ac a] computes the floor of the elements
+    in the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val ceil : unop
+(** [ceil ?m ?n ?br ?bc ?b ?ar ?ac a] computes the ceiling of the elements
+    in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val erf : unop
+(** [erf ?m ?n ?br ?bc ?b ?ar ?ac a] computes the error function of the elements
+    in the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
+    and column [ac].  If [b] is given, the result will be stored in there
+    using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val erfc : unop
+(** [erfc ?m ?n ?br ?bc ?b ?ar ?ac a] computes the complementary error
+    function of the elements in the [m] by [n] sub-matrix of the matrix [a]
+    starting in row [ar] and column [ac].  If [b] is given, the result will
+    be stored in there using offsets [br] and [bc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val logistic : unop
+(** [logistic ?m ?n ?br ?bc ?b ?ar ?ac a] computes the logistic function
+    [1/(1 + exp(-a)] of the elements in the [m] by [n] sub-matrix of the
+    matrix [a] starting in row [ar] and column [ac].  If [b] is given, the
+    result will be stored in there using offsets [br] and [bc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val relu : unop
+(** [relu ?m ?n ?br ?bc ?b ?ar ?ac a] computes the rectified linear unit
+    function [max(a, 0)] of the elements in the [m] by [n] sub-matrix of
+    the matrix [a] starting in row [ar] and column [ac].  If [b] is given,
+    the result will be stored in there using offsets [br] and [bc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val softplus : unop
+(** [softplus ?m ?n ?br ?bc ?b ?ar ?ac a] computes the softplus function
+    [log(1 + exp(x)] of the elements in the [m] by [n] sub-matrix of the
+    matrix [a] starting in row [ar] and column [ac].  If [b] is given, the
+    result will be stored in there using offsets [br] and [bc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val softsign : unop
+(** [softsign ?m ?n ?br ?bc ?b ?ar ?ac a] computes the softsign function
+    [x / (1 + abs(x))] of the elements in the [m] by [n] sub-matrix of the
+    matrix [a] starting in row [ar] and column [ac].  If [b] is given, the
+    result will be stored in there using offsets [br] and [bc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+
+(** {6 Binary matrix operations} *)
+
+val pow : binop
+(** [pow ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes [pow(a, b)] for the
+    [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
+    [ac] with the corresponding sub-matrix of the matrix [b] starting in row
+    [br] and column [bc].  If [c] is given, the result will be stored in
+    there starting in row [cr] and column [cc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val atan2 : binop
+(** [atan2 ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes [atan2(a, b)] for the
+    [m] by [n] sub-matrix of the matrix [a] starting in row [ar] and column
+    [ac] with the corresponding sub-matrix of the matrix [b] starting in row
+    [br] and column [bc].  If [c] is given, the result will be stored in
+    there starting in row [cr] and column [cc], otherwise a fresh matrix
+    will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val hypot : binop
+(** [hypot ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes [sqrt(a*a + b*b)]
+    for the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
+    and column [ac] with the corresponding sub-matrix of the matrix [b]
+    starting in row [br] and column [bc].  If [c] is given, the result will
+    be stored in there starting in row [cr] and column [cc], otherwise a
+    fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val min2 : binop
+(** [min2 ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the elementwise
+    minimum of the [m] by [n] sub-matrix of the matrix [a] starting in row
+    [ar] and column [ac] with the corresponding sub-matrix of the matrix
+    [b] starting in row [br] and column [bc].  If [c] is given, the result
+    will be stored in there starting in row [cr] and column [cc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val max2 : binop
+(** [max2 ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the elementwise
+    maximum of the [m] by [n] sub-matrix of the matrix [a] starting in row
+    [ar] and column [ac] with the corresponding sub-matrix of the matrix
+    [b] starting in row [br] and column [bc].  If [c] is given, the result
+    will be stored in there starting in row [cr] and column [cc], otherwise
+    a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param cr default = 1
+    @param cc default = 1
+    @param c default = fresh matrix with [cr + m - 1] rows and
+                       [cc + n - 1] columns
+    @param br default = 1
+    @param bc default = 1
     @param ar default = 1
     @param ac default = 1
 *)
@@ -283,3 +744,12 @@ val cmab :
     @param br default = 1
     @param bc default = 1
 *)
+
+
+(** {6 Miscellaneous functions} *)
+
+val log_sum_exp :
+  ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
+(** [log_sum_exp ?m ?n ?ar ?ac a] computes the logarithm of the sum of
+    exponentials of all elements in the [m]-by-[n] submatrix starting at row
+    [ar] and column [ac]. *)

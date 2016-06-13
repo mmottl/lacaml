@@ -24,9 +24,8 @@
 #include <math.h>
 #include "lacaml_macros.h"
 
-static REAL LACAML_INF = 1. / 0.;
-static COMPLEX LACAML_COMPLEX_INF = { 1. / 0., 1. / 0. };
-static COMPLEX LACAML_COMPLEX_NEG_INF = { -1. / 0., -1. / 0. };
+static COMPLEX LACAML_COMPLEX_INF = { INFINITY, INFINITY };
+static COMPLEX LACAML_COMPLEX_NEG_INF = { -INFINITY, -INFINITY };
 
 CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
 {
@@ -182,7 +181,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 
 #define NAME LFUN(min_stub)
 #define INIT LACAML_COMPLEX_INF; \
-  REAL acc_big = LACAML_INF, acc_nrm = 1., x_big, x_nrm, q, r, i
+  REAL acc_big = INFINITY, acc_nrm = 1., x_big, x_nrm, q, r, i
 #define FUNC(acc, x) \
   r = x.r; \
   i = x.i; \

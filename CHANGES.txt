@@ -1,3 +1,38 @@
+2016-04-01:  Major release version 9.0.0:
+
+             Added numerous portable vector and matrix functions from the
+             C standard library (math.h):
+
+               * Vec/Mat.exp2
+               * Vec/Mat.log10
+               * Vec/Mat.asin
+               * Vec/Mat.acos
+               * Vec/Mat.atan
+               * Vec/Mat.sinh
+               * Vec/Mat.cosh
+               * Vec/Mat.tanh
+               * Vec/Mat.asinh
+               * Vec/Mat.acosh
+               * Vec/Mat.atanh
+               * Vec/Mat.floor
+               * Vec/Mat.ceil
+               * Vec/Mat.erf
+               * Vec/Mat.erfc
+               * Vec/Mat.pow
+               * Vec/Mat.atan2
+               * Vec/Mat.hypot
+
+            Added some additional missing vector and matrix functionality:
+
+               * Vec/Mat.signum
+               * Vec/Mat.min2
+               * Vec/Mat.max2
+               * Vec/Mat.logistic
+               * Vec/Mat.relu
+               * Vec/Mat.softplus
+               * Vec/Mat.softsign
+               * Vec/Mat.log_sum_exp
+
 2016-04-01:  Minor release version 8.1.0:
 
                * Added Vec.abs and Mat.abs (for real numbers only for now)
