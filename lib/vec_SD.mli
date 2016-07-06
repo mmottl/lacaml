@@ -125,7 +125,7 @@ val exp : unop
 *)
 
 val exp2 : unop
-(** [exp ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the base-2 exponential
+(** [exp2 ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the base-2 exponential
     of [n] elements of the vector [x] using [incx] as incremental steps.
     If [y] is given, the result will be stored in there using increments of
     [incy], otherwise a fresh vector will be used.  The resulting vector
