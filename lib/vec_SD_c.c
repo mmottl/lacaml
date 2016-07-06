@@ -226,6 +226,11 @@ CAMLprim value LFUN(ssqr_stub)(
 #define FUNC(dst, x) *dst = SDMATHH(sqrt)(x)
 #include "vec_map.c"
 
+#define NAME LFUN(cbrt_stub)
+#define BC_NAME LFUN(cbrt_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(cbrt)(x)
+#include "vec_map.c"
+
 #define NAME LFUN(exp_stub)
 #define BC_NAME LFUN(exp_stub_bc)
 #define FUNC(dst, x) *dst = SDMATHH(exp)(x)
@@ -249,6 +254,11 @@ CAMLprim value LFUN(ssqr_stub)(
 #define NAME LFUN(log10_stub)
 #define BC_NAME LFUN(log10_stub_bc)
 #define FUNC(dst, x) *dst = SDMATHH(log10)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(log2_stub)
+#define BC_NAME LFUN(log2_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(log2)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(log1p_stub)
@@ -324,6 +334,16 @@ CAMLprim value LFUN(ssqr_stub)(
 #define NAME LFUN(ceil_stub)
 #define BC_NAME LFUN(ceil_stub_bc)
 #define FUNC(dst, x) *dst = SDMATHH(ceil)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(round_stub)
+#define BC_NAME LFUN(round_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(round)(x)
+#include "vec_map.c"
+
+#define NAME LFUN(trunc_stub)
+#define BC_NAME LFUN(trunc_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(trunc)(x)
 #include "vec_map.c"
 
 #define NAME LFUN(erf_stub)

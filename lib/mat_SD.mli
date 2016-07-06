@@ -141,6 +141,23 @@ val sqrt : unop
     @param ac default = 1
 *)
 
+val cbrt : unop
+(** [cbrt ?m ?n ?br ?bc ?b ?ar ?ac a] computes the cubic root of the
+    elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
 val exp : unop
 (** [exp ?m ?n ?br ?bc ?b ?ar ?ac a] computes the exponential of the elements in
     the [m] by [n] sub-matrix of the matrix [a] starting in row [ar]
@@ -211,6 +228,23 @@ val log : unop
 
 val log10 : unop
 (** [log10 ?m ?n ?br ?bc ?b ?ar ?ac a] computes the base-10 logarithm of
+    the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val log2 : unop
+(** [log2 ?m ?n ?br ?bc ?b ?ar ?ac a] computes base-2 logarithm of
     the elements in the [m] by [n] sub-matrix of the matrix [a] starting in
     row [ar] and column [ac].  If [b] is given, the result will be stored in
     there using offsets [br] and [bc], otherwise a fresh matrix will be used.
@@ -466,6 +500,39 @@ val floor : unop
 
 val ceil : unop
 (** [ceil ?m ?n ?br ?bc ?b ?ar ?ac a] computes the ceiling of the elements
+    in the [m] by [n] sub-matrix of the matrix [a] starting in
+    row [ar] and column [ac].  If [b] is given, the result will be stored in
+    there using offsets [br] and [bc], otherwise a fresh matrix will be used.
+    The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val round : unop
+(** [round ?m ?n ?br ?bc ?b ?ar ?ac a] rounds the elements in the [m] by [n]
+    sub-matrix of the matrix [a] starting in row [ar] and column [ac].  If [b]
+    is given, the result will be stored in there using offsets [br] and [bc],
+    otherwise a fresh matrix will be used.  The resulting matrix is returned.
+
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param br default = 1
+    @param bc default = 1
+    @param b default = fresh matrix with [br + m - 1] rows and
+                       [bc + n - 1] columns
+    @param ar default = 1
+    @param ac default = 1
+*)
+
+val trunc : unop
+(** [trunc ?m ?n ?br ?bc ?b ?ar ?ac a] computes the truncation of the elements
     in the [m] by [n] sub-matrix of the matrix [a] starting in
     row [ar] and column [ac].  If [b] is given, the result will be stored in
     there using offsets [br] and [bc], otherwise a fresh matrix will be used.

@@ -203,6 +203,19 @@ external direct_sqrt :
 
 let sqrt = unop direct_sqrt "sqrt"
 
+external direct_cbrt :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECcbrt_mat_stub_bc" "lacaml_FPRECcbrt_mat_stub"
+
+let cbrt = unop direct_cbrt "cbrt"
+
 external direct_exp :
   m : int ->
   n : int ->
@@ -267,6 +280,19 @@ external direct_log10 :
   unit = "lacaml_FPREClog10_mat_stub_bc" "lacaml_FPREClog10_mat_stub"
 
 let log10 = unop direct_log10 "log10"
+
+external direct_log2 :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPREClog2_mat_stub_bc" "lacaml_FPREClog2_mat_stub"
+
+let log2 = unop direct_log2 "log2"
 
 external direct_log1p :
   m : int ->
@@ -462,6 +488,32 @@ external direct_ceil :
   unit = "lacaml_FPRECceil_mat_stub_bc" "lacaml_FPRECceil_mat_stub"
 
 let ceil = unop direct_ceil "ceil"
+
+external direct_round :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECround_mat_stub_bc" "lacaml_FPRECround_mat_stub"
+
+let round = unop direct_round "round"
+
+external direct_trunc :
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  unit = "lacaml_FPRECtrunc_mat_stub_bc" "lacaml_FPRECtrunc_mat_stub"
+
+let trunc = unop direct_trunc "trunc"
 
 external direct_erf :
   m : int ->

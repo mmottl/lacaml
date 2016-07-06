@@ -109,6 +109,21 @@ val sqrt : unop
     @param incx default = 1
 *)
 
+val cbrt : unop
+(** [cbrt ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the cubic root
+    of [n] elements of the vector [x] using [incx] as incremental
+    steps.   If [y] is given, the result will be stored in there
+    using increments of [incy], otherwise a fresh vector will be
+    used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
 val exp : unop
 (** [exp ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the exponential
     of [n] elements of the vector [x] using [incx] as incremental
@@ -171,6 +186,21 @@ val log : unop
 
 val log10 : unop
 (** [log10 ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the base-10 logarithm
+    of [n] elements of the vector [x] using [incx] as incremental steps.
+    If [y] is given, the result will be stored in there using increments of
+    [incy], otherwise a fresh vector will be used.  The resulting vector
+    is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val log2 : unop
+(** [log2 ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the base-2 logarithm
     of [n] elements of the vector [x] using [incx] as incremental steps.
     If [y] is given, the result will be stored in there using increments of
     [incy], otherwise a fresh vector will be used.  The resulting vector
@@ -383,6 +413,34 @@ val floor : unop
 
 val ceil : unop
 (** [ceil ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the ceiling of [n]
+    elements of the vector [x] using [incx] as incremental steps.   If [y]
+    is given, the result will be stored in there using increments of [incy],
+    otherwise a fresh vector will be used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val round : unop
+(** [round ?n ?ofsy ?incy ?y ?ofsx ?incx x] rounds the [n] elements of the
+    vector [x] using [incx] as incremental steps.   If [y] is given, the
+    result will be stored in there using increments of [incy], otherwise a
+    fresh vector will be used.  The resulting vector is returned.
+
+    @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
+    @param ofsy default = 1
+    @param incy default = 1
+    @param y default = fresh vector with [ofsy+(n - 1)(abs incy)] rows
+    @param ofsx default = 1
+    @param incx default = 1
+*)
+
+val trunc : unop
+(** [trunc ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the truncation of the [n]
     elements of the vector [x] using [incx] as incremental steps.   If [y]
     is given, the result will be stored in there using increments of [incy],
     otherwise a fresh vector will be used.  The resulting vector is returned.

@@ -56,6 +56,11 @@
 #define FUNC(dst, x) *dst = SDMATHH(sqrt)(x)
 #include "mat_map.c"
 
+#define NAME LFUN(cbrt_mat_stub)
+#define BC_NAME LFUN(cbrt_mat_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(cbrt)(x)
+#include "mat_map.c"
+
 #define NAME LFUN(exp_mat_stub)
 #define BC_NAME LFUN(exp_mat_stub_bc)
 #define FUNC(dst, x) *dst = SDMATHH(exp)(x)
@@ -79,6 +84,11 @@
 #define NAME LFUN(log10_mat_stub)
 #define BC_NAME LFUN(log10_mat_stub_bc)
 #define FUNC(dst, x) *dst = SDMATHH(log10)(x)
+#include "mat_map.c"
+
+#define NAME LFUN(log2_mat_stub)
+#define BC_NAME LFUN(log2_mat_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(log2)(x)
 #include "mat_map.c"
 
 #define NAME LFUN(log1p_mat_stub)
@@ -154,6 +164,16 @@
 #define NAME LFUN(ceil_mat_stub)
 #define BC_NAME LFUN(ceil_mat_stub_bc)
 #define FUNC(dst, x) *dst = SDMATHH(ceil)(x)
+#include "mat_map.c"
+
+#define NAME LFUN(round_mat_stub)
+#define BC_NAME LFUN(round_mat_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(round)(x)
+#include "mat_map.c"
+
+#define NAME LFUN(trunc_mat_stub)
+#define BC_NAME LFUN(trunc_mat_stub_bc)
+#define FUNC(dst, x) *dst = SDMATHH(trunc)(x)
 #include "mat_map.c"
 
 #define NAME LFUN(erf_mat_stub)
