@@ -440,7 +440,11 @@ CAMLprim value LFUN(ssqr_stub)(
 #define NAME LFUN(ssqr_diff_stub)
 #define BC_NAME LFUN(ssqr_diff_stub_bc)
 #define INIT 0.0
-#define FUNC(acc, x, y) x -= y; x *= x; acc += x
+# ifdef FP_FAST_FMA
+#  define FUNC(acc, x, y) x -= y; acc = SDMATHH(fma)(x, x, acc)
+# else
+#  define FUNC(acc, x, y) x -= y; x *= x; acc += x
+# endif
 #include "fold2_col.c"
 
 
