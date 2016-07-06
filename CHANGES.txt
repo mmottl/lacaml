@@ -1,3 +1,14 @@
+2016-07-06:  Minor release version 9.1.0:
+
+             More functions from the C standard library (math.h):
+
+               * Vec/Mat.cbrt
+               * Vec/Mat.log2
+               * Vec/Mat.round
+               * Vec/Mat.trunc
+
+            Improved some operations that can exploit fused multiply-add (FMA).
+
 2016-04-01:  Major release version 9.0.0:
 
              Added numerous portable vector and matrix functions from the
