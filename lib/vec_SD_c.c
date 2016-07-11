@@ -50,7 +50,13 @@ CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
   CAMLreturn(Val_unit);
 }
 
-extern double exp10(double);
+#ifdef __FreeBSD__
+static double exp10(double x){
+	  return exp(log(10)*x);
+}
+#else
+extern double exp10(double x);
+#endif
 
 CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
                                    value vbase, value vN)
