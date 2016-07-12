@@ -77,6 +77,8 @@ Library lacaml
   if flag(strict) && ccomp_type(cc)
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long
   CCLib:         -lblas -llapack
+  if system(freebsd)
+    CCOpt+:      -DEXTERNAL_EXP10
   if system(macosx)
     CCOpt+:      -DEXTERNAL_EXP10
     CCLib:       -framework Accelerate
