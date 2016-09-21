@@ -37,6 +37,9 @@
 <h1>Module <a href="type_Lacaml_C.Vec.html">Lacaml_C.Vec</a></h1>
 
 <pre><span class="keyword">module</span> Vec: <code class="code">sig</code> <a href="Lacaml_C.Vec.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type"><a href="Lacaml_C.html#TYPEvec">Lacaml_C.vec</a></code> </pre>
+
 <br>
 <h5 id="5_Vectoroperations">Vector operations</h5><br>
 <br>
@@ -174,14 +177,6 @@
 <br>
 <h6 id="6_Operationsononevector">Operations on one vector</h6><br>
 
-<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> unit</code></pre><div class="info ">
-<code class="code">fill ?n ?ofsx ?incx x a</code> fills vector <code class="code">x</code> with value <code class="code">a</code> in the
-      designated range.<br>
-</div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-
 <pre><span id="VALrev"><span class="keyword">val</span> rev</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
 <code class="code">rev x</code> reverses vector <code class="code">x</code> (non-destructive).<br>
 </div>
@@ -206,6 +201,39 @@
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
+<pre><span id="VALsort"><span class="keyword">val</span> sort</span> : <code class="type">?cmp:(<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> int) -><br>       ?decr:bool -><br>       ?n:int -><br>       ?ofsp:int -><br>       ?incp:int -><br>       ?p:<a href="Lacaml_common.html#TYPEint_vec">Lacaml_common.int_vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">sort ?cmp ?n ?ofsx ?incx x</code> sorts the array <code class="code">x</code> in increasing
+      order according to the comparison function <code class="code">cmp</code>.<br>
+</div>
+<div class="param_info"><code class="code">cmp</code> : a function such that <code class="code">cmp a b &lt; 0</code> if <code class="code">a</code> is less than
+        <code class="code">b</code>, <code class="code">cmp a b = 0</code> if <code class="code">a</code> equal <code class="code">b</code> and <code class="code">cmp a b &gt; 0</code> if <code class="code">a</code> is
+        greater than <code class="code">b</code> for the desired order.  Default: the usual
+        order on floating point values or the lexicographic order on
+        complex ones (a special routine makes it fast).  Whatever the
+        order you choose, NaNs (in any component for complex numbers)
+        are considered larger than any other value (so they will be
+        last, in no specified order, in the sorted vector).  Therefore,
+        NaN are never passed to <code class="code">cmp</code>.</div>
+<div class="param_info"><code class="code">decr</code> : sort in decreasing order (stays fast for the default <code class="code">cmp</code>).</div>
+<div class="param_info"><code class="code">n</code> : default = greater <code class="code">n</code> s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsp</code> : default = 1</div>
+<div class="param_info"><code class="code">incp</code> : default = 1</div>
+<div class="param_info"><code class="code">p</code> : if you pass a vector of size <code class="code">ofsp+(n - 1)(abs incp)</code>,
+        the vector <code class="code">x</code> will be unchanged and the permutation to sort it
+        will be stored in <code class="code">p</code>.  Thus <code class="code">x.{p.{ofsp + (i-1) * incp}}</code> will
+        give the elements of <code class="code">x</code> in increasing order.  Default: no
+        vector is provided.</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> unit</code></pre><div class="info ">
+<code class="code">fill ?n ?ofsx ?incx x a</code> fills vector <code class="code">x</code> with value <code class="code">a</code> in the
+      designated range.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
 <pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?n:int -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a></code></pre><div class="info ">
 <code class="code">sum ?n ?ofsx ?incx x</code> computes the sum of the <code class="code">n</code> elements in
       vector <code class="code">x</code>, separated by <code class="code">incx</code> incremental steps.<br>
@@ -222,19 +250,13 @@
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> <a href="Lacaml_complex32.Types.Vec.html#TYPEunop">Lacaml_complex32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">add_const c ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> adds constant <code class="code">c</code> to the <code class="code">n</code>
       elements of vector <code class="code">x</code> and stores the result in <code class="code">y</code>, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively.  If <code class="code">y</code> is given, the result will
       be stored in there using increments of <code class="code">incy</code>, otherwise a fresh
       vector will be used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
 <pre><span id="VALsqr_nrm2"><span class="keyword">val</span> sqr_nrm2</span> : <code class="type">?stable:bool -><br>       ?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> float</code></pre><div class="info ">
 <code class="code">sqr_nrm2 ?stable ?n ?c ?ofsx ?incx x</code> computes the square of
@@ -265,155 +287,79 @@
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALsort"><span class="keyword">val</span> sort</span> : <code class="type">?cmp:(<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> <a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -> int) -><br>       ?decr:bool -><br>       ?n:int -><br>       ?ofsp:int -><br>       ?incp:int -><br>       ?p:<a href="Lacaml_common.html#TYPEint_vec">Lacaml_common.int_vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> unit</code></pre><div class="info ">
-<code class="code">sort ?cmp ?n ?ofsx ?incx x</code> sorts the array <code class="code">x</code> in increasing
-      order according to the comparison function <code class="code">cmp</code>.<br>
-</div>
-<div class="param_info"><code class="code">cmp</code> : a function such that <code class="code">cmp a b &lt; 0</code> if <code class="code">a</code> is less than
-        <code class="code">b</code>, <code class="code">cmp a b = 0</code> if <code class="code">a</code> equal <code class="code">b</code> and <code class="code">cmp a b &gt; 0</code> if <code class="code">a</code> is
-        greater than <code class="code">b</code> for the desired order.  Default: the usual
-        order on floating point values or the lexicographic order on
-        complex ones (a special routine makes it fast).  Whatever the
-        order you choose, NaNs (in any component for complex numbers)
-        are considered larger than any other value (so they will be
-        last, in no specified order, in the sorted vector).  Therefore,
-        NaN are never passed to <code class="code">cmp</code>.</div>
-<div class="param_info"><code class="code">decr</code> : sort in decreasing order (stays fast for the default <code class="code">cmp</code>).</div>
-<div class="param_info"><code class="code">n</code> : default = greater <code class="code">n</code> s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsp</code> : default = 1</div>
-<div class="param_info"><code class="code">incp</code> : default = 1</div>
-<div class="param_info"><code class="code">p</code> : if you pass a vector of size <code class="code">ofsp+(n - 1)(abs incp)</code>,
-        the vector <code class="code">x</code> will be unchanged and the permutation to sort it
-        will be stored in <code class="code">p</code>.  Thus <code class="code">x.{p.{ofsp + (i-1) * incp}}</code> will
-        give the elements of <code class="code">x</code> in increasing order.  Default: no
-        vector is provided.</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-
-<pre><span id="VALneg"><span class="keyword">val</span> neg</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALneg"><span class="keyword">val</span> neg</span> : <code class="type"><a href="Lacaml_complex32.Types.Vec.html#TYPEunop">Lacaml_complex32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">neg ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> negates <code class="code">n</code> elements of the
       vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given,
       the result will be stored in there using increments of <code class="code">incy</code>,
       otherwise a fresh vector will be used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALreci"><span class="keyword">val</span> reci</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALreci"><span class="keyword">val</span> reci</span> : <code class="type"><a href="Lacaml_complex32.Types.Vec.html#TYPEunop">Lacaml_complex32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">reci ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the reciprocal value
       of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
       If <code class="code">y</code> is given, the result will be stored in there using increments of
       <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
       is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 <br>
 <h6 id="6_Operationsontwovectors">Operations on two vectors</h6><br>
 
-<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Lacaml_complex32.Types.Vec.html#TYPEbinop">Lacaml_complex32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> adds <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively. If <code class="code">z</code> is given, the result will
       be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
       vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type"><a href="Lacaml_complex32.Types.Vec.html#TYPEbinop">Lacaml_complex32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">sub ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> subtracts <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively. If <code class="code">z</code> is given, the result will
       be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
       vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALmul"><span class="keyword">val</span> mul</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALmul"><span class="keyword">val</span> mul</span> : <code class="type"><a href="Lacaml_complex32.Types.Vec.html#TYPEbinop">Lacaml_complex32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">mul ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies
       <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code>
       and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given, the
       result will be stored in there using increments of <code class="code">incz</code>, otherwise
       a fresh vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALdiv"><span class="keyword">val</span> div</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
+<pre><span id="VALdiv"><span class="keyword">val</span> div</span> : <code class="type"><a href="Lacaml_complex32.Types.Vec.html#TYPEbinop">Lacaml_complex32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> divides <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively. If <code class="code">z</code> is given, the result will
       be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
       vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALzpxy"><span class="keyword">val</span> zpxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
-<code class="code">zpxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
-      elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code> as
-      incremental steps respectively, and adds the result to and stores it in
-      the specified range in <code class="code">z</code> if provided.  If <code class="code">z</code> is given, the result will
-      be stored in there using increments of <code class="code">incz</code>, otherwise a fresh vector
-      will be used and assumed to be zero.  The resulting vector is returned.
-      This function is useful for convolutions.<br>
-</div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-
-<pre><span id="VALzmxy"><span class="keyword">val</span> zmxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
-<code class="code">zmxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
+<pre><span id="VALzpxy"><span class="keyword">val</span> zpxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">zpxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
-      as incremental steps respectively, and substracts the result from and
-      stores it in the specified range in <code class="code">z</code> if provided.  If <code class="code">z</code> is given,
-      the result will be stored in there using increments of <code class="code">incz</code>, otherwise
-      a fresh vector will be used and assumed to be zero.  The resulting vector
-      is returned.  This function is useful for convolutions.<br>
+      as incremental steps respectively, and adds the result to and stores it
+      in the specified range in <code class="code">z</code>.  This function is useful for convolutions.<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsz</code> : default = 1</div>
 <div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+
+<pre><span id="VALzmxy"><span class="keyword">val</span> zmxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">zmxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
+      elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
+      as incremental steps respectively, and substracts the result from
+      and stores it in the specified range in <code class="code">z</code>.  This function is
+      useful for convolutions.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
+<div class="param_info"><code class="code">incz</code> : default = 1</div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>

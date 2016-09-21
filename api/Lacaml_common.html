@@ -74,6 +74,18 @@ SVD computation flags<br>
 </div>
 
 
+<pre><span id="TYPEschur_vectors"><span class="keyword">type</span> <code class="type"></code>schur_vectors</span> = <code class="type">[ `Compute_Schur_vectors | `No_Schur_vectors ]</code> </pre>
+<div class="info ">
+GEES job option<br>
+</div>
+
+
+<pre><span id="TYPEeigen_value_sort"><span class="keyword">type</span> <code class="type"></code>eigen_value_sort</span> = <code class="type">[ `No_sort<br>       | `Select_custom of Complex.t -> bool<br>       | `Select_exterior_disk<br>       | `Select_interior_disk<br>       | `Select_left_plane<br>       | `Select_right_plane ]</code> </pre>
+<div class="info ">
+GEES eigenvalue sort option<br>
+</div>
+
+
 <pre><span id="EXCEPTIONInternalError"><span class="keyword">exception</span> InternalError</span> <span class="keyword">of</span> <code class="type">string</code></pre>
 <div class="info ">
 <code class="code">InternalError msg</code> gets raised when BLAS or LAPACK exhibit undefined
@@ -106,4 +118,7 @@ Type of 32bit Fortran integer vectors.<br>
 <code class="code">mat_from_vec a</code> converts the vector <code class="code">a</code> into a matrix with <code class="code">Array1.dim a</code>
     rows and 1 column.  The data is shared between the two matrices.<br>
 </div>
-</body></html>
+<br>
+Common types used for vector and matrix operations<br>
+
+<pre><span class="keyword">module</span> <a href="Lacaml_common.Types.html">Types</a>: <code class="code">sig</code> <a href="Lacaml_common.Types.html">..</a> <code class="code">end</code></pre></body></html>

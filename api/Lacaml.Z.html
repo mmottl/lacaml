@@ -23,7 +23,20 @@
 <link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
 <link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
 <link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
-<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml.Z</title>
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><link title="BLAS-1 interface" rel="Section" href="#6_BLAS1interface">
+<link title="LAPACK interface" rel="Section" href="#6_LAPACKinterface">
+<link title="BLAS-1 interface" rel="Section" href="#6_BLAS1interface">
+<link title="BLAS-2 interface" rel="Section" href="#6_BLAS2interface">
+<link title="BLAS-3 interface" rel="Section" href="#6_BLAS3interface">
+<link title="LAPACK interface" rel="Section" href="#6_LAPACKinterface">
+<link title="General Schur factorization" rel="Subsection" href="#7_GeneralSchurfactorization">
+<link title="General SVD routines" rel="Subsection" href="#7_GeneralSVDroutines">
+<link title="General eigenvalue problem (simple drivers)" rel="Subsection" href="#7_Generaleigenvalueproblemsimpledrivers">
+<link title="Auxiliary routines" rel="Subsection" href="#7_Auxiliaryroutines">
+<link title="Linear equations (computational routines)" rel="Subsection" href="#7_Linearequationscomputationalroutines">
+<link title="Linear equations (simple drivers)" rel="Subsection" href="#7_Linearequationssimpledrivers">
+<link title="Least squares (simple drivers)" rel="Subsection" href="#7_Leastsquaressimpledrivers">
+<title>Lacaml.Z</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="Lacaml.S.html" title="Lacaml.S">Previous</a>
@@ -32,8 +45,1089 @@
 </div>
 <h1>Module <a href="type_Lacaml.Z.html">Lacaml.Z</a></h1>
 
-<pre><span class="keyword">module</span> Z: <code class="type">module type of Lacaml_Z</code></pre><div class="info module top">
+<pre><span class="keyword">module</span> Z: <code class="type"><a href="Lacaml_Z.html">Lacaml_Z</a></code></pre><div class="info module top">
 Double precision complex BLAS and LAPACK functions.<br>
 </div>
 <hr width="100%">
+
+<pre><span id="TYPEprec"><span class="keyword">type</span> <code class="type"></code>prec</span> = <code class="type">Bigarray.complex64_elt</code> </pre>
+
+
+<pre><span id="TYPEnum_type"><span class="keyword">type</span> <code class="type"></code>num_type</span> = <code class="type">Complex.t</code> </pre>
+
+
+<pre><span id="TYPEvec"><span class="keyword">type</span> <code class="type"></code>vec</span> = <code class="type">(Complex.t, Bigarray.complex64_elt, Bigarray.fortran_layout)<br>       Bigarray.Array1.t</code> </pre>
+<div class="info ">
+Complex vectors (precision: complex64).<br>
+</div>
+
+
+<pre><span id="TYPErvec"><span class="keyword">type</span> <code class="type"></code>rvec</span> = <code class="type">(float, Bigarray.float64_elt, Bigarray.fortran_layout) Bigarray.Array1.t</code> </pre>
+<div class="info ">
+Vectors of reals (precision: float64).<br>
+</div>
+
+
+<pre><span id="TYPEmat"><span class="keyword">type</span> <code class="type"></code>mat</span> = <code class="type">(Complex.t, Bigarray.complex64_elt, Bigarray.fortran_layout)<br>       Bigarray.Array2.t</code> </pre>
+<div class="info ">
+Complex matrices (precision: complex64).<br>
+</div>
+
+
+<pre><span id="TYPEtrans3"><span class="keyword">type</span> <code class="type"></code>trans3</span> = <code class="type">[ `C | `N | `T ]</code> </pre>
+<div class="info ">
+Transpose parameter (conjugate transposed, normal, or transposed).<br>
+</div>
+
+
+<pre><span id="VALprec"><span class="keyword">val</span> prec</span> : <code class="type">(Complex.t, Bigarray.complex64_elt) Bigarray.kind</code></pre><div class="info ">
+Precision for this submodule <code class="code">Z</code>.  Allows to write precision
+    independent code.<br>
+</div>
+
+<pre><span class="keyword">module</span> <a href="Lacaml_Z.Vec.html">Vec</a>: <code class="code">sig</code> <a href="Lacaml_Z.Vec.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Lacaml_Z.Mat.html">Mat</a>: <code class="code">sig</code> <a href="Lacaml_Z.Mat.html">..</a> <code class="code">end</code></pre>
+<pre><span id="VALpp_num"><span class="keyword">val</span> pp_num</span> : <code class="type">Format.formatter -> Complex.t -> unit</code></pre><div class="info ">
+<code class="code">pp_num ppf el</code> is equivalent to <code class="code">fprintf ppf "(%G, %Gi)"
+    el.re el.im</code>.<br>
+</div>
+
+<pre><span id="VALpp_vec"><span class="keyword">val</span> pp_vec</span> : <code class="type">(Complex.t, 'a) <a href="Lacaml_io.html#TYPEpp_vec">Lacaml_io.pp_vec</a></code></pre><div class="info ">
+Pretty-printer for column vectors.<br>
+</div>
+
+<pre><span id="VALpp_mat"><span class="keyword">val</span> pp_mat</span> : <code class="type">(Complex.t, 'a) <a href="Lacaml_io.html#TYPEpp_mat">Lacaml_io.pp_mat</a></code></pre><div class="info ">
+Pretty-printer for matrices.<br>
+</div>
+<br>
+<h6 id="6_BLAS1interface">BLAS-1 interface</h6><br>
+
+<pre><span id="VALdotu"><span class="keyword">val</span> dotu</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
+<code class="code">dotu ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+
+<pre><span id="VALdotc"><span class="keyword">val</span> dotc</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
+<code class="code">dotc ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+<br>
+<h6 id="6_LAPACKinterface">LAPACK interface</h6><br>
+
+<pre><span id="VALlansy_min_lwork"><span class="keyword">val</span> lansy_min_lwork</span> : <code class="type">int -> <a href="Lacaml_common.html#TYPEnorm4">Lacaml_common.norm4</a> -> int</code></pre><div class="info ">
+<code class="code">lansy_min_lwork m norm</code><br>
+<b>Returns</b> the minimum length of the work array used by the <code class="code">lansy</code>-function.<br>
+</div>
+
+<pre><span id="VALlansy"><span class="keyword">val</span> lansy</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?norm:<a href="Lacaml_common.html#TYPEnorm4">Lacaml_common.norm4</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> float</code></pre><div class="info ">
+<code class="code">lansy ?n ?up ?norm ?work ?ar ?ac a</code> see LAPACK documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (reference upper triangular part of <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">norm</code> : default = `O</div>
+<div class="param_info"><code class="code">work</code> : default = allocated work space for norm `I</div>
+
+<pre><span id="VALgecon_min_lwork"><span class="keyword">val</span> gecon_min_lwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">gecon_min_lwork n</code><br>
+<b>Returns</b> the minimum length of the work array
+    used by the <code class="code">gecon</code>-function.<br>
+</div>
+
+<pre><span id="VALgecon_min_lrwork"><span class="keyword">val</span> gecon_min_lrwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">gecon_min_lrwork n</code><br>
+<b>Returns</b> the minimum length of the rwork array
+    used by the <code class="code">gecon</code>-function.<br>
+</div>
+
+<pre><span id="VALgecon"><span class="keyword">val</span> gecon</span> : <code class="type">?n:int -><br>       ?norm:<a href="Lacaml_common.html#TYPEnorm2">Lacaml_common.norm2</a> -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?rwork:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> float</code></pre><div class="info ">
+<code class="code">gecon ?n ?norm ?anorm ?work ?rwork ?ar ?ac a</code><br>
+<b>Returns</b> estimate of the reciprocal of the condition number of matrix <code class="code">a</code><br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">norm</code> : default = 1-norm</div>
+<div class="param_info"><code class="code">anorm</code> : default = norm of the matrix <code class="code">a</code> as returned by <code class="code">lange</code></div>
+<div class="param_info"><code class="code">work</code> : default = automatically allocated workspace</div>
+<div class="param_info"><code class="code">rwork</code> : default = automatically allocated workspace</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALsycon_min_lwork"><span class="keyword">val</span> sycon_min_lwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">sycon_min_lwork n</code><br>
+<b>Returns</b> the minimum length of the work array
+    used by the <code class="code">sycon</code>-function.<br>
+</div>
+
+<pre><span id="VALsycon"><span class="keyword">val</span> sycon</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> float</code></pre><div class="info ">
+<code class="code">sycon ?n ?up ?ipiv ?anorm ?work ?ar ?ac a</code><br>
+<b>Returns</b> estimate of the reciprocal of the
+            condition number of symmetric matrix <code class="code">a</code><br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = upper triangle of the factorization of <code class="code">a</code> is stored</div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code></div>
+<div class="param_info"><code class="code">anorm</code> : default = 1-norm of the matrix <code class="code">a</code> as returned by <code class="code">lange</code></div>
+<div class="param_info"><code class="code">work</code> : default = automatically allocated workspace</div>
+
+<pre><span id="VALpocon_min_lwork"><span class="keyword">val</span> pocon_min_lwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">pocon_min_lwork n</code><br>
+<b>Returns</b> the minimum length of the work array
+    used by the <code class="code">pocon</code>-function.<br>
+</div>
+
+<pre><span id="VALpocon_min_lrwork"><span class="keyword">val</span> pocon_min_lrwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">pocon_min_lrwork n</code><br>
+<b>Returns</b> the minimum length of the rwork array
+    used by the <code class="code">pocon</code>-function.<br>
+</div>
+
+<pre><span id="VALpocon"><span class="keyword">val</span> pocon</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?rwork:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> float</code></pre><div class="info ">
+<code class="code">pocon ?n ?up ?anorm ?work ?rwork ?ar ?ac a</code><br>
+<b>Returns</b> estimate of the reciprocal of the condition number of
+            complex Hermitian positive definite matrix <code class="code">a</code><br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = upper triangle of Cholesky factorization
+                        of <code class="code">a</code> is stored</div>
+<div class="param_info"><code class="code">anorm</code> : default = 1-norm of the matrix <code class="code">a</code> as returned by <code class="code">lange</code></div>
+<div class="param_info"><code class="code">work</code> : default = automatically allocated workspace</div>
+<div class="param_info"><code class="code">rwork</code> : default = automatically allocated workspace</div>
+<br>
+<div class="h7" id="7_GeneralSchurfactorization">General Schur factorization</div><br>
+
+<pre><span id="VALgees"><span class="keyword">val</span> gees</span> : <code class="type">?n:int -><br>       ?jobvs:<a href="Lacaml_common.html#TYPEschur_vectors">Lacaml_common.schur_vectors</a> -><br>       ?sort:<a href="Lacaml_common.html#TYPEeigen_value_sort">Lacaml_common.eigen_value_sort</a> -><br>       ?w:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?vsr:int -><br>       ?vsc:int -><br>       ?vs:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int * <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> * <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">gees ?n ?jobvs ?sort ?w ?vsr ?vsc ?vs ?work ?ar ?ac a</code>
+      See <code class="code">gees</code>-function for details about arguments.<br>
+<b>Returns</b> (sdim, w, vs)<br>
+</div>
+<br>
+<div class="h7" id="7_GeneralSVDroutines">General SVD routines</div><br>
+
+<pre><span id="VALgesvd_min_lwork"><span class="keyword">val</span> gesvd_min_lwork</span> : <code class="type">m:int -> n:int -> int</code></pre><div class="info ">
+<code class="code">gesvd_min_lwork ~m ~n</code><br>
+<b>Returns</b> the minimum length of the work array
+    used by the <code class="code">gesvd</code>-function for matrices with <code class="code">m</code> rows and <code class="code">n</code>
+    columns.<br>
+</div>
+
+<pre><span id="VALgesvd_lrwork"><span class="keyword">val</span> gesvd_lrwork</span> : <code class="type">m:int -> n:int -> int</code></pre><div class="info ">
+<code class="code">gesvd_lrwork m n</code><br>
+<b>Returns</b> the (minimum) length of the rwork array
+    used by the <code class="code">gesvd</code>-function.<br>
+</div>
+
+<pre><span id="VALgesvd_opt_lwork"><span class="keyword">val</span> gesvd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobu:<a href="Lacaml_common.html#TYPEsvd_job">Lacaml_common.svd_job</a> -><br>       ?jobvt:<a href="Lacaml_common.html#TYPEsvd_job">Lacaml_common.svd_job</a> -><br>       ?s:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre>
+<pre><span id="VALgesvd"><span class="keyword">val</span> gesvd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobu:<a href="Lacaml_common.html#TYPEsvd_job">Lacaml_common.svd_job</a> -><br>       ?jobvt:<a href="Lacaml_common.html#TYPEsvd_job">Lacaml_common.svd_job</a> -><br>       ?s:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?rwork:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       <a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> * <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> * <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><br>
+<div class="h7" id="7_Generaleigenvalueproblemsimpledrivers">General eigenvalue problem (simple drivers)</div><br>
+
+<pre><span id="VALgeev_min_lwork"><span class="keyword">val</span> geev_min_lwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">geev_min_lwork n</code><br>
+<b>Returns</b> the minimum length of the work array
+    used by the <code class="code">geev</code>-function.<br>
+</div>
+
+<pre><span id="VALgeev_min_lrwork"><span class="keyword">val</span> geev_min_lrwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">geev_min_lrwork n</code><br>
+<b>Returns</b> the minimum length of the rwork array
+    used by the <code class="code">geev</code>-function.<br>
+</div>
+
+<pre><span id="VALgeev_opt_lwork"><span class="keyword">val</span> geev_opt_lwork</span> : <code class="type">?n:int -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> option -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
+<code class="code">geev ?work ?rwork ?n ?vlr ?vlc ?vl ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a</code>
+      See <code class="code">geev</code>-function for details about arguments.<br>
+<b>Returns</b> "optimal" work size<br>
+</div>
+
+<pre><span id="VALgeev"><span class="keyword">val</span> geev</span> : <code class="type">?n:int -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?rwork:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> option -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> * <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> * <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">geev ?work ?rwork ?n
+      ?vlr ?vlc ?vl
+      ?vrr ?vrc ?vr
+      ?ofsw w
+      ?ar ?ac a</code><br>
+<b>Raises</b> <code>Failure</code> if the function fails to converge<br>
+<b>Returns</b> <code class="code">(lv, w, rv)</code>, where <code class="code">lv</code> and <code class="code">rv</code> correspond to the left and
+      right eigenvectors respectively, <code class="code">w</code> to the eigenvalues. <code class="code">lv</code> (<code class="code">rv</code>)
+      is the empty matrix if <code class="code">vl</code> (<code class="code">vr</code>) is set to <code class="code">None</code>.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">work</code> : default = automatically allocated workspace</div>
+<div class="param_info"><code class="code">rwork</code> : default = automatically allocated workspace</div>
+<div class="param_info"><code class="code">vl</code> : default = Automatically allocated left eigenvectors.
+                        Pass <code class="code">None</code> if you do not want to compute them,
+                        <code class="code">Some lv</code> if you want to provide the storage.
+                        You can set <code class="code">vlr</code>, <code class="code">vlc</code> in the last case.
+    (See LAPACK GEEV docs for details about storage of complex eigenvectors)</div>
+<div class="param_info"><code class="code">vr</code> : default = Automatically allocated right eigenvectors.
+                         Pass <code class="code">None</code> if you do not want to compute them,
+                         <code class="code">Some rv</code> if you want to provide the storage.
+                         You can set <code class="code">vrr</code>, <code class="code">vrc</code> in the last case.</div>
+<div class="param_info"><code class="code">w</code> : default = automatically allocate eigenvalues</div>
+<br>
+<h6 id="6_BLAS1interface">BLAS-1 interface</h6><br>
+
+<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">swap ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+
+<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?n:int -><br>       <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">scal ?n alpha ?ofsx ?incx x</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALcopy"><span class="keyword">val</span> copy</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
+<code class="code">copy ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> see BLAS documentation!<br>
+<b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+<div class="param_info"><code class="code">y</code> : default = new vector with <code class="code">ofsy+(n-1)(abs incy)</code> rows</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALnrm2"><span class="keyword">val</span> nrm2</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> float</code></pre><div class="info ">
+<code class="code">nrm2 ?n ?ofsx ?incx x</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">axpy ?alpha ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+
+<pre><span id="VALiamax"><span class="keyword">val</span> iamax</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> int</code></pre><div class="info ">
+<code class="code">iamax ?n ?ofsx ?incx x</code> see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALamax"><span class="keyword">val</span> amax</span> : <code class="type">?n:int -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
+<code class="code">amax ?n ?ofsx ?incx x</code><br>
+<b>Returns</b> the greater of the absolute
+    values of the elements of the vector <code class="code">x</code>.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<br>
+<h6 id="6_BLAS2interface">BLAS-2 interface</h6><br>
+
+<pre><span id="VALgemv"><span class="keyword">val</span> gemv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
+<code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
+    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
+    mandates that this function has no effect when <code class="code">n=0</code> while the
+    mathematically expected behabior is <code class="code">y ← beta * y</code>.<br>
+<b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of available rows in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = available columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+<div class="param_info"><code class="code">y</code> : default = vector with minimal required length (see BLAS)</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALgbmv"><span class="keyword">val</span> gbmv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       int -><br>       int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
+<code class="code">gbmv
+      ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a kl ku ?ofsx ?incx x</code>
+    see BLAS documentation!<br>
+<b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = same as <code class="code">n</code> (i.e., <code class="code">a</code> is a square matrix)</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+<div class="param_info"><code class="code">y</code> : default = vector with minimal required length (see BLAS)</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALsymv"><span class="keyword">val</span> symv</span> : <code class="type">?n:int -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?up:bool -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
+<code class="code">symv ?n ?beta ?ofsy ?incy ?y ?up ?alpha ?ar ?ac a ?ofsx ?incx x</code>
+    see BLAS documentation!<br>
+<b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = dimension of symmetric matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+<div class="param_info"><code class="code">y</code> : default = vector with minimal required length (see BLAS)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALtrmv"><span class="keyword">val</span> trmv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">trmv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x</code>
+    see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = dimension of triangular matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = false (not a unit triangular matrix)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALtrsv"><span class="keyword">val</span> trsv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">trsv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x</code>
+    see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = dimension of triangular matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = false (not a unit triangular matrix)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALtpmv"><span class="keyword">val</span> tpmv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">tpmv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x</code>
+    see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = dimension of packed triangular matrix <code class="code">ap</code></div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = false (not a unit triangular matrix)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">ap</code> is accessed)</div>
+<div class="param_info"><code class="code">ofsap</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALtpsv"><span class="keyword">val</span> tpsv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">tpsv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x</code>
+    see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = dimension of packed triangular matrix <code class="code">ap</code></div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = false (not a unit triangular matrix)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">ap</code> is accessed)</div>
+<div class="param_info"><code class="code">ofsap</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<br>
+<h6 id="6_BLAS3interface">BLAS-3 interface</h6><br>
+
+<pre><span id="VALgemm"><span class="keyword">val</span> gemm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?transa:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?transb:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
+    see BLAS documentation!<br>
+<b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code> (or tr <code class="code">a</code>) and <code class="code">c</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">b</code> (or tr <code class="code">b</code>) and <code class="code">c</code></div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code> (or tr <code class="code">a</code>) and
+                       number of rows of <code class="code">b</code> (or tr <code class="code">b</code>)</div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">cr</code> : default = 1</div>
+<div class="param_info"><code class="code">cc</code> : default = 1</div>
+<div class="param_info"><code class="code">c</code> : default = matrix with minimal required dimension</div>
+<div class="param_info"><code class="code">transa</code> : default = `N</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">transb</code> : default = `N</div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALsymm"><span class="keyword">val</span> symm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml_common.html#TYPEside">Lacaml_common.side</a> -><br>       ?up:bool -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">symm ?m ?n ?side ?up ?beta ?cr ?cc ?c ?alpha ?ar ?ac a ?br ?bc b</code>
+    see BLAS documentation!<br>
+<b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">c</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">c</code></div>
+<div class="param_info"><code class="code">side</code> : default = `L (left - multiplication is <code class="code">a</code><code class="code">b</code>)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">cr</code> : default = 1</div>
+<div class="param_info"><code class="code">cc</code> : default = 1</div>
+<div class="param_info"><code class="code">c</code> : default = matrix with minimal required dimension</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALtrmm"><span class="keyword">val</span> trmm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml_common.html#TYPEside">Lacaml_common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       a:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">trmm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b</code>
+    see BLAS documentation!<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">b</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">b</code></div>
+<div class="param_info"><code class="code">side</code> : default = `L (left - multiplication is <code class="code">a</code><code class="code">b</code>)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">transa</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = `N (non-unit)</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALtrsm"><span class="keyword">val</span> trsm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml_common.html#TYPEside">Lacaml_common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       a:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">trsm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b</code>
+    see BLAS documentation!<br>
+<b>Returns</b> matrix <code class="code">b</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">b</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">b</code></div>
+<div class="param_info"><code class="code">side</code> : default = `L (left - multiplication is <code class="code">a</code><code class="code">b</code>)</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">a</code> is accessed)</div>
+<div class="param_info"><code class="code">transa</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = `N (non-unit)</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALsyrk"><span class="keyword">val</span> syrk</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?up:bool -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?trans:<a href="Lacaml_common.html#TYPEtrans2">Lacaml_common.trans2</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">syrk ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a</code>
+    see BLAS documentation!<br>
+<b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code> (or <code class="code">a</code>'), <code class="code">c</code></div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code> (or <code class="code">a</code>')</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">c</code> is accessed)</div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">cr</code> : default = 1</div>
+<div class="param_info"><code class="code">cc</code> : default = 1</div>
+<div class="param_info"><code class="code">c</code> : default = matrix with minimal required dimension</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALsyr2k"><span class="keyword">val</span> syr2k</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?up:bool -><br>       ?beta:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?trans:<a href="Lacaml_common.html#TYPEtrans2">Lacaml_common.trans2</a> -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">syr2k ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a ?br ?bc b</code>
+    see BLAS documentation!<br>
+<b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code> (or <code class="code">a</code>'), <code class="code">c</code></div>
+<div class="param_info"><code class="code">k</code> : default = number of columns of <code class="code">a</code> (or <code class="code">a</code>')</div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangular portion of <code class="code">c</code> is accessed)</div>
+<div class="param_info"><code class="code">beta</code> : default = <code class="code">{ re = 0.; im = 0. }</code></div>
+<div class="param_info"><code class="code">cr</code> : default = 1</div>
+<div class="param_info"><code class="code">cc</code> : default = 1</div>
+<div class="param_info"><code class="code">c</code> : default = matrix with minimal required dimension</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+<br>
+<h6 id="6_LAPACKinterface">LAPACK interface</h6><br>
+<br>
+<div class="h7" id="7_Auxiliaryroutines">Auxiliary routines</div><br>
+
+<pre><span id="VALlacpy"><span class="keyword">val</span> lacpy</span> : <code class="type">?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a</code> copy a (triangular)
+    (sub-)matrix <code class="code">a</code> (to an optional (sub-)matrix <code class="code">b</code>).<br>
+</div>
+<div class="param_info"><code class="code">uplo</code> : default = whole matrix</div>
+
+<pre><span id="VALlaswp"><span class="keyword">val</span> laswp</span> : <code class="type">?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?k1:int -> ?k2:int -> ?incx:int -> <a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -> unit</code></pre><div class="info ">
+<code class="code">laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv</code> swap rows of <code class="code">a</code> according to
+    <code class="code">ipiv</code>.
+    See LAPACK-documentation for details!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">k1</code> : default = 1</div>
+<div class="param_info"><code class="code">k2</code> : default = dimension of ipiv</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALlapmt"><span class="keyword">val</span> lapmt</span> : <code class="type">?forward:bool -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -> unit</code></pre><div class="info ">
+<code class="code">lapmt ?forward ?n ?m ?ar ?ac a k</code> swap columns of <code class="code">a</code>
+    according to the permutations in <code class="code">k</code>.
+    See LAPACK-documentation for details!<br>
+</div>
+<div class="param_info"><code class="code">forward</code> : default = true</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of matrix</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALlassq"><span class="keyword">val</span> lassq</span> : <code class="type">?n:int -><br>       ?scale:float -><br>       ?sumsq:float -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> float * float</code></pre><div class="info ">
+<code class="code">lassq ?n ?ofsx ?incx ?scale ?sumsq</code><br>
+<b>Returns</b> <code class="code">(scl, ssq)</code>, where
+    <code class="code">scl</code> is a scaling factor and <code class="code">ssq</code> the sum of squares of vector
+    <code class="code">x</code> starting at <code class="code">ofs</code> and using increment <code class="code">incx</code> and initial
+    <code class="code">scale</code> and <code class="code">sumsq</code>.  The following equality holds:
+    <code class="code">scl**2. *. ssq = x.{1}**2. +. ... +. x.{n}**2. +. scale**2. *. sumsq</code>.
+    See LAPACK-documentation for details!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">scale</code> : default = 0.</div>
+<div class="param_info"><code class="code">sumsq</code> : default = 1.</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALlarnv"><span class="keyword">val</span> larnv</span> : <code class="type">?idist:[ `Normal | `Uniform0 | `Uniform1 ] -><br>       ?iseed:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?n:int -><br>       ?ofsx:int -> ?x:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
+<code class="code">larnv ?idist ?iseed ?n ?ofsx ?x ()</code><br>
+<b>Returns</b> a random vector with random
+    distribution as specifified by <code class="code">idist</code>, random seed <code class="code">iseed</code>, vector offset
+    <code class="code">ofsx</code> and optional vector <code class="code">x</code>.<br>
+</div>
+<div class="param_info"><code class="code">idist</code> : default = <code class="code">`Normal</code></div>
+<div class="param_info"><code class="code">iseed</code> : default = integer vector of size 4 with all ones.</div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">dim x - ofsx + 1</code> if <code class="code">x</code> is provided, <code class="code">1</code> otherwise.</div>
+<div class="param_info"><code class="code">ofsx</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">x</code> : default = vector of length <code class="code">ofsx - 1 + n</code> if <code class="code">n</code> is provided.</div>
+
+<pre><span id="VALlange_min_lwork"><span class="keyword">val</span> lange_min_lwork</span> : <code class="type">int -> <a href="Lacaml_common.html#TYPEnorm4">Lacaml_common.norm4</a> -> int</code></pre><div class="info ">
+<code class="code">lange_min_lwork m norm</code><br>
+<b>Returns</b> the minimum length of the work array used by the <code class="code">lange</code>-function.<br>
+</div>
+
+<pre><span id="VALlange"><span class="keyword">val</span> lange</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?norm:<a href="Lacaml_common.html#TYPEnorm4">Lacaml_common.norm4</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPErvec">Lacaml_complex64.rvec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> float</code></pre><div class="info ">
+<code class="code">lange ?m ?n ?norm ?work ?ar ?ac a</code><br>
+<b>Returns</b> the value of the one
+    norm (<code class="code">norm = `O</code>), or the Frobenius norm (<code class="code">norm = `F</code>), or the infinity
+    norm (<code class="code">norm = `I</code>), or the element of largest absolute value
+    (<code class="code">norm = `M</code>) of a real matrix <code class="code">a</code>.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">norm</code> : default = <code class="code">`O</code></div>
+<div class="param_info"><code class="code">work</code> : default = allocated work space for norm <code class="code">`I</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALlauum"><span class="keyword">val</span> lauum</span> : <code class="type">?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">lauum ?up ?n ?ar ?ac a</code> computes the product U * U**T or L**T * L,
+    where the triangular factor U or L is stored in the upper or lower
+    triangular part of the array <code class="code">a</code>.  The upper or lower part of <code class="code">a</code>
+    is overwritten.<br>
+</div>
+<div class="param_info"><code class="code">up</code> : default = <code class="code">true</code></div>
+<div class="param_info"><code class="code">n</code> : default = minimum of available number of rows/columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<br>
+<div class="h7" id="7_Linearequationscomputationalroutines">Linear equations (computational routines)</div><br>
+
+<pre><span id="VALgetrf"><span class="keyword">val</span> getrf</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a></code></pre><div class="info ">
+<code class="code">getrf ?m ?n ?ipiv ?ar ?ac a</code> computes an LU factorization of a
+    general <code class="code">m</code>-by-<code class="code">n</code> matrix <code class="code">a</code> using partial pivoting with row
+    interchanges.  See LAPACK documentation.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+<b>Returns</b> <code class="code">ipiv</code>, the  pivot indices.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ipiv</code> : = vec of length <code class="code">min(m, n)</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALgetrs"><span class="keyword">val</span> getrs</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">getrs ?n ?ipiv ?trans ?ar ?ac a ?nrhs ?br ?bc b</code> solves a system
+    of linear equations <code class="code">a</code> * X = <code class="code">b</code> or <code class="code">a</code>' * X = <code class="code">b</code> with a general
+    <code class="code">n</code>-by-<code class="code">n</code> matrix <code class="code">a</code> using the LU factorization computed by
+    <a href="Lacaml_Z.html#VALgetrf"><code class="code">Lacaml_Z.getrf</code></a>.
+    Note that matrix <code class="code">a</code> will be passed to <a href="Lacaml_Z.html#VALgetrf"><code class="code">Lacaml_Z.getrf</code></a> if <code class="code">ipiv</code> was not
+    provided.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ipiv</code> : default = result from <code class="code">getrf</code> applied to <code class="code">a</code></div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALgetri_min_lwork"><span class="keyword">val</span> getri_min_lwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">getri_min_lwork n</code><br>
+<b>Returns</b> the minimum length of the
+    work array used by the <a href="Lacaml_Z.html#VALgetri"><code class="code">Lacaml_Z.getri</code></a>-function if the matrix has <code class="code">n</code> columns.<br>
+</div>
+
+<pre><span id="VALgetri_opt_lwork"><span class="keyword">val</span> getri_opt_lwork</span> : <code class="type">?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
+<code class="code">getri_opt_lwork ?n ?ar ?ac a</code><br>
+<b>Returns</b> the optimal size of the
+    work array used by the <a href="Lacaml_Z.html#VALgetri"><code class="code">Lacaml_Z.getri</code></a>-function.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALgetri"><span class="keyword">val</span> getri</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">getri ?n ?ipiv ?work ?ar ?ac a</code> computes the inverse of a matrix
+    using the LU factorization computed by <a href="Lacaml_Z.html#VALgetrf"><code class="code">Lacaml_Z.getrf</code></a>.  Note that matrix
+    <code class="code">a</code> will be passed to <a href="Lacaml_Z.html#VALgetrf"><code class="code">Lacaml_Z.getrf</code></a> if <code class="code">ipiv</code> was not provided.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">m</code> from getri</div>
+<div class="param_info"><code class="code">work</code> : default = vec of optimum length</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALsytrf_min_lwork"><span class="keyword">val</span> sytrf_min_lwork</span> : <code class="type">unit -> int</code></pre><div class="info ">
+<code class="code">sytrf_min_lwork ()</code><br>
+<b>Returns</b> the minimum length of the
+    work array used by the <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a>-function.<br>
+</div>
+
+<pre><span id="VALsytrf_opt_lwork"><span class="keyword">val</span> sytrf_opt_lwork</span> : <code class="type">?n:int -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
+<code class="code">sytrf_opt_lwork ?n ?up ?ar ?ac a</code><br>
+<b>Returns</b> the optimal size of the
+    work array used by the <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a>-function.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (store upper triangle in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALsytrf"><span class="keyword">val</span> sytrf</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a></code></pre><div class="info ">
+<code class="code">sytrf ?n ?up ?ipiv ?work ?ar ?ac a</code> computes the factorization of
+    the real symmetric matrix <code class="code">a</code> using the Bunch-Kaufman diagonal
+    pivoting method.<br>
+<b>Raises</b> <code>Failure</code> if D in <code class="code">a</code> = U*D*U' or L*D*L' is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (store upper triangle in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">ipiv</code> : = vec of length n</div>
+<div class="param_info"><code class="code">work</code> : default = vec of optimum length</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALsytrs"><span class="keyword">val</span> sytrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b</code> solves a system of
+    linear equations <code class="code">a</code>*X = <code class="code">b</code> with a real symmetric matrix <code class="code">a</code>
+    using the factorization <code class="code">a</code> = U*D*U**T or <code class="code">a</code> = L*D*L**T computed
+    by <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a>.  Note that matrix <code class="code">a</code> will be passed to <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a> if
+    <code class="code">ipiv</code> was not provided.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (store upper triangle in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALsytri_min_lwork"><span class="keyword">val</span> sytri_min_lwork</span> : <code class="type">int -> int</code></pre><div class="info ">
+<code class="code">sytri_min_lwork n</code><br>
+<b>Returns</b> the minimum length of the
+    work array used by the <a href="Lacaml_Z.html#VALsytri"><code class="code">Lacaml_Z.sytri</code></a>-function if the matrix has <code class="code">n</code> columns.<br>
+</div>
+
+<pre><span id="VALsytri"><span class="keyword">val</span> sytri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">sytri ?n ?up ?ipiv ?work ?ar ?ac a</code> computes the inverse of the
+    real symmetric indefinite matrix <code class="code">a</code> using the factorization <code class="code">a</code> =
+    U*D*U**T or <code class="code">a</code> = L*D*L**T computed by <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a>.  Note that matrix
+    <code class="code">a</code> will be passed to <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a> if <code class="code">ipiv</code> was not provided.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (store upper triangle in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code> from <a href="Lacaml_Z.html#VALsytrf"><code class="code">Lacaml_Z.sytrf</code></a></div>
+<div class="param_info"><code class="code">work</code> : default = vec of optimum length</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALpotrf"><span class="keyword">val</span> potrf</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -> ?jitter:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">potrf ?n ?up ?ar ?ac ?jitter a</code> factorizes symmetric positive
+    definite matrix <code class="code">a</code> (or the designated submatrix) using Cholesky
+    factorization.
+<p>
+
+    Due to rounding errors ill-conditioned matrices may actually appear
+    as if they were not positive definite, thus leading to an exception.
+    One remedy for this problem is to add a small <code class="code">jitter</code> to the
+    diagonal of the matrix, which will usually allow Cholesky to complete
+    successfully (though at a small bias).  For extremely ill-conditioned
+    matrices it is recommended to use (symmetric) eigenvalue decomposition
+    instead of this function for a numerically more stable factorization.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (store upper triangle in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">jitter</code> : default = nothing</div>
+
+<pre><span id="VALpotrs"><span class="keyword">val</span> potrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?factorize:bool -><br>       ?jitter:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b</code> solves
+    a system of linear equations <code class="code">a</code>*X = <code class="code">b</code>, where <code class="code">a</code> is symmetric
+    positive definite matrix, using the Cholesky factorization <code class="code">a</code> =
+    U**T*U or <code class="code">a</code> = L*L**T computed by <a href="Lacaml_Z.html#VALpotrf"><code class="code">Lacaml_Z.potrf</code></a>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+<div class="param_info"><code class="code">factorize</code> : default = true (calls <a href="Lacaml_Z.html#VALpotrf"><code class="code">Lacaml_Z.potrf</code></a> implicitly)</div>
+<div class="param_info"><code class="code">jitter</code> : default = nothing</div>
+
+<pre><span id="VALpotri"><span class="keyword">val</span> potri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       ?factorize:bool -><br>       ?jitter:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">potri ?n ?up ?ar ?ac ?factorize ?jitter a</code> computes the inverse
+    of the real symmetric positive definite matrix <code class="code">a</code> using the
+    Cholesky factorization <code class="code">a</code> = U**T*U or <code class="code">a</code> = L*L**T computed by
+    <a href="Lacaml_Z.html#VALpotrf"><code class="code">Lacaml_Z.potrf</code></a>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangle stored in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">factorize</code> : default = true (calls <a href="Lacaml_Z.html#VALpotrf"><code class="code">Lacaml_Z.potrf</code></a> implicitly)</div>
+<div class="param_info"><code class="code">jitter</code> : default = nothing</div>
+
+<pre><span id="VALtrtrs"><span class="keyword">val</span> trtrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">trtrs ?n ?up ?trans ?diag ?ar ?ac a ?nrhs ?br ?bc b</code> solves a
+    triangular system of the form <code class="code">a</code> * X = <code class="code">b</code> or <code class="code">a</code>**T * X = <code class="code">n</code>,
+    where <code class="code">a</code> is a triangular matrix of order <code class="code">n</code>, and <code class="code">b</code> is an
+    <code class="code">n</code>-by-<code class="code">nrhs</code> matrix.<br>
+<b>Raises</b> <code>Failure</code> if the matrix <code class="code">a</code> is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = `N</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALtbtrs"><span class="keyword">val</span> tbtrs</span> : <code class="type">?n:int -><br>       ?kd:int -><br>       ?up:bool -><br>       ?trans:<a href="Lacaml_complex64.html#TYPEtrans3">Lacaml_complex64.trans3</a> -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">tbtrs ?n ?kd ?up ?trans ?diag ?abr ?abc ab ?nrhs ?br ?bc b</code>
+    solves a triangular system of the form <code class="code">a</code> * X = <code class="code">b</code> or <code class="code">a</code>**T * X = <code class="code">b</code>,
+    where <code class="code">a</code> is a triangular band matrix of order <code class="code">n</code>, and <code class="code">b</code> is
+    an <code class="code">n</code>-by-<code class="code">nrhs</code> matrix.<br>
+<b>Raises</b> <code>Failure</code> if the matrix <code class="code">a</code> is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">ab</code></div>
+<div class="param_info"><code class="code">kd</code> : default = number of rows in matrix <code class="code">ab</code> - 1</div>
+<div class="param_info"><code class="code">up</code> : default = true</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">diag</code> : default = `N</div>
+<div class="param_info"><code class="code">abr</code> : default = 1</div>
+<div class="param_info"><code class="code">abc</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALtrtri"><span class="keyword">val</span> trtri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?diag:<a href="Lacaml_common.html#TYPEdiag">Lacaml_common.diag</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">trtri ?n ?up ?diag ?ar ?ac a</code> computes the inverse of a real
+    upper or lower triangular matrix <code class="code">a</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix <code class="code">a</code> is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true (upper triangle stored in <code class="code">a</code>)</div>
+<div class="param_info"><code class="code">diag</code> : default = `N</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALgeqrf_opt_lwork"><span class="keyword">val</span> geqrf_opt_lwork</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
+<code class="code">geqrf_opt_lwork ?m ?n ?ar ?ac a</code><br>
+<b>Returns</b> the optimum
+    length of the work-array used by the <a href="Lacaml_Z.html#VALgeqrf"><code class="code">Lacaml_Z.geqrf</code></a>-function given matrix
+    <code class="code">a</code> and optionally its logical dimensions <code class="code">m</code> and <code class="code">n</code>.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
+<pre><span id="VALgeqrf_min_lwork"><span class="keyword">val</span> geqrf_min_lwork</span> : <code class="type">n:int -> int</code></pre><div class="info ">
+<code class="code">geqrf_min_lwork ~n</code><br>
+<b>Returns</b> the minimum length of the
+    work-array used by the <a href="Lacaml_Z.html#VALgeqrf"><code class="code">Lacaml_Z.geqrf</code></a>-function if the matrix has <code class="code">n</code>
+    columns.<br>
+</div>
+
+<pre><span id="VALgeqrf"><span class="keyword">val</span> geqrf</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?tau:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
+<code class="code">geqrf ?m ?n ?work ?tau ?ar ?ac a</code> computes a QR factorization of
+    a real <code class="code">m</code>-by-<code class="code">n</code> matrix <code class="code">a</code>.  See LAPACK documentation.<br>
+<b>Returns</b> <code class="code">tau</code>, the scalar factors of the elementary reflectors.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">work</code> : default = vec of optimum length</div>
+<div class="param_info"><code class="code">tau</code> : default = vec of required length</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<br>
+<div class="h7" id="7_Linearequationssimpledrivers">Linear equations (simple drivers)</div><br>
+
+<pre><span id="VALgesv"><span class="keyword">val</span> gesv</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">gesv ?n ?ipiv ?ar ?ac a ?nrhs ?br ?bc b</code> computes the solution to
+    a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where <code class="code">a</code> is an
+    <code class="code">n</code>-by-<code class="code">n</code> matrix and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The
+    LU decomposition with partial pivoting and row interchanges is
+    used to factor <code class="code">a</code> as <code class="code">a</code> = P * L * U, where P is a permutation
+    matrix, L is unit lower triangular, and U is upper triangular.
+    The factored form of <code class="code">a</code> is then used to solve the system of
+    equations <code class="code">a</code> * X = <code class="code">b</code>.  On exit, <code class="code">b</code> contains the solution matrix X.<br>
+<b>Raises</b> <code>Failure</code> if the matrix <code class="code">a</code> is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code></div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALgbsv"><span class="keyword">val</span> gbsv</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       int -> int -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">gbsv ?n ?ipiv ?abr ?abc ab kl ku ?nrhs ?br ?bc b</code> computes the
+    solution to a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where
+    <code class="code">a</code> is a band matrix of order <code class="code">n</code> with <code class="code">kl</code> subdiagonals and <code class="code">ku</code>
+    superdiagonals, and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The LU
+    decomposition with partial pivoting and row interchanges is used
+    to factor <code class="code">a</code> as <code class="code">a</code> = L * U, where L is a product of permutation and
+    unit lower triangular matrices with <code class="code">kl</code> subdiagonals, and U is
+    upper triangular with <code class="code">kl+ku</code> superdiagonals.  The factored form of
+    <code class="code">a</code> is then used to solve the system of equations <code class="code">a</code> * X = <code class="code">b</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix <code class="code">a</code> is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">ab</code></div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code></div>
+<div class="param_info"><code class="code">abr</code> : default = 1</div>
+<div class="param_info"><code class="code">abc</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALgtsv"><span class="keyword">val</span> gtsv</span> : <code class="type">?n:int -><br>       ?ofsdl:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsd:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsdu:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?br ?bc b</code> solves the
+    equation <code class="code">a</code> * X = <code class="code">b</code> where <code class="code">a</code> is an <code class="code">n</code>-by-<code class="code">n</code> tridiagonal
+    matrix, by Gaussian elimination with partial pivoting.  Note that
+    the equation <code class="code">A</code>'*X = <code class="code">b</code> may be solved by interchanging the order
+    of the arguments <code class="code">du</code> and <code class="code">dl</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available length of vector <code class="code">d</code></div>
+<div class="param_info"><code class="code">ofsdl</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsd</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsdu</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALposv"><span class="keyword">val</span> posv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">posv ?n ?up ?ar ?ac a ?nrhs ?br ?bc b</code> computes the solution to a
+    real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where <code class="code">a</code> is an
+    <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite matrix and X and <code class="code">b</code> are
+    <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The Cholesky decomposition is used to
+    factor <code class="code">a</code> as
+    <code class="code">a</code> = U**T * U,  if <code class="code">up = true</code>, or
+    <code class="code">a</code> = L * L**T,  if <code class="code">up = false</code>,
+    where U is an upper triangular matrix and L is a lower triangular
+    matrix.  The factored form of <code class="code">a</code> is then used to solve the system
+    of equations <code class="code">a</code> * X = <code class="code">b</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true i.e., upper triangle of <code class="code">a</code> is stored</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALppsv"><span class="keyword">val</span> ppsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">ppsv ?n ?up ?ofsap ap ?nrhs ?br ?bc b</code> computes the solution to
+    the real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where <code class="code">a</code> is an
+    <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite matrix stored in packed
+    format and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The Cholesky
+    decomposition is used to factor <code class="code">a</code> as
+    <code class="code">a</code> = U**T * U,  if <code class="code">up = true</code>, or
+    <code class="code">a</code> = L * L**T,  if <code class="code">up = false</code>,
+    where U is an upper triangular matrix and L is a lower triangular
+    matrix.  The factored form of <code class="code">a</code> is then used to solve the system
+    of equations <code class="code">a</code> * X = <code class="code">b</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = the greater n s.t. n(n+1)/2 &lt;= <code class="code">Vec.dim ap</code></div>
+<div class="param_info"><code class="code">up</code> : default = true i.e., upper triangle of <code class="code">ap</code> is stored</div>
+<div class="param_info"><code class="code">ofsap</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALpbsv"><span class="keyword">val</span> pbsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?kd:int -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">pbsv ?n ?up ?kd ?abr ?abc ab ?nrhs ?br ?bc b</code> computes the
+    solution to a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where
+    <code class="code">a</code> is an <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite band matrix and X
+    and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The Cholesky decomposition is
+    used to factor <code class="code">a</code> as
+    <code class="code">a</code> = U**T * U,  if <code class="code">up = true</code>, or
+    <code class="code">a</code> = L * L**T,  if <code class="code">up = false</code>,
+    where U is an upper triangular band matrix, and L is a lower
+    triangular band matrix, with the same number of superdiagonals or
+    subdiagonals as <code class="code">a</code>.  The factored form of <code class="code">a</code> is then used to
+    solve the system of equations <code class="code">a</code> * X = <code class="code">b</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">ab</code></div>
+<div class="param_info"><code class="code">up</code> : default = true i.e., upper triangle of <code class="code">ab</code> is stored</div>
+<div class="param_info"><code class="code">kd</code> : default = available number of rows in matrix <code class="code">ab</code> - 1</div>
+<div class="param_info"><code class="code">abr</code> : default = 1</div>
+<div class="param_info"><code class="code">abc</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALptsv"><span class="keyword">val</span> ptsv</span> : <code class="type">?n:int -><br>       ?ofsd:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofse:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">ptsv ?n ?ofsd d ?ofse e ?nrhs ?br ?bc b</code> computes the solution to
+    the real system of linear equations <code class="code">a</code>*X = <code class="code">b</code>, where <code class="code">a</code> is an
+    <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite tridiagonal matrix, and X
+    and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  A is factored as <code class="code">a</code> =
+    L*D*L**T, and the factored form of <code class="code">a</code> is then used to solve the
+    system of equations.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available length of vector <code class="code">d</code></div>
+<div class="param_info"><code class="code">ofsd</code> : default = 1</div>
+<div class="param_info"><code class="code">ofse</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALsysv_opt_lwork"><span class="keyword">val</span> sysv_opt_lwork</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
+<code class="code">sysv_opt_lwork ?n ?up ?ar ?ac a ?nrhs ?br ?bc b</code><br>
+<b>Returns</b> the optimum
+    length of the work-array used by the <code class="code">sysv</code>-function given matrix
+    <code class="code">a</code>, optionally its logical dimension <code class="code">n</code> and given right hand side
+    matrix <code class="code">b</code> with an optional number <code class="code">nrhs</code> of vectors.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true i.e., upper triangle of <code class="code">a</code> is stored</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALsysv"><span class="keyword">val</span> sysv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">sysv ?n ?up ?ipiv ?work ?ar ?ac a ?nrhs ?br ?bc b</code> computes the
+    solution to a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where
+    <code class="code">a</code> is an N-by-N symmetric matrix and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code>
+    matrices.  The diagonal pivoting method is used to factor <code class="code">a</code> as
+    <code class="code">a</code> = U * D * U**T,  if <code class="code">up = true</code>, or
+    <code class="code">a</code> = L * D * L**T,  if <code class="code">up = false</code>,
+    where U (or L) is a product of permutation and unit upper (lower)
+    triangular matrices, and D is symmetric and block diagonal with
+    1-by-1 and 2-by-2 diagonal blocks.  The factored form of <code class="code">a</code> is
+    then used to solve the system of equations <code class="code">a</code> * X = <code class="code">b</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">up</code> : default = true i.e., upper triangle of <code class="code">a</code> is stored</div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code></div>
+<div class="param_info"><code class="code">work</code> : default = vec of optimum length (-&gt; <code class="code">sysv_opt_lwork</code>)</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALspsv"><span class="keyword">val</span> spsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?ofsap:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">spsv ?n ?up ?ipiv ?ofsap ap ?nrhs ?br ?bc b</code> computes the
+    solution to the real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>,
+    where <code class="code">a</code> is an <code class="code">n</code>-by-<code class="code">n</code> symmetric matrix stored in packed
+    format and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The diagonal
+    pivoting method is used to factor <code class="code">a</code> as
+    <code class="code">a</code> = U * D * U**T,  if <code class="code">up = true</code>, or
+    <code class="code">a</code> = L * D * L**T,  if <code class="code">up = false</code>,
+    where U (or L) is a product of permutation and unit upper (lower)
+    triangular matrices, D is symmetric and block diagonal with 1-by-1
+    and 2-by-2 diagonal blocks.  The factored form of <code class="code">a</code> is then used
+    to solve the system of equations <code class="code">a</code> * X = <code class="code">b</code>.<br>
+<b>Raises</b> <code>Failure</code> if the matrix is singular.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = the greater n s.t. n(n+1)/2 &lt;= <code class="code">Vec.dim ap</code></div>
+<div class="param_info"><code class="code">up</code> : default = true i.e., upper triangle of <code class="code">ap</code> is stored</div>
+<div class="param_info"><code class="code">ipiv</code> : default = vec of length <code class="code">n</code></div>
+<div class="param_info"><code class="code">ofsap</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+<br>
+<div class="h7" id="7_Leastsquaressimpledrivers">Least squares (simple drivers)</div><br>
+
+<pre><span id="VALgels_min_lwork"><span class="keyword">val</span> gels_min_lwork</span> : <code class="type">m:int -> n:int -> nrhs:int -> int</code></pre><div class="info ">
+<code class="code">gels_min_lwork ~m ~n ~nrhs</code><br>
+<b>Returns</b> the minimum length of the
+    work-array used by the <code class="code">gels</code>-function if the logical dimensions
+    of the matrix are <code class="code">m</code> rows and <code class="code">n</code> columns and if there are <code class="code">nrhs</code>
+    right hand side vectors.<br>
+</div>
+
+<pre><span id="VALgels_opt_lwork"><span class="keyword">val</span> gels_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?trans:<a href="Lacaml_common.html#TYPEtrans2">Lacaml_common.trans2</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
+<code class="code">gels_opt_lwork ?m ?n ?trans ?ar ?ac a ?nrhs ?br ?bc b</code><br>
+<b>Returns</b> the optimum length of the work-array used by the <code class="code">gels</code>-function given
+    matrix <code class="code">a</code>, optionally its logical dimensions <code class="code">m</code> and <code class="code">n</code> and given
+    right hand side matrix <code class="code">b</code> with an optional number <code class="code">nrhs</code> of vectors.<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = available number of rows in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
+
+<pre><span id="VALgels"><span class="keyword">val</span> gels</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?trans:<a href="Lacaml_common.html#TYPEtrans2">Lacaml_common.trans2</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">gels ?m ?n ?work ?trans ?ar ?ac a ?nrhs ?br ?bc b</code> see
+    LAPACK documentation!<br>
+</div>
+<div class="param_info"><code class="code">m</code> : default = available number of rows in matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = available number of columns of matrix <code class="code">a</code></div>
+<div class="param_info"><code class="code">work</code> : default = vec of optimum length (-&gt; <a href="Lacaml_Z.html#VALgels_opt_lwork"><code class="code">Lacaml_Z.gels_opt_lwork</code></a>)</div>
+<div class="param_info"><code class="code">trans</code> : default = `N</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
+<div class="param_info"><code class="code">br</code> : default = 1</div>
+<div class="param_info"><code class="code">bc</code> : default = 1</div>
 </body></html>

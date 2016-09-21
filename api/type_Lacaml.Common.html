@@ -21,20 +21,4 @@
 <link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml.Common</title>
 </head>
 <body>
-<code class="code"><span class="keyword">sig</span><br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;trans2&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">T</span>&nbsp;]<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;side&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">R</span>&nbsp;]<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;diag&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;norm2&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">I</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;]<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;norm4&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">F</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">I</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">M</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;]<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;svd_job&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">A</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">N</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">O</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">S</span>&nbsp;]<br>
-&nbsp;&nbsp;<span class="keyword">exception</span>&nbsp;<span class="constructor">InternalError</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;int_vec&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int,&nbsp;<span class="constructor">Bigarray</span>.int_elt,&nbsp;<span class="constructor">Bigarray</span>.fortran_layout)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_int_vec&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int_vec<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;int32_vec&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int32,&nbsp;<span class="constructor">Bigarray</span>.int32_elt,&nbsp;<span class="constructor">Bigarray</span>.fortran_layout)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_int32_vec&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int32_vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mat_from_vec&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array1</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="keywordsign">'</span>a,&nbsp;<span class="keywordsign">'</span>b,&nbsp;<span class="keywordsign">'</span>c)&nbsp;<span class="constructor">Bigarray</span>.<span class="constructor">Array2</span>.t<br>
-<span class="keyword">end</span></code></body></html>
+<code class="code">(<span class="keyword">module</span>&nbsp;<span class="constructor">Lacaml_common</span>)</code></body></html>

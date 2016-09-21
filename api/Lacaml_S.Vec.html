@@ -24,6 +24,9 @@
 <link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
 <link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><link title="Vector operations" rel="Section" href="#5_Vectoroperations">
 <link title="Creation of vectors" rel="Subsection" href="#6_Creationofvectors">
+<link title="Unary vector operations" rel="Subsection" href="#6_Unaryvectoroperations">
+<link title="Binary vector operations" rel="Subsection" href="#6_Binaryvectoroperations">
+<link title="Miscellaneous functions" rel="Subsection" href="#6_Miscellaneousfunctions">
 <link title="Creation/conversion of vectors and dimension accessor" rel="Subsection" href="#6_Creationconversionofvectorsanddimensionaccessor">
 <link title="Iterators over vectors" rel="Subsection" href="#6_Iteratorsovervectors">
 <link title="Operations on one vector" rel="Subsection" href="#6_Operationsononevector">
@@ -37,6 +40,9 @@
 <h1>Module <a href="type_Lacaml_S.Vec.html">Lacaml_S.Vec</a></h1>
 
 <pre><span class="keyword">module</span> Vec: <code class="code">sig</code> <a href="Lacaml_S.Vec.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type"><a href="Lacaml_S.html#TYPEvec">Lacaml_S.vec</a></code> </pre>
+
 <br>
 <h5 id="5_Vectoroperations">Vector operations</h5><br>
 <br>
@@ -51,86 +57,316 @@
 <div class="param_info"><code class="code">rnd_state</code> : default = Random.get_state ()</div>
 <div class="param_info"><code class="code">from</code> : default = -1.0</div>
 <div class="param_info"><code class="code">range</code> : default = 2.0</div>
+<br>
+<h6 id="6_Unaryvectoroperations">Unary vector operations</h6><br>
 
-<pre><span id="VALsqr"><span class="keyword">val</span> sqr</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALabs"><span class="keyword">val</span> abs</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">abs ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the absolute value
+      of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
+      steps.   If <code class="code">y</code> is given, the result will be stored in there
+      using increments of <code class="code">incy</code>, otherwise a fresh vector will be
+      used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALsignum"><span class="keyword">val</span> signum</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">signum ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the sign value (<code class="code">-1</code> for
+      negative numbers, <code class="code">0</code> (or <code class="code">-0</code>) for zero, <code class="code">1</code> for positive numbers,
+      <code class="code">nan</code> for <code class="code">nan</code>) of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as
+      incremental steps.  If <code class="code">y</code> is given, the result will be stored in there
+      using increments of <code class="code">incy</code>, otherwise a fresh vector will be used.
+      The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALsqr"><span class="keyword">val</span> sqr</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">sqr ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the square
       of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
       steps.   If <code class="code">y</code> is given, the result will be stored in there
       using increments of <code class="code">incy</code>, otherwise a fresh vector will be
       used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALsqrt"><span class="keyword">val</span> sqrt</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALsqrt"><span class="keyword">val</span> sqrt</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">sqrt ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the square root
       of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
       steps.   If <code class="code">y</code> is given, the result will be stored in there
       using increments of <code class="code">incy</code>, otherwise a fresh vector will be
       used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALexp"><span class="keyword">val</span> exp</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALcbrt"><span class="keyword">val</span> cbrt</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">cbrt ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the cubic root
+      of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
+      steps.   If <code class="code">y</code> is given, the result will be stored in there
+      using increments of <code class="code">incy</code>, otherwise a fresh vector will be
+      used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALexp"><span class="keyword">val</span> exp</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">exp ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the exponential
       of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
       steps.   If <code class="code">y</code> is given, the result will be stored in there
       using increments of <code class="code">incy</code>, otherwise a fresh vector will be
       used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALlog"><span class="keyword">val</span> log</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALexp2"><span class="keyword">val</span> exp2</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">exp2 ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the base-2 exponential
+      of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
+      If <code class="code">y</code> is given, the result will be stored in there using increments of
+      <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
+      is returned.<br>
+</div>
+
+<pre><span id="VALexpm1"><span class="keyword">val</span> expm1</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">expm1 ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes <code class="code">exp x -. 1.</code>
+      for <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
+      If <code class="code">y</code> is given, the result will be stored in there using increments of
+      <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
+      is returned.<br>
+</div>
+
+<pre><span id="VALlog"><span class="keyword">val</span> log</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">log ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the logarithm
       of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
       steps.   If <code class="code">y</code> is given, the result will be stored in there
       using increments of <code class="code">incy</code>, otherwise a fresh vector will be
       used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALsin"><span class="keyword">val</span> sin</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALlog10"><span class="keyword">val</span> log10</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">log10 ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the base-10 logarithm
+      of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
+      If <code class="code">y</code> is given, the result will be stored in there using increments of
+      <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
+      is returned.<br>
+</div>
+
+<pre><span id="VALlog2"><span class="keyword">val</span> log2</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">log2 ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the base-2 logarithm
+      of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
+      If <code class="code">y</code> is given, the result will be stored in there using increments of
+      <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
+      is returned.<br>
+</div>
+
+<pre><span id="VALlog1p"><span class="keyword">val</span> log1p</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">log1p ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes <code class="code">log (1 + x)</code> for <code class="code">n</code>
+      elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.  If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALsin"><span class="keyword">val</span> sin</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">sin ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the sine of <code class="code">n</code> elements
       of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given,
       the result will be stored in there using increments of <code class="code">incy</code>, otherwise
       a fresh vector will be used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALcos"><span class="keyword">val</span> cos</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALcos"><span class="keyword">val</span> cos</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">cos ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the cosine of <code class="code">n</code> elements
       of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given,
       the result will be stored in there using increments of <code class="code">incy</code>, otherwise
       a fresh vector will be used.  The resulting vector is returned.<br>
 </div>
+
+<pre><span id="VALtan"><span class="keyword">val</span> tan</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">tan ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the tangent of <code class="code">n</code> elements
+      of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given,
+      the result will be stored in there using increments of <code class="code">incy</code>, otherwise
+      a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALasin"><span class="keyword">val</span> asin</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">asin ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the arc sine of <code class="code">n</code> elements
+      of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given,
+      the result will be stored in there using increments of <code class="code">incy</code>, otherwise
+      a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALacos"><span class="keyword">val</span> acos</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">acos ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the arc cosine of <code class="code">n</code>
+      elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALatan"><span class="keyword">val</span> atan</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">atan ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the arc tangent of
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALsinh"><span class="keyword">val</span> sinh</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">sinh ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the hyperbolic sine of
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALcosh"><span class="keyword">val</span> cosh</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">cosh ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the hyperbolic cosine of
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALtanh"><span class="keyword">val</span> tanh</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">tanh ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the hyperbolic tangent of
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALasinh"><span class="keyword">val</span> asinh</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">asinh ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the hyperbolic arc sine of
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALacosh"><span class="keyword">val</span> acosh</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">cosh ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the hyperbolic arc cosine of
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALatanh"><span class="keyword">val</span> atanh</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">atanh ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the hyperbolic arc
+      tangent of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
+      steps.   If <code class="code">y</code> is given, the result will be stored in there using
+      increments of <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting
+      vector is returned.<br>
+</div>
+
+<pre><span id="VALfloor"><span class="keyword">val</span> floor</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">floor ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the floor of <code class="code">n</code>
+      elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALceil"><span class="keyword">val</span> ceil</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">ceil ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the ceiling of <code class="code">n</code>
+      elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALround"><span class="keyword">val</span> round</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">round ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> rounds the <code class="code">n</code> elements of the
+      vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given, the
+      result will be stored in there using increments of <code class="code">incy</code>, otherwise a
+      fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALtrunc"><span class="keyword">val</span> trunc</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">trunc ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the truncation of the <code class="code">n</code>
+      elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code>
+      is given, the result will be stored in there using increments of <code class="code">incy</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALerf"><span class="keyword">val</span> erf</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">erf ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the error function for
+      <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
+      If <code class="code">y</code> is given, the result will be stored in there using increments of
+      <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
+      is returned.<br>
+</div>
+
+<pre><span id="VALerfc"><span class="keyword">val</span> erfc</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">erfc ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the complementary error
+      function for <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental
+      steps.   If <code class="code">y</code> is given, the result will be stored in there using
+      increments of <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting
+      vector is returned.<br>
+</div>
+
+<pre><span id="VALlogistic"><span class="keyword">val</span> logistic</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">logistic ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the logistict
+      function <code class="code">1/(1 + exp(-a)</code> for <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code>
+      as incremental steps.   If <code class="code">y</code> is given, the result will be stored in
+      there using increments of <code class="code">incy</code>, otherwise a fresh vector will be used.
+      The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALrelu"><span class="keyword">val</span> relu</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">relu ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the rectified linear
+      unit function <code class="code">max(x, 0)</code> for <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code>
+      as incremental steps.   If <code class="code">y</code> is given, the result will be stored in
+      there using increments of <code class="code">incy</code>, otherwise a fresh vector will be used.
+      The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALsoftplus"><span class="keyword">val</span> softplus</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">softplus ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the softplus function
+      <code class="code">log(1 + exp(x)</code> for <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code>
+      as incremental steps.   If <code class="code">y</code> is given, the result will be stored in
+      there using increments of <code class="code">incy</code>, otherwise a fresh vector will be used.
+      The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALsoftsign"><span class="keyword">val</span> softsign</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
+<code class="code">softsign ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the softsign function
+      <code class="code">x / (1 + abs(x))</code> for <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code>
+      as incremental steps.   If <code class="code">y</code> is given, the result will be stored in
+      there using increments of <code class="code">incy</code>, otherwise a fresh vector will be used.
+      The resulting vector is returned.<br>
+</div>
+<br>
+<h6 id="6_Binaryvectoroperations">Binary vector operations</h6><br>
+
+<pre><span id="VALpow"><span class="keyword">val</span> pow</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
+<code class="code">pow ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> computes <code class="code">pow(a, b)</code>
+      of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and
+      <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given, the result
+      will be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
+      vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALatan2"><span class="keyword">val</span> atan2</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
+<code class="code">atan2 ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> computes
+      <code class="code">atan2(a, b)</code> of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using
+      <code class="code">incx</code> and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given,
+      the result will be stored in there using increments of <code class="code">incz</code>, otherwise
+      a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALhypot"><span class="keyword">val</span> hypot</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
+<code class="code">hypot ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> computes
+      <code class="code">sqrt(x*x + y*y)</code> of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise,
+      using <code class="code">incx</code> and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is
+      given, the result will be stored in there using increments of <code class="code">incz</code>,
+      otherwise a fresh vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALmin2"><span class="keyword">val</span> min2</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
+<code class="code">min2 ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> computes the
+      minimum of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code>
+      and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given, the result
+      will be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
+      vector will be used.  The resulting vector is returned.<br>
+</div>
+
+<pre><span id="VALmax2"><span class="keyword">val</span> max2</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
+<code class="code">max2 ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> computes the
+      maximum of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code>
+      and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given, the result
+      will be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
+      vector will be used.  The resulting vector is returned.<br>
+</div>
+<br>
+<h6 id="6_Miscellaneousfunctions">Miscellaneous functions</h6><br>
+
+<pre><span id="VALlog_sum_exp"><span class="keyword">val</span> log_sum_exp</span> : <code class="type">?n:int -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a></code></pre><div class="info ">
+<code class="code">log_sum_exp ?n ?ofsx ?incx x</code> computes the logarithm of the sum of
+      exponentials of the <code class="code">n</code> elements in vector <code class="code">x</code>, separated by <code class="code">incx</code>
+      incremental steps.<br>
+</div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 <br>
@@ -253,14 +489,6 @@
 <br>
 <h6 id="6_Operationsononevector">Operations on one vector</h6><br>
 
-<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> unit</code></pre><div class="info ">
-<code class="code">fill ?n ?ofsx ?incx x a</code> fills vector <code class="code">x</code> with value <code class="code">a</code> in the
-      designated range.<br>
-</div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-
 <pre><span id="VALrev"><span class="keyword">val</span> rev</span> : <code class="type"><a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
 <code class="code">rev x</code> reverses vector <code class="code">x</code> (non-destructive).<br>
 </div>
@@ -285,6 +513,39 @@
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
+<pre><span id="VALsort"><span class="keyword">val</span> sort</span> : <code class="type">?cmp:(<a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> <a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> int) -><br>       ?decr:bool -><br>       ?n:int -><br>       ?ofsp:int -><br>       ?incp:int -><br>       ?p:<a href="Lacaml_common.html#TYPEint_vec">Lacaml_common.int_vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">sort ?cmp ?n ?ofsx ?incx x</code> sorts the array <code class="code">x</code> in increasing
+      order according to the comparison function <code class="code">cmp</code>.<br>
+</div>
+<div class="param_info"><code class="code">cmp</code> : a function such that <code class="code">cmp a b &lt; 0</code> if <code class="code">a</code> is less than
+        <code class="code">b</code>, <code class="code">cmp a b = 0</code> if <code class="code">a</code> equal <code class="code">b</code> and <code class="code">cmp a b &gt; 0</code> if <code class="code">a</code> is
+        greater than <code class="code">b</code> for the desired order.  Default: the usual
+        order on floating point values or the lexicographic order on
+        complex ones (a special routine makes it fast).  Whatever the
+        order you choose, NaNs (in any component for complex numbers)
+        are considered larger than any other value (so they will be
+        last, in no specified order, in the sorted vector).  Therefore,
+        NaN are never passed to <code class="code">cmp</code>.</div>
+<div class="param_info"><code class="code">decr</code> : sort in decreasing order (stays fast for the default <code class="code">cmp</code>).</div>
+<div class="param_info"><code class="code">n</code> : default = greater <code class="code">n</code> s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsp</code> : default = 1</div>
+<div class="param_info"><code class="code">incp</code> : default = 1</div>
+<div class="param_info"><code class="code">p</code> : if you pass a vector of size <code class="code">ofsp+(n - 1)(abs incp)</code>,
+        the vector <code class="code">x</code> will be unchanged and the permutation to sort it
+        will be stored in <code class="code">p</code>.  Thus <code class="code">x.{p.{ofsp + (i-1) * incp}}</code> will
+        give the elements of <code class="code">x</code> in increasing order.  Default: no
+        vector is provided.</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> unit</code></pre><div class="info ">
+<code class="code">fill ?n ?ofsx ?incx x a</code> fills vector <code class="code">x</code> with value <code class="code">a</code> in the
+      designated range.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
 <pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?n:int -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a></code></pre><div class="info ">
 <code class="code">sum ?n ?ofsx ?incx x</code> computes the sum of the <code class="code">n</code> elements in
       vector <code class="code">x</code>, separated by <code class="code">incx</code> incremental steps.<br>
@@ -301,19 +562,13 @@
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type"><a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -><br>       ?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type"><a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> <a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">add_const c ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> adds constant <code class="code">c</code> to the <code class="code">n</code>
       elements of vector <code class="code">x</code> and stores the result in <code class="code">y</code>, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively.  If <code class="code">y</code> is given, the result will
       be stored in there using increments of <code class="code">incy</code>, otherwise a fresh
       vector will be used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
 <pre><span id="VALsqr_nrm2"><span class="keyword">val</span> sqr_nrm2</span> : <code class="type">?stable:bool -><br>       ?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> float</code></pre><div class="info ">
 <code class="code">sqr_nrm2 ?stable ?n ?c ?ofsx ?incx x</code> computes the square of
@@ -344,155 +599,79 @@
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALsort"><span class="keyword">val</span> sort</span> : <code class="type">?cmp:(<a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> <a href="Lacaml_float32.html#TYPEnum_type">Lacaml_float32.num_type</a> -> int) -><br>       ?decr:bool -><br>       ?n:int -><br>       ?ofsp:int -><br>       ?incp:int -><br>       ?p:<a href="Lacaml_common.html#TYPEint_vec">Lacaml_common.int_vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> unit</code></pre><div class="info ">
-<code class="code">sort ?cmp ?n ?ofsx ?incx x</code> sorts the array <code class="code">x</code> in increasing
-      order according to the comparison function <code class="code">cmp</code>.<br>
-</div>
-<div class="param_info"><code class="code">cmp</code> : a function such that <code class="code">cmp a b &lt; 0</code> if <code class="code">a</code> is less than
-        <code class="code">b</code>, <code class="code">cmp a b = 0</code> if <code class="code">a</code> equal <code class="code">b</code> and <code class="code">cmp a b &gt; 0</code> if <code class="code">a</code> is
-        greater than <code class="code">b</code> for the desired order.  Default: the usual
-        order on floating point values or the lexicographic order on
-        complex ones (a special routine makes it fast).  Whatever the
-        order you choose, NaNs (in any component for complex numbers)
-        are considered larger than any other value (so they will be
-        last, in no specified order, in the sorted vector).  Therefore,
-        NaN are never passed to <code class="code">cmp</code>.</div>
-<div class="param_info"><code class="code">decr</code> : sort in decreasing order (stays fast for the default <code class="code">cmp</code>).</div>
-<div class="param_info"><code class="code">n</code> : default = greater <code class="code">n</code> s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsp</code> : default = 1</div>
-<div class="param_info"><code class="code">incp</code> : default = 1</div>
-<div class="param_info"><code class="code">p</code> : if you pass a vector of size <code class="code">ofsp+(n - 1)(abs incp)</code>,
-        the vector <code class="code">x</code> will be unchanged and the permutation to sort it
-        will be stored in <code class="code">p</code>.  Thus <code class="code">x.{p.{ofsp + (i-1) * incp}}</code> will
-        give the elements of <code class="code">x</code> in increasing order.  Default: no
-        vector is provided.</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-
-<pre><span id="VALneg"><span class="keyword">val</span> neg</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALneg"><span class="keyword">val</span> neg</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">neg ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> negates <code class="code">n</code> elements of the
       vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.   If <code class="code">y</code> is given,
       the result will be stored in there using increments of <code class="code">incy</code>,
       otherwise a fresh vector will be used.  The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALreci"><span class="keyword">val</span> reci</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALreci"><span class="keyword">val</span> reci</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEunop">Lacaml_float32.Types.Vec.unop</a></code></pre><div class="info ">
 <code class="code">reci ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> computes the reciprocal value
       of <code class="code">n</code> elements of the vector <code class="code">x</code> using <code class="code">incx</code> as incremental steps.
       If <code class="code">y</code> is given, the result will be stored in there using increments of
       <code class="code">incy</code>, otherwise a fresh vector will be used.  The resulting vector
       is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-<div class="param_info"><code class="code">y</code> : default = fresh vector with <code class="code">ofsy+(n - 1)(abs incy)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
 <br>
 <h6 id="6_Operationsontwovectors">Operations on two vectors</h6><br>
 
-<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> adds <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively. If <code class="code">z</code> is given, the result will
       be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
       vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">sub ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> subtracts <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively. If <code class="code">z</code> is given, the result will
       be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
       vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALmul"><span class="keyword">val</span> mul</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALmul"><span class="keyword">val</span> mul</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">mul ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies
       <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code>
       and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given, the
       result will be stored in there using increments of <code class="code">incz</code>, otherwise
       a fresh vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALdiv"><span class="keyword">val</span> div</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
+<pre><span id="VALdiv"><span class="keyword">val</span> div</span> : <code class="type"><a href="Lacaml_float32.Types.Vec.html#TYPEbinop">Lacaml_float32.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> divides <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
       as incremental steps respectively. If <code class="code">z</code> is given, the result will
       be stored in there using increments of <code class="code">incz</code>, otherwise a fresh
       vector will be used. The resulting vector is returned.<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALzpxy"><span class="keyword">val</span> zpxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
-<code class="code">zpxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
-      elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code> as
-      incremental steps respectively, and adds the result to and stores it in
-      the specified range in <code class="code">z</code> if provided.  If <code class="code">z</code> is given, the result will
-      be stored in there using increments of <code class="code">incz</code>, otherwise a fresh vector
-      will be used and assumed to be zero.  The resulting vector is returned.
-      This function is useful for convolutions.<br>
-</div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
-<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
-<div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
-<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
-<div class="param_info"><code class="code">incx</code> : default = 1</div>
-<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
-<div class="param_info"><code class="code">incy</code> : default = 1</div>
-
-<pre><span id="VALzmxy"><span class="keyword">val</span> zmxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       ?z:<a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a></code></pre><div class="info ">
-<code class="code">zmxy ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
+<pre><span id="VALzpxy"><span class="keyword">val</span> zpxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">zpxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
       elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
-      as incremental steps respectively, and substracts the result from and
-      stores it in the specified range in <code class="code">z</code> if provided.  If <code class="code">z</code> is given,
-      the result will be stored in there using increments of <code class="code">incz</code>, otherwise
-      a fresh vector will be used and assumed to be zero.  The resulting vector
-      is returned.  This function is useful for convolutions.<br>
+      as incremental steps respectively, and adds the result to and stores it
+      in the specified range in <code class="code">z</code>.  This function is useful for convolutions.<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsz</code> : default = 1</div>
 <div class="param_info"><code class="code">incz</code> : default = 1</div>
-<div class="param_info"><code class="code">z</code> : default = fresh vector with <code class="code">ofsz+(n - 1)(abs incz)</code> rows</div>
+<div class="param_info"><code class="code">ofsx</code> : default = 1</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+<div class="param_info"><code class="code">ofsy</code> : default = 1</div>
+<div class="param_info"><code class="code">incy</code> : default = 1</div>
+
+<pre><span id="VALzmxy"><span class="keyword">val</span> zmxy</span> : <code class="type">?n:int -><br>       ?ofsz:int -><br>       ?incz:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml_float32.html#TYPEvec">Lacaml_float32.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">zmxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y</code> multiplies <code class="code">n</code>
+      elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using <code class="code">incx</code> and <code class="code">incy</code>
+      as incremental steps respectively, and substracts the result from
+      and stores it in the specified range in <code class="code">z</code>.  This function is
+      useful for convolutions.<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
+<div class="param_info"><code class="code">ofsz</code> : default = 1</div>
+<div class="param_info"><code class="code">incz</code> : default = 1</div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>

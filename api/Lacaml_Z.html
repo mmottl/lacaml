@@ -29,6 +29,7 @@
 <link title="BLAS-2 interface" rel="Section" href="#6_BLAS2interface">
 <link title="BLAS-3 interface" rel="Section" href="#6_BLAS3interface">
 <link title="LAPACK interface" rel="Section" href="#6_LAPACKinterface">
+<link title="General Schur factorization" rel="Subsection" href="#7_GeneralSchurfactorization">
 <link title="General SVD routines" rel="Subsection" href="#7_GeneralSVDroutines">
 <link title="General eigenvalue problem (simple drivers)" rel="Subsection" href="#7_Generaleigenvalueproblemsimpledrivers">
 <link title="Auxiliary routines" rel="Subsection" href="#7_Auxiliaryroutines">
@@ -106,8 +107,8 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS1interface">BLAS-1 interface</h6><br>
 
-<pre><span id="VALdotu"><span class="keyword">val</span> dotu</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       x:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
-<code class="code">dotu ?n ?ofsy ?incy y ?ofsx ?incx x</code> see BLAS documentation!<br>
+<pre><span id="VALdotu"><span class="keyword">val</span> dotu</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
+<code class="code">dotu ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
@@ -115,8 +116,8 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>
 <div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALdotc"><span class="keyword">val</span> dotc</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       x:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
-<code class="code">dotc ?n ?ofsy ?incy y ?ofsx ?incx x</code> see BLAS documentation!<br>
+<pre><span id="VALdotc"><span class="keyword">val</span> dotc</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> <a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a></code></pre><div class="info ">
+<code class="code">dotc ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
@@ -204,6 +205,14 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">work</code> : default = automatically allocated workspace</div>
 <div class="param_info"><code class="code">rwork</code> : default = automatically allocated workspace</div>
 <br>
+<div class="h7" id="7_GeneralSchurfactorization">General Schur factorization</div><br>
+
+<pre><span id="VALgees"><span class="keyword">val</span> gees</span> : <code class="type">?n:int -><br>       ?jobvs:<a href="Lacaml_common.html#TYPEschur_vectors">Lacaml_common.schur_vectors</a> -><br>       ?sort:<a href="Lacaml_common.html#TYPEeigen_value_sort">Lacaml_common.eigen_value_sort</a> -><br>       ?w:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?vsr:int -><br>       ?vsc:int -><br>       ?vs:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?work:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int * <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> * <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a></code></pre><div class="info ">
+<code class="code">gees ?n ?jobvs ?sort ?w ?vsr ?vsc ?vs ?work ?ar ?ac a</code>
+      See <code class="code">gees</code>-function for details about arguments.<br>
+<b>Returns</b> (sdim, w, vs)<br>
+</div>
+<br>
 <div class="h7" id="7_GeneralSVDroutines">General SVD routines</div><br>
 
 <pre><span id="VALgesvd_min_lwork"><span class="keyword">val</span> gesvd_min_lwork</span> : <code class="type">m:int -> n:int -> int</code></pre><div class="info ">
@@ -236,9 +245,8 @@ Pretty-printer for matrices.<br>
 </div>
 
 <pre><span id="VALgeev_opt_lwork"><span class="keyword">val</span> geev_opt_lwork</span> : <code class="type">?n:int -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> option -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> int</code></pre><div class="info ">
-<code class="code">geev ?work ?rwork ?n ?vlr ?vlc ?vl
-       ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a</code>
-    See <code class="code">geev</code>-function for details about arguments.<br>
+<code class="code">geev ?work ?rwork ?n ?vlr ?vlc ?vl ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a</code>
+      See <code class="code">geev</code>-function for details about arguments.<br>
 <b>Returns</b> "optimal" work size<br>
 </div>
 
@@ -269,8 +277,8 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS1interface">BLAS-1 interface</h6><br>
 
-<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       x:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
-<code class="code">swap ?n ?ofsx ?incx ~x ?ofsy ?incy y</code> see BLAS documentation!<br>
+<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">swap ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
@@ -303,11 +311,11 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?n:int -><br>       ?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?ofsx:int -><br>       ?incx:int -><br>       x:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
-<code class="code">axpy ?n ?alpha ?ofsx ?incx ~x ?ofsy ?incy y</code> see BLAS documentation!<br>
+<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:<a href="Lacaml_complex64.html#TYPEnum_type">Lacaml_complex64.num_type</a> -><br>       ?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -><br>       ?ofsy:int -> ?incy:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">axpy ?alpha ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
-<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>
@@ -558,6 +566,29 @@ Pretty-printer for matrices.<br>
 </div>
 <div class="param_info"><code class="code">uplo</code> : default = whole matrix</div>
 
+<pre><span id="VALlaswp"><span class="keyword">val</span> laswp</span> : <code class="type">?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -><br>       ?k1:int -> ?k2:int -> ?incx:int -> <a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -> unit</code></pre><div class="info ">
+<code class="code">laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv</code> swap rows of <code class="code">a</code> according to
+    <code class="code">ipiv</code>.
+    See LAPACK-documentation for details!<br>
+</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+<div class="param_info"><code class="code">k1</code> : default = 1</div>
+<div class="param_info"><code class="code">k2</code> : default = dimension of ipiv</div>
+<div class="param_info"><code class="code">incx</code> : default = 1</div>
+
+<pre><span id="VALlapmt"><span class="keyword">val</span> lapmt</span> : <code class="type">?forward:bool -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_complex64.html#TYPEmat">Lacaml_complex64.mat</a> -> <a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -> unit</code></pre><div class="info ">
+<code class="code">lapmt ?forward ?n ?m ?ar ?ac a k</code> swap columns of <code class="code">a</code>
+    according to the permutations in <code class="code">k</code>.
+    See LAPACK-documentation for details!<br>
+</div>
+<div class="param_info"><code class="code">forward</code> : default = true</div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of matrix</div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of matrix</div>
+<div class="param_info"><code class="code">ar</code> : default = 1</div>
+<div class="param_info"><code class="code">ac</code> : default = 1</div>
+
 <pre><span id="VALlassq"><span class="keyword">val</span> lassq</span> : <code class="type">?n:int -><br>       ?scale:float -><br>       ?sumsq:float -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> float * float</code></pre><div class="info ">
 <code class="code">lassq ?n ?ofsx ?incx ?scale ?sumsq</code><br>
 <b>Returns</b> <code class="code">(scl, ssq)</code>, where
@@ -575,15 +606,15 @@ Pretty-printer for matrices.<br>
 
 <pre><span id="VALlarnv"><span class="keyword">val</span> larnv</span> : <code class="type">?idist:[ `Normal | `Uniform0 | `Uniform1 ] -><br>       ?iseed:<a href="Lacaml_common.html#TYPEint32_vec">Lacaml_common.int32_vec</a> -><br>       ?n:int -><br>       ?ofsx:int -> ?x:<a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a> -> unit -> <a href="Lacaml_complex64.html#TYPEvec">Lacaml_complex64.vec</a></code></pre><div class="info ">
 <code class="code">larnv ?idist ?iseed ?n ?ofsx ?x ()</code><br>
-<b>Returns</b> a random
-    vector with random distribution as specifified by <code class="code">idist</code>, random seed
-    <code class="code">iseed</code>, vector offset <code class="code">ofsx</code> and optional vector <code class="code">x</code>.<br>
+<b>Returns</b> a random vector with random
+    distribution as specifified by <code class="code">idist</code>, random seed <code class="code">iseed</code>, vector offset
+    <code class="code">ofsx</code> and optional vector <code class="code">x</code>.<br>
 </div>
 <div class="param_info"><code class="code">idist</code> : default = <code class="code">`Normal</code></div>
 <div class="param_info"><code class="code">iseed</code> : default = integer vector of size 4 with all ones.</div>
-<div class="param_info"><code class="code">n</code> : default = length of <code class="code">x</code> if <code class="code">x</code> is provided, <code class="code">1</code> otherwise.</div>
+<div class="param_info"><code class="code">n</code> : default = <code class="code">dim x - ofsx + 1</code> if <code class="code">x</code> is provided, <code class="code">1</code> otherwise.</div>
 <div class="param_info"><code class="code">ofsx</code> : default = <code class="code">1</code></div>
-<div class="param_info"><code class="code">x</code> : default = vector of length <code class="code">n</code> if <code class="code">n</code> is provided.</div>
+<div class="param_info"><code class="code">x</code> : default = vector of length <code class="code">ofsx - 1 + n</code> if <code class="code">n</code> is provided.</div>
 
 <pre><span id="VALlange_min_lwork"><span class="keyword">val</span> lange_min_lwork</span> : <code class="type">int -> <a href="Lacaml_common.html#TYPEnorm4">Lacaml_common.norm4</a> -> int</code></pre><div class="info ">
 <code class="code">lange_min_lwork m norm</code><br>
