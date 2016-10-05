@@ -236,7 +236,7 @@ customization.
 Please refer to the API-documentation that will be generated as HTML-files
 if requested (`make doc`).  It will give more details on the numerous
 functions and supported arguments in the library.  It can also be found
-[online](http://mmottl.github.io/lacaml/api).
+[online](http://mmottl.github.io/lacaml/API.docdir).
 
 #### BLAS/LAPACK man pages
 
