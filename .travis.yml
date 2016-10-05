@@ -7,6 +7,6 @@ script:
 - bash -ex .travis-docgen.sh
 env:
   matrix:
-  - OCAML_VERSION=4.03 PACKAGE=lacaml
+  - OCAML_VERSION=4.03 PACKAGE=lacaml KEEP=1
   global:
     secure: Ma88QIoHnVQd/czhX3GwmHOFm7gINNRZtPQC+0BWmVkim55b5KCJLJWtzWrASUHkhoZgcugXPeM+/pfrZXRKXIQW7Cm2/yioNJ+0SEEHawX11RPQWNYGJHlZkd37q3gWnmt6XhOOsQlPmZtonjkAi/MVIfQcX4OfgWyqWMCAzcU=
