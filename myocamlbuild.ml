@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 336ede293982ff867340ae684cc7a23e) *)
+(* DO NOT EDIT (digest: 761bb62d7b0eba507baebf249823a262) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -768,12 +768,12 @@ open Ocamlbuild_plugin;;
 let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
-       [("lacaml", ["lib"], []); ("lacaml_top", ["lib"], [])];
+       [("lacaml", ["src"], []); ("lacaml_top", ["src"], [])];
      lib_c =
        [
           ("lacaml",
-            "lib",
-            ["lib/f2c.h"; "lib/lacaml_macros.h"; "lib/utils_c.h"])
+            "src",
+            ["src/f2c.h"; "src/lacaml_macros.h"; "src/utils_c.h"])
        ];
      flags =
        [
@@ -2015,16 +2015,16 @@ let package_default =
        ];
      includes =
        [
-          ("examples/svd", ["lib"]);
-          ("examples/shuffle", ["lib"]);
-          ("examples/schur", ["lib"]);
-          ("examples/qr", ["lib"]);
-          ("examples/nag", ["lib"]);
-          ("examples/lin_reg", ["lib"]);
-          ("examples/lin_eq_comp", ["lib"]);
-          ("examples/lin_eq", ["lib"]);
-          ("examples/eig", ["lib"]);
-          ("examples/blas", ["lib"])
+          ("examples/svd", ["src"]);
+          ("examples/shuffle", ["src"]);
+          ("examples/schur", ["src"]);
+          ("examples/qr", ["src"]);
+          ("examples/nag", ["src"]);
+          ("examples/lin_reg", ["src"]);
+          ("examples/lin_eq_comp", ["src"]);
+          ("examples/lin_eq", ["src"]);
+          ("examples/eig", ["src"]);
+          ("examples/blas", ["src"])
        ]
   }
   ;;
@@ -2092,10 +2092,10 @@ let () =
         (* Files included, tailored with macros. *)
         dep ["compile"; "c"]
           [
-            "lib"/"fold_col.c"; "lib"/"fold2_col.c";
-            "lib"/"mat_fold.c"; "lib"/"mat_fold2.c";
-            "lib"/"mat_map.c"; "lib"/"mat_combine.c";
-            "lib"/"vec_map.c"; "lib"/"vec_combine.c"; "lib"/"vec_sort.c";
+            "src"/"fold_col.c"; "src"/"fold2_col.c";
+            "src"/"mat_fold.c"; "src"/"mat_fold2.c";
+            "src"/"mat_map.c"; "src"/"mat_combine.c";
+            "src"/"vec_map.c"; "src"/"vec_combine.c"; "src"/"vec_sort.c";
           ];
 
         (* Special rules for precision dependent C code. *)

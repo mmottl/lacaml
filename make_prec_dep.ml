@@ -5,14 +5,14 @@
 #load "str.cma";;
 open Printf
 
-let lib = "lib"
+let src = "src"
 
 (* Utils
  ***********************************************************************)
 
 let comment_re = Str.regexp "(\\* [^*]+\\*)[ \n\r\t]*"
 
-let input_file ?(path=lib) ?(comments=true) ?(prefix="") fname =
+let input_file ?(path=src) ?(comments=true) ?(prefix="") fname =
   let fh = open_in (Filename.concat path fname) in
   let buf = Buffer.create 2048 in
   try
@@ -29,7 +29,7 @@ let input_file ?(path=lib) ?(comments=true) ?(prefix="") fname =
     if comments then buf
     else Str.global_replace comment_re "" buf
 
-let output_file ?(path=lib) fname ~content =
+let output_file ?(path=src) fname ~content =
   let fh = open_out (Filename.concat path fname) in
   output_string fh content;
   close_out fh
@@ -109,7 +109,7 @@ let derived_files ?(prefix=true) ?full_doc fnames suffix derived =
   Array.iter derive fnames
 
 let () =
-  let fnames = Sys.readdir lib in
+  let fnames = Sys.readdir src in
   let derive ?full_doc suffix subs =
     derived_files ?full_doc fnames suffix subs in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
