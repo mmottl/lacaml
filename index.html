@@ -1,319 +1,79 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Lacaml by mmottl</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Lacaml</h1>
-      <h2 class="project-tagline">OCaml bindings for BLAS/LAPACK (high-performance linear algebra Fortran libraries)</h2>
-      <a href="https://github.com/mmottl/lacaml" class="btn">View on GitHub</a>
-      <a href="https://github.com/mmottl/lacaml/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/mmottl/lacaml/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
-
-    <section class="main-content">
-      <h1>
-<a id="lacaml---linear-algebra-for-ocaml" class="anchor" href="#lacaml---linear-algebra-for-ocaml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LACAML - Linear Algebra for OCaml</h1>
-
-<hr>
-
-<h2>
-<a id="what-is-lacaml" class="anchor" href="#what-is-lacaml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What is LACAML?</h2>
-
-<p>This <a href="http://www.ocaml.org">OCaml</a>-library interfaces two widely used
-mathematical FORTRAN-libraries:</p>
-
-<ul>
-<li><a href="http://www.netlib.org/blas/index.html">BLAS - Basic Linear Algebra Subroutines</a></li>
-<li><a href="http://www.netlib.org/lapack/index.html">LAPACK - Linear Algebra PACKage</a></li>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml_common" rel="Chapter" href="Lacaml_common.html">
+<link title="Lacaml_io" rel="Chapter" href="Lacaml_io.html">
+<link title="Lacaml_S" rel="Chapter" href="Lacaml_S.html">
+<link title="Lacaml_D" rel="Chapter" href="Lacaml_D.html">
+<link title="Lacaml_C" rel="Chapter" href="Lacaml_C.html">
+<link title="Lacaml_Z" rel="Chapter" href="Lacaml_Z.html">
+<link title="Lacaml_utils" rel="Chapter" href="Lacaml_utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
+<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
+<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
+<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title></title>
+</head>
+<body>
+<h1></h1>
+<ul class="indexlist">
+<li><a href="index_types.html">Index of types</a></li>
+<li><a href="index_exceptions.html">Index of exceptions</a></li>
+<li><a href="index_values.html">Index of values</a></li>
+<li><a href="index_modules.html">Index of modules</a></li>
 </ul>
-
-<p>This allows developers to write high-performance numerical code for
-applications that require linear algebra.</p>
-
-<h2>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
-
-<ul>
-<li><p>The BLAS- and LAPACK-libraries have evolved over about two decades of
-time and are therefore extremely mature both in terms of stability
-and performance.</p></li>
-<li><p>LACAML interfaces most of the functions in BLAS and LAPACK (many
-hundreds!).  It supports among other things linear equations, least
-squares problems, eigenvalue problems, singular value decomposition
-(SVD), Cholesky and QR-factorization, etc.</p></li>
-<li><p>Many convenience functions for creating and manipulating matrices.</p></li>
-<li><p>Powerful printing functions for large vectors and matrices and supplemental
-information (e.g. row and column headers).  Users can specify easily how
-much context to print.  For example, it is usually sufficient to print
-small blocks of the four corners of a large result matrix to manually
-verify the correctness of an algorithm.  LACAML uses this approach to
-limit the output to human-manageable size.</p></li>
-<li><p>Integration into the OCaml-toplevel allows for easy experimentation for
-students and researchers as well as demonstration for lecturers.
-Values of vector and matrix type will be printed automatically without
-cluttering the screen.</p></li>
-<li><p>The OCaml-interface was designed in a way to combine both the possibility
-of gaining optimum efficiency (e.g. by allowing the creation of work arrays
-outside of loops) with simplicity (thanks to labels and default arguments).</p></li>
-<li><p>The code is precision-independent and supports both real and complex
-transforms in a consistent way.  There are four modules that implement
-the same interface modulo the precision type and specialized real/complex
-functions.  If you refer to elements in this interface only, your code
-becomes precision- and (if meaningful) real/complex independent, too:
-you can choose at anytime whether you want to use single-precision or
-double-precision simply by referring to the required module.</p></li>
-<li><p>You can fully exploit the library within multithreaded programs.  Many
-numerical routines are likely to run for a long time, but they will never
-block other threads.  This also means that you can execute several routines
-at the same time on several processors if you use POSIX-threads in OCaml.</p></li>
-<li><p>To make things easy for developers used to the "real" implementation
-in FORTRAN but also for beginners who need detailed documentation, both
-function- and argument names have been kept compatible to the ones used
-in the BLAS- and LAPACK-documentation.  Only exception: you need not
-prefix functions with <code>s</code>, <code>d</code>, <code>c</code> or <code>z</code> to indicate the precision
-and type of numbers, because the OCaml module system provides us with
-a more convenient means of choosing them.</p></li>
-<li>
-<p>(Almost) all errors are handled within OCaml.  Typical mistakes like
-passing non-conforming matrices, parameters that are out of range, etc.,
-will be caught before calling Fortran code and will raise exceptions.
-These exceptions will explain the error in detail, for example the
-received illegal parameter and the range of expected legal values.</p>
-
-<p>The only exception to the above is illegal contents of vectors and
-matrices.  This can happen, for example, when freshly allocated matrices
-are used without initialization.  Some LAPACK-algorithms may not be able
-to deal with floats that correspond to NaNs, infinities, or are subnormal.
-Checking matrices on every call would seem excessive.  Some functions
-also expect matrices with certain properties, e.g. positive-definiteness,
-which would be way too costly to verify beforehand.  It is the task of
-the user to make sure that data contained in matrices is suitable for
-the application of the intended functions.</p>
-</li>
-</ul>
-
-<hr>
-
-<h2>
-<a id="using-lacaml" class="anchor" href="#using-lacaml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using LACAML</h2>
-
-<p>You can make use of this library by referring to the corresponding module
-for the required precision and number type.  E.g.:</p>
-
-<div class="highlight highlight-source-ocaml"><pre><span class="pl-k">open</span> <span class="pl-c1">Lacaml.S</span>  <span class="pl-c">(* Single-precision real numbers *)</span>
-<span class="pl-k">open</span> <span class="pl-c1">Lacaml.D</span>  <span class="pl-c">(* Double-precision real numbers *)</span>
-<span class="pl-k">open</span> <span class="pl-c1">Lacaml.C</span>  <span class="pl-c">(* Single-precision complex numbers *)</span>
-<span class="pl-k">open</span> <span class="pl-c1">Lacaml.Z</span>  <span class="pl-c">(* Double-precision complex numbers *)</span></pre></div>
-
-<p>These modules become available if you link the <code>lacaml</code>-library with your
-application.  The widely used OCaml-tool <code>findlib</code> will take care of linking
-<code>lacaml</code> correctly.  If you do not use this tool, you will also have to link
-in the <code>bigarray</code>-library provided by the OCaml-distribution.</p>
-
-<p>The <code>Lacaml.?</code>-modules implement the BLAS/LAPACK-interface.  Their
-corresponding submodules <code>Vec</code> and <code>Mat</code> provide for vector and matrix
-operations that relate to the given precision and number type.</p>
-
-<p>Most functions were implemented using optional arguments (= default arguments).
-If you do not provide them at the call-site, sane defaults will be used
-instead.  Here is an example of a function call:</p>
-
-<div class="highlight highlight-source-ocaml"><pre><span class="pl-k">let</span> rank <span class="pl-k">=</span> gelss in_mat out_mat <span class="pl-k">in</span>
-<span class="pl-c">(* ... *)</span></pre></div>
-
-<p>This example computes the solution to a general least squares problem (=
-linear regression) using the SVD-algorithm with <code>in_mat</code> as the matrix
-containing the predictor variables and <code>out_mat</code> as the matrix containing
-(possibly many) response variables (this function can handle several response
-variables at once).  The result is the rank of the matrix.  The matrices
-provided in the arguments will be overwritten with further results (here:
-the singular vectors and the solution matrix).</p>
-
-<p>If the above happened in a loop, this would be slightly inefficient, because
-a work-array would have to be allocated (and later deallocated) at each call.
-You can hoist the creation of this work array out of the loop, e.g. (<code>m</code>,
-<code>n</code>, <code>nrhs</code> are problem dependent parameters):</p>
-
-<div class="highlight highlight-source-ocaml"><pre><span class="pl-k">let</span> work <span class="pl-k">=</span> gelss_min_work <span class="pl-ent">~m</span> <span class="pl-ent">~n</span> <span class="pl-ent">~nrhs</span> <span class="pl-k">in</span>
-<span class="pl-k">for</span> i <span class="pl-k">=</span> <span class="pl-c1">1</span> <span class="pl-k">to</span> <span class="pl-c1">1000</span> <span class="pl-k">do</span>
-  <span class="pl-c">(* ... *)</span>
-  <span class="pl-k">let</span> rank <span class="pl-k">=</span> gelss in_mat <span class="pl-ent">~work</span> out_mat <span class="pl-k">in</span>
-  <span class="pl-c">(* ... *)</span>
-<span class="pl-k">done</span></pre></div>
-
-<p>All matrices can be accessed in a restricted way, i.e. you can specify
-submatrices for all matrix parameters.  For example, if some matrix is called
-<code>a</code> in the interface documentation, you can specify the left upper corner of
-the wanted submatrix for the operation by setting <code>ar</code> for the row and <code>ac</code>
-for the column (1 by default).  A vector <code>y</code> would have an extra optional
-parameter <code>ofsy</code> (also 1 by default).  Parameters like <code>m</code> or <code>n</code> typically
-specify the numbers of rows or columns.</p>
-
-<h3>
-<a id="printing-vectors-and-matrices" class="anchor" href="#printing-vectors-and-matrices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Printing vectors and matrices</h3>
-
-<p>Here is a toplevel example of printing a large random matrix:</p>
-
-<div class="highlight highlight-source-ocaml"><pre><span class="pl-k">#</span> <span class="pl-k">#require</span> <span class="pl-s"><span class="pl-pds">"</span>lacaml<span class="pl-pds">"</span></span>;;
-<span class="pl-k">#</span> <span class="pl-k">open</span> <span class="pl-c1">Lacaml.D</span>;;
-<span class="pl-k">#</span> <span class="pl-k">let</span> mat <span class="pl-k">=</span> <span class="pl-c1">Mat.</span>random <span class="pl-c1">100</span> <span class="pl-c1">200</span>;;
-<span class="pl-k">val</span> <span class="pl-en">mat</span> : <span class="pl-c1">Lacaml</span><span class="pl-k">.D</span>.mat <span class="pl-k">=</span>
-              <span class="pl-en">C1</span>        <span class="pl-en">C2</span>        <span class="pl-en">C3</span>          <span class="pl-en">C198</span>       <span class="pl-en">C199</span>      <span class="pl-en">C200</span>
-    <span class="pl-en">R1</span> <span class="pl-k">-</span><span class="pl-c1">0.314362</span> <span class="pl-k">-</span><span class="pl-c1">0.530711</span>  <span class="pl-c1">0.309887</span> ...  <span class="pl-c1">0.519965</span>  <span class="pl-k">-</span><span class="pl-c1">0.230156</span> <span class="pl-c1">0.0479154</span>
-    <span class="pl-en">R2</span>  <span class="pl-c1">0.835658</span>  <span class="pl-c1">0.581404</span>  <span class="pl-c1">0.161607</span> ... <span class="pl-k">-</span><span class="pl-c1">0.749358</span>  <span class="pl-k">-</span><span class="pl-c1">0.630019</span> <span class="pl-k">-</span><span class="pl-c1">0.858998</span>
-    <span class="pl-en">R3</span> <span class="pl-k">-</span><span class="pl-c1">0.403421</span>  <span class="pl-c1">0.458116</span> <span class="pl-k">-</span><span class="pl-c1">0.497516</span> ...  <span class="pl-c1">0.210811</span>   <span class="pl-c1">0.422094</span>  <span class="pl-c1">0.589661</span>
-             ...       ...       ... ...       ...        ...       ...
-   <span class="pl-en">R98</span> <span class="pl-k">-</span><span class="pl-c1">0.352474</span>  <span class="pl-c1">0.878897</span>  <span class="pl-c1">0.357842</span> ...  <span class="pl-c1">0.150786</span>   <span class="pl-k">-</span><span class="pl-c1">0.74011</span>  <span class="pl-c1">0.353253</span>
-   <span class="pl-en">R99</span>  <span class="pl-c1">0.104805</span>  <span class="pl-c1">0.984924</span> <span class="pl-k">-</span><span class="pl-c1">0.319127</span> ... <span class="pl-k">-</span><span class="pl-c1">0.143679</span>  <span class="pl-k">-</span><span class="pl-c1">0.858269</span>  <span class="pl-c1">0.859059</span>
-  <span class="pl-en">R100</span>  <span class="pl-c1">0.419968</span>  <span class="pl-c1">0.333358</span>  <span class="pl-c1">0.237761</span> ... <span class="pl-k">-</span><span class="pl-c1">0.483535</span> <span class="pl-k">-</span><span class="pl-c1">0.0224016</span>  <span class="pl-c1">0.513944</span></pre></div>
-
-<p>Only the corner sections of the matrix, which would otherwise be too large
-to display readably, are being printed, and ellipses (<code>...</code>) are used in
-place of the removed parts of the matrix.</p>
-
-<p>If the user required even less context, the <code>Lacaml.Io.Toplevel.lsc</code> function,
-which is also available in each precision module for convenience (here:
-<code>Lacaml.D</code>), could be used to indicate how much.  In the following example
-only two-by-two blocks are requested in each corner of the matrix:</p>
-
-<div class="highlight highlight-source-ocaml"><pre><span class="pl-k">#</span> lsc <span class="pl-c1">2</span>;;
-<span class="pl-k">-</span> : <span class="pl-k">unit</span> <span class="pl-k">=</span> <span class="pl-c1">()</span>
-<span class="pl-k">#</span> mat;;
-<span class="pl-k">-</span> : <span class="pl-c1">Lacaml.D.</span>mat <span class="pl-k">=</span>
-            <span class="pl-en">C1</span>        <span class="pl-en">C2</span>           <span class="pl-en">C199</span>      <span class="pl-en">C200</span>
-  <span class="pl-en">R1</span> <span class="pl-k">-</span><span class="pl-c1">0.314362</span> <span class="pl-k">-</span><span class="pl-c1">0.530711</span> ...  <span class="pl-k">-</span><span class="pl-c1">0.230156</span> <span class="pl-c1">0.0479154</span>
-  <span class="pl-en">R2</span>  <span class="pl-c1">0.835658</span>  <span class="pl-c1">0.581404</span> ...  <span class="pl-k">-</span><span class="pl-c1">0.630019</span> <span class="pl-k">-</span><span class="pl-c1">0.858998</span>
-           ...       ... ...        ...       ...
- <span class="pl-en">R99</span>  <span class="pl-c1">0.104805</span>  <span class="pl-c1">0.984924</span> ...  <span class="pl-k">-</span><span class="pl-c1">0.858269</span>  <span class="pl-c1">0.859059</span>
-<span class="pl-en">R100</span>  <span class="pl-c1">0.419968</span>  <span class="pl-c1">0.333358</span> ... <span class="pl-k">-</span><span class="pl-c1">0.0224016</span>  <span class="pl-c1">0.513944</span></pre></div>
-
-<p>Applications can use the standard <code>Format</code>-module in the OCaml-distribution
-together with LACAML printing functions to output vectors and matrices.
-Here is an example using labels and showing the high customizability of the
-printing functions:</p>
-
-<div class="highlight highlight-source-ocaml"><pre><span class="pl-k">open</span> <span class="pl-c1">Lacaml.D</span>
-<span class="pl-k">open</span> <span class="pl-c1">Lacaml.Io</span>
-
-<span class="pl-k">let</span> <span class="pl-c1">()</span> <span class="pl-k">=</span>
-  <span class="pl-k">let</span> rows, cols <span class="pl-k">=</span> <span class="pl-c1">200</span>, <span class="pl-c1">100</span> <span class="pl-k">in</span>
-  <span class="pl-k">let</span> a <span class="pl-k">=</span> <span class="pl-c1">Mat.</span>random rows cols <span class="pl-k">in</span>
-  <span class="pl-c1">Format.</span>printf <span class="pl-s"><span class="pl-pds">"</span>@[&lt;2&gt;This is an indented random matrix:@<span class="pl-c1">\n</span>@<span class="pl-c1">\n</span>%a@]@.<span class="pl-pds">"</span></span>
-    (<span class="pl-c1">Lacaml.Io.</span>pp_lfmat
-      <span class="pl-ent">~row_labels:</span>
-        (<span class="pl-c1">Array.</span>init rows (<span class="pl-k">fun</span> <span class="pl-v">i</span> -&gt; <span class="pl-c1">Printf.</span>sprintf <span class="pl-s"><span class="pl-pds">"</span>Row %d<span class="pl-pds">"</span></span> (i <span class="pl-k">+</span> <span class="pl-c1">1</span>)))
-      <span class="pl-ent">~col_labels:</span>
-        (<span class="pl-c1">Array.</span>init cols (<span class="pl-k">fun</span> <span class="pl-v">i</span> -&gt; <span class="pl-c1">Printf.</span>sprintf <span class="pl-s"><span class="pl-pds">"</span>Col %d<span class="pl-pds">"</span></span> (i <span class="pl-k">+</span> <span class="pl-c1">1</span>)))
-      <span class="pl-ent">~vertical_context:</span>(<span class="pl-en">Some</span> (<span class="pl-c1">Context.</span>create <span class="pl-c1">2</span>))
-      <span class="pl-ent">~horizontal_context:</span>(<span class="pl-en">Some</span> (<span class="pl-c1">Context.</span>create <span class="pl-c1">3</span>))
-      <span class="pl-ent">~ellipsis:</span><span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>
-      <span class="pl-ent">~print_right:</span><span class="pl-c1">false</span>
-      <span class="pl-ent">~print_foot:</span><span class="pl-c1">false</span> <span class="pl-c1">()</span>)
-    a</pre></div>
-
-<p>The above code might print:</p>
-
-<pre lang="text"><code>This is an indented random matrix:
-
-              Col 1     Col 2       Col 3      Col 98    Col 99   Col 100
-    Row 1  0.852078 -0.316723    0.195646 *  0.513697  0.656419  0.545189
-    Row 2 -0.606197  0.411059    0.158064 * -0.368989    0.2174    0.9001
-                  *         *           * *         *         *         *
-  Row 199 -0.684374 -0.939027 0.000699582 *  0.117598 -0.285587 -0.654935
-  Row 200  0.929341 -0.823264    0.895798 *  0.198334  0.725029 -0.621723
-</code></pre>
-
-<p>Many other options, e.g. for different padding, printing numbers in
-other formats or with different precision, etc., are available for output
-customization.</p>
-
-<h3>
-<a id="other-sources-of-usage-information" class="anchor" href="#other-sources-of-usage-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Other sources of usage information</h3>
-
-<h4>
-<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API documentation</h4>
-
-<p>Please refer to the API-documentation that will be generated as HTML-files
-if requested (<code>make doc</code>).  It will give more details on the numerous
-functions and supported arguments in the library.  It can also be found
-<a href="http://mmottl.github.io/lacaml/api">online</a>.</p>
-
-<h4>
-<a id="blaslapack-man-pages" class="anchor" href="#blaslapack-man-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>BLAS/LAPACK man pages</h4>
-
-<p>BLAS and LAPACK binary packages for Unix operating systems usually come
-with appropriate man-pages.  E.g. to quickly look up how to factorize a
-positive-definite, complex, single precision matrix, you might enter:</p>
-
-<div class="highlight highlight-source-shell"><pre>man cpotrf</pre></div>
-
-<p>The corresponding function in Lacaml would be <code>Lacaml.C.potrf</code>.  The naming
-conventions and additional documentation for BLAS and LAPACK can be found
-at their respective websites.</p>
-
-<h4>
-<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h4>
-
-<p>The <code>examples</code>-directory contains several demonstrations of how to use this
-library for various linear algebra problems.</p>
-
-<h2>
-<a id="improving-performance" class="anchor" href="#improving-performance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Improving Performance</h2>
-
-<p>It is highly recommended that users install a variant of BLAS (or even
-LAPACK) that has been optimized for their system.  Processor vendors
-(e.g. Intel) usually sell the most optimized implementations for their
-CPU-architectures.  Some computer and OS-vendors like Apple distribute their
-own implementations with their products, e.g. <code>vecLib</code>, which is part of
-Apple's <code>Accelerate</code>-framework.</p>
-
-<p>There is also <a href="http://www.netlib.org/atlas">ATLAS</a>, a very efficient and
-compatible substitute for BLAS.  It specializes code for the architecture it
-is compiled on.  Binary packages (e.g. RPMs) for Linux should be available
-from your distribution vendor's site (you must recompile the package to
-make sure it is suited to your distribution, see the package documentation
-for more details.).  </p>
-
-<p>Another alternative for BLAS is <a href="https://github.com/xianyi/OpenBLAS">OpenBLAS</a>.</p>
-
-<hr>
-
-<h2>
-<a id="contact-information-and-contributing" class="anchor" href="#contact-information-and-contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact Information and Contributing</h2>
-
-<p>In the case of bugs, feature requests, contributions and similar, please
-contact the maintainers:</p>
-
-<ul>
-<li>Markus Mottl <a href="mailto:markus.mottl@gmail.com">markus.mottl@gmail.com</a>
-</li>
-<li>Christophe Troestler <a href="mailto:Christophe.Troestler@umons.ac.be">Christophe.Troestler@umons.ac.be</a>
-</li>
-</ul>
-
-<p>Up-to-date information concerning this tool should be available at:
-<a href="http://mmottl.github.io/lacaml">http://mmottl.github.io/lacaml</a></p>
-
-<p>Enjoy!</p>
-
-<p>Markus Mottl in Rutherford, NJ on July 9, 2012</p>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/mmottl/lacaml">Lacaml</a> is maintained by <a href="https://github.com/mmottl">mmottl</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
-
-    </section>
-
-  
-  </body>
+<br/><br>
+<table class="indextable">
+<tr><td class="module"><a href="Lacaml.html">Lacaml</a></td><td><div class="info">
+Binding to the <a href="http://www.netlib.org/blas/">BLAS</a> and
+    <a href="http://www.netlib.org/lapack/">LAPACK</a> libraries.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_common.html">Lacaml_common</a></td><td><div class="info">
+<code class="code">Lacaml.common</code> contains definitions independent of the precision.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_io.html">Lacaml_io</a></td><td><div class="info">
+<code class="code">Lacaml.Io</code>: generic matrix printing functions.
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_S.html">Lacaml_S</a></td><td><div class="info">
+This module <code class="code">Lacaml.S</code> contains linear algebra routines for
+    real numbers (precision: float32).
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_D.html">Lacaml_D</a></td><td><div class="info">
+This module <code class="code">Lacaml.D</code> contains linear algebra routines for
+    real numbers (precision: float64).
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_C.html">Lacaml_C</a></td><td><div class="info">
+This module <code class="code">Lacaml.C</code> contains linear algebra routines for
+    complex numbers (precision: complex32).
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_Z.html">Lacaml_Z</a></td><td><div class="info">
+This module <code class="code">Lacaml.Z</code> contains linear algebra routines for
+    complex numbers (precision: complex64).
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_utils.html">Lacaml_utils</a></td><td><div class="info">
+General auxiliary functions
+</div>
+</td></tr>
+<tr><td class="module"><a href="Lacaml_version.html">Lacaml_version</a></td><td></td></tr>
+<tr><td class="module"><a href="Lacaml_float32.html">Lacaml_float32</a></td><td></td></tr>
+<tr><td class="module"><a href="Lacaml_float64.html">Lacaml_float64</a></td><td></td></tr>
+<tr><td class="module"><a href="Lacaml_complex32.html">Lacaml_complex32</a></td><td></td></tr>
+<tr><td class="module"><a href="Lacaml_complex64.html">Lacaml_complex64</a></td><td></td></tr>
+</table>
+</body>
 </html>
