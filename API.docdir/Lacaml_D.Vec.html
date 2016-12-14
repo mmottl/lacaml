@@ -329,10 +329,16 @@
 
 <pre><span id="VALatan2"><span class="keyword">val</span> atan2</span> : <code class="type"><a href="Lacaml_float64.Types.Vec.html#TYPEbinop">Lacaml_float64.Types.Vec.binop</a></code></pre><div class="info ">
 <code class="code">atan2 ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y</code> computes
-      <code class="code">atan2(a, b)</code> of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using
-      <code class="code">incx</code> and <code class="code">incy</code> as incremental steps respectively. If <code class="code">z</code> is given,
+      <code class="code">atan2(x, y)</code> of <code class="code">n</code> elements of vectors <code class="code">x</code> and <code class="code">y</code> elementwise, using
+      <code class="code">incx</code> and <code class="code">incy</code> as incremental steps respectively.  If <code class="code">z</code> is given,
       the result will be stored in there using increments of <code class="code">incz</code>, otherwise
-      a fresh vector will be used.  The resulting vector is returned.<br>
+      a fresh vector will be used.  The resulting vector is returned.
+<p>
+
+      NOTE: WARNING!  From a geometric point of view, the <code class="code">atan2</code> function takes
+      the y-coordinate in <code class="code">x</code> and the x-coordinate in <code class="code">y</code>.  This confusion is
+      a sad consequence of the C99-standard reversing the argument order for
+      <code class="code">atan2</code> for no good reason.<br>
 </div>
 
 <pre><span id="VALhypot"><span class="keyword">val</span> hypot</span> : <code class="type"><a href="Lacaml_float64.Types.Vec.html#TYPEbinop">Lacaml_float64.Types.Vec.binop</a></code></pre><div class="info ">

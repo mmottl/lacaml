@@ -389,7 +389,13 @@
       <code class="code">ac</code> with the corresponding sub-matrix of the matrix <code class="code">b</code> starting in row
       <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given, the result will be stored in
       there starting in row <code class="code">cr</code> and column <code class="code">cc</code>, otherwise a fresh matrix
-      will be used.  The resulting matrix is returned.<br>
+      will be used.  The resulting matrix is returned.
+<p>
+
+      NOTE: WARNING!  From a geometric point of view, the <code class="code">atan2</code> function takes
+      the y-coordinate in <code class="code">a</code> and the x-coordinate in <code class="code">b</code>.  This confusion is
+      a sad consequence of the C99-standard reversing the argument order for
+      <code class="code">atan2</code> for no good reason.<br>
 </div>
 
 <pre><span id="VALhypot"><span class="keyword">val</span> hypot</span> : <code class="type"><a href="Lacaml_float32.Types.Mat.html#TYPEbinop">Lacaml_float32.Types.Mat.binop</a></code></pre><div class="info ">
