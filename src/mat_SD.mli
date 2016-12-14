@@ -681,6 +681,11 @@ val atan2 : binop
     there starting in row [cr] and column [cc], otherwise a fresh matrix
     will be used.  The resulting matrix is returned.
 
+    NOTE: WARNING!  From a geometric point of view, the [atan2] function takes
+    the y-coordinate in [a] and the x-coordinate in [b].  This confusion is
+    a sad consequence of the C99-standard reversing the argument order for
+    [atan2] for no good reason.
+
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param cr default = 1

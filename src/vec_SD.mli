@@ -565,10 +565,15 @@ val pow : binop
 
 val atan2 : binop
 (** [atan2 ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] computes
-    [atan2(a, b)] of [n] elements of vectors [x] and [y] elementwise, using
-    [incx] and [incy] as incremental steps respectively. If [z] is given,
+    [atan2(x, y)] of [n] elements of vectors [x] and [y] elementwise, using
+    [incx] and [incy] as incremental steps respectively.  If [z] is given,
     the result will be stored in there using increments of [incz], otherwise
     a fresh vector will be used.  The resulting vector is returned.
+
+    NOTE: WARNING!  From a geometric point of view, the [atan2] function takes
+    the y-coordinate in [x] and the x-coordinate in [y].  This confusion is
+    a sad consequence of the C99-standard reversing the argument order for
+    [atan2] for no good reason.
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsz default = 1
