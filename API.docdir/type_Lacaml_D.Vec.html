@@ -1,7 +1,6 @@
 <html><head>
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="Start" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
@@ -22,150 +21,150 @@
 <link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml_D.Vec</title>
 </head>
 <body>
-<code class="code"><span class="keyword">sig</span><br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=&nbsp;<span class="constructor">Lacaml_D</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;random&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?rnd_state:<span class="constructor">Random</span>.<span class="constructor">State</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?from:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?range:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;abs&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;signum&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sqr&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sqrt&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;cbrt&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;exp&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;exp2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;expm1&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log10&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log1p&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sin&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;cos&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tan&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;asin&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;acos&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;atan&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sinh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;cosh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tanh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;asinh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;acosh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;atanh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;floor&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ceil&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;round&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trunc&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;erf&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;erfc&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;logistic&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;relu&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;softplus&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;softsign&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;pow&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;atan2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;hypot&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;min2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;max2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log_sum_exp&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make0&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;init&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_array&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_array&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;array<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_list&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_list&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;list<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;append&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;concat&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;linspace&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;logspace&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?base:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dim&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;map&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;iter&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;iteri&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fold&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a)&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;rev&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;max&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;min&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sort&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?cmp:(<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?decr:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsp:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incp:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?p:<span class="constructor">Lacaml_common</span>.int_vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fill&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sum&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;prod&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_const&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sqr_nrm2&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?stable:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?c:<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;neg&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;reci&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sub&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mul&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;div&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;zpxy&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsz:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incz:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;zmxy&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsz:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incz:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr_diff&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type<br>
+<code class="code"><span class="keyword">sig</span>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=&nbsp;<span class="constructor">Lacaml_D</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;random&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?rnd_state:<span class="constructor">Random</span>.<span class="constructor">State</span>.t&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?from:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?range:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;abs&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;signum&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sqr&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sqrt&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;cbrt&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;exp&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;exp2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;expm1&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log10&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log1p&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sin&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;cos&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tan&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;asin&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;acos&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;atan&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sinh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;cosh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tanh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;asinh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;acosh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;atanh&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;floor&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ceil&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;round&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trunc&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;erf&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;erfc&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;logistic&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;relu&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;softplus&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;softsign&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;pow&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;atan2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;hypot&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;min2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;max2&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;log_sum_exp&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make0&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;init&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_array&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_array&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;array
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_list&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_list&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;list
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;append&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;concat&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;linspace&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;logspace&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?base:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dim&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;map&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;iter&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;iteri&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit)&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fold&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a)&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;rev&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;max&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;min&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sort&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?cmp:(<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?decr:bool&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsp:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incp:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?p:<span class="constructor">Lacaml_common</span>.int_vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fill&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sum&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;prod&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_const&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sqr_nrm2&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?stable:bool&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;float
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?c:<span class="constructor">Lacaml_float64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;neg&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;reci&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sub&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mul&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;div&nbsp;:&nbsp;<span class="constructor">Lacaml_float64</span>.<span class="constructor">Types</span>.<span class="constructor">Vec</span>.binop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;zpxy&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsz:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incz:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;zmxy&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsz:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incz:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr_diff&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_float64</span>.num_type
 <span class="keyword">end</span></code></body></html>
