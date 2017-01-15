@@ -32,21 +32,7 @@
 
 /* Compiler pragmas and inlining */
 
-/* Forget any previous definition of inlining, it may not be what we mean */
-#ifdef inline
-# undef inline
-#endif
-
-/* The semantics of "inline" in C99 is not what we intend so just drop it */
-#if defined(__STDC__) && __STDC__ && \
-    defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
-# define inline
-#endif
-
 #if defined(__GNUC__) && __GNUC__ >= 3
-# ifndef inline
-#   define inline inline __attribute__ ((always_inline))
-# endif
 # ifndef __pure
 #   define __pure __attribute__ ((pure))
 # endif
@@ -66,10 +52,6 @@
 #   define unlikely(x) __builtin_expect (!!(x), 0)
 # endif
 #else
-  /* Non-GNU compilers should always ignore "inline" no matter the C-standard */
-# ifndef inline
-#   define inline
-# endif
 # ifndef __pure
 #   define __pure
 # endif
