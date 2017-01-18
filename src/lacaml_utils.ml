@@ -562,7 +562,6 @@ let get_vec_ofs loc var = function
   | Some ofs -> ofs
   | None -> 1
 
-
 (**)
 
 (* Fetches problem-dependent parameters for LAPACK-functions *)
@@ -1105,6 +1104,18 @@ let trtri_err loc n a err =
     match err with
     | -3 -> sprintf "n: valid=[0..[ got=%d" n
     | -5 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
+    | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
+  invalid_arg (sprintf "%s: %s" loc msg)
+
+
+(* geqrf -- auxiliary functions *)
+
+let geqrf_err loc m n a err =
+  let msg =
+    match err with
+    | -1 -> sprintf "m: valid=[0..[ got=%d" m
+    | -2 -> sprintf "n: valid=[0..[ got=%d" n
+    | -4 -> sprintf "dim1(a): valid=[%d..[ got=%d" (max 1 n) (Array2.dim1 a)
     | n -> raise (InternalError (sprintf "%s: error code %d" loc n)) in
   invalid_arg (sprintf "%s: %s" loc msg)
 
