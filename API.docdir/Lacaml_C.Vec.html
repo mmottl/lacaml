@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="Start" href="index.html">
 <link rel="next" href="Lacaml_C.Mat.html">
 <link rel="Up" href="Lacaml_C.html">
@@ -138,6 +137,11 @@
 <pre><span id="VALdim"><span class="keyword">val</span> dim</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> int</code></pre><div class="info ">
 <code class="code">dim x</code><br>
 <b>Returns</b> the dimension of vector <code class="code">x</code>.<br>
+</div>
+
+<pre><span id="VALhas_zero_dim"><span class="keyword">val</span> has_zero_dim</span> : <code class="type"><a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> bool</code></pre><div class="info ">
+<code class="code">has_zero_dim vec</code> checks whether vector <code class="code">vec</code> has a dimension of size
+      <code class="code">zero</code>.  In this case it cannot contain data.<br>
 </div>
 <br>
 <h6 id="6_Iteratorsovervectors">Iterators over vectors</h6><br>
