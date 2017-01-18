@@ -1,6 +1,7 @@
 <html><head>
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="Start" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
@@ -21,179 +22,179 @@
 <link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml_Z.Mat</title>
 </head>
 <body>
-<code class="code"><span class="keyword">sig</span>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=&nbsp;<span class="constructor">Lacaml_Z</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;random&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?rnd_state:<span class="constructor">Random</span>.<span class="constructor">State</span>.t&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?re_from:float&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?re_range:float&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?im_from:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?im_range:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make0&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_array&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_array&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array&nbsp;array
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;list&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;list&nbsp;list
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_col_vecs&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_col_vecs&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;array
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_col_vecs_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_col_vecs_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;list
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;as_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;init_rows&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;init_cols&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_mvec&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make_mvec&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mvec_of_array&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mvec_to_array&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;from_col_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;from_row_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;identity&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_diag&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?b:<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dim1&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dim2&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;has_zero_dim&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;col&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;copy_row&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?vec:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;swap&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?uplo:[&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;transpose_copy&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;detri&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;packed&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;unpacked&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fill&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sum&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_const&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;neg&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;reci&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;copy_diag&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trace&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal_cols&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofs:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal_rows&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofs:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;syrk_trace&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;syrk_diag&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?beta:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?trans:<span class="constructor">Lacaml_common</span>.trans2&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sub&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mul&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;div&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;axpy&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?xr:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?xc:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?yr:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?yc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gemm_diag&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?beta:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?transa:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?transb:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gemm_trace&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?transa:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?transb:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;symm2_trace&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?upa:bool&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?upb:bool&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr_diff&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;map&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?b:<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fold_cols&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a)&nbsp;<span class="keywordsign">-&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;=&nbsp;<span class="constructor">Lacaml_Z</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;random&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?rnd_state:<span class="constructor">Random</span>.<span class="constructor">State</span>.t&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?re_from:float&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?re_range:float&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?im_from:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?im_range:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make0&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_array&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_array&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array&nbsp;array<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;list&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;list&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_col_vecs&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_col_vecs&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;array<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_col_vecs_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;to_col_vecs_list&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;as_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;init_rows&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;init_cols&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_mvec&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make_mvec&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mvec_of_array&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mvec_to_array&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;array<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;from_col_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;from_row_vec&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;empty&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;identity&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;of_diag&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?b:<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?incx:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dim1&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dim2&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;has_zero_dim&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;col&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;copy_row&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?vec:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;swap&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?uplo:[&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;transpose_copy&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;detri&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;packed&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;unpacked&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fill&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sum&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_const&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;neg&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;reci&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.unop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;copy_diag&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?incy:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trace&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal_cols&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofs:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal_rows&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofs:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;syrk_trace&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;syrk_diag&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?beta:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?trans:<span class="constructor">Lacaml_common</span>.trans2&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sub&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;mul&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;div&nbsp;:&nbsp;<span class="constructor">Lacaml_complex64</span>.<span class="constructor">Types</span>.<span class="constructor">Mat</span>.binop<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;axpy&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?xr:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?xc:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?yr:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?yc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gemm_diag&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?beta:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ofsy:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?transa:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?transb:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;gemm_trace&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?k:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?transa:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?transb:<span class="constructor">Lacaml_complex64</span>.trans3&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;symm2_trace&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?upa:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?upb:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr_diff&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;map&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Lacaml_complex64</span>.num_type&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.num_type)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?b:<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fold_cols&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml_complex64</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keywordsign">'</span>a<br>
 <span class="keyword">end</span></code></body></html>
