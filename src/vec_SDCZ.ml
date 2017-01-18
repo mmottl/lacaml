@@ -57,7 +57,8 @@ let init n f =
   for i = 1 to n do v.{i} <- f i done;
   v
 
-let dim (v : vec) = Array1.dim v
+let dim (vec : vec) = Array1.dim vec
+let has_zero_dim (vec : vec) = dim vec = 0
 
 let of_array ar =
   let n = Array.length ar in

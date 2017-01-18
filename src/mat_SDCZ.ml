@@ -72,6 +72,7 @@ let mvec_of_array ar =
 
 let dim1 (mat : mat) = Array2.dim1 mat
 let dim2 (mat : mat) = Array2.dim2 mat
+let has_zero_dim (mat : mat) = dim1 mat = 0 || dim2 mat = 0
 
 let mvec_to_array mat =
   if dim2 mat <> 1 then failwith "mvec_to_array: more than one column"

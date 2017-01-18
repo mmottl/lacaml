@@ -143,6 +143,10 @@ val dim1 : mat -> int
 val dim2 : mat -> int
 (** [dim2 m] @return the second dimension of matrix [m] (number of columns). *)
 
+val has_zero_dim : mat -> bool
+(** [has_zero_dim mat] checks whether matrix [mat] has a dimension of size
+    [zero].  In this case it cannot contain data. *)
+
 val col : mat -> int -> vec
 (** [col m n] @return the [n]th column of matrix [m] as a vector.
     The data is shared. *)

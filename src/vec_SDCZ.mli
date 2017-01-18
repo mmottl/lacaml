@@ -83,6 +83,10 @@ val logspace : ?y : vec -> num_type -> num_type -> ?base : float -> int -> vec
 val dim : vec -> int
 (** [dim x] @return the dimension of vector [x]. *)
 
+val has_zero_dim : vec -> bool
+(** [has_zero_dim vec] checks whether vector [vec] has a dimension of size
+    [zero].  In this case it cannot contain data. *)
+
 
 (** {6 Iterators over vectors} *)
 
