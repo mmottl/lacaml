@@ -1,9 +1,12 @@
-2017-01-18:  Minor release version 9.1.2:
+2017-01-18:  Minor release version 9.2.1:
 
              Added more functions:
 
                * Vec.has_zero_dim
                * Mat.has_zero_dim
+
+             Added missing checks for empty vectors and matrices to prevent
+             BLAS functions from exiting the program.
 
 2016-07-12:  Minor release version 9.1.1:
 
