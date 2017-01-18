@@ -142,6 +142,7 @@ external direct_ger :
 
 let ger ?m ?n ?(alpha = 1.0) ?ofsx ?incx x ?ofsy ?incy y ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.ger" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
@@ -167,6 +168,7 @@ external direct_syr :
 
 let syr ?n ?(alpha = 1.0) ?(up = true) ?ofsx ?incx x ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.syr" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
   let n = get_n_of_a loc ar ac a n in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let uplo = get_uplo_char up in

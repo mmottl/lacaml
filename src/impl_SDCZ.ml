@@ -164,7 +164,8 @@ let amax ?n ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.amax" in
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let n = get_dim_vec loc x_str ofsx incx x n_str n in
-  x.{direct_iamax ~n ~ofsx ~incx ~x}
+  if n = 0 then invalid_arg (sprintf "%s: n = 0" loc)
+  else x.{direct_iamax ~n ~ofsx ~incx ~x}
 
 
 (* BLAS-2 *)
@@ -261,6 +262,8 @@ external direct_symv :
 let symv ?n ?(beta = zero) ?ofsy ?incy ?y ?(up = true) ?(alpha = one)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.symv" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_vec_empty ~loc ~vec_name:x_str ~dim:(Vec.dim x);
   let n, ofsx, incx, ofsy, incy, y, uplo =
     symv_get_params loc Vec.create ar ac a n ofsx incx x ofsy incy y up in
   direct_symv ~ofsy ~incy ~y ~ar ~ac ~a ~n ~uplo ~alpha ~beta ~ofsx ~incx ~x;
@@ -286,6 +289,8 @@ let trmv
       ?n ?(trans = `N) ?(diag = `N) ?(up = true)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.trmv" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_vec_empty ~loc ~vec_name:x_str ~dim:(Vec.dim x);
   let n, ofsx, incx, uplo, trans, diag =
     trXv_get_params loc ar ac a n ofsx incx x up trans diag
   in
@@ -311,6 +316,8 @@ let trsv
       ?n ?(trans = `N) ?(diag = `N) ?(up = true)
       ?(ar = 1) ?(ac = 1) a ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.trsv" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_vec_empty ~loc ~vec_name:x_str ~dim:(Vec.dim x);
   let n, ofsx, incx, uplo, trans, diag =
     trXv_get_params loc ar ac a n ofsx incx x up trans diag
   in
@@ -388,16 +395,19 @@ let gemm ?m ?n ?k ?beta ?(cr = 1) ?(cc = 1) ?c
       ?(transa = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a
       ?(transb = `N) ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.gemm" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);
   let beta =
     match beta, c with
     | None, _ -> zero
+    | Some beta, Some _c -> beta
     | Some _beta, None ->
         failwith (sprintf "%s: providing [beta] without [c] not allowed" loc)
-    | Some beta, Some _ -> beta
   in
   let m, n, k, transa, transb, c =
     gemm_get_params
       loc Mat.create ar ac a transa br bc b cr transb cc c m n k in
+  check_mat_empty ~loc ~mat_name:c_str ~dim1:(Mat.dim1 c) ~dim2:(Mat.dim2 c);
   direct_gemm
     ~transa ~transb ~m ~n ~k ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c
@@ -427,8 +437,11 @@ let symm ?m ?n ?(side = `L) ?(up = true)
       ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
       ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.symm" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);
   let m, n, side, uplo, c =
     symm_get_params loc Mat.create ar ac a br bc b cr cc c m n side up in
+  check_mat_empty ~loc ~mat_name:c_str ~dim1:(Mat.dim1 c) ~dim2:(Mat.dim2 c);
   direct_symm ~side ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c
 
@@ -454,6 +467,8 @@ external direct_trmm :
 let trmm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
       ?(alpha = one) ?(ar = 1) ?(ac = 1) ~a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.trmm" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);
   let m, n, side, uplo, transa, diag =
     trXm_get_params loc ar ac a br bc b m n side up transa diag
   in
@@ -481,6 +496,8 @@ external direct_trsm :
 let trsm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
       ?(alpha = one) ?(ar = 1) ?(ac = 1) ~a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.trsm" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);
   let m, n, side, uplo, transa, diag =
     trXm_get_params loc ar ac a br bc b m n side up transa diag
   in
@@ -507,8 +524,10 @@ external direct_syrk :
 let syrk ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
       ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.syrk" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
   let n, k, uplo, trans, c =
     syrk_get_params loc Mat.create ar ac a cr cc c n k up trans in
+  check_mat_empty ~loc ~mat_name:c_str ~dim1:(Mat.dim1 c) ~dim2:(Mat.dim2 c);
   direct_syrk ~uplo ~trans ~n ~k ~ar ~ac ~a ~cr ~cc ~c ~alpha ~beta;
   c
 
@@ -536,9 +555,12 @@ external direct_syr2k :
 let syr2k ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
       ?(trans = `N) ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.syr2k" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
+  check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);
   let n, k, uplo, trans, c =
     syr2k_get_params loc Mat.create ar ac a br bc b cr cc c n k up trans
   in
+  check_mat_empty ~loc ~mat_name:c_str ~dim1:(Mat.dim1 c) ~dim2:(Mat.dim2 c);
   direct_syr2k ~uplo ~trans ~n ~k ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c ~alpha ~beta;
   c
 
@@ -754,6 +776,7 @@ external direct_lauum :
 
 let lauum ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.lauum" in
+  check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
   let n = get_n_of_a loc ar ac a n in
   let uplo = get_uplo_char up in
   direct_lauum ~uplo ~n ~ar ~ac ~a
