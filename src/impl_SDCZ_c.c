@@ -1820,7 +1820,7 @@ CAMLprim value LFUN(geqrf_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_unit);
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(geqrf_stub_bc)(value *argv, int __unused argn)

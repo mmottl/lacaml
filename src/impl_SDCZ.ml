@@ -1123,17 +1123,18 @@ external direct_geqrf :
   tau : vec ->
   work : vec ->
   lwork : int ->
-  unit = "lacaml_NPRECgeqrf_stub_bc" "lacaml_NPRECgeqrf_stub"
+  int = "lacaml_NPRECgeqrf_stub_bc" "lacaml_NPRECgeqrf_stub"
 
-let geqrf_get_opt_lwork m n ar ac a =
+let geqrf_get_opt_lwork loc m n ar ac a =
   let work = Vec.create 1 in
-  direct_geqrf ~m ~n ~ar ~ac ~a ~tau:work ~work ~lwork:~-1;
-  int_of_numberxx work.{1}
+  let info = direct_geqrf ~m ~n ~ar ~ac ~a ~tau:work ~work ~lwork:~-1 in
+  if info = 0 then int_of_numberxx work.{1}
+  else geqrf_err loc m n a info
 
 let geqrf_opt_lwork ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.geqrf_opt_lwork" in
   let m, n = geXrf_get_params loc m n ar ac a in
-  geqrf_get_opt_lwork m n ar ac a
+  geqrf_get_opt_lwork loc m n ar ac a
 
 let geqrf_min_lwork ~n = max 1 n
 
@@ -1153,10 +1154,11 @@ let geqrf ?m ?n ?work ?tau ?(ar = 1) ?(ac = 1) a =
     get_work
       loc Vec.create work
       (geqrf_min_lwork ~n)
-      (geqrf_get_opt_lwork m n ar ac a) "lwork"
+      (geqrf_get_opt_lwork loc m n ar ac a) "lwork"
   in
-  direct_geqrf ~m ~n ~ar ~ac ~a ~tau ~work ~lwork;
-  tau
+  let info = direct_geqrf ~m ~n ~ar ~ac ~a ~tau ~work ~lwork in
+  if info = 0 then tau
+  else geqrf_err loc m n a info
 
 
 (* Linear equations (simple drivers) *)
