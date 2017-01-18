@@ -505,6 +505,12 @@ let get_vec loc vec_name vec ofs inc n vec_create =
 let get_dim_vec loc vec_name ofs inc vec n_name n =
   get_vec_n ~loc ~vec_name ~dim:(Array1.dim vec) ~ofs ~inc ~n_name n
 
+let check_vec_empty ~loc ~vec_name ~dim =
+  if dim = 0 then
+    invalid_arg (sprintf "%s: dimension of vector %s is zero" loc vec_name)
+  else ()
+
+
 
 (** (Old) Matrix checking and allocation functions *)
 
@@ -538,6 +544,14 @@ let get_dim1_mat loc mat_name mat r m_name m =
 let get_dim2_mat loc mat_name mat c n_name n =
   let dim2 = Array2.dim2 mat in
   get_mat_dim2 ~loc ~mat_name ~dim2 ~c ~n ~n_name
+
+let check_mat_empty ~loc ~mat_name ~dim1 ~dim2 =
+  if dim1 = 0 then
+    invalid_arg (sprintf "%s: dim1 of matrix %s is zero" loc mat_name)
+  else if dim2 = 0 then
+    invalid_arg (sprintf "%s: dim2 of matrix %s is zero" loc mat_name)
+  else ()
+
 
 let get_vec_inc loc vec_name = function
   | Some inc -> check_vec_inc ~loc ~vec_name inc; inc
