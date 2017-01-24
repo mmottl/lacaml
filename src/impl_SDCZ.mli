@@ -522,11 +522,13 @@ val lacpy :
   ?ac : int ->
   mat ->
   mat
-(** [lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a] copy a (triangular)
-    (sub-)matrix [a] (to an optional (sub-)matrix [b]).
+(** [lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a] copy the (triangular)
+    (sub-)matrix [a] (to an optional (sub-)matrix [b]) and return it.
 
     @param uplo default = whole matrix
-*)
+    @param b The target matrix.  By default a fresh matrix to
+             accommodate the sizes [m] and [n] and the offsets [br]
+             and [bc] is created.  *)
 
 val laswp :
   ?n : int ->
