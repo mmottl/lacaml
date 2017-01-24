@@ -43,19 +43,21 @@ Flag strict
 # There are special rules for generating C code in myocamlbuild.ml
 Library lacaml
   Path:          src
-  Modules:       Lacaml, Lacaml_common, Lacaml_io,
-                 Lacaml_S, Lacaml_D, Lacaml_C, Lacaml_Z,
-                 Lacaml_utils, Lacaml_version,
+  Modules:       Lacaml, Lacaml__common, Lacaml__io,
+                 Lacaml__S, Lacaml__D, Lacaml__C, Lacaml__Z,
+                 Lacaml__utils, Lacaml_version,
                  Lacaml_float32, Lacaml_float64,
                  Lacaml_complex32, Lacaml_complex64
   InternalModules:
-                 Lacaml_real_io, Lacaml_complex_io,
-                 Lacaml_impl4_S, Lacaml_impl4_D, Lacaml_impl4_C, Lacaml_impl4_Z,
-                 Lacaml_impl2_S, Lacaml_impl2_D, Lacaml_impl2_C, Lacaml_impl2_Z,
-                 Lacaml_vec4_S, Lacaml_vec4_D, Lacaml_vec4_C, Lacaml_vec4_Z,
-                 Lacaml_vec2_S, Lacaml_vec2_D, Lacaml_vec2_C, Lacaml_vec2_Z,
-                 Lacaml_mat4_S, Lacaml_mat4_D, Lacaml_mat4_C, Lacaml_mat4_Z,
-                 Lacaml_mat2_S, Lacaml_mat2_D, Lacaml_mat2_C, Lacaml_mat2_Z
+                 Lacaml__real_io, Lacaml__complex_io,
+                 Lacaml__impl4_S, Lacaml__impl4_D,
+                 Lacaml__impl4_C, Lacaml__impl4_Z,
+                 Lacaml__impl2_S, Lacaml__impl2_D,
+                 Lacaml__impl2_C, Lacaml__impl2_Z,
+                 Lacaml__vec4_S, Lacaml__vec4_D, Lacaml__vec4_C, Lacaml__vec4_Z,
+                 Lacaml__vec2_S, Lacaml__vec2_D, Lacaml__vec2_C, Lacaml__vec2_Z,
+                 Lacaml__mat4_S, Lacaml__mat4_D, Lacaml__mat4_C, Lacaml__mat4_Z,
+                 Lacaml__mat2_S, Lacaml__mat2_D, Lacaml__mat2_C, Lacaml__mat2_Z
   CSources:      impl_c.c,
                  utils_c.c,
                  vec2_S_c.c, vec2_D_c.c, vec2_C_c.c, vec2_Z_c.c,

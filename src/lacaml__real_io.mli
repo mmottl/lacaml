@@ -24,8 +24,8 @@
 val pp_num : Format.formatter -> float -> unit
 (** [pp_num ppf el] is equivalent to [fprintf ppf "%G" el]. *)
 
-val pp_vec : (float, 'a) Lacaml_io.pp_vec
+val pp_vec : (float, 'a) Lacaml__io.pp_vec
 (** Pretty-printer for column vectors. *)
 
-val pp_mat : (float, 'a) Lacaml_io.pp_mat
+val pp_mat : (float, 'a) Lacaml__io.pp_mat
 (** Pretty-printer for matrices. *)

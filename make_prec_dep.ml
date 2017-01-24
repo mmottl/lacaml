@@ -101,7 +101,7 @@ let derived_files ?(prefix=true) ?full_doc fnames suffix derived =
       if seed <> "lacaml" then (
         let derive1 (new_suffix, subs) =
           let fname1 = seed ^ new_suffix in
-          let fname1 = if prefix then "lacaml_" ^ fname1 else fname1 in
+          let fname1 = if prefix then "lacaml__" ^ fname1 else fname1 in
           substitute fname fname1 ?full_doc subs;
         in
         List.iter derive1 derived;

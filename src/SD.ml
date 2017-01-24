@@ -26,21 +26,21 @@
 
 include Lacaml_floatxx
 
-include Lacaml_impl2_FPREC
-include Lacaml_impl4_FPREC
+include Lacaml__impl2_FPREC
+include Lacaml__impl4_FPREC
 
-include Lacaml_real_io
+include Lacaml__real_io
 
 module Vec = struct
   type t = vec
 
-  include Lacaml_vec2_FPREC
-  include Lacaml_vec4_FPREC
+  include Lacaml__vec2_FPREC
+  include Lacaml__vec4_FPREC
 end
 
 module Mat = struct
   type t = mat
 
-  include Lacaml_mat2_FPREC
-  include Lacaml_mat4_FPREC
+  include Lacaml__mat2_FPREC
+  include Lacaml__mat4_FPREC
 end

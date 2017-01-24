@@ -37,7 +37,7 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Lacaml_common
+open Lacaml__common
 open Lacaml_floatxx
 
 (** {6 BLAS-1 interface} *)
@@ -551,8 +551,8 @@ val gelss :
 
 val gees :
   ?n : int ->
-  ?jobvs : Lacaml_common.schur_vectors ->
-  ?sort : Lacaml_common.eigen_value_sort ->
+  ?jobvs : Lacaml__common.schur_vectors ->
+  ?sort : Lacaml__common.eigen_value_sort ->
   ?wr : vec ->
   ?wi : vec ->
   ?vsr : int -> ?vsc : int -> ?vs : mat ->

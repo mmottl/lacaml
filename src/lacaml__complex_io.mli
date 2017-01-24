@@ -25,8 +25,8 @@ val pp_num : Format.formatter -> Complex.t -> unit
 (** [pp_num ppf el] is equivalent to [fprintf ppf "(%G, %Gi)"
     el.re el.im]. *)
 
-val pp_vec : (Complex.t, 'a) Lacaml_io.pp_vec
+val pp_vec : (Complex.t, 'a) Lacaml__io.pp_vec
 (** Pretty-printer for column vectors. *)
 
-val pp_mat : (Complex.t, 'a) Lacaml_io.pp_mat
+val pp_mat : (Complex.t, 'a) Lacaml__io.pp_mat
 (** Pretty-printer for matrices. *)

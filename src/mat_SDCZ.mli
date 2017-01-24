@@ -27,7 +27,7 @@
 
 (* Matrix operations *)
 
-open Lacaml_common
+open Lacaml__common
 open Lacaml_numberxx
 open Types.Mat
 

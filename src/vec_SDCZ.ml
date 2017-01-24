@@ -27,8 +27,8 @@
 
 open Bigarray
 open Lacaml_numberxx
-open Lacaml_common
-open Lacaml_utils
+open Lacaml__common
+open Lacaml__utils
 
 (* Creation of vectors and dimension accessor *)
 

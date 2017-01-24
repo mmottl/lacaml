@@ -26,8 +26,8 @@
 *)
 
 open Bigarray
-open Lacaml_mat4_FPREC
-open Lacaml_utils
+open Lacaml__mat4_FPREC
+open Lacaml__utils
 open Lacaml_floatxx
 
 let hilbert n =

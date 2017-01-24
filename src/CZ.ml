@@ -30,21 +30,21 @@
 
 include Lacaml_complexxx
 
-include Lacaml_complex_io
+include Lacaml__complex_io
 
-include Lacaml_impl2_CPREC
-include Lacaml_impl4_CPREC
+include Lacaml__impl2_CPREC
+include Lacaml__impl4_CPREC
 
 module Vec = struct
   type t = vec
 
-  include Lacaml_vec2_CPREC
-  include Lacaml_vec4_CPREC
+  include Lacaml__vec2_CPREC
+  include Lacaml__vec4_CPREC
 end
 
 module Mat = struct
   type t = mat
 
-  include Lacaml_mat2_CPREC
-  include Lacaml_mat4_CPREC
+  include Lacaml__mat2_CPREC
+  include Lacaml__mat4_CPREC
 end

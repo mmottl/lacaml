@@ -32,13 +32,13 @@
 open Printf
 open Bigarray
 open Lacaml_numberxx
-open Lacaml_common
-open Lacaml_utils
+open Lacaml__common
+open Lacaml__utils
 
-module Vec = Lacaml_vec4_NPREC
-module Mat = Lacaml_mat4_NPREC
+module Vec = Lacaml__vec4_NPREC
+module Mat = Lacaml__mat4_NPREC
 
-module RVec = Lacaml_vec4_NBPREC
+module RVec = Lacaml__vec4_NBPREC
 
 
 (* BLAS-1 *)

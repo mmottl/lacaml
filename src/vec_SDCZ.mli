@@ -25,7 +25,7 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Lacaml_common
+open Lacaml__common
 open Lacaml_numberxx
 open Types.Vec
 

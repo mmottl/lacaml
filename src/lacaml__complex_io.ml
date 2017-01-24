@@ -1,4 +1,4 @@
-(* File: real_io.ml
+(* File: complex_io.ml
 
    Copyright (C) 2001-
 
@@ -25,8 +25,8 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Lacaml_io
+open Lacaml__io
 
-let pp_num ppf n = !pp_float_el_default ppf n
-let pp_vec = pp_fvec
-let pp_mat = pp_fmat
+let pp_num ppf n = !pp_complex_el_default ppf n
+let pp_vec = pp_cvec
+let pp_mat = pp_cmat

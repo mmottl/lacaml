@@ -40,14 +40,14 @@ open Printf
 open Bigarray
 open Complex
 open Lacaml_complexxx
-open Lacaml_common
-open Lacaml_utils
-open Lacaml_impl4_CPREC
+open Lacaml__common
+open Lacaml__utils
+open Lacaml__impl4_CPREC
 
-module Vec = Lacaml_vec4_CPREC
-module Mat = Lacaml_mat4_CPREC
+module Vec = Lacaml__vec4_CPREC
+module Mat = Lacaml__mat4_CPREC
 
-module RVec = Lacaml_vec4_CBPREC
+module RVec = Lacaml__vec4_CBPREC
 
 (* BLAS-1 interface *)
 

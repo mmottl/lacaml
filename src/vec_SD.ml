@@ -25,8 +25,8 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Lacaml_vec4_FPREC
-open Lacaml_utils
+open Lacaml__vec4_FPREC
+open Lacaml__utils
 open Lacaml_floatxx
 
 let random ?rnd_state ?(from = -1.) ?(range = 2.) n =

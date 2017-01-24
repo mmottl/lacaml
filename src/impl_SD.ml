@@ -40,12 +40,12 @@
 open Printf
 open Bigarray
 open Lacaml_floatxx
-open Lacaml_common
-open Lacaml_utils
-open Lacaml_impl4_FPREC
+open Lacaml__common
+open Lacaml__utils
+open Lacaml__impl4_FPREC
 
-module Vec = Lacaml_vec4_FPREC
-module Mat = Lacaml_mat4_FPREC
+module Vec = Lacaml__vec4_FPREC
+module Mat = Lacaml__mat4_FPREC
 
 (* BLAS-1 *)
 
@@ -352,7 +352,7 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
   in
   let iwork, _liwork =
     get_work
-      loc Lacaml_common.create_int32_vec iwork
+      loc Lacaml__common.create_int32_vec iwork
       (gecon_min_liwork n) (gecon_min_liwork n) liwork_str in
   let anorm =
     match anorm with
@@ -390,7 +390,7 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
       loc Vec.create work (sycon_min_lwork n) (sycon_min_lwork n) lwork_str in
   let iwork, _liwork =
     get_work
-      loc Lacaml_common.create_int32_vec iwork
+      loc Lacaml__common.create_int32_vec iwork
       (sycon_min_liwork n) (sycon_min_liwork n) liwork_str in
   let ipiv =
     if ipiv = None then sytrf ~n ~up ~work ~ar ~ac a
@@ -431,7 +431,7 @@ let pocon ?n ?(up = true) ?anorm ?work ?iwork ?(ar = 1) ?(ac = 1) a =
       loc Vec.create work (pocon_min_lwork n) (pocon_min_lwork n) lwork_str in
   let iwork, _liwork =
     get_work
-      loc Lacaml_common.create_int32_vec iwork
+      loc Lacaml__common.create_int32_vec iwork
       (pocon_min_liwork n) (pocon_min_liwork n) liwork_str in
   let anorm =
     match anorm with
@@ -1195,7 +1195,7 @@ let syevd_min_liwork ~vectors n =
 
 let syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo =
   let work = Vec.create 1 in
-  let iwork = Lacaml_common.create_int32_vec 1 in
+  let iwork = Lacaml__common.create_int32_vec 1 in
   let info =
     direct_syevd
       ~ar ~ac ~a ~n ~jobz ~uplo ~ofsw:1 ~w:Vec.empty
@@ -1240,7 +1240,7 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
     | Some work, None ->
         let lwork = Array1.dim work in
         let liwork = syevd_get_opt_liwork loc ar ac a n vectors jobz uplo in
-        let iwork = Lacaml_common.create_int32_vec liwork in
+        let iwork = Lacaml__common.create_int32_vec liwork in
         work, iwork, lwork, liwork
     | None, Some iwork ->
         let lwork = syevd_get_opt_lwork loc ar ac a n vectors jobz uplo in
@@ -1251,7 +1251,7 @@ let syevd ?n ?(vectors = false) ?(up = true) ?work ?iwork ?ofsw ?w
         let lwork, liwork =
           syevd_get_opt_l_li_work loc ar ac a n vectors jobz uplo in
         let work = Vec.create lwork in
-        let iwork = Lacaml_common.create_int32_vec liwork in
+        let iwork = Lacaml__common.create_int32_vec liwork in
         work, iwork, lwork, liwork in
   let info =
     direct_syevd ~ar ~ac ~a ~n ~jobz ~uplo ~ofsw ~w ~work ~lwork ~iwork ~liwork
@@ -1391,7 +1391,7 @@ let syevr_get_abstol = function Some abstol -> abstol | None -> lamch `S
 let syevr_get_opt_l_li_work
       loc ar ac a n jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz =
   let work = Vec.create 1 in
-  let iwork = Lacaml_common.create_int32_vec 1 in
+  let iwork = Lacaml__common.create_int32_vec 1 in
   let info, _ =
     direct_syevr
       ~ar ~ac ~a ~n
@@ -1473,7 +1473,7 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
           syevr_get_opt_liwork
             loc ar ac a n
             jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz in
-        let iwork = Lacaml_common.create_int32_vec liwork in
+        let iwork = Lacaml__common.create_int32_vec liwork in
         work, iwork, lwork, liwork
     | None, Some iwork ->
         let lwork =
@@ -1489,7 +1489,7 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
             loc ar ac a n
             jobz range uplo vl vu il iu abstol ofsw w zr zc z isuppz in
         let work = Vec.create lwork in
-        let iwork = Lacaml_common.create_int32_vec liwork in
+        let iwork = Lacaml__common.create_int32_vec liwork in
         work, iwork, lwork, liwork in
   let info, m =
     direct_syevr
