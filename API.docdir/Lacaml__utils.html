@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Lacaml__Z.html">
+<link rel="next" href="Lacaml_version.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml__common" rel="Chapter" href="Lacaml__common.html">
+<link title="Lacaml__io" rel="Chapter" href="Lacaml__io.html">
+<link title="Lacaml__S" rel="Chapter" href="Lacaml__S.html">
+<link title="Lacaml__D" rel="Chapter" href="Lacaml__D.html">
+<link title="Lacaml__C" rel="Chapter" href="Lacaml__C.html">
+<link title="Lacaml__Z" rel="Chapter" href="Lacaml__Z.html">
+<link title="Lacaml__utils" rel="Chapter" href="Lacaml__utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
+<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
+<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
+<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
+<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><title>Lacaml__utils</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Lacaml__Z.html" title="Lacaml__Z">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Lacaml_version.html" title="Lacaml_version">Next</a>
+</div>
+<h1>Module <a href="type_Lacaml__utils.html">Lacaml__utils</a></h1>
+
+<pre><span class="keyword">module</span> Lacaml__utils: <code class="code">sig</code> <a href="Lacaml__utils.html">..</a> <code class="code">end</code></pre><div class="info module top">
+General auxiliary functions<br>
+</div>
+<hr width="100%">
+
+<pre><span id="VALempty_int32_vec"><span class="keyword">val</span> empty_int32_vec</span> : <code class="type"><a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre>
+<pre><span id="VALget_norm_char"><span class="keyword">val</span> get_norm_char</span> : <code class="type">[< `F | `I | `M | `O ] -> char</code></pre>
+<pre><span id="VALget_uplo_char"><span class="keyword">val</span> get_uplo_char</span> : <code class="type">bool -> char</code></pre>
+<pre><span id="VALget_trans_char"><span class="keyword">val</span> get_trans_char</span> : <code class="type">[< `C | `N | `T ] -> char</code></pre>
+<pre><span id="VALget_side_char"><span class="keyword">val</span> get_side_char</span> : <code class="type">[< `L | `R ] -> char</code></pre>
+<pre><span id="VALget_diag_char"><span class="keyword">val</span> get_diag_char</span> : <code class="type">[< `N | `U ] -> char</code></pre>
+<pre><span id="VALget_s_d_job_char"><span class="keyword">val</span> get_s_d_job_char</span> : <code class="type">[< `A | `N | `O | `S ] -> char</code></pre>
+<pre><span id="VALget_job_char"><span class="keyword">val</span> get_job_char</span> : <code class="type">bool -> char</code></pre>
+<pre><span id="VALjob_char_true"><span class="keyword">val</span> job_char_true</span> : <code class="type">char</code></pre>
+<pre><span id="VALjob_char_false"><span class="keyword">val</span> job_char_false</span> : <code class="type">char</code></pre><br>
+Preallocated strings (names)<br>
+
+<pre><span id="VALa_str"><span class="keyword">val</span> a_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALab_str"><span class="keyword">val</span> ab_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALalphas_str"><span class="keyword">val</span> alphas_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALap_str"><span class="keyword">val</span> ap_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALb_str"><span class="keyword">val</span> b_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALbr_str"><span class="keyword">val</span> br_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALbc_str"><span class="keyword">val</span> bc_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALc_str"><span class="keyword">val</span> c_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALcr_str"><span class="keyword">val</span> cr_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALcc_str"><span class="keyword">val</span> cc_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALd_str"><span class="keyword">val</span> d_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALdl_str"><span class="keyword">val</span> dl_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALdu_str"><span class="keyword">val</span> du_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALe_str"><span class="keyword">val</span> e_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALipiv_str"><span class="keyword">val</span> ipiv_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALiseed_str"><span class="keyword">val</span> iseed_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALk_str"><span class="keyword">val</span> k_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALka_str"><span class="keyword">val</span> ka_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALkb_str"><span class="keyword">val</span> kb_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALwork_str"><span class="keyword">val</span> work_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALlwork_str"><span class="keyword">val</span> lwork_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALliwork_str"><span class="keyword">val</span> liwork_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALk1_str"><span class="keyword">val</span> k1_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALk2_str"><span class="keyword">val</span> k2_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALkd_str"><span class="keyword">val</span> kd_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALkl_str"><span class="keyword">val</span> kl_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALku_str"><span class="keyword">val</span> ku_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALm_str"><span class="keyword">val</span> m_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALn_str"><span class="keyword">val</span> n_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALnrhs_str"><span class="keyword">val</span> nrhs_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALofs_str"><span class="keyword">val</span> ofs_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALr_str"><span class="keyword">val</span> r_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALs_str"><span class="keyword">val</span> s_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALtau_str"><span class="keyword">val</span> tau_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALu_str"><span class="keyword">val</span> u_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALum_str"><span class="keyword">val</span> um_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALun_str"><span class="keyword">val</span> un_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALvm_str"><span class="keyword">val</span> vm_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALvn_str"><span class="keyword">val</span> vn_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALvs_str"><span class="keyword">val</span> vs_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALvsr_str"><span class="keyword">val</span> vsr_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALvsc_str"><span class="keyword">val</span> vsc_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALvt_str"><span class="keyword">val</span> vt_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALw_str"><span class="keyword">val</span> w_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALwi_str"><span class="keyword">val</span> wi_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALwr_str"><span class="keyword">val</span> wr_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALx_str"><span class="keyword">val</span> x_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALy_str"><span class="keyword">val</span> y_str</span> : <code class="type">string</code></pre>
+<pre><span id="VALz_str"><span class="keyword">val</span> z_str</span> : <code class="type">string</code></pre><br>
+Range checking<br>
+
+<pre><span id="VALraise_var_lt0"><span class="keyword">val</span> raise_var_lt0</span> : <code class="type">loc:string -> name:string -> int -> 'a</code></pre><div class="info ">
+<code class="code">raise_var_lt0 ~loc ~name var</code><br>
+<b>Raises</b> <code>Invalid_argument</code> to indicate
+    that integer variable <code class="code">var</code> with name <code class="code">name</code> at location <code class="code">loc</code> is lower
+    than <code class="code">0</code>.<br>
+</div>
+
+<pre><span id="VALcheck_var_lt0"><span class="keyword">val</span> check_var_lt0</span> : <code class="type">loc:string -> name:string -> int -> unit</code></pre><div class="info ">
+<code class="code">check_var_lt0 ~loc ~name var</code> checks whether integer variable <code class="code">var</code> with
+    name <code class="code">name</code> at location <code class="code">loc</code> is lower than <code class="code">0</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> in that case.<br>
+</div>
+
+<pre><span id="VALcheck_var_within"><span class="keyword">val</span> check_var_within</span> : <code class="type">string -> string -> 'a -> 'a -> 'a -> ('a -> string) -> unit</code></pre><br>
+Valueless vector checking and allocation functions (do not require a
+    vector value as argument<br>
+
+<pre><span id="VALcalc_vec_min_dim"><span class="keyword">val</span> calc_vec_min_dim</span> : <code class="type">n:int -> ofs:int -> inc:int -> int</code></pre><div class="info ">
+<code class="code">calc_vec_min_dim ~n ~ofs ~inc</code><br>
+<b>Returns</b> minimum vector dimension given
+    offset <code class="code">ofs</code>, increment <code class="code">inc</code>, and operation size <code class="code">n</code> for a vector.<br>
+</div>
+
+<pre><span id="VALraise_vec_min_dim"><span class="keyword">val</span> raise_vec_min_dim</span> : <code class="type">loc:string -> vec_name:string -> dim:int -> min_dim:int -> 'a</code></pre><div class="info ">
+<code class="code">raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim</code><br>
+<b>Raises</b> <code>Invalid_argument</code> to indicate that dimension <code class="code">dim</code> of a vector with name <code class="code">vec_name</code>
+    exceeds the minimum <code class="code">min_dim</code> at location <code class="code">loc</code>.<br>
+</div>
+
+<pre><span id="VALcheck_vec_min_dim"><span class="keyword">val</span> check_vec_min_dim</span> : <code class="type">loc:string -> vec_name:string -> dim:int -> min_dim:int -> unit</code></pre><div class="info ">
+<code class="code">check_vec_min_dim ~loc ~vec_name ~dim ~min_dim</code> checks whether vector
+    with name <code class="code">vec_name</code> and dimension <code class="code">dim</code> satisfies minimum dimension
+    <code class="code">min_dim</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> otherwise.<br>
+</div>
+
+<pre><span id="VALraise_vec_bad_ofs"><span class="keyword">val</span> raise_vec_bad_ofs</span> : <code class="type">loc:string -> vec_name:string -> ofs:int -> max_ofs:int -> 'a</code></pre><div class="info ">
+<code class="code">raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs</code><br>
+<b>Raises</b> <code>Invalid_argument</code> to indicate that vector offset <code class="code">ofs</code> is invalid (i.e. is outside of
+    <code class="code">1..max_ofs</code>).<br>
+</div>
+
+<pre><span id="VALbad_n"><span class="keyword">val</span> bad_n</span> : <code class="type">n:int -> max_n:int -> bool</code></pre><div class="info ">
+<code class="code">bad_n ~n ~max_n</code><br>
+<b>Returns</b> <code class="code">true</code> iff <code class="code">n</code> is smaller than zero or larger
+    than <code class="code">max_n</code>.<br>
+</div>
+
+<pre><span id="VALbad_ofs"><span class="keyword">val</span> bad_ofs</span> : <code class="type">ofs:int -> max_ofs:int -> bool</code></pre><div class="info ">
+<code class="code">bad_ofs ~ofs ~max_ofs</code><br>
+<b>Returns</b> <code class="code">true</code> iff <code class="code">ofs</code> is smaller than one or
+    exceeds <code class="code">max_ofs</code>.<br>
+</div>
+
+<pre><span id="VALbad_inc"><span class="keyword">val</span> bad_inc</span> : <code class="type">int -> bool</code></pre><div class="info ">
+<code class="code">bad_inc inc</code><br>
+<b>Returns</b> <code class="code">true</code> iff <code class="code">inc</code> is illegal.<br>
+</div>
+
+<pre><span id="VALcheck_vec_ofs"><span class="keyword">val</span> check_vec_ofs</span> : <code class="type">loc:string -> vec_name:string -> ofs:int -> max_ofs:int -> unit</code></pre><div class="info ">
+<code class="code">check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs</code> checks whether vector
+    offset <code class="code">ofs</code> for vector of name <code class="code">vec_name</code> is invalid (i.e. outside of
+    <code class="code">1..max_ofs</code>).<br>
+<b>Raises</b> <code>Invalid_argument</code> in that case.<br>
+</div>
+
+<pre><span id="VALcheck_vec_inc"><span class="keyword">val</span> check_vec_inc</span> : <code class="type">loc:string -> vec_name:string -> int -> unit</code></pre><div class="info ">
+<code class="code">check_vec_inc ~loc ~vec_name inc</code> checks whether vector increment <code class="code">inc</code>
+    for vector of name <code class="code">vec_name</code> is invalid (i.e. <code class="code">0</code>).<br>
+<b>Raises</b> <code>Invalid_argument</code> in that case.<br>
+</div>
+
+<pre><span id="VALcalc_vec_max_n"><span class="keyword">val</span> calc_vec_max_n</span> : <code class="type">dim:int -> ofs:int -> inc:int -> int</code></pre><div class="info ">
+<code class="code">calc_vec_max_n ~dim ~ofs ~inc</code><br>
+<b>Returns</b> maximum operation length <code class="code">n</code>
+    for a vector given the dimension <code class="code">dim</code> of the vector, the offset <code class="code">ofs</code>,
+    and increment <code class="code">inc</code>.  Assumes that the offset has already been validated
+    to not exceed <code class="code">dim</code>, i.e. the returned <code class="code">max_n</code> is at least <code class="code">1</code>.<br>
+</div>
+
+<pre><span id="VALcalc_vec_opt_max_n"><span class="keyword">val</span> calc_vec_opt_max_n</span> : <code class="type">?ofs:int -> ?inc:int -> int -> int</code></pre><div class="info ">
+<code class="code">calc_vec_opt_max_n ?ofs ?inc dim</code><br>
+<b>Returns</b> maximum operation length <code class="code">n</code>
+    for a vector given the dimension <code class="code">dim</code> of the vector, the optional offset
+    <code class="code">ofs</code>, and optional increment <code class="code">inc</code>.  Assumes that the offset has already
+    been validated to not exceed <code class="code">dim</code>, i.e. the returned <code class="code">max_n</code> is at least
+    <code class="code">1</code>.<br>
+</div>
+
+<pre><span id="VALraise_max_len"><span class="keyword">val</span> raise_max_len</span> : <code class="type">loc:string -> len_name:string -> len:int -> max_len:int -> 'a</code></pre><div class="info ">
+<code class="code">raise_max_len ~loc ~len_name ~len ~max_len</code><br>
+<b>Raises</b> <code>Invalid_argument</code> that the maximum operation size (e.g. <code class="code">m</code> or <code class="code">n</code> for vectors and matrices)
+    has been exceeded.<br>
+</div>
+
+<pre><span id="VALcheck_vec_dim"><span class="keyword">val</span> check_vec_dim</span> : <code class="type">loc:string -><br>       vec_name:string -><br>       dim:int -> ofs:int -> inc:int -> n_name:string -> n:int -> unit</code></pre><div class="info ">
+<code class="code">check_vec_dim ~loc ~vec_name ~dim ~ofs ~inc ~n_name ~n</code> checks the vector
+    operation length in parameter <code class="code">n</code> with name <code class="code">n_name</code> at location <code class="code">loc</code>
+    for vector with name <code class="code">vec_name</code> and dimension <code class="code">dim</code> given the operation
+    offset <code class="code">ofs</code> and increment <code class="code">inc</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any
+    arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_vec_n"><span class="keyword">val</span> get_vec_n</span> : <code class="type">loc:string -><br>       vec_name:string -><br>       dim:int -> ofs:int -> inc:int -> n_name:string -> int option -> int</code></pre><div class="info ">
+<code class="code">get_vec_n ~loc ~vec_name ~dim ~ofs ~inc ~n_name n</code> checks or infers
+    the vector operation length in the option parameter <code class="code">n</code> with name <code class="code">n_name</code>
+    at location <code class="code">loc</code> for vector with name <code class="code">vec_name</code> and dimension <code class="code">dim</code> given
+    the operation offset <code class="code">ofs</code> and increment <code class="code">inc</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_vec_min_dim"><span class="keyword">val</span> get_vec_min_dim</span> : <code class="type">loc:string -> vec_name:string -> ofs:int -> inc:int -> n:int -> int</code></pre><div class="info ">
+<code class="code">get_vec_min_dim ~loc ~vec_name ~ofs ~inc ~n</code><br>
+<b>Raises</b> <code>Invalid_argument</code> if any of the parameters are illegal.<br>
+<b>Returns</b> minimum vector
+    dimension given offset <code class="code">ofs</code>, increment <code class="code">inc</code>, and operation size <code class="code">n</code>
+    for a vector named <code class="code">vec_name</code> at location <code class="code">loc</code>.<br>
+</div>
+
+<pre><span id="VALget_vec_start_stop"><span class="keyword">val</span> get_vec_start_stop</span> : <code class="type">ofsx:int -> incx:int -> n:int -> int * int</code></pre><div class="info ">
+<code class="code">get_vec_start_stop ~ofsx ~incx ~n</code><br>
+<b>Returns</b> <code class="code">(start, stop)</code> where <code class="code">start</code>
+    and <code class="code">stop</code> reflect the start and stop of an iteration respectively.<br>
+</div>
+<br>
+Valueless matrix checking and allocation functions (do not require a
+    matrix value as argument<br>
+
+<pre><span id="VALraise_bad_mat_ofs"><span class="keyword">val</span> raise_bad_mat_ofs</span> : <code class="type">loc:string -> name:string -> ofs_name:string -> ofs:int -> max_ofs:int -> 'a</code></pre><div class="info ">
+<code class="code">raise_bad_mat_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs</code><br>
+<b>Raises</b> <code>Invalid_argument</code> to indicate that a matrix offset <code class="code">ofs</code> named <code class="code">ofs_name</code>
+    for a matrix having <code class="code">name</code> is invalid (i.e. is outside of <code class="code">1..max_ofs</code>).<br>
+</div>
+
+<pre><span id="VALraise_mat_bad_r"><span class="keyword">val</span> raise_mat_bad_r</span> : <code class="type">loc:string -> mat_name:string -> r:int -> max_r:int -> 'a</code></pre><div class="info ">
+<code class="code">raise_mat_bad_r ~loc ~mat_name ~r ~max_r</code><br>
+<b>Raises</b> <code>Invalid_argument</code> to indicate that matrix row offset <code class="code">r</code> is invalid (i.e. is outside of
+    <code class="code">1..max_r</code>).<br>
+</div>
+
+<pre><span id="VALraise_mat_bad_c"><span class="keyword">val</span> raise_mat_bad_c</span> : <code class="type">loc:string -> mat_name:string -> c:int -> max_c:int -> 'a</code></pre><div class="info ">
+<code class="code">raise_mat_bad_c ~loc ~mat_name ~c ~max_c</code><br>
+<b>Raises</b> <code>Invalid_argument</code> to indicate that matrix column offset <code class="code">c</code> is invalid (i.e. is outside of
+    <code class="code">1..max_c</code>).<br>
+</div>
+
+<pre><span id="VALcheck_mat_r"><span class="keyword">val</span> check_mat_r</span> : <code class="type">loc:string -> mat_name:string -> r:int -> max_r:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_r ~loc ~vec_name ~r ~max_r</code> checks whether matrix row
+    offset <code class="code">r</code> for vector of name <code class="code">vec_name</code> is invalid (i.e. outside of
+    <code class="code">1..max_r</code>).<br>
+<b>Raises</b> <code>Invalid_argument</code> in that case.<br>
+</div>
+
+<pre><span id="VALcheck_mat_c"><span class="keyword">val</span> check_mat_c</span> : <code class="type">loc:string -> mat_name:string -> c:int -> max_c:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_c ~loc ~vec_name ~c ~max_c</code> checks whether matrix column
+    offset <code class="code">c</code> for vector of name <code class="code">vec_name</code> is invalid (i.e. outside of
+    <code class="code">1..max_c</code>).<br>
+<b>Raises</b> <code>Invalid_argument</code> in that case.<br>
+</div>
+
+<pre><span id="VALcalc_mat_max_rows"><span class="keyword">val</span> calc_mat_max_rows</span> : <code class="type">dim1:int -> r:int -> int</code></pre><div class="info ">
+<code class="code">calc_mat_max_rows ~dim1 ~r</code><br>
+<b>Returns</b> maximum row operation length <code class="code">m</code> for a
+    matrix given the dimension <code class="code">dim1</code> of the matrix and the start row <code class="code">r</code>.<br>
+</div>
+
+<pre><span id="VALcalc_mat_opt_max_rows"><span class="keyword">val</span> calc_mat_opt_max_rows</span> : <code class="type">?r:int -> int -> int</code></pre><div class="info ">
+<code class="code">calc_mat_opt_max_rows ?r dim1</code><br>
+<b>Returns</b> maximum row operation length
+    <code class="code">m</code> for a matrix given the dimension <code class="code">dim1</code> of the matrix and the optional
+    start row <code class="code">r</code>.  Assumes that the offset has already been validated to
+    not exceed <code class="code">dim1</code>, i.e. the returned <code class="code">max_m</code> is at least <code class="code">1</code>.<br>
+</div>
+
+<pre><span id="VALcalc_mat_max_cols"><span class="keyword">val</span> calc_mat_max_cols</span> : <code class="type">dim2:int -> c:int -> int</code></pre><div class="info ">
+<code class="code">calc_mat_max_cols ~dim2 ~c</code><br>
+<b>Returns</b> maximum column operation length
+    <code class="code">n</code> for a matrix given the dimension <code class="code">dim1</code> of the matrix and the start
+    column <code class="code">c</code>.<br>
+</div>
+
+<pre><span id="VALcalc_mat_opt_max_cols"><span class="keyword">val</span> calc_mat_opt_max_cols</span> : <code class="type">?c:int -> int -> int</code></pre><div class="info ">
+<code class="code">calc_mat_opt_max_cols ?c dim1</code><br>
+<b>Returns</b> maximum column operation length
+    <code class="code">m</code> for a matrix given the dimension <code class="code">dim2</code> of the matrix and the optional
+    start column <code class="code">c</code>.  Assumes that the offset has already been validated to
+    not exceed <code class="code">dim2</code>, i.e. the returned <code class="code">max_n</code> is at least <code class="code">1</code>.<br>
+</div>
+
+<pre><span id="VALcheck_mat_rows"><span class="keyword">val</span> check_mat_rows</span> : <code class="type">loc:string -><br>       mat_name:string -> dim1:int -> r:int -> p:int -> param_name:string -> unit</code></pre><div class="info ">
+<code class="code">check_mat_rows ~loc ~mat_name ~dim1 ~r ~p ~param_name</code> checks the matrix
+    row operation length in parameter <code class="code">p</code> with name <code class="code">param_name</code> at
+    location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code> and dimension <code class="code">dim1</code>
+    given the operation row <code class="code">r</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments
+    are invalid.<br>
+</div>
+
+<pre><span id="VALcheck_mat_m"><span class="keyword">val</span> check_mat_m</span> : <code class="type">loc:string -> mat_name:string -> dim1:int -> r:int -> m:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_m ~loc ~mat_name ~dim1 ~r ~m</code> checks the matrix row operation
+    length in parameter <code class="code">m</code> at location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code>
+    and dimension <code class="code">dim1</code> given the operation row <code class="code">r</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALcheck_mat_cols"><span class="keyword">val</span> check_mat_cols</span> : <code class="type">loc:string -><br>       mat_name:string -> dim2:int -> c:int -> p:int -> param_name:string -> unit</code></pre><div class="info ">
+<code class="code">check_mat_cols ~loc ~mat_name ~dim2 ~c ~p ~param_name</code> checks the
+    matrix column operation length in parameter <code class="code">p</code> with name <code class="code">param_name</code>
+    at location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code> and dimension <code class="code">dim2</code>
+    given the operation column <code class="code">c</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments
+    are invalid.<br>
+</div>
+
+<pre><span id="VALcheck_mat_n"><span class="keyword">val</span> check_mat_n</span> : <code class="type">loc:string -> mat_name:string -> dim2:int -> c:int -> n:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_n ~loc ~mat_name ~dim2 ~c ~n</code> checks the matrix column
+    operation length in parameter <code class="code">n</code> at location <code class="code">loc</code> for matrix with
+    name <code class="code">mat_name</code> and dimension <code class="code">dim2</code> given the operation column <code class="code">c</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALcheck_mat_mn"><span class="keyword">val</span> check_mat_mn</span> : <code class="type">loc:string -><br>       mat_name:string -><br>       dim1:int -> dim2:int -> r:int -> c:int -> m:int -> n:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_mn ~loc ~mat_name ~dim1 ~dim2 ~r ~c ~m ~n</code> checks the matrix
+    operation lengths in parameters <code class="code">m</code> and <code class="code">n</code> at location <code class="code">loc</code> for matrix
+    with name <code class="code">mat_name</code> and dimensions <code class="code">dim1</code> and <code class="code">dim2</code> given the operation
+    row <code class="code">r</code> and column <code class="code">c</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are
+    invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_rows"><span class="keyword">val</span> get_mat_rows</span> : <code class="type">loc:string -><br>       mat_name:string -><br>       dim1:int -> r:int -> p:int option -> param_name:string -> int</code></pre><div class="info ">
+<code class="code">get_mat_rows ~loc ~mat_name ~dim1 ~r p ~param_name</code> checks or infers
+    the matrix row operation length in the option parameter <code class="code">p</code> with
+    name <code class="code">param_name</code> at location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code>
+    and dimension <code class="code">dim1</code> given the row operation offset <code class="code">r</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_dim1"><span class="keyword">val</span> get_mat_dim1</span> : <code class="type">loc:string -><br>       mat_name:string -> dim1:int -> r:int -> m:int option -> m_name:string -> int</code></pre><div class="info ">
+<code class="code">get_mat_dim1 ~loc ~mat_name ~dim1 ~r ~m ~m_name</code> checks or infers the
+    matrix row operation length in the option parameter <code class="code">m</code> with name <code class="code">m_name</code>
+    at location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code> and dimension <code class="code">dim1</code>
+    given the row operation offset <code class="code">r</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any
+    arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_m"><span class="keyword">val</span> get_mat_m</span> : <code class="type">loc:string -> mat_name:string -> dim1:int -> r:int -> m:int option -> int</code></pre><div class="info ">
+<code class="code">get_mat_m ~loc ~mat_name ~dim1 ~r ~m</code> checks or infers the matrix row
+    operation length in the option parameter <code class="code">m</code> at location <code class="code">loc</code> for matrix
+    with name <code class="code">mat_name</code> and dimension <code class="code">dim1</code> given the row operation offset
+    <code class="code">r</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_cols"><span class="keyword">val</span> get_mat_cols</span> : <code class="type">loc:string -><br>       mat_name:string -><br>       dim2:int -> c:int -> p:int option -> param_name:string -> int</code></pre><div class="info ">
+<code class="code">get_mat_cols ~loc ~mat_name ~dim2 ~c ~param_name p</code> checks or infers
+    the matrix column operation length in the option parameter <code class="code">p</code> with
+    name <code class="code">param_name</code> at location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code>
+    and dimension <code class="code">dim2</code> given the column operation offset <code class="code">c</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_dim2"><span class="keyword">val</span> get_mat_dim2</span> : <code class="type">loc:string -><br>       mat_name:string -> dim2:int -> c:int -> n:int option -> n_name:string -> int</code></pre><div class="info ">
+<code class="code">get_mat_dim2 ~loc ~mat_name ~dim2 ~c ~n ~n_name</code> checks or infers the
+    matrix column operation length in the option parameter <code class="code">n</code> with name
+    <code class="code">n_name</code> at location <code class="code">loc</code> for matrix with name <code class="code">mat_name</code> and dimension
+    <code class="code">dim2</code> given the column operation offset <code class="code">c</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_n"><span class="keyword">val</span> get_mat_n</span> : <code class="type">loc:string -> mat_name:string -> dim2:int -> c:int -> n:int option -> int</code></pre><div class="info ">
+<code class="code">get_mat_n ~loc ~mat_name ~dim2 ~c ~n</code> checks or infers the matrix column
+    operation length in the option parameter <code class="code">n</code> at location <code class="code">loc</code> for matrix
+    with name <code class="code">mat_name</code> and dimension <code class="code">dim2</code> given the column operation
+    offset <code class="code">c</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALget_mat_min_dim1"><span class="keyword">val</span> get_mat_min_dim1</span> : <code class="type">loc:string -> mat_name:string -> r:int -> m:int -> int</code></pre><div class="info ">
+<code class="code">get_mat_min_dim1 ~loc ~mat_name ~r ~m</code><br>
+<b>Raises</b> <code>Invalid_argument</code> if any arguments
+    are invalid.<br>
+<b>Returns</b> the minimum row dimension
+    of a matrix with name <code class="code">mat_name</code> at location <code class="code">loc</code> given row <code class="code">r</code> and
+    row operation length <code class="code">m</code>.<br>
+</div>
+
+<pre><span id="VALget_mat_min_dim2"><span class="keyword">val</span> get_mat_min_dim2</span> : <code class="type">loc:string -> mat_name:string -> c:int -> n:int -> int</code></pre><div class="info ">
+<code class="code">get_mat_min_dim2 ~loc ~mat_name ~c ~n</code><br>
+<b>Raises</b> <code>Invalid_argument</code> if any
+    arguments are invalid.<br>
+<b>Returns</b> the minimum column
+    dimension of a matrix with name <code class="code">mat_name</code> at location <code class="code">loc</code> given column
+    <code class="code">c</code> and row operation length <code class="code">n</code>.<br>
+</div>
+
+<pre><span id="VALcheck_mat_min_dim1"><span class="keyword">val</span> check_mat_min_dim1</span> : <code class="type">loc:string -> mat_name:string -> dim1:int -> min_dim1:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_min_dim1 ~loc ~mat_name ~dim1 ~min_dim1</code> checks the minimum
+    row dimension <code class="code">min_dim1</code> of a matrix with name <code class="code">mat_name</code> at location
+    <code class="code">loc</code> given its row dimension <code class="code">dim1</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if
+    any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALcheck_mat_min_dim2"><span class="keyword">val</span> check_mat_min_dim2</span> : <code class="type">loc:string -> mat_name:string -> dim2:int -> min_dim2:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2</code> checks the minimum
+    column dimension <code class="code">min_dim2</code> of a matrix with name <code class="code">mat_name</code> at location
+    <code class="code">loc</code> given its column dimension <code class="code">dim2</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if
+    any arguments are invalid.<br>
+</div>
+
+<pre><span id="VALcheck_mat_min_dims"><span class="keyword">val</span> check_mat_min_dims</span> : <code class="type">loc:string -><br>       mat_name:string -><br>       dim1:int -> dim2:int -> min_dim1:int -> min_dim2:int -> unit</code></pre><div class="info ">
+<code class="code">check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2</code> checks the minimum
+    column dimension <code class="code">min_dim2</code> of a matrix with name <code class="code">mat_name</code> at location
+    <code class="code">loc</code> given its column dimension <code class="code">dim2</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if
+    any arguments are invalid.<br>
+</div>
+<br>
+(Old) Vector checking and allocation functions<br>
+
+<pre><span id="VALcheck_vec"><span class="keyword">val</span> check_vec</span> : <code class="type">string -> string -> ('a, 'b, 'c) Bigarray.Array1.t -> int -> unit</code></pre>
+<pre><span id="VALcheck_vec_is_perm"><span class="keyword">val</span> check_vec_is_perm</span> : <code class="type">string -> string -> (int32, 'a, 'b) Bigarray.Array1.t -> int -> unit</code></pre><div class="info ">
+<code class="code">check_vec_is_perm loc vec_name vec n</code> checks whether <code class="code">vec</code>
+    is a valid permutation vector.<br>
+</div>
+
+<pre><span id="VALget_vec"><span class="keyword">val</span> get_vec</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -><br>       int -><br>       int -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -> ('a, 'b, 'c) Bigarray.Array1.t</code></pre>
+<pre><span id="VALget_dim_vec"><span class="keyword">val</span> get_dim_vec</span> : <code class="type">string -><br>       string -><br>       int -> int -> ('a, 'b, 'c) Bigarray.Array1.t -> string -> int option -> int</code></pre><div class="info ">
+<code class="code">get_dim_vec loc vec_name ofs inc vec n_name n</code> if the dimension <code class="code">n</code>
+   is given, check that the vector <code class="code">vec</code> is big enough, otherwise return
+   the maximal <code class="code">n</code> for the given vector <code class="code">vec</code>.<br>
+</div>
+
+<pre><span id="VALcheck_vec_empty"><span class="keyword">val</span> check_vec_empty</span> : <code class="type">loc:string -> vec_name:string -> dim:int -> unit</code></pre><br>
+(Old) Matrix checking and allocation functions<br>
+
+<pre><span id="VALget_mat"><span class="keyword">val</span> get_mat</span> : <code class="type">string -><br>       string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       int -> int -> ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALcheck_dim1_mat"><span class="keyword">val</span> check_dim1_mat</span> : <code class="type">string -><br>       string -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> string -> int -> unit</code></pre>
+<pre><span id="VALcheck_dim2_mat"><span class="keyword">val</span> check_dim2_mat</span> : <code class="type">string -><br>       string -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> string -> int -> unit</code></pre>
+<pre><span id="VALcheck_dim_mat"><span class="keyword">val</span> check_dim_mat</span> : <code class="type">string -><br>       string -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> int -> unit</code></pre>
+<pre><span id="VALget_dim1_mat"><span class="keyword">val</span> get_dim1_mat</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> int -> string -> int option -> int</code></pre>
+<pre><span id="VALget_dim2_mat"><span class="keyword">val</span> get_dim2_mat</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> int -> string -> int option -> int</code></pre>
+<pre><span id="VALcheck_mat_empty"><span class="keyword">val</span> check_mat_empty</span> : <code class="type">loc:string -> mat_name:string -> dim1:int -> dim2:int -> unit</code></pre>
+<pre><span id="VALget_vec_inc"><span class="keyword">val</span> get_vec_inc</span> : <code class="type">string -> string -> int option -> int</code></pre>
+<pre><span id="VALget_vec_ofs"><span class="keyword">val</span> get_vec_ofs</span> : <code class="type">string -> string -> int option -> int</code></pre>
+<pre><span id="VALilaenv"><span class="keyword">val</span> ilaenv</span> : <code class="type">int -> string -> string -> int -> int -> int -> int -> int</code></pre>
+<pre><span id="VALget_work"><span class="keyword">val</span> get_work</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -> int -> string -> ('a, 'b, 'c) Bigarray.Array1.t * int</code></pre>
+<pre><span id="VALcalc_unpacked_dim"><span class="keyword">val</span> calc_unpacked_dim</span> : <code class="type">string -> int -> int</code></pre>
+<pre><span id="VALget_unpacked_dim"><span class="keyword">val</span> get_unpacked_dim</span> : <code class="type">string -> ?n:int -> int -> int</code></pre>
+<pre><span id="VALget_vec_geom"><span class="keyword">val</span> get_vec_geom</span> : <code class="type">string -> string -> int option -> int option -> int * int</code></pre>
+<pre><span id="VALget_k_mat_sb"><span class="keyword">val</span> get_k_mat_sb</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> int -> string -> int option -> int</code></pre>
+<pre><span id="VALget_dim_mat_packed"><span class="keyword">val</span> get_dim_mat_packed</span> : <code class="type">string -><br>       string -><br>       int -> ('a, 'b, 'c) Bigarray.Array1.t -> string -> int option -> int</code></pre>
+<pre><span id="VALget_n_of_square"><span class="keyword">val</span> get_n_of_square</span> : <code class="type">string -><br>       string -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int option -> int</code></pre>
+<pre><span id="VALget_n_of_a"><span class="keyword">val</span> get_n_of_a</span> : <code class="type">string -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int option -> int</code></pre>
+<pre><span id="VALget_nrhs_of_b"><span class="keyword">val</span> get_nrhs_of_b</span> : <code class="type">string -><br>       int -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int option -> int</code></pre>
+<pre><span id="VALorgqr_err"><span class="keyword">val</span> orgqr_err</span> : <code class="type">loc:string -><br>       m:int -><br>       n:int -><br>       k:int -><br>       work:('a, 'b, 'c) Bigarray.Array1.t -><br>       a:('d, 'e, 'f) Bigarray.Array2.t -> err:int -> 'g</code></pre>
+<pre><span id="VALorgqr_get_params"><span class="keyword">val</span> orgqr_get_params</span> : <code class="type">string -><br>       ?m:int -><br>       ?n:int -><br>       ?k:int -><br>       tau:('a, 'b, 'c) Bigarray.Array1.t -><br>       ar:int -> ac:int -> ('d, 'e, 'f) Bigarray.Array2.t -> int * int * int</code></pre>
+<pre><span id="VALormqr_err"><span class="keyword">val</span> ormqr_err</span> : <code class="type">loc:string -><br>       side:[< `L | `R ] -><br>       m:int -><br>       n:int -><br>       k:int -><br>       lwork:int -><br>       a:('a, 'b, 'c) Bigarray.Array2.t -><br>       c:('d, 'e, 'f) Bigarray.Array2.t -> err:int -> 'g</code></pre>
+<pre><span id="VALormqr_get_params"><span class="keyword">val</span> ormqr_get_params</span> : <code class="type">string -><br>       side:[< `L | `R ] -><br>       ?m:int -><br>       ?n:int -><br>       ?k:int -><br>       tau:('a, 'b, 'c) Bigarray.Array1.t -><br>       ar:int -><br>       ac:int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       cr:int -> cc:int -> ('g, 'h, 'i) Bigarray.Array2.t -> int * int * int</code></pre>
+<pre><span id="VALgelsX_err"><span class="keyword">val</span> gelsX_err</span> : <code class="type">string -><br>       (m:int -> n:int -> nrhs:int -> int) -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int -><br>       int -> int -> int -> int -> ('d, 'e, 'f) Bigarray.Array2.t -> int -> 'g</code></pre>
+<pre><span id="VALgelsX_get_s"><span class="keyword">val</span> gelsX_get_s</span> : <code class="type">(int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -> ('a, 'b, 'c) Bigarray.Array1.t</code></pre>
+<pre><span id="VALgelsX_get_params"><span class="keyword">val</span> gelsX_get_params</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int option -><br>       int option -><br>       int option -> int -> int -> ('d, 'e, 'f) Bigarray.Array2.t -> int * int * int</code></pre>
+<pre><span id="VALxxev_get_params"><span class="keyword">val</span> xxev_get_params</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int option -> bool -> bool -> int * char * char</code></pre>
+<pre><span id="VALxxev_get_wx"><span class="keyword">val</span> xxev_get_wx</span> : <code class="type">(int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       string -><br>       string -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -> int * ('a, 'b, 'c) Bigarray.Array1.t</code></pre>
+<pre><span id="VALgeev_get_job_side"><span class="keyword">val</span> geev_get_job_side</span> : <code class="type">string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       string -><br>       int -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option option -><br>       int * int * ('a, 'b, 'c) Bigarray.Array2.t * char * bool</code></pre>
+<pre><span id="VALgeev_gen_get_params"><span class="keyword">val</span> geev_gen_get_params</span> : <code class="type">string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int option -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option option -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option option -><br>       int * int * int * ('a, 'b, 'c) Bigarray.Array2.t * char * int * int *<br>       ('a, 'b, 'c) Bigarray.Array2.t * char * bool</code></pre>
+<pre><span id="VALgXmv_get_params"><span class="keyword">val</span> gXmv_get_params</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       int -><br>       int -><br>       int option -><br>       int option -><br>       ('d, 'e, 'f) Bigarray.Array1.t -><br>       int option -><br>       int option -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       [< `C | `N | `T > `N ] -><br>       int * int * int * int * ('a, 'b, 'c) Bigarray.Array1.t * char</code></pre>
+<pre><span id="VALsymv_get_params"><span class="keyword">val</span> symv_get_params</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int option -><br>       int option -><br>       int option -><br>       ('g, 'h, 'i) Bigarray.Array1.t -><br>       int option -><br>       int option -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       bool -> int * int * int * int * int * ('a, 'b, 'c) Bigarray.Array1.t * char</code></pre>
+<pre><span id="VALtrXv_get_params"><span class="keyword">val</span> trXv_get_params</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int option -><br>       int option -><br>       int option -><br>       ('d, 'e, 'f) Bigarray.Array1.t -><br>       bool -><br>       [< `C | `N | `T ] -> [< `N | `U ] -> int * int * int * char * char * char</code></pre>
+<pre><span id="VALtpXv_get_params"><span class="keyword">val</span> tpXv_get_params</span> : <code class="type">string -><br>       int option -><br>       ('a, 'b, 'c) Bigarray.Array1.t -><br>       ?n:int -><br>       int option -><br>       int option -><br>       ('d, 'e, 'f) Bigarray.Array1.t -><br>       bool -><br>       [< `C | `N | `T ] -><br>       [< `N | `U ] -> int * int * int * int * char * char * char</code></pre>
+<pre><span id="VALget_c"><span class="keyword">val</span> get_c</span> : <code class="type">string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       int -> int -> ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALget_rows_mat_tr"><span class="keyword">val</span> get_rows_mat_tr</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int -> int -> [> `N ] -> string -> int option -> int</code></pre>
+<pre><span id="VALget_cols_mat_tr"><span class="keyword">val</span> get_cols_mat_tr</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int -> int -> [> `N ] -> string -> int option -> int</code></pre>
+<pre><span id="VALget_inner_dim"><span class="keyword">val</span> get_inner_dim</span> : <code class="type">string -><br>       string -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int -><br>       int -><br>       [> `N ] -><br>       string -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int -> int -> [> `N ] -> string -> int option -> int</code></pre>
+<pre><span id="VALgemm_get_params"><span class="keyword">val</span> gemm_get_params</span> : <code class="type">string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       [< `C | `N | `T > `N ] -><br>       int -><br>       int -><br>       ('g, 'h, 'i) Bigarray.Array2.t -><br>       int -><br>       [< `C | `N | `T > `N ] -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       int option -><br>       int option -><br>       int option -> int * int * int * char * char * ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALcheck_mat_square"><span class="keyword">val</span> check_mat_square</span> : <code class="type">string -><br>       string -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> int -> int -> unit</code></pre>
+<pre><span id="VALsymm_get_params"><span class="keyword">val</span> symm_get_params</span> : <code class="type">string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('g, 'h, 'i) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       int option -><br>       int option -><br>       [< `L | `R > `L ] -><br>       bool -> int * int * char * char * ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALtrXm_get_params"><span class="keyword">val</span> trXm_get_params</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int option -><br>       int option -><br>       [< `L | `R > `L ] -><br>       bool -><br>       [< `C | `N | `T ] -> [< `N | `U ] -> int * int * char * char * char * char</code></pre>
+<pre><span id="VALsyrk_get_params"><span class="keyword">val</span> syrk_get_params</span> : <code class="type">string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       int option -><br>       int option -><br>       bool -><br>       [< `C | `N | `T > `N ] -><br>       int * int * char * char * ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALsyr2k_get_params"><span class="keyword">val</span> syr2k_get_params</span> : <code class="type">string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('g, 'h, 'i) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       int option -><br>       int option -><br>       bool -><br>       [< `C | `N | `T > `N ] -><br>       int * int * char * char * ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALxlange_get_params"><span class="keyword">val</span> xlange_get_params</span> : <code class="type">string -><br>       int option -><br>       int option -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int * int</code></pre>
+<pre><span id="VALxxtrs_get_params"><span class="keyword">val</span> xxtrs_get_params</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int option -><br>       int -> int -> ('d, 'e, 'f) Bigarray.Array2.t -> int option -> int * int</code></pre>
+<pre><span id="VALxxtrs_err"><span class="keyword">val</span> xxtrs_err</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> ('d, 'e, 'f) Bigarray.Array2.t -> int -> 'g</code></pre>
+<pre><span id="VALxxtri_singular_err"><span class="keyword">val</span> xxtri_singular_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALxxtri_err"><span class="keyword">val</span> xxtri_err</span> : <code class="type">string -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALxxcon_err"><span class="keyword">val</span> xxcon_err</span> : <code class="type">string -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALgeXrf_get_params"><span class="keyword">val</span> geXrf_get_params</span> : <code class="type">string -><br>       int option -><br>       int option -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int * int</code></pre>
+<pre><span id="VALgetrf_err"><span class="keyword">val</span> getrf_err</span> : <code class="type">string -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALgetrf_lu_err"><span class="keyword">val</span> getrf_lu_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALgetrf_get_ipiv"><span class="keyword">val</span> getrf_get_ipiv</span> : <code class="type">string -><br>       <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> option -> int -> int -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre>
+<pre><span id="VALsytrf_get_ipiv"><span class="keyword">val</span> sytrf_get_ipiv</span> : <code class="type">string -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> option -> int -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre>
+<pre><span id="VALsytrf_err"><span class="keyword">val</span> sytrf_err</span> : <code class="type">string -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALsytrf_fact_err"><span class="keyword">val</span> sytrf_fact_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALpotrf_chol_err"><span class="keyword">val</span> potrf_chol_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALpotrf_err"><span class="keyword">val</span> potrf_err</span> : <code class="type">string -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALpotrs_err"><span class="keyword">val</span> potrs_err</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> ('d, 'e, 'f) Bigarray.Array2.t -> int -> 'g</code></pre>
+<pre><span id="VALtrtrs_err"><span class="keyword">val</span> trtrs_err</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> ('d, 'e, 'f) Bigarray.Array2.t -> int -> 'g</code></pre>
+<pre><span id="VALtbtrs_err"><span class="keyword">val</span> tbtrs_err</span> : <code class="type">string -><br>       int -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -> ('d, 'e, 'f) Bigarray.Array2.t -> int -> 'g</code></pre>
+<pre><span id="VALgetri_err"><span class="keyword">val</span> getri_err</span> : <code class="type">string -><br>       (int -> int) -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> int -> 'd</code></pre>
+<pre><span id="VALtrtri_err"><span class="keyword">val</span> trtri_err</span> : <code class="type">string -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALgeqrf_err"><span class="keyword">val</span> geqrf_err</span> : <code class="type">string -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALgecon_err"><span class="keyword">val</span> gecon_err</span> : <code class="type">string -> char -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALgees_err"><span class="keyword">val</span> gees_err</span> : <code class="type">string -> int -> int -> char -> char -> 'a</code></pre>
+<pre><span id="VALdummy_select_fun"><span class="keyword">val</span> dummy_select_fun</span> : <code class="type">'a -> bool</code></pre>
+<pre><span id="VALgees_get_params_generic"><span class="keyword">val</span> gees_get_params_generic</span> : <code class="type">string -><br>       (int -> int -> ('a, 'b, 'c) Bigarray.Array2.t) -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       [< `Compute_Schur_vectors | `No_Schur_vectors ] -><br>       [< `No_sort<br>        | `Select_custom of 'd -> bool<br>        | `Select_exterior_disk<br>        | `Select_interior_disk<br>        | `Select_left_plane<br>        | `Select_right_plane ] -><br>       int option -><br>       int -><br>       int -><br>       ('e, 'f, 'g) Bigarray.Array2.t -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t option -><br>       char * char * int * ('d -> bool) * int * ('a, 'b, 'c) Bigarray.Array2.t</code></pre>
+<pre><span id="VALgees_get_params_real"><span class="keyword">val</span> gees_get_params_real</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       (int -> int -> ('d, 'e, 'f) Bigarray.Array2.t) -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       [< `Compute_Schur_vectors | `No_Schur_vectors ] -><br>       [< `No_sort<br>        | `Select_custom of 'g -> bool<br>        | `Select_exterior_disk<br>        | `Select_interior_disk<br>        | `Select_left_plane<br>        | `Select_right_plane ] -><br>       int option -><br>       int -><br>       int -><br>       ('h, 'i, 'j) Bigarray.Array2.t -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t option -><br>       char * char * int * ('g -> bool) * int * ('d, 'e, 'f) Bigarray.Array2.t *<br>       ('a, 'b, 'c) Bigarray.Array1.t * ('a, 'b, 'c) Bigarray.Array1.t</code></pre>
+<pre><span id="VALgees_get_params_complex"><span class="keyword">val</span> gees_get_params_complex</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       (int -> int -> ('d, 'e, 'f) Bigarray.Array2.t) -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       [< `Compute_Schur_vectors | `No_Schur_vectors ] -><br>       [< `No_sort<br>        | `Select_custom of 'g -> bool<br>        | `Select_exterior_disk<br>        | `Select_interior_disk<br>        | `Select_left_plane<br>        | `Select_right_plane ] -><br>       int option -><br>       int -><br>       int -><br>       ('h, 'i, 'j) Bigarray.Array2.t -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t option -><br>       char * char * int * ('g -> bool) * int * ('d, 'e, 'f) Bigarray.Array2.t *<br>       ('a, 'b, 'c) Bigarray.Array1.t</code></pre>
+<pre><span id="VALgesvd_err"><span class="keyword">val</span> gesvd_err</span> : <code class="type">string -><br>       char -><br>       char -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       ('g, 'h, 'i) Bigarray.Array2.t -> int -> int -> 'j</code></pre>
+<pre><span id="VALgesvd_get_params"><span class="keyword">val</span> gesvd_get_params</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       (int -> int -> ('d, 'e, 'f) Bigarray.Array2.t) -><br>       [< `A | `N | `O | `S ] -><br>       [< `A | `N | `O | `S ] -><br>       int option -><br>       int option -><br>       int -><br>       int -><br>       ('g, 'h, 'i) Bigarray.Array2.t -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t option -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t option -><br>       char * char * int * int * ('a, 'b, 'c) Bigarray.Array1.t *<br>       ('d, 'e, 'f) Bigarray.Array2.t * ('d, 'e, 'f) Bigarray.Array2.t</code></pre>
+<pre><span id="VALgesdd_err"><span class="keyword">val</span> gesdd_err</span> : <code class="type">string -><br>       char -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       ('d, 'e, 'f) Bigarray.Array2.t -><br>       ('g, 'h, 'i) Bigarray.Array2.t -> int -> int -> 'j</code></pre>
+<pre><span id="VALgesdd_get_params"><span class="keyword">val</span> gesdd_get_params</span> : <code class="type">string -><br>       (int -> ('a, 'b, 'c) Bigarray.Array1.t) -><br>       (int -> int -> ('d, 'e, 'f) Bigarray.Array2.t) -><br>       [< `A | `N | `O | `S ] -><br>       int option -><br>       int option -><br>       int -><br>       int -><br>       ('g, 'h, 'i) Bigarray.Array2.t -><br>       ('a, 'b, 'c) Bigarray.Array1.t option -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t option -><br>       int -><br>       int -><br>       ('d, 'e, 'f) Bigarray.Array2.t option -><br>       char * int * int * ('a, 'b, 'c) Bigarray.Array1.t *<br>       ('d, 'e, 'f) Bigarray.Array2.t * ('d, 'e, 'f) Bigarray.Array2.t</code></pre>
+<pre><span id="VALxxsv_err"><span class="keyword">val</span> xxsv_err</span> : <code class="type">string -> int -> int -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALxxsv_lu_err"><span class="keyword">val</span> xxsv_lu_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALxxsv_pos_err"><span class="keyword">val</span> xxsv_pos_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALxxsv_ind_err"><span class="keyword">val</span> xxsv_ind_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALxxsv_a_err"><span class="keyword">val</span> xxsv_a_err</span> : <code class="type">string -> ('a, 'b, 'c) Bigarray.Array2.t -> int -> 'd</code></pre>
+<pre><span id="VALxxsv_work_err"><span class="keyword">val</span> xxsv_work_err</span> : <code class="type">string -> int -> 'a</code></pre>
+<pre><span id="VALxxsv_get_ipiv"><span class="keyword">val</span> xxsv_get_ipiv</span> : <code class="type">string -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> option -> int -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre>
+<pre><span id="VALxxsv_get_params"><span class="keyword">val</span> xxsv_get_params</span> : <code class="type">string -><br>       int -><br>       int -><br>       ('a, 'b, 'c) Bigarray.Array2.t -><br>       int option -><br>       int -> int -> ('d, 'e, 'f) Bigarray.Array2.t -> int option -> int * int</code></pre></body></html>
