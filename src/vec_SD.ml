@@ -259,7 +259,7 @@ external direct_acos :
   ofsx : int ->
   incx : int ->
   x : vec ->
-  unit = "lacaml_FPRECtan_stub_bc" "lacaml_FPRECacos_stub"
+  unit = "lacaml_FPRECacos_stub_bc" "lacaml_FPRECacos_stub"
 
 let acos = unop direct_acos "acos"
 

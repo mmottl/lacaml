@@ -1,3 +1,5 @@
+2017-03-09:  Fixed bug in Vec.acos (affects bytecode applications only).
+
 2017-01-18:  Minor release version 9.2.1:
 
              Added more functions:
