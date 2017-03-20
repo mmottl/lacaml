@@ -145,7 +145,7 @@ val gemv :
     See BLAS documentation for more information.
     BEWARE that the 1988 BLAS-2 specification mandates that this
     function has no effect when [n=0] while the mathematically
-    expected behabior is [y ← beta * y].
+    expected behavior is [y ← beta * y].
     @return vector [y], which is overwritten.
     @param m default = number of available rows in matrix [a]
     @param n default = available columns in matrix [a]
