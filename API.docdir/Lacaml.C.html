@@ -336,9 +336,13 @@ Pretty-printer for matrices.<br>
 
 <pre><span id="VALgemv"><span class="keyword">val</span> gemv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -><br>       ?trans:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?alpha:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a> -> <a href="Lacaml_complex32.html#TYPEvec">Lacaml_complex32.vec</a></code></pre><div class="info ">
 <code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
-    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
-    mandates that this function has no effect when <code class="code">n=0</code> while the
-    mathematically expected behabior is <code class="code">y ← beta * y</code>.<br>
+    performs the operation
+        <code class="code">y</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * <code class="code">x</code> + <code class="code">beta</code> * <code class="code">y</code>
+    where op(<code class="code">a</code>) = <code class="code">a</code> or <code class="code">a</code>ᵀ according to the value of <code class="code">trans</code>.
+    See BLAS documentation for more information.
+    BEWARE that the 1988 BLAS-2 specification mandates that this
+    function has no effect when <code class="code">n=0</code> while the mathematically
+    expected behavior is <code class="code">y ← beta * y</code>.<br>
 <b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
 </div>
 <div class="param_info"><code class="code">m</code> : default = number of available rows in matrix <code class="code">a</code></div>
@@ -444,7 +448,10 @@ Pretty-printer for matrices.<br>
 
 <pre><span id="VALgemm"><span class="keyword">val</span> gemm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?beta:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?transa:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?alpha:<a href="Lacaml_complex32.html#TYPEnum_type">Lacaml_complex32.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -><br>       ?transb:<a href="Lacaml_complex32.html#TYPEtrans3">Lacaml_complex32.trans3</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a> -> <a href="Lacaml_complex32.html#TYPEmat">Lacaml_complex32.mat</a></code></pre><div class="info ">
 <code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
-    see BLAS documentation!<br>
+    performs the operation
+        <code class="code">c</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * op(<code class="code">b</code>) + <code class="code">beta</code> * <code class="code">c</code>
+    where op(<code class="code">x</code>) = <code class="code">x</code> or <code class="code">x</code>ᵀ depending on <code class="code">transx</code>.
+    See BLAS documentation for more information.<br>
 <b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
 </div>
 <div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code> (or tr <code class="code">a</code>) and <code class="code">c</code></div>

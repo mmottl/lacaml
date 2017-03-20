@@ -1958,25 +1958,33 @@
 <tr><td><a href="Lacaml__C.html#VALgemm">gemm</a> [<a href="Lacaml__C.html">Lacaml__C</a>]</td>
 <td><div class="info">
 <code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
-    see BLAS documentation!
+    performs the operation
+        <code class="code">c</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * op(<code class="code">b</code>) + <code class="code">beta</code> * <code class="code">c</code>
+    where op(<code class="code">x</code>) = <code class="code">x</code> or <code class="code">x</code>ᵀ depending on <code class="code">transx</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__Z.html#VALgemm">gemm</a> [<a href="Lacaml__Z.html">Lacaml__Z</a>]</td>
 <td><div class="info">
 <code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
-    see BLAS documentation!
+    performs the operation
+        <code class="code">c</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * op(<code class="code">b</code>) + <code class="code">beta</code> * <code class="code">c</code>
+    where op(<code class="code">x</code>) = <code class="code">x</code> or <code class="code">x</code>ᵀ depending on <code class="code">transx</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__S.html#VALgemm">gemm</a> [<a href="Lacaml__S.html">Lacaml__S</a>]</td>
 <td><div class="info">
 <code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
-    see BLAS documentation!
+    performs the operation
+        <code class="code">c</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * op(<code class="code">b</code>) + <code class="code">beta</code> * <code class="code">c</code>
+    where op(<code class="code">x</code>) = <code class="code">x</code> or <code class="code">x</code>ᵀ depending on <code class="code">transx</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__D.html#VALgemm">gemm</a> [<a href="Lacaml__D.html">Lacaml__D</a>]</td>
 <td><div class="info">
 <code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
-    see BLAS documentation!
+    performs the operation
+        <code class="code">c</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * op(<code class="code">b</code>) + <code class="code">beta</code> * <code class="code">c</code>
+    where op(<code class="code">x</code>) = <code class="code">x</code> or <code class="code">x</code>ᵀ depending on <code class="code">transx</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__C.Mat.html#VALgemm_diag">gemm_diag</a> [<a href="Lacaml__C.Mat.html">Lacaml__C.Mat</a>]</td>
@@ -2048,33 +2056,33 @@
 <tr><td><a href="Lacaml__C.html#VALgemv">gemv</a> [<a href="Lacaml__C.html">Lacaml__C</a>]</td>
 <td><div class="info">
 <code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
-    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
-    mandates that this function has no effect when <code class="code">n=0</code> while the
-    mathematically expected behabior is <code class="code">y ← beta * y</code>.
+    performs the operation
+        <code class="code">y</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * <code class="code">x</code> + <code class="code">beta</code> * <code class="code">y</code>
+    where op(<code class="code">a</code>) = <code class="code">a</code> or <code class="code">a</code>ᵀ according to the value of <code class="code">trans</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__Z.html#VALgemv">gemv</a> [<a href="Lacaml__Z.html">Lacaml__Z</a>]</td>
 <td><div class="info">
 <code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
-    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
-    mandates that this function has no effect when <code class="code">n=0</code> while the
-    mathematically expected behabior is <code class="code">y ← beta * y</code>.
+    performs the operation
+        <code class="code">y</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * <code class="code">x</code> + <code class="code">beta</code> * <code class="code">y</code>
+    where op(<code class="code">a</code>) = <code class="code">a</code> or <code class="code">a</code>ᵀ according to the value of <code class="code">trans</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__S.html#VALgemv">gemv</a> [<a href="Lacaml__S.html">Lacaml__S</a>]</td>
 <td><div class="info">
 <code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
-    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
-    mandates that this function has no effect when <code class="code">n=0</code> while the
-    mathematically expected behabior is <code class="code">y ← beta * y</code>.
+    performs the operation
+        <code class="code">y</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * <code class="code">x</code> + <code class="code">beta</code> * <code class="code">y</code>
+    where op(<code class="code">a</code>) = <code class="code">a</code> or <code class="code">a</code>ᵀ according to the value of <code class="code">trans</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__D.html#VALgemv">gemv</a> [<a href="Lacaml__D.html">Lacaml__D</a>]</td>
 <td><div class="info">
 <code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
-    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
-    mandates that this function has no effect when <code class="code">n=0</code> while the
-    mathematically expected behabior is <code class="code">y ← beta * y</code>.
+    performs the operation
+        <code class="code">y</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * <code class="code">x</code> + <code class="code">beta</code> * <code class="code">y</code>
+    where op(<code class="code">a</code>) = <code class="code">a</code> or <code class="code">a</code>ᵀ according to the value of <code class="code">trans</code>.
 </div>
 </td></tr>
 <tr><td><a href="Lacaml__C.html#VALgeqrf">geqrf</a> [<a href="Lacaml__C.html">Lacaml__C</a>]</td>
