@@ -139,9 +139,13 @@ val gemv :
   vec ->
   vec
 (** [gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x]
-    see BLAS documentation!  BEWARE that the 1988 BLAS-2 specification
-    mandates that this function has no effect when [n=0] while the
-    mathematically expected behabior is [y ← beta * y].
+    performs the operation
+        [y] := [alpha] * op([a]) * [x] + [beta] * [y]
+    where op([a]) = [a] or [a]ᵀ according to the value of [trans].
+    See BLAS documentation for more information.
+    BEWARE that the 1988 BLAS-2 specification mandates that this
+    function has no effect when [n=0] while the mathematically
+    expected behabior is [y ← beta * y].
     @return vector [y], which is overwritten.
     @param m default = number of available rows in matrix [a]
     @param n default = available columns in matrix [a]
@@ -331,7 +335,10 @@ val gemm :
   mat ->
   mat
 (** [gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b]
-    see BLAS documentation!
+    performs the operation
+        [c] := [alpha] * op([a]) * op([b]) + [beta] * [c]
+    where op([x]) = [x] or [x]ᵀ depending on [transx].
+    See BLAS documentation for more information.
     @return matrix [c], which is overwritten.
     @param m default = number of rows of [a] (or tr [a]) and [c]
     @param n default = number of columns of [b] (or tr [b]) and [c]
