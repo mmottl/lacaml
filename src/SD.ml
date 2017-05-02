@@ -34,6 +34,8 @@ include Lacaml__real_io
 module Vec = struct
   type t = vec
 
+  include Types.Vec (* Export [unop],... so they can be explicit in
+                       Lacaml__S and Lacaml__D. *)
   include Lacaml__vec2_FPREC
   include Lacaml__vec4_FPREC
 end
@@ -41,6 +43,7 @@ end
 module Mat = struct
   type t = mat
 
+  include Types.Mat
   include Lacaml__mat2_FPREC
   include Lacaml__mat4_FPREC
 end

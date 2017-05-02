@@ -52,11 +52,53 @@ let sig_module_type_of_re =
 let inc_module_type_of_re =
   Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+\\)"
 
+(* Replace [open Types.Vec] and [open Types.Mat] by their explicit
+   definition (when [full_doc] is desired).  [Lacaml_float*] and
+   [Lacaml_complex*] are thus internal modules. *)
+let explicit_vec_mat s =
+  let s = Str.global_replace (Str.regexp "^ *open *Lacaml_float[0-9]+ *\n")
+            "" s in
+  let s = Str.global_replace (Str.regexp "^ *open *Lacaml_complex[0-9]+ *\n")
+            "" s in
+  (* Only replace the 1st ones. *)
+  let type_vec = Str.regexp " *open *Types.Vec *" in
+  let s = Str.replace_first type_vec
+            "  type unop =\n    \
+             ?n : int ->\n    \
+             ?ofsy : int -> ?incy : int -> ?y : vec ->\n    \
+             ?ofsx : int -> ?incx : int -> vec\n    \
+             -> vec\n\
+             \n  \
+             type binop =\n    \
+             ?n : int ->\n    \
+             ?ofsz : int -> ?incz : int -> ?z : vec ->\n    \
+             ?ofsx : int -> ?incx : int -> vec ->\n    \
+             ?ofsy : int -> ?incy : int -> vec\n    \
+             -> vec" s in
+  let s = Str.global_replace type_vec "" s in
+  let type_mat = Str.regexp " *open *Types.Mat *" in
+  let s = Str.replace_first type_mat
+            "  type unop =\n    \
+             ?m : int -> ?n : int ->\n    \
+             ?br : int -> ?bc : int -> ?b : mat ->\n    \
+             ?ar : int -> ?ac : int -> mat\n    \
+             -> mat\n\
+             \n  \
+             type binop =\n    \
+             ?m : int -> ?n : int ->\n    \
+             ?cr : int -> ?cc : int -> ?c : mat ->\n    \
+             ?ar : int -> ?ac : int -> mat ->\n    \
+             ?br : int -> ?bc : int -> mat\n    \
+             -> mat" s in
+  Str.global_replace type_mat "" s
+
+
 (* [full_doc] means that one wants all "include module type of" to be
    replaced with the actual .mli content to be easier to read anb search. *)
 let rec substitute fname0 fname1 ?(full_doc=false) subs =
   let ml0 = input_file fname0 in
-  output_file fname1 ~content:(substitute_string ~full_doc ml0 subs)
+  let s = substitute_string ~full_doc ml0 subs in
+  output_file fname1 ~content:(if full_doc then explicit_vec_mat s else s)
 
 and substitute_string ~full_doc s subs =
   let s = List.fold_left (fun l (r,s) -> Str.global_replace r s l) s subs in
