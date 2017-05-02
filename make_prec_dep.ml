@@ -113,14 +113,19 @@ let () =
   let derive ?full_doc suffix subs =
     derived_files ?full_doc fnames suffix subs in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
+  let num_type n = (Str.regexp "num_type\\( *[^= ]\\)", n ^ "\\1") in
+  let num_type_float = num_type "float" in
+  let num_type_complex = num_type "Complex.t" in
 
   let float32 = r ["NPREC", "S";  "NBPREC", "S"; "numberxx", "float32"]
   and float64 = r ["NPREC", "D"; "NBPREC", "D"; "numberxx", "float64"]
   and complex32 = r ["NPREC", "C"; "NBPREC", "S"; "numberxx", "complex32"]
   and complex64 = r ["NPREC", "Z"; "NBPREC", "D"; "numberxx", "complex64"]
   in
-  derive "_SDCZ.mli" [("4_S.mli", float32);   ("4_D.mli", float64);
-                      ("4_C.mli", complex32); ("4_Z.mli", complex64) ];
+  derive "_SDCZ.mli" [("4_S.mli", num_type_float :: float32);
+                      ("4_D.mli", num_type_float :: float64);
+                      ("4_C.mli", num_type_complex :: complex32);
+                      ("4_Z.mli", num_type_complex :: complex64) ];
   derive "_SDCZ.ml"  [("4_S.ml", float32);   ("4_D.ml", float64);
                       ("4_C.ml", complex32); ("4_Z.ml", complex64) ];
 
@@ -134,11 +139,13 @@ let () =
   derive "_SD.mli" [("2_S.mli", float32); ("2_D.mli", float64) ];
   derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64) ];
   derive "SD.ml"   [("S.ml", float32);     ("D.ml", float64)];
-  derive "SD.mli"  [("S.mli", float32);    ("D.mli", float64)] ~full_doc:true;
+  derive "SD.mli"  [("S.mli", num_type_float :: float32);
+                    ("D.mli", num_type_float :: float64)] ~full_doc:true;
   derive "_CZ.mli" [("2_C.mli", complex32); ("2_Z.mli", complex64)];
   derive "_CZ.ml"  [("2_C.ml",  complex32); ("2_Z.ml",  complex64)];
   derive "CZ.ml"   [("C.ml", complex32);  ("Z.ml", complex64)];
-  derive "CZ.mli"  [("C.mli", complex32); ("Z.mli", complex64)] ~full_doc:true
+  derive "CZ.mli"  [("C.mli", num_type_complex :: complex32);
+                    ("Z.mli", num_type_complex :: complex64)] ~full_doc:true
 
 
 (* lacaml.mli
