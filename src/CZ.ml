@@ -28,7 +28,7 @@
 (** Modules with functions specialized for simple (C) or double (Z)
     precision complex numbers. *)
 
-include Lacaml_complexxx
+include Lacaml__complexxx
 
 include Lacaml__complex_io
 

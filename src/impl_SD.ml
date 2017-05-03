@@ -39,7 +39,7 @@
 
 open Printf
 open Bigarray
-open Lacaml_floatxx
+open Lacaml__floatxx
 open Lacaml__common
 open Lacaml__utils
 open Lacaml__impl4_FPREC

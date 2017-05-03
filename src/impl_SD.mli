@@ -38,7 +38,7 @@
 *)
 
 open Lacaml__common
-open Lacaml_floatxx
+open Lacaml__floatxx
 
 (** {6 BLAS-1 interface} *)
 

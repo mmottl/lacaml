@@ -26,7 +26,7 @@
 *)
 
 open Lacaml__common
-open Lacaml_numberxx
+open Lacaml__numberxx
 open Types.Vec
 
 (** {6 Creation/conversion of vectors and dimension accessor} *)

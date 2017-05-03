@@ -53,12 +53,12 @@ let inc_module_type_of_re =
   Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+\\)"
 
 (* Replace [open Types.Vec] and [open Types.Mat] by their explicit
-   definition (when [full_doc] is desired).  [Lacaml_float*] and
-   [Lacaml_complex*] are thus internal modules. *)
+   definition (when [full_doc] is desired).  [Lacaml__float*] and
+   [Lacaml__complex*] are thus internal modules. *)
 let explicit_vec_mat s =
-  let s = Str.global_replace (Str.regexp "^ *open *Lacaml_float[0-9]+ *\n")
+  let s = Str.global_replace (Str.regexp "^ *open *Lacaml__float[0-9]+ *\n")
             "" s in
-  let s = Str.global_replace (Str.regexp "^ *open *Lacaml_complex[0-9]+ *\n")
+  let s = Str.global_replace (Str.regexp "^ *open *Lacaml__complex[0-9]+ *\n")
             "" s in
   (* Only replace the 1st ones. *)
   let type_vec = Str.regexp " *open *Types.Vec *" in

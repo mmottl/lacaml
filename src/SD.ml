@@ -24,7 +24,7 @@
 (** Modules with functions specialized for simple (S) or double (D)
     precision numbers. *)
 
-include Lacaml_floatxx
+include Lacaml__floatxx
 
 include Lacaml__impl2_FPREC
 include Lacaml__impl4_FPREC

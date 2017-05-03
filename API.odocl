@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: fe7e0916d9fb1181cb36dade9c549d40)
+# DO NOT EDIT (digest: f3946f8687385df0e0e6c173584b3d7d)
 src/Lacaml
 src/Lacaml__common
 src/Lacaml__io
@@ -9,8 +9,4 @@ src/Lacaml__C
 src/Lacaml__Z
 src/Lacaml__utils
 src/Lacaml_version
-src/Lacaml_float32
-src/Lacaml_float64
-src/Lacaml_complex32
-src/Lacaml_complex64
 # OASIS_STOP
