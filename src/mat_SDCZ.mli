@@ -28,7 +28,7 @@
 (* Matrix operations *)
 
 open Lacaml__common
-open Lacaml_numberxx
+open Lacaml__numberxx
 open Types.Mat
 
 (** {6 Creation of matrices and accessors} *)

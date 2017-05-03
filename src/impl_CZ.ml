@@ -39,7 +39,7 @@
 open Printf
 open Bigarray
 open Complex
-open Lacaml_complexxx
+open Lacaml__complexxx
 open Lacaml__common
 open Lacaml__utils
 open Lacaml__impl4_CPREC
@@ -332,7 +332,7 @@ let gesvd_get_opt_lwork loc jobu jobvt m n ar ac a s ur uc u vtr vtc vt =
       ~jobu ~jobvt ~m ~n ~ar ~ac ~a ~s ~ur ~uc ~u ~vtr ~vtc ~vt
       ~work ~lwork ~rwork:RVec.empty
   in
-  if info = 0 then Lacaml_floatxx.int_of_floatxx work.{1}.re
+  if info = 0 then Lacaml__floatxx.int_of_floatxx work.{1}.re
   else gesvd_err loc jobu jobvt m n a u vt lwork info
 
 let gesvd_opt_lwork

@@ -26,7 +26,7 @@
 *)
 
 open Bigarray
-open Lacaml_numberxx
+open Lacaml__numberxx
 open Lacaml__common
 open Lacaml__utils
 

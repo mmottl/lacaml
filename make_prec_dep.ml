@@ -52,11 +52,53 @@ let sig_module_type_of_re =
 let inc_module_type_of_re =
   Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+\\)"
 
+(* Replace [open Types.Vec] and [open Types.Mat] by their explicit
+   definition (when [full_doc] is desired).  [Lacaml__float*] and
+   [Lacaml__complex*] are thus internal modules. *)
+let explicit_vec_mat s =
+  let s = Str.global_replace (Str.regexp "^ *open *Lacaml__float[0-9]+ *\n")
+            "" s in
+  let s = Str.global_replace (Str.regexp "^ *open *Lacaml__complex[0-9]+ *\n")
+            "" s in
+  (* Only replace the 1st ones. *)
+  let type_vec = Str.regexp " *open *Types.Vec *" in
+  let s = Str.replace_first type_vec
+            "  type unop =\n    \
+             ?n : int ->\n    \
+             ?ofsy : int -> ?incy : int -> ?y : vec ->\n    \
+             ?ofsx : int -> ?incx : int -> vec\n    \
+             -> vec\n\
+             \n  \
+             type binop =\n    \
+             ?n : int ->\n    \
+             ?ofsz : int -> ?incz : int -> ?z : vec ->\n    \
+             ?ofsx : int -> ?incx : int -> vec ->\n    \
+             ?ofsy : int -> ?incy : int -> vec\n    \
+             -> vec" s in
+  let s = Str.global_replace type_vec "" s in
+  let type_mat = Str.regexp " *open *Types.Mat *" in
+  let s = Str.replace_first type_mat
+            "  type unop =\n    \
+             ?m : int -> ?n : int ->\n    \
+             ?br : int -> ?bc : int -> ?b : mat ->\n    \
+             ?ar : int -> ?ac : int -> mat\n    \
+             -> mat\n\
+             \n  \
+             type binop =\n    \
+             ?m : int -> ?n : int ->\n    \
+             ?cr : int -> ?cc : int -> ?c : mat ->\n    \
+             ?ar : int -> ?ac : int -> mat ->\n    \
+             ?br : int -> ?bc : int -> mat\n    \
+             -> mat" s in
+  Str.global_replace type_mat "" s
+
+
 (* [full_doc] means that one wants all "include module type of" to be
    replaced with the actual .mli content to be easier to read anb search. *)
 let rec substitute fname0 fname1 ?(full_doc=false) subs =
   let ml0 = input_file fname0 in
-  output_file fname1 ~content:(substitute_string ~full_doc ml0 subs)
+  let s = substitute_string ~full_doc ml0 subs in
+  output_file fname1 ~content:(if full_doc then explicit_vec_mat s else s)
 
 and substitute_string ~full_doc s subs =
   let s = List.fold_left (fun l (r,s) -> Str.global_replace r s l) s subs in
@@ -113,14 +155,19 @@ let () =
   let derive ?full_doc suffix subs =
     derived_files ?full_doc fnames suffix subs in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
+  let num_type n = (Str.regexp "num_type\\( *[^= ]\\)", n ^ "\\1") in
+  let num_type_float = num_type "float" in
+  let num_type_complex = num_type "Complex.t" in
 
   let float32 = r ["NPREC", "S";  "NBPREC", "S"; "numberxx", "float32"]
   and float64 = r ["NPREC", "D"; "NBPREC", "D"; "numberxx", "float64"]
   and complex32 = r ["NPREC", "C"; "NBPREC", "S"; "numberxx", "complex32"]
   and complex64 = r ["NPREC", "Z"; "NBPREC", "D"; "numberxx", "complex64"]
   in
-  derive "_SDCZ.mli" [("4_S.mli", float32);   ("4_D.mli", float64);
-                      ("4_C.mli", complex32); ("4_Z.mli", complex64) ];
+  derive "_SDCZ.mli" [("4_S.mli", num_type_float :: float32);
+                      ("4_D.mli", num_type_float :: float64);
+                      ("4_C.mli", num_type_complex :: complex32);
+                      ("4_Z.mli", num_type_complex :: complex64) ];
   derive "_SDCZ.ml"  [("4_S.ml", float32);   ("4_D.ml", float64);
                       ("4_C.ml", complex32); ("4_Z.ml", complex64) ];
 
@@ -134,11 +181,13 @@ let () =
   derive "_SD.mli" [("2_S.mli", float32); ("2_D.mli", float64) ];
   derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64) ];
   derive "SD.ml"   [("S.ml", float32);     ("D.ml", float64)];
-  derive "SD.mli"  [("S.mli", float32);    ("D.mli", float64)] ~full_doc:true;
+  derive "SD.mli"  [("S.mli", num_type_float :: float32);
+                    ("D.mli", num_type_float :: float64)] ~full_doc:true;
   derive "_CZ.mli" [("2_C.mli", complex32); ("2_Z.mli", complex64)];
   derive "_CZ.ml"  [("2_C.ml",  complex32); ("2_Z.ml",  complex64)];
   derive "CZ.ml"   [("C.ml", complex32);  ("Z.ml", complex64)];
-  derive "CZ.mli"  [("C.mli", complex32); ("Z.mli", complex64)] ~full_doc:true
+  derive "CZ.mli"  [("C.mli", num_type_complex :: complex32);
+                    ("Z.mli", num_type_complex :: complex64)] ~full_doc:true
 
 
 (* lacaml.mli

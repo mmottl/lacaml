@@ -37,7 +37,7 @@
 *)
 
 open Lacaml__common
-open Lacaml_complexxx
+open Lacaml__complexxx
 
 (** {6 BLAS-1 interface} *)
 
