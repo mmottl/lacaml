@@ -19,11 +19,7 @@
 <link title="Lacaml__C" rel="Chapter" href="Lacaml__C.html">
 <link title="Lacaml__Z" rel="Chapter" href="Lacaml__Z.html">
 <link title="Lacaml__utils" rel="Chapter" href="Lacaml__utils.html">
-<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html">
-<link title="Lacaml_float32" rel="Chapter" href="Lacaml_float32.html">
-<link title="Lacaml_float64" rel="Chapter" href="Lacaml_float64.html">
-<link title="Lacaml_complex32" rel="Chapter" href="Lacaml_complex32.html">
-<link title="Lacaml_complex64" rel="Chapter" href="Lacaml_complex64.html"><link title="BLAS-1 interface" rel="Section" href="#6_BLAS1interface">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html"><link title="BLAS-1 interface" rel="Section" href="#6_BLAS1interface">
 <link title="BLAS-2 interface" rel="Section" href="#6_BLAS2interface">
 <link title="LAPACK interface" rel="Section" href="#6_LAPACKinterface">
 <link title="BLAS-1 interface" rel="Section" href="#6_BLAS1interface">
@@ -112,7 +108,7 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS1interface">BLAS-1 interface</h6><br>
 
-<pre><span id="VALdot"><span class="keyword">val</span> dot</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> float</code></pre><div class="info ">
+<pre><span id="VALdot"><span class="keyword">val</span> dot</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> float</code></pre><div class="info ">
 <code class="code">dot ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
@@ -121,7 +117,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>
 <div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALasum"><span class="keyword">val</span> asum</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> float</code></pre><div class="info ">
+<pre><span id="VALasum"><span class="keyword">val</span> asum</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> float</code></pre><div class="info ">
 <code class="code">asum ?n ?ofsx ?incx x</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
@@ -130,7 +126,7 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS2interface">BLAS-2 interface</h6><br>
 
-<pre><span id="VALsbmv"><span class="keyword">val</span> sbmv</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?up:bool -><br>       ?alpha:float -><br>       ?beta:float -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsbmv"><span class="keyword">val</span> sbmv</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?up:bool -><br>       ?alpha:float -><br>       ?beta:float -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">sbmv ?n ?k ?ofsy ?incy ?y ?ar ?ac a ?up ?alpha ?beta ?ofsx ?incx x</code> see
     BLAS documentation!<br>
 <b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
@@ -148,7 +144,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALger"><span class="keyword">val</span> ger</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?alpha:float -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALger"><span class="keyword">val</span> ger</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?alpha:float -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">ger ?m ?n ?alpha ?ofsx ?incx x ?ofsy ?incy y n ?ar ?ac a</code> see
     BLAS documentation!<br>
 <b>Returns</b> vector <code class="code">a</code>, which is overwritten<br>
@@ -163,7 +159,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALsyr"><span class="keyword">val</span> syr</span> : <code class="type">?n:int -><br>       ?alpha:float -><br>       ?up:bool -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALsyr"><span class="keyword">val</span> syr</span> : <code class="type">?n:int -><br>       ?alpha:float -><br>       ?up:bool -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">syr ?n ?alpha ?up ?ofsx ?incx x ?ar ?ac a</code> see BLAS documentation!<br>
 <b>Returns</b> matrix <code class="code">a</code>, which is overwritten<br>
 </div>
@@ -184,7 +180,7 @@ Pretty-printer for matrices.<br>
 <b>Returns</b> the minimum length of the work array used by the <code class="code">lansy</code>-function.<br>
 </div>
 
-<pre><span id="VALlansy"><span class="keyword">val</span> lansy</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?norm:<a href="Lacaml__common.html#TYPEnorm4">Lacaml__common.norm4</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> float</code></pre><div class="info ">
+<pre><span id="VALlansy"><span class="keyword">val</span> lansy</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?norm:<a href="Lacaml__common.html#TYPEnorm4">Lacaml__common.norm4</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> float</code></pre><div class="info ">
 <code class="code">lansy ?norm ?up ?n ?ar ?ac ?work a</code> see LAPACK documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = number of columns of matrix <code class="code">a</code></div>
@@ -205,7 +201,7 @@ Pretty-printer for matrices.<br>
     columns.<br>
 </div>
 
-<pre><span id="VALorgqr_opt_lwork"><span class="keyword">val</span> orgqr_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       tau:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALorgqr_opt_lwork"><span class="keyword">val</span> orgqr_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -> tau:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">orgqr_opt_lwork ?m ?n ?k ~tau ?ar ?ac a</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <code class="code">orgqr</code>-function given matrix <code class="code">a</code>,
@@ -216,14 +212,14 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
 <div class="param_info"><code class="code">k</code> : default = available number of elements in vector <code class="code">tau</code></div>
 
-<pre><span id="VALorgqr"><span class="keyword">val</span> orgqr</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       tau:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALorgqr"><span class="keyword">val</span> orgqr</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       tau:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">orgqr ?m ?n ?k ?work ~tau ?ar ?ac a</code> see LAPACK documentation!<br>
 </div>
 <div class="param_info"><code class="code">m</code> : default = available number of rows in matrix <code class="code">a</code></div>
 <div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
 <div class="param_info"><code class="code">k</code> : default = available number of elements in vector <code class="code">tau</code></div>
 
-<pre><span id="VALormqr_opt_lwork"><span class="keyword">val</span> ormqr_opt_lwork</span> : <code class="type">?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?k:int -><br>       tau:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?cr:int -> ?cc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALormqr_opt_lwork"><span class="keyword">val</span> ormqr_opt_lwork</span> : <code class="type">?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?k:int -><br>       tau:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?cr:int -> ?cc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">ormqr_opt_lwork ?side ?trans ?m ?n ?k ~tau ?ar ?ac a ?cr ?cc c</code><br>
 <b>Returns</b> the optimum length of the work-array used by the <code class="code">ormqr</code>-function
     given matrix <code class="code">a</code> and <code class="code">b</code>, optionally its logical dimensions <code class="code">m</code> and <code class="code">n</code>,
@@ -233,7 +229,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
 <div class="param_info"><code class="code">k</code> : default = available number of elements in vector <code class="code">tau</code></div>
 
-<pre><span id="VALormqr"><span class="keyword">val</span> ormqr</span> : <code class="type">?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       tau:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?cr:int -> ?cc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALormqr"><span class="keyword">val</span> ormqr</span> : <code class="type">?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       tau:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?cr:int -> ?cc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">ormqr ?side ?trans ?m ?n ?k ?work ~tau ?ar ?ac a ?cr ?cc c</code>
     see LAPACK documentation!<br>
 </div>
@@ -255,7 +251,7 @@ Pretty-printer for matrices.<br>
     used by the <code class="code">gecon</code>-function.<br>
 </div>
 
-<pre><span id="VALgecon"><span class="keyword">val</span> gecon</span> : <code class="type">?n:int -><br>       ?norm:<a href="Lacaml__common.html#TYPEnorm2">Lacaml__common.norm2</a> -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> float</code></pre><div class="info ">
+<pre><span id="VALgecon"><span class="keyword">val</span> gecon</span> : <code class="type">?n:int -><br>       ?norm:<a href="Lacaml__common.html#TYPEnorm2">Lacaml__common.norm2</a> -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> float</code></pre><div class="info ">
 <code class="code">gecon ?n ?norm ?anorm ?work ?rwork ?ar ?ac a</code><br>
 <b>Returns</b> estimate of the reciprocal of the condition number of matrix <code class="code">a</code><br>
 </div>
@@ -279,7 +275,7 @@ Pretty-printer for matrices.<br>
     used by the <code class="code">sycon</code>-function.<br>
 </div>
 
-<pre><span id="VALsycon"><span class="keyword">val</span> sycon</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> float</code></pre><div class="info ">
+<pre><span id="VALsycon"><span class="keyword">val</span> sycon</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> float</code></pre><div class="info ">
 <code class="code">sycon ?n ?up ?ipiv ?anorm ?work ?iwork ?ar ?ac a</code><br>
 <b>Returns</b> estimate of the reciprocal of the condition number
             of symmetric matrix <code class="code">a</code><br>
@@ -303,7 +299,7 @@ Pretty-printer for matrices.<br>
     used by the <code class="code">pocon</code>-function.<br>
 </div>
 
-<pre><span id="VALpocon"><span class="keyword">val</span> pocon</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> float</code></pre><div class="info ">
+<pre><span id="VALpocon"><span class="keyword">val</span> pocon</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?anorm:float -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> float</code></pre><div class="info ">
 <code class="code">pocon ?n ?up ?anorm ?work ?iwork ?ar ?ac a</code><br>
 <b>Returns</b> estimate of the reciprocal of the condition number of
             symmetric positive definite matrix <code class="code">a</code><br>
@@ -325,7 +321,7 @@ Pretty-printer for matrices.<br>
     right hand side vectors.<br>
 </div>
 
-<pre><span id="VALgelsy_opt_lwork"><span class="keyword">val</span> gelsy_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgelsy_opt_lwork"><span class="keyword">val</span> gelsy_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gelsy_opt_lwork ?m ?n ?ar ?ac a ?nrhs ?br ?bc b</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <code class="code">gelsy</code>-function given matrix
@@ -336,7 +332,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
 <div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
 
-<pre><span id="VALgelsy"><span class="keyword">val</span> gelsy</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?rcond:float -><br>       ?jpvt:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgelsy"><span class="keyword">val</span> gelsy</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?rcond:float -><br>       ?jpvt:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gelsy ?m ?n ?ar ?ac a ?rcond ?jpvt ?ofswork ?work ?nrhs b</code> see LAPACK
     documentation!<br>
 <b>Returns</b> the effective rank of <code class="code">a</code>.<br>
@@ -356,7 +352,7 @@ Pretty-printer for matrices.<br>
     side vectors.<br>
 </div>
 
-<pre><span id="VALgelsd_opt_lwork"><span class="keyword">val</span> gelsd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgelsd_opt_lwork"><span class="keyword">val</span> gelsd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gelsd_opt_lwork ?m ?n ?ar ?ac a ?nrhs b</code><br>
 <b>Returns</b> the optimum length of
     the work-array used by the <code class="code">gelsd</code>-function given matrix <code class="code">a</code>,
@@ -374,7 +370,7 @@ Pretty-printer for matrices.<br>
     dimensions of the matrix are <code class="code">m</code> and <code class="code">n</code>.<br>
 </div>
 
-<pre><span id="VALgelsd"><span class="keyword">val</span> gelsd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?rcond:float -><br>       ?ofss:int -><br>       ?s:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgelsd"><span class="keyword">val</span> gelsd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?rcond:float -><br>       ?ofss:int -><br>       ?s:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gelsd ?m ?n ?rcond ?ofss ?s ?ofswork ?work ?ar ?ac a ?nrhs b</code>
     see LAPACK documentation!<br>
 <b>Raises</b> <code>Failure</code> if the function fails to converge.<br>
@@ -397,7 +393,7 @@ Pretty-printer for matrices.<br>
     right hand side vectors.<br>
 </div>
 
-<pre><span id="VALgelss_opt_lwork"><span class="keyword">val</span> gelss_opt_lwork</span> : <code class="type">?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?m:int -><br>       ?n:int -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgelss_opt_lwork"><span class="keyword">val</span> gelss_opt_lwork</span> : <code class="type">?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?m:int -> ?n:int -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gelss_opt_lwork ?ar ?ac a ?m ?n ?nrhs ?br ?bc b</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <code class="code">gelss</code>-function given matrix
@@ -408,7 +404,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">n</code> : default = available number of columns in matrix <code class="code">a</code></div>
 <div class="param_info"><code class="code">nrhs</code> : default = available number of columns in matrix <code class="code">b</code></div>
 
-<pre><span id="VALgelss"><span class="keyword">val</span> gelss</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?rcond:float -><br>       ?ofss:int -><br>       ?s:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgelss"><span class="keyword">val</span> gelss</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?rcond:float -><br>       ?ofss:int -><br>       ?s:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gelss ?m ?n ?rcond ?ofss ?s ?ofswork ?work ?ar ?ac a ?nrhs ?br ?bc b</code>
     see LAPACK documentation!<br>
 <b>Raises</b> <code>Failure</code> if the function fails to converge.<br>
@@ -424,7 +420,7 @@ Pretty-printer for matrices.<br>
 <br>
 <div class="h7" id="7_GeneralSchurfactorization">General Schur factorization</div><br>
 
-<pre><span id="VALgees"><span class="keyword">val</span> gees</span> : <code class="type">?n:int -><br>       ?jobvs:<a href="Lacaml__common.html#TYPEschur_vectors">Lacaml__common.schur_vectors</a> -><br>       ?sort:<a href="Lacaml__common.html#TYPEeigen_value_sort">Lacaml__common.eigen_value_sort</a> -><br>       ?wr:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?wi:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?vsr:int -><br>       ?vsc:int -><br>       ?vs:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       int * <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> * <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> * <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALgees"><span class="keyword">val</span> gees</span> : <code class="type">?n:int -><br>       ?jobvs:<a href="Lacaml__common.html#TYPEschur_vectors">Lacaml__common.schur_vectors</a> -><br>       ?sort:<a href="Lacaml__common.html#TYPEeigen_value_sort">Lacaml__common.eigen_value_sort</a> -><br>       ?wr:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?wi:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?vsr:int -><br>       ?vsc:int -><br>       ?vs:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> int * <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">gees ?n ?jobvs ?sort ?w ?vsr ?vsc ?vs ?work ?ar ?ac a</code>
       See <code class="code">gees</code>-function for details about arguments.<br>
 <b>Returns</b> (sdim, wr, wi, vs)<br>
@@ -439,8 +435,8 @@ Pretty-printer for matrices.<br>
     columns.<br>
 </div>
 
-<pre><span id="VALgesvd_opt_lwork"><span class="keyword">val</span> gesvd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobu:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?jobvt:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre>
-<pre><span id="VALgesvd"><span class="keyword">val</span> gesvd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobu:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?jobvt:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> * <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> * <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre>
+<pre><span id="VALgesvd_opt_lwork"><span class="keyword">val</span> gesvd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobu:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?jobvt:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -> ?vt:<a href="Lacaml__D.html#TYPEmat">mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre>
+<pre><span id="VALgesvd"><span class="keyword">val</span> gesvd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobu:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?jobvt:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEmat">mat</a> * <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre>
 <pre><span id="VALgesdd_liwork"><span class="keyword">val</span> gesdd_liwork</span> : <code class="type">m:int -> n:int -> int</code></pre>
 <pre><span id="VALgesdd_min_lwork"><span class="keyword">val</span> gesdd_min_lwork</span> : <code class="type">?jobz:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -> m:int -> n:int -> unit -> int</code></pre><div class="info ">
 <code class="code">gesdd_min_lwork ?jobz ~m ~n</code><br>
@@ -449,8 +445,8 @@ Pretty-printer for matrices.<br>
     and <code class="code">n</code> columns for SVD-job <code class="code">jobz</code>.<br>
 </div>
 
-<pre><span id="VALgesdd_opt_lwork"><span class="keyword">val</span> gesdd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobz:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre>
-<pre><span id="VALgesdd"><span class="keyword">val</span> gesdd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobz:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> * <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> * <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><br>
+<pre><span id="VALgesdd_opt_lwork"><span class="keyword">val</span> gesdd_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobz:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre>
+<pre><span id="VALgesdd"><span class="keyword">val</span> gesdd</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?jobz:<a href="Lacaml__common.html#TYPEsvd_job">Lacaml__common.svd_job</a> -><br>       ?s:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ur:int -><br>       ?uc:int -><br>       ?u:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?vtr:int -><br>       ?vtc:int -><br>       ?vt:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEmat">mat</a> * <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><br>
 <div class="h7" id="7_Generaleigenvalueproblemsimpledrivers">General eigenvalue problem (simple drivers)</div><br>
 
 <pre><span id="VALgeev_min_lwork"><span class="keyword">val</span> geev_min_lwork</span> : <code class="type">?vectors:bool -> int -> int</code></pre><div class="info ">
@@ -461,7 +457,7 @@ Pretty-printer for matrices.<br>
 </div>
 <div class="param_info"><code class="code">vectors</code> : default = true</div>
 
-<pre><span id="VALgeev_opt_lwork"><span class="keyword">val</span> geev_opt_lwork</span> : <code class="type">?n:int -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> option -><br>       ?ofswr:int -><br>       ?wr:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofswi:int -><br>       ?wi:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgeev_opt_lwork"><span class="keyword">val</span> geev_opt_lwork</span> : <code class="type">?n:int -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml__D.html#TYPEmat">mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml__D.html#TYPEmat">mat</a> option -><br>       ?ofswr:int -><br>       ?wr:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofswi:int -> ?wi:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">geev_opt_lwork
        ?n
        ?vlr ?vlc ?vl
@@ -473,7 +469,7 @@ Pretty-printer for matrices.<br>
 <b>Returns</b> "optimal" size of work array.<br>
 </div>
 
-<pre><span id="VALgeev"><span class="keyword">val</span> geev</span> : <code class="type">?n:int -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> option -><br>       ?ofswr:int -><br>       ?wr:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofswi:int -><br>       ?wi:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> * <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> * <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> *<br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALgeev"><span class="keyword">val</span> geev</span> : <code class="type">?n:int -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?vlr:int -><br>       ?vlc:int -><br>       ?vl:<a href="Lacaml__D.html#TYPEmat">mat</a> option -><br>       ?vrr:int -><br>       ?vrc:int -><br>       ?vr:<a href="Lacaml__D.html#TYPEmat">mat</a> option -><br>       ?ofswr:int -><br>       ?wr:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofswi:int -><br>       ?wi:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> * <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">geev ?work ?n
       ?vlr ?vlc ?vl
       ?vrr ?vrc ?vr
@@ -510,7 +506,7 @@ Pretty-printer for matrices.<br>
     are <code class="code">n</code>.<br>
 </div>
 
-<pre><span id="VALsyev_opt_lwork"><span class="keyword">val</span> syev_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsyev_opt_lwork"><span class="keyword">val</span> syev_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">syev_opt_lwork ?n ?vectors ?up ?ar ?ac a</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <a href="Lacaml__D.html#VALsyev"><code class="code">Lacaml__D.syev</code></a>-function given matrix
@@ -521,7 +517,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyev"><span class="keyword">val</span> syev</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsyev"><span class="keyword">val</span> syev</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">syev ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a</code> computes
     all eigenvalues and, optionally, eigenvectors of the real symmetric
     matrix <code class="code">a</code>.<br>
@@ -551,7 +547,7 @@ Pretty-printer for matrices.<br>
     (<code class="code">vectors</code>).<br>
 </div>
 
-<pre><span id="VALsyevd_opt_lwork"><span class="keyword">val</span> syevd_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsyevd_opt_lwork"><span class="keyword">val</span> syevd_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">syevd_opt_lwork ?n ?vectors ?up ?ar ?ac a</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <a href="Lacaml__D.html#VALsyevd"><code class="code">Lacaml__D.syevd</code></a>-function given matrix
@@ -562,7 +558,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyevd_opt_liwork"><span class="keyword">val</span> syevd_opt_liwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsyevd_opt_liwork"><span class="keyword">val</span> syevd_opt_liwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">syevd_opt_liwork ?n ?vectors ?up ?ar ?ac a</code><br>
 <b>Returns</b> the optimum
     length of the iwork-array used by the <a href="Lacaml__D.html#VALsyevd"><code class="code">Lacaml__D.syevd</code></a>-function given matrix
@@ -573,7 +569,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyevd_opt_l_li_work"><span class="keyword">val</span> syevd_opt_l_li_work</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int * int</code></pre><div class="info ">
+<pre><span id="VALsyevd_opt_l_li_work"><span class="keyword">val</span> syevd_opt_l_li_work</span> : <code class="type">?n:int -><br>       ?vectors:bool -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int * int</code></pre><div class="info ">
 <code class="code">syevd_opt_l_li_iwork ?n ?vectors ?up ?ar ?ac a</code><br>
 <b>Returns</b> the tuple
     of optimum lengths of the work- and iwork-arrays respectively,
@@ -585,7 +581,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyevd"><span class="keyword">val</span> syevd</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsyevd"><span class="keyword">val</span> syevd</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">syevd ?n ?vectors ?up ?ofswork ?work ?iwork ?ofsw ?w ?ar ?ac a</code>
     computes all eigenvalues and, optionally, eigenvectors of the real
     symmetric matrix <code class="code">a</code>.  If eigenvectors are desired, it uses a
@@ -608,7 +604,7 @@ Pretty-printer for matrices.<br>
     are <code class="code">n</code>.<br>
 </div>
 
-<pre><span id="VALsbev"><span class="keyword">val</span> sbev</span> : <code class="type">?n:int -><br>       ?kd:int -><br>       ?zr:int -><br>       ?zc:int -><br>       ?z:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?up:bool -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?abr:int -> ?abc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsbev"><span class="keyword">val</span> sbev</span> : <code class="type">?n:int -><br>       ?kd:int -><br>       ?zr:int -><br>       ?zc:int -><br>       ?z:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?up:bool -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?abr:int -> ?abc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">sbev ?n ?vectors ?zr ?zc ?z ?up ?ofswork ?work ?ofsw ?w ?abr ?abc ab</code>
     computes all the eigenvalues and, optionally, eigenvectors of the
     real symmetric <i>band</i> matrix <code class="code">ab</code>.<br>
@@ -647,7 +643,7 @@ Pretty-printer for matrices.<br>
     of the matrix are <code class="code">n</code>.<br>
 </div>
 
-<pre><span id="VALsyevr_opt_lwork"><span class="keyword">val</span> syevr_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -> ?abstol:float -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsyevr_opt_lwork"><span class="keyword">val</span> syevr_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -> ?abstol:float -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">syevr_opt_lwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a</code><br>
 <b>Returns</b> the optimum length of the work-array used by the <a href="Lacaml__D.html#VALsyevr"><code class="code">Lacaml__D.syevr</code></a>-function
     given matrix <code class="code">a</code>, optionally its logical dimension <code class="code">n</code> and whether
@@ -657,7 +653,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyevr_opt_liwork"><span class="keyword">val</span> syevr_opt_liwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -> ?abstol:float -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsyevr_opt_liwork"><span class="keyword">val</span> syevr_opt_liwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -> ?abstol:float -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">syevr_opt_liwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a</code><br>
 <b>Returns</b> the optimum length of the iwork-array used by the <a href="Lacaml__D.html#VALsyevr"><code class="code">Lacaml__D.syevr</code></a>-function
     given matrix <code class="code">a</code>, optionally its logical dimension <code class="code">n</code> and whether
@@ -667,7 +663,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyevr_opt_l_li_work"><span class="keyword">val</span> syevr_opt_l_li_work</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -><br>       ?abstol:float -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int * int</code></pre><div class="info ">
+<pre><span id="VALsyevr_opt_l_li_work"><span class="keyword">val</span> syevr_opt_l_li_work</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -> ?abstol:float -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int * int</code></pre><div class="info ">
 <code class="code">syevr_opt_l_li_iwork ?n ?vectors ?range ?up ?abstol ?ar ?ac a</code><br>
 <b>Returns</b> the tuple of optimum lengths of the work- and iwork-arrays
     respectively, used by the <a href="Lacaml__D.html#VALsyevr"><code class="code">Lacaml__D.syevr</code></a>-function given matrix <code class="code">a</code>,
@@ -678,7 +674,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">vectors</code> : default = false, i.e. eigenvectors are not computed</div>
 <div class="param_info"><code class="code">up</code> : default = true, i.e. upper triangle of <code class="code">a</code> is stored</div>
 
-<pre><span id="VALsyevr"><span class="keyword">val</span> syevr</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -><br>       ?abstol:float -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?zr:int -><br>       ?zc:int -><br>       ?z:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?isuppz:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       int * <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> * <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> * <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre><div class="info ">
+<pre><span id="VALsyevr"><span class="keyword">val</span> syevr</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?range:[ `A | `I of int * int | `V of float * float ] -><br>       ?up:bool -><br>       ?abstol:float -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?iwork:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?zr:int -><br>       ?zc:int -><br>       ?z:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?isuppz:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       int * <a href="Lacaml__D.html#TYPEvec">vec</a> * <a href="Lacaml__D.html#TYPEmat">mat</a> * <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre><div class="info ">
 <code class="code">syevr
       ?n ?vectors ?range ?up ?abstol ?work ?iwork
       ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a</code>
@@ -708,7 +704,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALsygv_opt_lwork"><span class="keyword">val</span> sygv_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?itype:[ `AB | `A_B | `BA ] -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsygv_opt_lwork"><span class="keyword">val</span> sygv_opt_lwork</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?itype:[ `AB | `A_B | `BA ] -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">sygv_opt_lwork ?n ?vectors ?up ?ar ?ac a ?br ?bc b</code><br>
 <b>Returns</b> the
     optimum length of the work-array used by the <a href="Lacaml__D.html#VALsygv"><code class="code">Lacaml__D.sygv</code></a>-function
@@ -726,7 +722,7 @@ Pretty-printer for matrices.<br>
 </ul>
 </div>
 
-<pre><span id="VALsygv"><span class="keyword">val</span> sygv</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?itype:[ `AB | `A_B | `BA ] -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsygv"><span class="keyword">val</span> sygv</span> : <code class="type">?n:int -><br>       ?vectors:bool -><br>       ?up:bool -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?itype:[ `AB | `A_B | `BA ] -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">sygv ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a</code>
     computes all the eigenvalues, and optionally, the eigenvectors
     of a real generalized symmetric-definite eigenproblem, of the
@@ -749,7 +745,7 @@ Pretty-printer for matrices.<br>
 </ul>
 </div>
 
-<pre><span id="VALsbgv"><span class="keyword">val</span> sbgv</span> : <code class="type">?n:int -><br>       ?ka:int -><br>       ?kb:int -><br>       ?zr:int -><br>       ?zc:int -><br>       ?z:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?up:bool -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsbgv"><span class="keyword">val</span> sbgv</span> : <code class="type">?n:int -><br>       ?ka:int -><br>       ?kb:int -><br>       ?zr:int -><br>       ?zc:int -><br>       ?z:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?up:bool -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsw:int -><br>       ?w:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">sbgv ?n ?ka ?kb ?zr ?zc ?z ?up ?work ?ofsw ?w ?ar ?ac a ?br ?bc b</code>
     computes all the eigenvalues, and optionally, the eigenvectors of a
     real generalized symmetric-definite banded eigenproblem, of the
@@ -770,7 +766,7 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS1interface">BLAS-1 interface</h6><br>
 
-<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?n:int -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">swap ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
@@ -779,14 +775,14 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>
 <div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?n:int -><br>       <a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?n:int -> float -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">scal ?n alpha ?ofsx ?incx x</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALcopy"><span class="keyword">val</span> copy</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALcopy"><span class="keyword">val</span> copy</span> : <code class="type">?n:int -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">copy ?n ?ofsy ?incy ?y ?ofsx ?incx x</code> see BLAS documentation!<br>
 <b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
 </div>
@@ -797,14 +793,14 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALnrm2"><span class="keyword">val</span> nrm2</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> float</code></pre><div class="info ">
+<pre><span id="VALnrm2"><span class="keyword">val</span> nrm2</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> float</code></pre><div class="info ">
 <code class="code">nrm2 ?n ?ofsx ?incx x</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?n:int -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:float -><br>       ?n:int -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ofsy:int -> ?incy:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">axpy ?alpha ?n ?ofsx ?incx x ?ofsy ?incy y</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">alpha</code> : default = <code class="code">{ re = 1.; im = 0. }</code></div>
@@ -814,14 +810,14 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsy</code> : default = 1</div>
 <div class="param_info"><code class="code">incy</code> : default = 1</div>
 
-<pre><span id="VALiamax"><span class="keyword">val</span> iamax</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> int</code></pre><div class="info ">
+<pre><span id="VALiamax"><span class="keyword">val</span> iamax</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> int</code></pre><div class="info ">
 <code class="code">iamax ?n ?ofsx ?incx x</code> see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ofsx+(n-1)(abs incx) &lt;= dim x</code></div>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALamax"><span class="keyword">val</span> amax</span> : <code class="type">?n:int -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> <a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a></code></pre><div class="info ">
+<pre><span id="VALamax"><span class="keyword">val</span> amax</span> : <code class="type">?n:int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> float</code></pre><div class="info ">
 <code class="code">amax ?n ?ofsx ?incx x</code><br>
 <b>Returns</b> the greater of the absolute
     values of the elements of the vector <code class="code">x</code>.<br>
@@ -832,7 +828,7 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS2interface">BLAS-2 interface</h6><br>
 
-<pre><span id="VALgemv"><span class="keyword">val</span> gemv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALgemv"><span class="keyword">val</span> gemv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:float -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">gemv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a ?ofsx ?incx x</code>
     performs the operation
         <code class="code">y</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * <code class="code">x</code> + <code class="code">beta</code> * <code class="code">y</code>
@@ -856,7 +852,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALgbmv"><span class="keyword">val</span> gbmv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       int -><br>       int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALgbmv"><span class="keyword">val</span> gbmv</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?beta:float -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       int -> int -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">gbmv
       ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a kl ku ?ofsx ?incx x</code>
     see BLAS documentation!<br>
@@ -875,7 +871,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALsymv"><span class="keyword">val</span> symv</span> : <code class="type">?n:int -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?up:bool -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALsymv"><span class="keyword">val</span> symv</span> : <code class="type">?n:int -><br>       ?beta:float -><br>       ?ofsy:int -><br>       ?incy:int -><br>       ?y:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?up:bool -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">symv ?n ?beta ?ofsy ?incy ?y ?up ?alpha ?ar ?ac a ?ofsx ?incx x</code>
     see BLAS documentation!<br>
 <b>Returns</b> vector <code class="code">y</code>, which is overwritten.<br>
@@ -892,7 +888,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALtrmv"><span class="keyword">val</span> trmv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrmv"><span class="keyword">val</span> trmv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">trmv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x</code>
     see BLAS documentation!<br>
 </div>
@@ -905,7 +901,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALtrsv"><span class="keyword">val</span> trsv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrsv"><span class="keyword">val</span> trsv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">trsv ?n ?trans ?diag ?up ?ar ?ac a ?ofsx ?incx x</code>
     see BLAS documentation!<br>
 </div>
@@ -918,7 +914,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALtpmv"><span class="keyword">val</span> tpmv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtpmv"><span class="keyword">val</span> tpmv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">tpmv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x</code>
     see BLAS documentation!<br>
 </div>
@@ -930,7 +926,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALtpsv"><span class="keyword">val</span> tpsv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtpsv"><span class="keyword">val</span> tpsv</span> : <code class="type">?n:int -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> unit</code></pre><div class="info ">
 <code class="code">tpsv ?n ?trans ?diag ?up ?ofsap ap ?ofsx ?incx x</code>
     see BLAS documentation!<br>
 </div>
@@ -944,7 +940,7 @@ Pretty-printer for matrices.<br>
 <br>
 <h6 id="6_BLAS3interface">BLAS-3 interface</h6><br>
 
-<pre><span id="VALgemm"><span class="keyword">val</span> gemm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?transa:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?transb:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALgemm"><span class="keyword">val</span> gemm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?k:int -><br>       ?beta:float -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?transb:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">gemm ?m ?n ?k ?beta ?cr ?cc ?c ?transa ?alpha ?ar ?ac a ?transb ?br ?bc b</code>
     performs the operation
         <code class="code">c</code> := <code class="code">alpha</code> * op(<code class="code">a</code>) * op(<code class="code">b</code>) + <code class="code">beta</code> * <code class="code">c</code>
@@ -968,7 +964,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALsymm"><span class="keyword">val</span> symm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALsymm"><span class="keyword">val</span> symm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?beta:float -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">symm ?m ?n ?side ?up ?beta ?cr ?cc ?c ?alpha ?ar ?ac a ?br ?bc b</code>
     see BLAS documentation!<br>
 <b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
@@ -987,7 +983,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALtrmm"><span class="keyword">val</span> trmm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       a:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrmm"><span class="keyword">val</span> trmm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -> a:<a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">trmm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b</code>
     see BLAS documentation!<br>
 </div>
@@ -1003,7 +999,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALtrsm"><span class="keyword">val</span> trsm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       a:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrsm"><span class="keyword">val</span> trsm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -> a:<a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">trsm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b</code>
     see BLAS documentation!<br>
 <b>Returns</b> matrix <code class="code">b</code>, which is overwritten.<br>
@@ -1020,7 +1016,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALsyrk"><span class="keyword">val</span> syrk</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?up:bool -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALsyrk"><span class="keyword">val</span> syrk</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?up:bool -><br>       ?beta:float -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?alpha:float -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">syrk ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a</code>
     see BLAS documentation!<br>
 <b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
@@ -1037,7 +1033,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALsyr2k"><span class="keyword">val</span> syr2k</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?up:bool -><br>       ?beta:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?alpha:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALsyr2k"><span class="keyword">val</span> syr2k</span> : <code class="type">?n:int -><br>       ?k:int -><br>       ?up:bool -><br>       ?beta:float -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">syr2k ?n ?k ?up ?beta ?cr ?cc ?c ?trans ?alpha ?ar ?ac a ?br ?bc b</code>
     see BLAS documentation!<br>
 <b>Returns</b> matrix <code class="code">c</code>, which is overwritten.<br>
@@ -1060,7 +1056,7 @@ Pretty-printer for matrices.<br>
 <br>
 <div class="h7" id="7_Auxiliaryroutines">Auxiliary routines</div><br>
 
-<pre><span id="VALlacpy"><span class="keyword">val</span> lacpy</span> : <code class="type">?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a></code></pre><div class="info ">
+<pre><span id="VALlacpy"><span class="keyword">val</span> lacpy</span> : <code class="type">?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__D.html#TYPEmat">mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
 <code class="code">lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a</code> copy the (triangular)
     (sub-)matrix <code class="code">a</code> (to an optional (sub-)matrix <code class="code">b</code>) and return it.<br>
 </div>
@@ -1069,7 +1065,7 @@ Pretty-printer for matrices.<br>
              accommodate the sizes <code class="code">m</code> and <code class="code">n</code> and the offsets <code class="code">br</code>
              and <code class="code">bc</code> is created.</div>
 
-<pre><span id="VALlaswp"><span class="keyword">val</span> laswp</span> : <code class="type">?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?k1:int -> ?k2:int -> ?incx:int -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALlaswp"><span class="keyword">val</span> laswp</span> : <code class="type">?n:int -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?k1:int -> ?k2:int -> ?incx:int -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -> unit</code></pre><div class="info ">
 <code class="code">laswp ?n ?ar ?ac a ?k1 ?k2 ?incx ipiv</code> swap rows of <code class="code">a</code> according to
     <code class="code">ipiv</code>.
     See LAPACK-documentation for details!<br>
@@ -1081,7 +1077,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">k2</code> : default = dimension of ipiv</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALlapmt"><span class="keyword">val</span> lapmt</span> : <code class="type">?forward:bool -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALlapmt"><span class="keyword">val</span> lapmt</span> : <code class="type">?forward:bool -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -> unit</code></pre><div class="info ">
 <code class="code">lapmt ?forward ?n ?m ?ar ?ac a k</code> swap columns of <code class="code">a</code>
     according to the permutations in <code class="code">k</code>.
     See LAPACK-documentation for details!<br>
@@ -1092,7 +1088,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALlassq"><span class="keyword">val</span> lassq</span> : <code class="type">?n:int -><br>       ?scale:float -><br>       ?sumsq:float -> ?ofsx:int -> ?incx:int -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> float * float</code></pre><div class="info ">
+<pre><span id="VALlassq"><span class="keyword">val</span> lassq</span> : <code class="type">?n:int -><br>       ?scale:float -><br>       ?sumsq:float -> ?ofsx:int -> ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> float * float</code></pre><div class="info ">
 <code class="code">lassq ?n ?ofsx ?incx ?scale ?sumsq</code><br>
 <b>Returns</b> <code class="code">(scl, ssq)</code>, where
     <code class="code">scl</code> is a scaling factor and <code class="code">ssq</code> the sum of squares of vector
@@ -1107,7 +1103,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALlarnv"><span class="keyword">val</span> larnv</span> : <code class="type">?idist:[ `Normal | `Uniform0 | `Uniform1 ] -><br>       ?iseed:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?n:int -> ?ofsx:int -> ?x:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> unit -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALlarnv"><span class="keyword">val</span> larnv</span> : <code class="type">?idist:[ `Normal | `Uniform0 | `Uniform1 ] -><br>       ?iseed:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?n:int -> ?ofsx:int -> ?x:<a href="Lacaml__D.html#TYPEvec">vec</a> -> unit -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">larnv ?idist ?iseed ?n ?ofsx ?x ()</code><br>
 <b>Returns</b> a random vector with random
     distribution as specifified by <code class="code">idist</code>, random seed <code class="code">iseed</code>, vector offset
@@ -1124,7 +1120,7 @@ Pretty-printer for matrices.<br>
 <b>Returns</b> the minimum length of the work array used by the <code class="code">lange</code>-function.<br>
 </div>
 
-<pre><span id="VALlange"><span class="keyword">val</span> lange</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?norm:<a href="Lacaml__common.html#TYPEnorm4">Lacaml__common.norm4</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPErvec">Lacaml_float64.rvec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> float</code></pre><div class="info ">
+<pre><span id="VALlange"><span class="keyword">val</span> lange</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?norm:<a href="Lacaml__common.html#TYPEnorm4">Lacaml__common.norm4</a> -><br>       ?work:<a href="Lacaml__D.html#TYPErvec">rvec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> float</code></pre><div class="info ">
 <code class="code">lange ?m ?n ?norm ?work ?ar ?ac a</code><br>
 <b>Returns</b> the value of the one
     norm (<code class="code">norm = `O</code>), or the Frobenius norm (<code class="code">norm = `F</code>), or the infinity
@@ -1138,7 +1134,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALlauum"><span class="keyword">val</span> lauum</span> : <code class="type">?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALlauum"><span class="keyword">val</span> lauum</span> : <code class="type">?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">lauum ?up ?n ?ar ?ac a</code> computes the product U * U**T or L**T * L,
     where the triangular factor U or L is stored in the upper or lower
     triangular part of the array <code class="code">a</code>.  The upper or lower part of <code class="code">a</code>
@@ -1151,7 +1147,7 @@ Pretty-printer for matrices.<br>
 <br>
 <div class="h7" id="7_Linearequationscomputationalroutines">Linear equations (computational routines)</div><br>
 
-<pre><span id="VALgetrf"><span class="keyword">val</span> getrf</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre><div class="info ">
+<pre><span id="VALgetrf"><span class="keyword">val</span> getrf</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre><div class="info ">
 <code class="code">getrf ?m ?n ?ipiv ?ar ?ac a</code> computes an LU factorization of a
     general <code class="code">m</code>-by-<code class="code">n</code> matrix <code class="code">a</code> using partial pivoting with row
     interchanges.  See LAPACK documentation.<br>
@@ -1164,7 +1160,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALgetrs"><span class="keyword">val</span> getrs</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALgetrs"><span class="keyword">val</span> getrs</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">getrs ?n ?ipiv ?trans ?ar ?ac a ?nrhs ?br ?bc b</code> solves a system
     of linear equations <code class="code">a</code> * X = <code class="code">b</code> or <code class="code">a</code>' * X = <code class="code">b</code> with a general
     <code class="code">n</code>-by-<code class="code">n</code> matrix <code class="code">a</code> using the LU factorization computed by
@@ -1188,7 +1184,7 @@ Pretty-printer for matrices.<br>
     work array used by the <a href="Lacaml__D.html#VALgetri"><code class="code">Lacaml__D.getri</code></a>-function if the matrix has <code class="code">n</code> columns.<br>
 </div>
 
-<pre><span id="VALgetri_opt_lwork"><span class="keyword">val</span> getri_opt_lwork</span> : <code class="type">?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgetri_opt_lwork"><span class="keyword">val</span> getri_opt_lwork</span> : <code class="type">?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">getri_opt_lwork ?n ?ar ?ac a</code><br>
 <b>Returns</b> the optimal size of the
     work array used by the <a href="Lacaml__D.html#VALgetri"><code class="code">Lacaml__D.getri</code></a>-function.<br>
@@ -1197,7 +1193,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALgetri"><span class="keyword">val</span> getri</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALgetri"><span class="keyword">val</span> getri</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">getri ?n ?ipiv ?work ?ar ?ac a</code> computes the inverse of a matrix
     using the LU factorization computed by <a href="Lacaml__D.html#VALgetrf"><code class="code">Lacaml__D.getrf</code></a>.  Note that matrix
     <code class="code">a</code> will be passed to <a href="Lacaml__D.html#VALgetrf"><code class="code">Lacaml__D.getrf</code></a> if <code class="code">ipiv</code> was not provided.<br>
@@ -1215,7 +1211,7 @@ Pretty-printer for matrices.<br>
     work array used by the <a href="Lacaml__D.html#VALsytrf"><code class="code">Lacaml__D.sytrf</code></a>-function.<br>
 </div>
 
-<pre><span id="VALsytrf_opt_lwork"><span class="keyword">val</span> sytrf_opt_lwork</span> : <code class="type">?n:int -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsytrf_opt_lwork"><span class="keyword">val</span> sytrf_opt_lwork</span> : <code class="type">?n:int -> ?up:bool -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">sytrf_opt_lwork ?n ?up ?ar ?ac a</code><br>
 <b>Returns</b> the optimal size of the
     work array used by the <a href="Lacaml__D.html#VALsytrf"><code class="code">Lacaml__D.sytrf</code></a>-function.<br>
@@ -1225,7 +1221,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALsytrf"><span class="keyword">val</span> sytrf</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre><div class="info ">
+<pre><span id="VALsytrf"><span class="keyword">val</span> sytrf</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a></code></pre><div class="info ">
 <code class="code">sytrf ?n ?up ?ipiv ?work ?ar ?ac a</code> computes the factorization of
     the real symmetric matrix <code class="code">a</code> using the Bunch-Kaufman diagonal
     pivoting method.<br>
@@ -1238,7 +1234,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALsytrs"><span class="keyword">val</span> sytrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALsytrs"><span class="keyword">val</span> sytrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">sytrs ?n ?up ?ipiv ?ar ?ac a ?nrhs ?br ?bc b</code> solves a system of
     linear equations <code class="code">a</code>*X = <code class="code">b</code> with a real symmetric matrix <code class="code">a</code>
     using the factorization <code class="code">a</code> = U*D*U**T or <code class="code">a</code> = L*D*L**T computed
@@ -1261,7 +1257,7 @@ Pretty-printer for matrices.<br>
     work array used by the <a href="Lacaml__D.html#VALsytri"><code class="code">Lacaml__D.sytri</code></a>-function if the matrix has <code class="code">n</code> columns.<br>
 </div>
 
-<pre><span id="VALsytri"><span class="keyword">val</span> sytri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALsytri"><span class="keyword">val</span> sytri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">sytri ?n ?up ?ipiv ?work ?ar ?ac a</code> computes the inverse of the
     real symmetric indefinite matrix <code class="code">a</code> using the factorization <code class="code">a</code> =
     U*D*U**T or <code class="code">a</code> = L*D*L**T computed by <a href="Lacaml__D.html#VALsytrf"><code class="code">Lacaml__D.sytrf</code></a>.  Note that matrix
@@ -1275,7 +1271,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALpotrf"><span class="keyword">val</span> potrf</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -> ?jitter:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALpotrf"><span class="keyword">val</span> potrf</span> : <code class="type">?n:int -><br>       ?up:bool -> ?ar:int -> ?ac:int -> ?jitter:float -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">potrf ?n ?up ?ar ?ac ?jitter a</code> factorizes symmetric positive
     definite matrix <code class="code">a</code> (or the designated submatrix) using Cholesky
     factorization.
@@ -1296,7 +1292,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 <div class="param_info"><code class="code">jitter</code> : default = nothing</div>
 
-<pre><span id="VALpotrs"><span class="keyword">val</span> potrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?factorize:bool -><br>       ?jitter:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALpotrs"><span class="keyword">val</span> potrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       ?nrhs:int -><br>       ?br:int -><br>       ?bc:int -> ?factorize:bool -> ?jitter:float -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b</code> solves
     a system of linear equations <code class="code">a</code>*X = <code class="code">b</code>, where <code class="code">a</code> is symmetric
     positive definite matrix, using the Cholesky factorization <code class="code">a</code> =
@@ -1313,7 +1309,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">factorize</code> : default = true (calls <a href="Lacaml__D.html#VALpotrf"><code class="code">Lacaml__D.potrf</code></a> implicitly)</div>
 <div class="param_info"><code class="code">jitter</code> : default = nothing</div>
 
-<pre><span id="VALpotri"><span class="keyword">val</span> potri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       ?factorize:bool -><br>       ?jitter:<a href="Lacaml_float64.html#TYPEnum_type">Lacaml_float64.num_type</a> -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALpotri"><span class="keyword">val</span> potri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -> ?factorize:bool -> ?jitter:float -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">potri ?n ?up ?ar ?ac ?factorize ?jitter a</code> computes the inverse
     of the real symmetric positive definite matrix <code class="code">a</code> using the
     Cholesky factorization <code class="code">a</code> = U**T*U or <code class="code">a</code> = L*L**T computed by
@@ -1327,7 +1323,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">factorize</code> : default = true (calls <a href="Lacaml__D.html#VALpotrf"><code class="code">Lacaml__D.potrf</code></a> implicitly)</div>
 <div class="param_info"><code class="code">jitter</code> : default = nothing</div>
 
-<pre><span id="VALtrtrs"><span class="keyword">val</span> trtrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrtrs"><span class="keyword">val</span> trtrs</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">trtrs ?n ?up ?trans ?diag ?ar ?ac a ?nrhs ?br ?bc b</code> solves a
     triangular system of the form <code class="code">a</code> * X = <code class="code">b</code> or <code class="code">a</code>**T * X = <code class="code">n</code>,
     where <code class="code">a</code> is a triangular matrix of order <code class="code">n</code>, and <code class="code">b</code> is an
@@ -1344,7 +1340,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALtbtrs"><span class="keyword">val</span> tbtrs</span> : <code class="type">?n:int -><br>       ?kd:int -><br>       ?up:bool -><br>       ?trans:<a href="Lacaml_float64.html#TYPEtrans3">Lacaml_float64.trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtbtrs"><span class="keyword">val</span> tbtrs</span> : <code class="type">?n:int -><br>       ?kd:int -><br>       ?up:bool -><br>       ?trans:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">tbtrs ?n ?kd ?up ?trans ?diag ?abr ?abc ab ?nrhs ?br ?bc b</code>
     solves a triangular system of the form <code class="code">a</code> * X = <code class="code">b</code> or <code class="code">a</code>**T * X = <code class="code">b</code>,
     where <code class="code">a</code> is a triangular band matrix of order <code class="code">n</code>, and <code class="code">b</code> is
@@ -1362,7 +1358,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALtrtri"><span class="keyword">val</span> trtri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrtri"><span class="keyword">val</span> trtri</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">trtri ?n ?up ?diag ?ar ?ac a</code> computes the inverse of a real
     upper or lower triangular matrix <code class="code">a</code>.<br>
 <b>Raises</b> <code>Failure</code> if the matrix <code class="code">a</code> is singular.<br>
@@ -1373,7 +1369,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALgeqrf_opt_lwork"><span class="keyword">val</span> geqrf_opt_lwork</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgeqrf_opt_lwork"><span class="keyword">val</span> geqrf_opt_lwork</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">geqrf_opt_lwork ?m ?n ?ar ?ac a</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <a href="Lacaml__D.html#VALgeqrf"><code class="code">Lacaml__D.geqrf</code></a>-function given matrix
@@ -1391,7 +1387,7 @@ Pretty-printer for matrices.<br>
     columns.<br>
 </div>
 
-<pre><span id="VALgeqrf"><span class="keyword">val</span> geqrf</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?tau:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a></code></pre><div class="info ">
+<pre><span id="VALgeqrf"><span class="keyword">val</span> geqrf</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?tau:<a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEvec">vec</a></code></pre><div class="info ">
 <code class="code">geqrf ?m ?n ?work ?tau ?ar ?ac a</code> computes a QR factorization of
     a real <code class="code">m</code>-by-<code class="code">n</code> matrix <code class="code">a</code>.  See LAPACK documentation.<br>
 <b>Returns</b> <code class="code">tau</code>, the scalar factors of the elementary reflectors.<br>
@@ -1405,7 +1401,7 @@ Pretty-printer for matrices.<br>
 <br>
 <div class="h7" id="7_Linearequationssimpledrivers">Linear equations (simple drivers)</div><br>
 
-<pre><span id="VALgesv"><span class="keyword">val</span> gesv</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALgesv"><span class="keyword">val</span> gesv</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">gesv ?n ?ipiv ?ar ?ac a ?nrhs ?br ?bc b</code> computes the solution to
     a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where <code class="code">a</code> is an
     <code class="code">n</code>-by-<code class="code">n</code> matrix and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code> matrices.  The
@@ -1424,7 +1420,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALgbsv"><span class="keyword">val</span> gbsv</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       int -> int -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALgbsv"><span class="keyword">val</span> gbsv</span> : <code class="type">?n:int -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -><br>       int -> int -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">gbsv ?n ?ipiv ?abr ?abc ab kl ku ?nrhs ?br ?bc b</code> computes the
     solution to a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where
     <code class="code">a</code> is a band matrix of order <code class="code">n</code> with <code class="code">kl</code> subdiagonals and <code class="code">ku</code>
@@ -1444,7 +1440,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALgtsv"><span class="keyword">val</span> gtsv</span> : <code class="type">?n:int -><br>       ?ofsdl:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsd:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofsdu:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALgtsv"><span class="keyword">val</span> gtsv</span> : <code class="type">?n:int -><br>       ?ofsdl:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsd:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsdu:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?br ?bc b</code> solves the
     equation <code class="code">a</code> * X = <code class="code">b</code> where <code class="code">a</code> is an <code class="code">n</code>-by-<code class="code">n</code> tridiagonal
     matrix, by Gaussian elimination with partial pivoting.  Note that
@@ -1460,7 +1456,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALposv"><span class="keyword">val</span> posv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALposv"><span class="keyword">val</span> posv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">posv ?n ?up ?ar ?ac a ?nrhs ?br ?bc b</code> computes the solution to a
     real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where <code class="code">a</code> is an
     <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite matrix and X and <code class="code">b</code> are
@@ -1481,7 +1477,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALppsv"><span class="keyword">val</span> ppsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALppsv"><span class="keyword">val</span> ppsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ofsap:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">ppsv ?n ?up ?ofsap ap ?nrhs ?br ?bc b</code> computes the solution to
     the real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where <code class="code">a</code> is an
     <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite matrix stored in packed
@@ -1501,7 +1497,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALpbsv"><span class="keyword">val</span> pbsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?kd:int -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALpbsv"><span class="keyword">val</span> pbsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?kd:int -><br>       ?abr:int -><br>       ?abc:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">pbsv ?n ?up ?kd ?abr ?abc ab ?nrhs ?br ?bc b</code> computes the
     solution to a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where
     <code class="code">a</code> is an <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite band matrix and X
@@ -1524,7 +1520,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALptsv"><span class="keyword">val</span> ptsv</span> : <code class="type">?n:int -><br>       ?ofsd:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ofse:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALptsv"><span class="keyword">val</span> ptsv</span> : <code class="type">?n:int -><br>       ?ofsd:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofse:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">ptsv ?n ?ofsd d ?ofse e ?nrhs ?br ?bc b</code> computes the solution to
     the real system of linear equations <code class="code">a</code>*X = <code class="code">b</code>, where <code class="code">a</code> is an
     <code class="code">n</code>-by-<code class="code">n</code> symmetric positive definite tridiagonal matrix, and X
@@ -1540,7 +1536,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALsysv_opt_lwork"><span class="keyword">val</span> sysv_opt_lwork</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALsysv_opt_lwork"><span class="keyword">val</span> sysv_opt_lwork</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">sysv_opt_lwork ?n ?up ?ar ?ac a ?nrhs ?br ?bc b</code><br>
 <b>Returns</b> the optimum
     length of the work-array used by the <code class="code">sysv</code>-function given matrix
@@ -1555,7 +1551,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALsysv"><span class="keyword">val</span> sysv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALsysv"><span class="keyword">val</span> sysv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">sysv ?n ?up ?ipiv ?work ?ar ?ac a ?nrhs ?br ?bc b</code> computes the
     solution to a real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>, where
     <code class="code">a</code> is an N-by-N symmetric matrix and X and <code class="code">b</code> are <code class="code">n</code>-by-<code class="code">nrhs</code>
@@ -1578,7 +1574,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALspsv"><span class="keyword">val</span> spsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ofsap:int -><br>       <a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALspsv"><span class="keyword">val</span> spsv</span> : <code class="type">?n:int -><br>       ?up:bool -><br>       ?ipiv:<a href="Lacaml__common.html#TYPEint32_vec">Lacaml__common.int32_vec</a> -><br>       ?ofsap:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">spsv ?n ?up ?ipiv ?ofsap ap ?nrhs ?br ?bc b</code> computes the
     solution to the real system of linear equations <code class="code">a</code> * X = <code class="code">b</code>,
     where <code class="code">a</code> is an <code class="code">n</code>-by-<code class="code">n</code> symmetric matrix stored in packed
@@ -1610,7 +1606,7 @@ Pretty-printer for matrices.<br>
     right hand side vectors.<br>
 </div>
 
-<pre><span id="VALgels_opt_lwork"><span class="keyword">val</span> gels_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> int</code></pre><div class="info ">
+<pre><span id="VALgels_opt_lwork"><span class="keyword">val</span> gels_opt_lwork</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> int</code></pre><div class="info ">
 <code class="code">gels_opt_lwork ?m ?n ?trans ?ar ?ac a ?nrhs ?br ?bc b</code><br>
 <b>Returns</b> the optimum length of the work-array used by the <code class="code">gels</code>-function given
     matrix <code class="code">a</code>, optionally its logical dimensions <code class="code">m</code> and <code class="code">n</code> and given
@@ -1625,7 +1621,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALgels"><span class="keyword">val</span> gels</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?work:<a href="Lacaml_float64.html#TYPEvec">Lacaml_float64.vec</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -><br>       ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml_float64.html#TYPEmat">Lacaml_float64.mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALgels"><span class="keyword">val</span> gels</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?work:<a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?trans:<a href="Lacaml__common.html#TYPEtrans2">Lacaml__common.trans2</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?nrhs:int -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">gels ?m ?n ?work ?trans ?ar ?ac a ?nrhs ?br ?bc b</code> see
     LAPACK documentation!<br>
 </div>
