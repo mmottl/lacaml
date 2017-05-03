@@ -1,3 +1,9 @@
+2017-05-03:  Internalized some modules to improve type error messages in user
+             code.
+
+             Thanks to Christophe Troestler <Christophe.Troestler@umons.ac.be>
+             for the improvements!
+
 2017-03-09:  Fixed bug in Vec.acos (affects bytecode applications only).
 
 2017-01-18:  Minor release version 9.2.1:

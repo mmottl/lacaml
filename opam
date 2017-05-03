@@ -1,6 +1,6 @@
 opam-version: "1.2"
 name: "lacaml"
-version: "9.2.3"
+version: "9.3.0"
 maintainer: "Markus Mottl <markus.mottl@gmail.com>"
 authors: [ "Egbert Ammicht <eammicht@lucent.com>"
            "Patrick Cousot <Patrick.Cousot@ens.fr>"
