@@ -1,3 +1,12 @@
+2017-05-23:  Release version 9.3.2:
+
+             Fixed the API of ger and syr.  These functions now don't
+             return the modified matrix anymore.  This makes more sense,
+             because addition to the updated matrix is an intrinsic part of
+             these operations.  You cannot use them to initialize a freshly
+             allocated matrix.  This change can break some code (presumably
+             rare), but is trivial to fix.
+
 2017-05-03:  Internalized some modules to improve type error messages in user
              code.
 
