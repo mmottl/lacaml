@@ -117,11 +117,9 @@ val ger :
   ?ar : int ->
   ?ac : int ->
   mat
-  -> mat
+  -> unit
 (** [ger ?m ?n ?alpha ?ofsx ?incx x ?ofsy ?incy y n ?ar ?ac a] see
     BLAS documentation!
-
-    @return vector [a], which is overwritten
 
     @param m default = number of rows of [a]
     @param n default = number of columns of [a]
@@ -144,10 +142,8 @@ val syr :
   ?ar : int ->
   ?ac : int ->
   mat
-  -> mat
+  -> unit
 (** [syr ?n ?alpha ?up ?ofsx ?incx x ?ar ?ac a] see BLAS documentation!
-
-    @return matrix [a], which is overwritten
 
     @param n default = number of rows of [a]
     @param alpha default = 1.0

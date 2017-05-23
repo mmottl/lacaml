@@ -149,8 +149,7 @@ let ger ?m ?n ?(alpha = 1.0) ?ofsx ?incx x ?ofsy ?incy y ?(ar = 1) ?(ac = 1) a =
   check_vec loc x_str x (ofsx + (m - 1) * abs incx);
   let ofsy, incy = get_vec_geom loc y_str ofsy incy in
   check_vec loc y_str y (ofsy + (n - 1) * abs incy);
-  direct_ger ~m ~n ~alpha ~ofsx ~incx ~x ~ofsy ~incy ~y ~ar ~ac ~a;
-  a
+  direct_ger ~m ~n ~alpha ~ofsx ~incx ~x ~ofsy ~incy ~y ~ar ~ac ~a
 
 (* SYR *)
 
@@ -173,8 +172,7 @@ let syr ?n ?(alpha = 1.0) ?(up = true) ?ofsx ?incx x ?(ar = 1) ?(ac = 1) a =
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
   let uplo = get_uplo_char up in
   check_vec loc x_str x (ofsx + (n - 1) * abs incx);
-  direct_syr ~uplo ~n ~alpha ~ofsx ~incx ~x ~ar ~ac ~a;
-  a
+  direct_syr ~uplo ~n ~alpha ~ofsx ~incx ~x ~ar ~ac ~a
 
 
 (* LAPACK *)
