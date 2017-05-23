@@ -139,10 +139,9 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ofsx</code> : default = 1</div>
 <div class="param_info"><code class="code">incx</code> : default = 1</div>
 
-<pre><span id="VALger"><span class="keyword">val</span> ger</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?alpha:float -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsy:int -><br>       ?incy:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
+<pre><span id="VALger"><span class="keyword">val</span> ger</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?alpha:float -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -><br>       ?ofsy:int -><br>       ?incy:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">ger ?m ?n ?alpha ?ofsx ?incx x ?ofsy ?incy y n ?ar ?ac a</code> see
     BLAS documentation!<br>
-<b>Returns</b> vector <code class="code">a</code>, which is overwritten<br>
 </div>
 <div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code></div>
 <div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">a</code></div>
@@ -154,9 +153,8 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
 <div class="param_info"><code class="code">ac</code> : default = 1</div>
 
-<pre><span id="VALsyr"><span class="keyword">val</span> syr</span> : <code class="type">?n:int -><br>       ?alpha:float -><br>       ?up:bool -><br>       ?ofsx:int -><br>       ?incx:int -><br>       <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> <a href="Lacaml__D.html#TYPEmat">mat</a></code></pre><div class="info ">
+<pre><span id="VALsyr"><span class="keyword">val</span> syr</span> : <code class="type">?n:int -><br>       ?alpha:float -><br>       ?up:bool -><br>       ?ofsx:int -><br>       ?incx:int -> <a href="Lacaml__D.html#TYPEvec">vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">syr ?n ?alpha ?up ?ofsx ?incx x ?ar ?ac a</code> see BLAS documentation!<br>
-<b>Returns</b> matrix <code class="code">a</code>, which is overwritten<br>
 </div>
 <div class="param_info"><code class="code">n</code> : default = number of rows of <code class="code">a</code></div>
 <div class="param_info"><code class="code">alpha</code> : default = 1.0</div>
