@@ -465,7 +465,7 @@ external direct_trmm :
   unit = "lacaml_NPRECtrmm_stub_bc" "lacaml_NPRECtrmm_stub"
 
 let trmm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
-      ?(alpha = one) ?(ar = 1) ?(ac = 1) ~a ?(br = 1) ?(bc = 1) b =
+      ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.trmm" in
   check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
   check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);
@@ -494,7 +494,7 @@ external direct_trsm :
   unit = "lacaml_NPRECtrsm_stub_bc" "lacaml_NPRECtrsm_stub"
 
 let trsm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
-      ?(alpha = one) ?(ar = 1) ?(ac = 1) ~a ?(br = 1) ?(bc = 1) b =
+      ?(alpha = one) ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.trsm" in
   check_mat_empty ~loc ~mat_name:a_str ~dim1:(Mat.dim1 a) ~dim2:(Mat.dim2 a);
   check_mat_empty ~loc ~mat_name:b_str ~dim1:(Mat.dim1 b) ~dim2:(Mat.dim2 b);

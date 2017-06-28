@@ -400,12 +400,12 @@ val trmm :
   ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
-  a : mat ->
+  mat ->
   ?br : int ->
   ?bc : int ->
   mat ->
   unit
-(** [trmm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b]
+(** [trmm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac a ?br ?bc b]
     see BLAS documentation!
     @param m default = number of rows of [b]
     @param n default = number of columns of [b]
@@ -429,7 +429,7 @@ val trsm :
   ?alpha : num_type ->
   ?ar : int ->
   ?ac : int ->
-  a : mat ->
+  mat ->
   ?br : int ->
   ?bc : int ->
   mat ->
