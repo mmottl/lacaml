@@ -981,8 +981,8 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALtrmm"><span class="keyword">val</span> trmm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -> a:<a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
-<code class="code">trmm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b</code>
+<pre><span id="VALtrmm"><span class="keyword">val</span> trmm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
+<code class="code">trmm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac a ?br ?bc b</code>
     see BLAS documentation!<br>
 </div>
 <div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">b</code></div>
@@ -997,7 +997,7 @@ Pretty-printer for matrices.<br>
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALtrsm"><span class="keyword">val</span> trsm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -> a:<a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
+<pre><span id="VALtrsm"><span class="keyword">val</span> trsm</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?side:<a href="Lacaml__common.html#TYPEside">Lacaml__common.side</a> -><br>       ?up:bool -><br>       ?transa:<a href="Lacaml__D.html#TYPEtrans3">trans3</a> -><br>       ?diag:<a href="Lacaml__common.html#TYPEdiag">Lacaml__common.diag</a> -><br>       ?alpha:float -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__D.html#TYPEmat">mat</a> -> unit</code></pre><div class="info ">
 <code class="code">trsm ?m ?n ?side ?up ?transa ?diag ?alpha ?ar ?ac ~a ?br ?bc b</code>
     see BLAS documentation!<br>
 <b>Returns</b> matrix <code class="code">b</code>, which is overwritten.<br>
