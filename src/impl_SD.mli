@@ -647,7 +647,7 @@ val geev_opt_lwork :
 val geev :
   ?n : int ->
   ?work : vec ->
-  ?vlr : int -> ?vlc  : int -> ?vl : mat option ->
+  ?vlr : int -> ?vlc : int -> ?vl : mat option ->
   ?vrr : int -> ?vrc : int -> ?vr : mat option ->
   ?ofswr : int -> ?wr : vec ->
   ?ofswi : int -> ?wi : vec ->
@@ -975,7 +975,7 @@ val sygv_opt_lwork :
   ?n : int ->
   ?vectors : bool ->
   ?up : bool ->
-  ?itype : [`A_B | `AB | `BA ] ->
+  ?itype : [ `A_B | `AB | `BA ] ->
   ?ar : int ->
   ?ac : int ->
   mat ->
@@ -1006,7 +1006,7 @@ val sygv :
   ?work : vec ->
   ?ofsw : int ->
   ?w : vec ->
-  ?itype : [`A_B | `AB | `BA ] ->
+  ?itype : [ `A_B | `AB | `BA ] ->
   ?ar : int ->
   ?ac : int ->
   mat ->
