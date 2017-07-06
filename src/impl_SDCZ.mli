@@ -684,7 +684,7 @@ val getrf :
 (** [getrf ?m ?n ?ipiv ?ar ?ac a] computes an LU factorization of a
     general [m]-by-[n] matrix [a] using partial pivoting with row
     interchanges.  See LAPACK documentation.
-    @return [ipiv], the  pivot indices.
+    @return [ipiv], the pivot indices.
     @raise Failure if the matrix is singular.
     @param m default = number of rows in matrix [a]
     @param n default = number of columns in matrix [a]
