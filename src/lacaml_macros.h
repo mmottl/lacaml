@@ -41,6 +41,9 @@
 #include "f2c.h"
 #include "utils_c.h"
 
+#define STR_NX(name, arg) name##arg
+#define STR(name, arg) STR_NX(name, arg)
+
 /* Defines precision-dependent macros */
 #ifndef LACAML_DOUBLE           /* Single precision */
 
@@ -53,12 +56,10 @@
 #define FUN(name) s##name##_
 #define FUN2(prefix,name) prefix##s##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_S##name
-#define CREATE_NUMBER(name) real name = Double_val(v##name)
 #else                           /* Complex number */
 #define FUN(name) c##name##_
 #define FUN2(prefix,name) prefix##c##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_C##name
-#define CREATE_NUMBER(name) complex name
 #endif  /* LACAML_COMPLEX */
 
 #else                           /* Double precision */
@@ -72,12 +73,10 @@
 #define FUN(name) d##name##_
 #define FUN2(prefix,name) prefix##d##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_D##name
-#define CREATE_NUMBER(name) doublereal name
 #else                           /* Complex number */
 #define FUN(name) z##name##_
 #define FUN2(prefix,name) prefix##z##name##_ /* -> IxAMAX */
 #define LFUN(name) lacaml_Z##name
-#define CREATE_NUMBER(name) doublecomplex name
 #endif  /* LACAML_COMPLEX */
 
 #endif  /* LACAML_DOUBLE */
@@ -89,7 +88,7 @@
 #define NUMBER_ZERO 0
 #define NUMBER_ONE 1
 #define NUMBER_MINUS_ONE (-1)
-#define NUMBER_EQUAL(X, Y) (X == Y)
+#define NUMBER_EQUAL(X, Y) (X) == (Y)
 #define INIT_NUMBER(name) name = Double_val(v##name)
 #define DOTU FUN(dot)
 #define ADD_NUMBER(X, Y) (X + Y)
@@ -103,7 +102,7 @@
 #define NUMBER_ZERO { 0, 0 }
 #define NUMBER_ONE { 1, 0 }
 #define NUMBER_MINUS_ONE { -1, 0 }
-#define NUMBER_EQUAL(X, Y) (X.r == Y.r && X.i == Y.i)
+#define NUMBER_EQUAL(X, Y) (X).r == (Y).r && (X).i == (Y).i
 #define INIT_NUMBER(name) \
   name.r = Double_field(v##name, 0); \
   name.i = Double_field(v##name, 1)

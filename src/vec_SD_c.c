@@ -170,24 +170,31 @@ CAMLprim value LFUN(ssqr_stub)(
   REAL *start, *last;
   REAL acc = 0.0;
   REAL c = Double_val(vC);
-  REAL diff;
 
   caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start = X_data;
-    last = start + N*INCX;
-  }
+  if (INCX == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      REAL diff = X_data[i] - c;
+      acc += diff * diff;
+    }
   else {
-    start = X_data - (N - 1)*INCX;
-    last = X_data + INCX;
-  };
+    if (INCX > 0) {
+      start = X_data;
+      last = start + N*INCX;
+    }
+    else {
+      start = X_data - (N - 1)*INCX;
+      last = X_data + INCX;
+    }
 
-  while (start != last) {
-    diff = *start - c;
-    acc += diff * diff;
-    start += INCX;
-  };
+    while (start != last) {
+      REAL diff = *start - c;
+      acc += diff * diff;
+      start += INCX;
+    }
+  }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
@@ -445,10 +452,9 @@ CAMLprim value LFUN(ssqr_stub)(
 /* Unary vector operations yielding floats */
 
 #define NAME LFUN(log_sum_exp_vec_stub)
-#define DECLARE_EXTRA NUMBER x_max = -INFINITY, *max_start
+#define DECLARE_EXTRA NUMBER x_max = -INFINITY
 #define INIT_HAVE_LOCK \
-  for (max_start = start; max_start != last; max_start += INCX) \
-    x_max = SDMATHH(fmax)(x_max, *max_start);
+  x_max = LFUN(max_stub_blocking)(N, X_data, INCX, x_max)
 #define INIT 0.0
 #define FUNC(acc, x) acc += SDMATHH(exp)(x - x_max)
 #define FINISH_HAVE_LOCK acc = SDMATHH(log)(acc) + x_max

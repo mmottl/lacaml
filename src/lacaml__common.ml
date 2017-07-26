@@ -94,7 +94,16 @@ module Types = struct
   end  (* Vec *)
 
   module Mat = struct
+    type patt = [
+      | `full  (* full matrix *)
+      | `utri  (* upper triangular matrix *)
+      | `ltri  (* lower triangular matrix *)
+      | `upent of int  (* initial full rows of pentagon *)
+      | `lpent of int  (* initial full columns of pentagon *)
+    ]
+
     type 'mat unop =
+      ?patt : patt ->
       ?m : int ->
       ?n : int ->
       ?br : int ->
@@ -106,6 +115,7 @@ module Types = struct
       -> 'mat
 
     type 'mat binop =
+      ?patt : patt ->
       ?m : int ->
       ?n : int ->
       ?cr : int ->

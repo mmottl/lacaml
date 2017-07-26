@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: a46103e0908583e5316c6ec7b3eb1221) *)
+(* DO NOT EDIT (digest: b2e409917220f3df83774d48bb3c6696) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -105,10 +105,7 @@ module OASISString = struct
         ok := false;
       incr str_idx
     done;
-    if !what_idx = String.length what then
-      true
-    else
-      false
+    !what_idx = String.length what
 
 
   let strip_starts_with ~what str =
@@ -131,10 +128,7 @@ module OASISString = struct
         ok := false;
       decr str_idx
     done;
-    if !what_idx = -1 then
-      true
-    else
-      false
+    !what_idx = -1
 
 
   let strip_ends_with ~what str =
@@ -440,7 +434,7 @@ module OASISExpr = struct
 end
 
 
-# 443 "myocamlbuild.ml"
+# 437 "myocamlbuild.ml"
 module BaseEnvLight = struct
 (* # 22 "src/base/BaseEnvLight.ml" *)
 
@@ -520,7 +514,7 @@ module BaseEnvLight = struct
 end
 
 
-# 523 "myocamlbuild.ml"
+# 517 "myocamlbuild.ml"
 module MyOCamlbuildFindlib = struct
 (* # 22 "src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml" *)
 
@@ -837,10 +831,10 @@ module MyOCamlbuildBase = struct
                       need that file to be up to date.
                       This holds both for programs and for libraries.
                     *)
-                   dep ["link"; "ocaml"; "program"; tag_libstubs lib]
+                   dep ["link"; "ocaml"; tag_libstubs lib]
                      [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
-                   dep  ["compile"; "ocaml"; "program"; tag_libstubs lib]
+                   dep  ["compile"; "ocaml"; tag_libstubs lib]
                      [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
                    (* TODO: be more specific about what depends on headers *)
@@ -881,7 +875,7 @@ module MyOCamlbuildBase = struct
 end
 
 
-# 884 "myocamlbuild.ml"
+# 878 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
@@ -897,18 +891,69 @@ let package_default =
        [
           (["oasis_library_lacaml_ccopt"; "compile"],
             [
-               (OASISExpr.EBool true, S []);
+               (OASISExpr.EBool true,
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC"
+                   ]);
                (OASISExpr.ETest ("system", "mingw64"),
                  S
-                   [A "-ccopt"; A "-DEXTERNAL_EXP10"; A "-ccopt"; A "-DWIN32"
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
                    ]);
                (OASISExpr.ETest ("system", "macosx"),
-                 S [A "-ccopt"; A "-DEXTERNAL_EXP10"]);
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
                (OASISExpr.EAnd
                   (OASISExpr.ETest ("system", "macosx"),
                     OASISExpr.ETest ("system", "mingw64")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -917,12 +962,36 @@ let package_default =
                       A "-DWIN32"
                    ]);
                (OASISExpr.ETest ("system", "freebsd"),
-                 S [A "-ccopt"; A "-DEXTERNAL_EXP10"]);
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
                (OASISExpr.EAnd
                   (OASISExpr.ETest ("system", "freebsd"),
                     OASISExpr.ETest ("system", "mingw64")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -936,6 +1005,16 @@ let package_default =
                  S
                    [
                       A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10"
@@ -947,6 +1026,16 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw64")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -961,6 +1050,16 @@ let package_default =
                     OASISExpr.ETest ("ccomp_type", "cc")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -979,6 +1078,16 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw64")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1001,6 +1110,16 @@ let package_default =
                     OASISExpr.ETest ("system", "macosx")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1023,6 +1142,16 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw64")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1048,6 +1177,16 @@ let package_default =
                  S
                    [
                       A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
                       A "-pedantic";
@@ -1069,6 +1208,16 @@ let package_default =
                     OASISExpr.ETest ("system", "mingw64")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1095,6 +1244,16 @@ let package_default =
                     OASISExpr.ETest ("system", "macosx")),
                  S
                    [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1122,481 +1281,11 @@ let package_default =
                  S
                    [
                       A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EOr
-                  (OASISExpr.ETest ("system", "linux"),
-                    OASISExpr.ETest ("system", "linux_elf")),
-                 S
-                   [
-                      A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=gnu99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EOr
-                     (OASISExpr.ETest ("system", "linux"),
-                       OASISExpr.ETest ("system", "linux_elf")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EOr
-                     (OASISExpr.ETest ("system", "linux"),
-                       OASISExpr.ETest ("system", "linux_elf")),
-                    OASISExpr.ETest ("system", "macosx")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EOr
-                        (OASISExpr.ETest ("system", "linux"),
-                          OASISExpr.ETest ("system", "linux_elf")),
-                       OASISExpr.ETest ("system", "macosx")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EOr
-                     (OASISExpr.ETest ("system", "linux"),
-                       OASISExpr.ETest ("system", "linux_elf")),
-                    OASISExpr.ETest ("system", "freebsd")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EOr
-                        (OASISExpr.ETest ("system", "linux"),
-                          OASISExpr.ETest ("system", "linux_elf")),
-                       OASISExpr.ETest ("system", "freebsd")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EOr
-                        (OASISExpr.ETest ("system", "linux"),
-                          OASISExpr.ETest ("system", "linux_elf")),
-                       OASISExpr.ETest ("system", "freebsd")),
-                    OASISExpr.ETest ("system", "macosx")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EAnd
-                        (OASISExpr.EOr
-                           (OASISExpr.ETest ("system", "linux"),
-                             OASISExpr.ETest ("system", "linux_elf")),
-                          OASISExpr.ETest ("system", "freebsd")),
-                       OASISExpr.ETest ("system", "macosx")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EOr
-                     (OASISExpr.ETest ("system", "linux"),
-                       OASISExpr.ETest ("system", "linux_elf")),
-                    OASISExpr.EAnd
-                      (OASISExpr.EFlag "strict",
-                        OASISExpr.ETest ("ccomp_type", "cc"))),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EOr
-                        (OASISExpr.ETest ("system", "linux"),
-                          OASISExpr.ETest ("system", "linux_elf")),
-                       OASISExpr.EAnd
-                         (OASISExpr.EFlag "strict",
-                           OASISExpr.ETest ("ccomp_type", "cc"))),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EOr
-                        (OASISExpr.ETest ("system", "linux"),
-                          OASISExpr.ETest ("system", "linux_elf")),
-                       OASISExpr.EAnd
-                         (OASISExpr.EFlag "strict",
-                           OASISExpr.ETest ("ccomp_type", "cc"))),
-                    OASISExpr.ETest ("system", "macosx")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EAnd
-                        (OASISExpr.EOr
-                           (OASISExpr.ETest ("system", "linux"),
-                             OASISExpr.ETest ("system", "linux_elf")),
-                          OASISExpr.EAnd
-                            (OASISExpr.EFlag "strict",
-                              OASISExpr.ETest ("ccomp_type", "cc"))),
-                       OASISExpr.ETest ("system", "macosx")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EOr
-                        (OASISExpr.ETest ("system", "linux"),
-                          OASISExpr.ETest ("system", "linux_elf")),
-                       OASISExpr.EAnd
-                         (OASISExpr.EFlag "strict",
-                           OASISExpr.ETest ("ccomp_type", "cc"))),
-                    OASISExpr.ETest ("system", "freebsd")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EAnd
-                        (OASISExpr.EOr
-                           (OASISExpr.ETest ("system", "linux"),
-                             OASISExpr.ETest ("system", "linux_elf")),
-                          OASISExpr.EAnd
-                            (OASISExpr.EFlag "strict",
-                              OASISExpr.ETest ("ccomp_type", "cc"))),
-                       OASISExpr.ETest ("system", "freebsd")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DWIN32"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EAnd
-                        (OASISExpr.EOr
-                           (OASISExpr.ETest ("system", "linux"),
-                             OASISExpr.ETest ("system", "linux_elf")),
-                          OASISExpr.EAnd
-                            (OASISExpr.EFlag "strict",
-                              OASISExpr.ETest ("ccomp_type", "cc"))),
-                       OASISExpr.ETest ("system", "freebsd")),
-                    OASISExpr.ETest ("system", "macosx")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
-                      A "-ccopt";
-                      A "-fPIC";
-                      A "-ccopt";
-                      A "-DPIC";
-                      A "-ccopt";
-                      A "-Wall";
-                      A "-ccopt";
-                      A "-pedantic";
-                      A "-ccopt";
-                      A "-Wextra";
-                      A "-ccopt";
-                      A "-Wunused";
-                      A "-ccopt";
-                      A "-Wno-long-long";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10";
-                      A "-ccopt";
-                      A "-DEXTERNAL_EXP10"
-                   ]);
-               (OASISExpr.EAnd
-                  (OASISExpr.EAnd
-                     (OASISExpr.EAnd
-                        (OASISExpr.EAnd
-                           (OASISExpr.EOr
-                              (OASISExpr.ETest ("system", "linux"),
-                                OASISExpr.ETest ("system", "linux_elf")),
-                             OASISExpr.EAnd
-                               (OASISExpr.EFlag "strict",
-                                 OASISExpr.ETest ("ccomp_type", "cc"))),
-                          OASISExpr.ETest ("system", "freebsd")),
-                       OASISExpr.ETest ("system", "macosx")),
-                    OASISExpr.ETest ("system", "mingw64")),
-                 S
-                   [
-                      A "-ccopt";
-                      A "-g";
-                      A "-ccopt";
-                      A "-std=gnu99";
-                      A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
@@ -1629,13 +1318,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
-                      A "-DPIC"
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99"
                    ]);
                (OASISExpr.EAnd
                   (OASISExpr.ENot
@@ -1648,13 +1339,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -1671,13 +1364,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10"
                    ]);
@@ -1694,13 +1389,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -1719,13 +1416,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10"
                    ]);
@@ -1742,13 +1441,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -1769,13 +1470,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -1796,13 +1499,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-DEXTERNAL_EXP10";
                       A "-ccopt";
@@ -1825,13 +1530,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1858,13 +1565,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1895,13 +1604,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1932,13 +1643,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -1971,13 +1684,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -2008,13 +1723,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -2049,13 +1766,15 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -2090,13 +1809,1152 @@ let package_default =
                       A "-ccopt";
                       A "-g";
                       A "-ccopt";
-                      A "-std=c99";
+                      A "-march=native";
                       A "-ccopt";
-                      A "-O2";
+                      A "-O3";
                       A "-ccopt";
                       A "-fPIC";
                       A "-ccopt";
                       A "-DPIC";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EOr
+                  (OASISExpr.ETest ("system", "linux"),
+                    OASISExpr.ETest ("system", "linux_elf")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EOr
+                     (OASISExpr.ETest ("system", "linux"),
+                       OASISExpr.ETest ("system", "linux_elf")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EOr
+                     (OASISExpr.ETest ("system", "linux"),
+                       OASISExpr.ETest ("system", "linux_elf")),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EOr
+                     (OASISExpr.ETest ("system", "linux"),
+                       OASISExpr.ETest ("system", "linux_elf")),
+                    OASISExpr.ETest ("system", "freebsd")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ETest ("system", "freebsd")),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EOr
+                     (OASISExpr.ETest ("system", "linux"),
+                       OASISExpr.ETest ("system", "linux_elf")),
+                    OASISExpr.EAnd
+                      (OASISExpr.EFlag "strict",
+                        OASISExpr.ETest ("ccomp_type", "cc"))),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.EAnd
+                         (OASISExpr.EFlag "strict",
+                           OASISExpr.ETest ("ccomp_type", "cc"))),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.EAnd
+                         (OASISExpr.EFlag "strict",
+                           OASISExpr.ETest ("ccomp_type", "cc"))),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.EAnd
+                            (OASISExpr.EFlag "strict",
+                              OASISExpr.ETest ("ccomp_type", "cc"))),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.EAnd
+                         (OASISExpr.EFlag "strict",
+                           OASISExpr.ETest ("ccomp_type", "cc"))),
+                    OASISExpr.ETest ("system", "freebsd")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.EAnd
+                            (OASISExpr.EFlag "strict",
+                              OASISExpr.ETest ("ccomp_type", "cc"))),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.EAnd
+                            (OASISExpr.EFlag "strict",
+                              OASISExpr.ETest ("ccomp_type", "cc"))),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EAnd
+                           (OASISExpr.EOr
+                              (OASISExpr.ETest ("system", "linux"),
+                                OASISExpr.ETest ("system", "linux_elf")),
+                             OASISExpr.EAnd
+                               (OASISExpr.EFlag "strict",
+                                 OASISExpr.ETest ("ccomp_type", "cc"))),
+                          OASISExpr.ETest ("system", "freebsd")),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EOr
+                     (OASISExpr.ETest ("system", "linux"),
+                       OASISExpr.ETest ("system", "linux_elf")),
+                    OASISExpr.ENot
+                      (OASISExpr.EOr
+                         (OASISExpr.ETest ("system", "linux"),
+                           OASISExpr.ETest ("system", "linux_elf")))),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ENot
+                         (OASISExpr.EOr
+                            (OASISExpr.ETest ("system", "linux"),
+                              OASISExpr.ETest ("system", "linux_elf")))),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ENot
+                         (OASISExpr.EOr
+                            (OASISExpr.ETest ("system", "linux"),
+                              OASISExpr.ETest ("system", "linux_elf")))),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ENot
+                            (OASISExpr.EOr
+                               (OASISExpr.ETest ("system", "linux"),
+                                 OASISExpr.ETest ("system", "linux_elf")))),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ENot
+                         (OASISExpr.EOr
+                            (OASISExpr.ETest ("system", "linux"),
+                              OASISExpr.ETest ("system", "linux_elf")))),
+                    OASISExpr.ETest ("system", "freebsd")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ENot
+                            (OASISExpr.EOr
+                               (OASISExpr.ETest ("system", "linux"),
+                                 OASISExpr.ETest ("system", "linux_elf")))),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ENot
+                            (OASISExpr.EOr
+                               (OASISExpr.ETest ("system", "linux"),
+                                 OASISExpr.ETest ("system", "linux_elf")))),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EAnd
+                           (OASISExpr.EOr
+                              (OASISExpr.ETest ("system", "linux"),
+                                OASISExpr.ETest ("system", "linux_elf")),
+                             OASISExpr.ENot
+                               (OASISExpr.EOr
+                                  (OASISExpr.ETest ("system", "linux"),
+                                    OASISExpr.ETest ("system", "linux_elf")))),
+                          OASISExpr.ETest ("system", "freebsd")),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EOr
+                        (OASISExpr.ETest ("system", "linux"),
+                          OASISExpr.ETest ("system", "linux_elf")),
+                       OASISExpr.ENot
+                         (OASISExpr.EOr
+                            (OASISExpr.ETest ("system", "linux"),
+                              OASISExpr.ETest ("system", "linux_elf")))),
+                    OASISExpr.EAnd
+                      (OASISExpr.EFlag "strict",
+                        OASISExpr.ETest ("ccomp_type", "cc"))),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ENot
+                            (OASISExpr.EOr
+                               (OASISExpr.ETest ("system", "linux"),
+                                 OASISExpr.ETest ("system", "linux_elf")))),
+                       OASISExpr.EAnd
+                         (OASISExpr.EFlag "strict",
+                           OASISExpr.ETest ("ccomp_type", "cc"))),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ENot
+                            (OASISExpr.EOr
+                               (OASISExpr.ETest ("system", "linux"),
+                                 OASISExpr.ETest ("system", "linux_elf")))),
+                       OASISExpr.EAnd
+                         (OASISExpr.EFlag "strict",
+                           OASISExpr.ETest ("ccomp_type", "cc"))),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EAnd
+                           (OASISExpr.EOr
+                              (OASISExpr.ETest ("system", "linux"),
+                                OASISExpr.ETest ("system", "linux_elf")),
+                             OASISExpr.ENot
+                               (OASISExpr.EOr
+                                  (OASISExpr.ETest ("system", "linux"),
+                                    OASISExpr.ETest ("system", "linux_elf")))),
+                          OASISExpr.EAnd
+                            (OASISExpr.EFlag "strict",
+                              OASISExpr.ETest ("ccomp_type", "cc"))),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EOr
+                           (OASISExpr.ETest ("system", "linux"),
+                             OASISExpr.ETest ("system", "linux_elf")),
+                          OASISExpr.ENot
+                            (OASISExpr.EOr
+                               (OASISExpr.ETest ("system", "linux"),
+                                 OASISExpr.ETest ("system", "linux_elf")))),
+                       OASISExpr.EAnd
+                         (OASISExpr.EFlag "strict",
+                           OASISExpr.ETest ("ccomp_type", "cc"))),
+                    OASISExpr.ETest ("system", "freebsd")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EAnd
+                           (OASISExpr.EOr
+                              (OASISExpr.ETest ("system", "linux"),
+                                OASISExpr.ETest ("system", "linux_elf")),
+                             OASISExpr.ENot
+                               (OASISExpr.EOr
+                                  (OASISExpr.ETest ("system", "linux"),
+                                    OASISExpr.ETest ("system", "linux_elf")))),
+                          OASISExpr.EAnd
+                            (OASISExpr.EFlag "strict",
+                              OASISExpr.ETest ("ccomp_type", "cc"))),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DWIN32"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EAnd
+                           (OASISExpr.EOr
+                              (OASISExpr.ETest ("system", "linux"),
+                                OASISExpr.ETest ("system", "linux_elf")),
+                             OASISExpr.ENot
+                               (OASISExpr.EOr
+                                  (OASISExpr.ETest ("system", "linux"),
+                                    OASISExpr.ETest ("system", "linux_elf")))),
+                          OASISExpr.EAnd
+                            (OASISExpr.EFlag "strict",
+                              OASISExpr.ETest ("ccomp_type", "cc"))),
+                       OASISExpr.ETest ("system", "freebsd")),
+                    OASISExpr.ETest ("system", "macosx")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
+                      A "-ccopt";
+                      A "-Wall";
+                      A "-ccopt";
+                      A "-pedantic";
+                      A "-ccopt";
+                      A "-Wextra";
+                      A "-ccopt";
+                      A "-Wunused";
+                      A "-ccopt";
+                      A "-Wno-long-long";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10";
+                      A "-ccopt";
+                      A "-DEXTERNAL_EXP10"
+                   ]);
+               (OASISExpr.EAnd
+                  (OASISExpr.EAnd
+                     (OASISExpr.EAnd
+                        (OASISExpr.EAnd
+                           (OASISExpr.EAnd
+                              (OASISExpr.EOr
+                                 (OASISExpr.ETest ("system", "linux"),
+                                   OASISExpr.ETest ("system", "linux_elf")),
+                                OASISExpr.ENot
+                                  (OASISExpr.EOr
+                                     (OASISExpr.ETest ("system", "linux"),
+                                       OASISExpr.ETest
+                                         ("system", "linux_elf")))),
+                             OASISExpr.EAnd
+                               (OASISExpr.EFlag "strict",
+                                 OASISExpr.ETest ("ccomp_type", "cc"))),
+                          OASISExpr.ETest ("system", "freebsd")),
+                       OASISExpr.ETest ("system", "macosx")),
+                    OASISExpr.ETest ("system", "mingw64")),
+                 S
+                   [
+                      A "-ccopt";
+                      A "-g";
+                      A "-ccopt";
+                      A "-march=native";
+                      A "-ccopt";
+                      A "-O3";
+                      A "-ccopt";
+                      A "-fPIC";
+                      A "-ccopt";
+                      A "-DPIC";
+                      A "-ccopt";
+                      A "-std=gnu99";
+                      A "-ccopt";
+                      A "-std=c99";
                       A "-ccopt";
                       A "-Wall";
                       A "-ccopt";
@@ -2151,7 +3009,7 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 2155 "myocamlbuild.ml"
+# 3013 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let rec split_on is_delim s i0 i i1 =

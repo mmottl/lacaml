@@ -33,7 +33,7 @@ CAMLprim value LFUN(fill_vec_stub)(
 
   integer GET_INT(N), GET_INT(INCX);
 
-  CREATE_NUMBER(A);
+  NUMBER A;
   VEC_PARAMS(X);
 
   NUMBER *start, *last;
@@ -42,16 +42,23 @@ CAMLprim value LFUN(fill_vec_stub)(
 
   caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start = X_data;
-    last = start + N*INCX;
-  }
+  if (INCX == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) X_data[i] = A;
   else {
-    start = X_data - (N - 1)*INCX;
-    last = X_data + INCX;
-  };
+    if (INCX > 0) {
+      start = X_data;
+      last = start + N*INCX;
+    } else {
+      start = X_data - (N - 1)*INCX;
+      last = X_data + INCX;
+    };
 
-  while (start != last) { *start = A; start += INCX; };
+    while (start != last) {
+      *start = A;
+      start += INCX;
+    }
+  }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
@@ -79,24 +86,32 @@ CAMLprim value LFUN(add_const_vec_stub)(
 
   caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start_src = X_data;
-    last_src = start_src + N*INCX;
-  }
+  if (INCX == 1 && INCY == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      NUMBER src = X_data[i];
+      Y_data[i] = ADD_NUMBER(src, C);
+    }
   else {
-    start_src = X_data - (N - 1)*INCX;
-    last_src = X_data + INCX;
-  };
+    if (INCX > 0) {
+      start_src = X_data;
+      last_src = start_src + N*INCX;
+    }
+    else {
+      start_src = X_data - (N - 1)*INCX;
+      last_src = X_data + INCX;
+    };
 
-  if (INCY > 0) dst = Y_data;
-  else dst = Y_data - (N - 1)*INCY;
+    if (INCY > 0) dst = Y_data;
+    else dst = Y_data - (N - 1)*INCY;
 
-  while (start_src != last_src) {
-    NUMBER src = *start_src;
-    *dst = ADD_NUMBER(src, C);
-    start_src += INCX;
-    dst += INCY;
-  };
+    while (start_src != last_src) {
+      NUMBER src = *start_src;
+      *dst = ADD_NUMBER(src, C);
+      start_src += INCX;
+      dst += INCY;
+    }
+  }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 

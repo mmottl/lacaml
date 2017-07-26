@@ -78,13 +78,23 @@ let explicit_vec_mat s =
   let s = Str.global_replace type_vec "" s in
   let type_mat = Str.regexp " *open *Types.Mat *" in
   let s = Str.replace_first type_mat
-            "  type unop =\n    \
+            "  type patt = [\n    \
+             | `full\n    \
+             | `utri  (* upper triangular matrix *)\n    \
+             | `ltri  (* lower triangular matrix *)\n    \
+             | `upent of int  (* initial full rows *)\n    \
+             | `lpent of int  (* initial full columns *)\n  \
+             ]\n\
+             \n  \
+             type unop =\n    \
+             ?patt : patt ->\n    \
              ?m : int -> ?n : int ->\n    \
              ?br : int -> ?bc : int -> ?b : mat ->\n    \
              ?ar : int -> ?ac : int -> mat\n    \
              -> mat\n\
              \n  \
              type binop =\n    \
+             ?patt : patt ->\n    \
              ?m : int -> ?n : int ->\n    \
              ?cr : int -> ?cc : int -> ?c : mat ->\n    \
              ?ar : int -> ?ac : int -> mat ->\n    \

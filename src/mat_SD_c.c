@@ -274,17 +274,18 @@
 
 /* Unary matrix operations yielding floats */
 
+#define NAME LFUN(max_el_mat_stub)
+#define BC_NAME LFUN(max_el_mat_stub_bc)
+#define INIT 0.0
+#define FUNC(acc, x) acc = SDMATHH(fmax)(x, acc)
+#include "mat_fold.c"
+
 #define NAME LFUN(log_sum_exp_mat_stub)
-#define DECLARE_EXTRA NUMBER x_max = -INFINITY, *max_A_data
-#define INIT_HAVE_LOCK \
-    for (max_A_data = A_data; max_A_data != last; max_A_data += diff_A) { \
-      NUMBER *A_col_last = max_A_data + M; \
-      \
-      while (max_A_data != A_col_last) { \
-        x_max = SDMATHH(fmax)(x_max, *max_A_data); \
-        max_A_data++; \
-      } \
-    }
+#define BC_NAME LFUN(log_sum_exp_mat_stub_bc)
+#define DECLARE_EXTRA NUMBER x_max = -INFINITY
+#define INIT_HAVE_LOCK  \
+  x_max = \
+    LFUN(max_el_mat_stub_blocking)(PKIND, PINIT, M, N, A_data, rows_A, x_max)
 #define INIT 0.0
 #define FUNC(acc, x) acc += SDMATHH(exp)(x - x_max)
 #define FINISH_HAVE_LOCK acc = SDMATHH(log)(acc) + x_max

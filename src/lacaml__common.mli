@@ -114,7 +114,16 @@ module Types : sig
   end  (* Vec *)
 
   module Mat : sig
+    type patt = [
+      | `full  (* full matrix *)
+      | `utri  (* upper triangular matrix *)
+      | `ltri  (* lower triangular matrix *)
+      | `upent of int  (* initial full rows *)
+      | `lpent of int  (* initial full columns *)
+    ]
+
     type 'mat unop =
+      ?patt : patt ->
       ?m : int ->
       ?n : int ->
       ?br : int ->
@@ -126,6 +135,7 @@ module Types : sig
       -> 'mat
 
     type 'mat binop =
+      ?patt : patt ->
       ?m : int ->
       ?n : int ->
       ?cr : int ->

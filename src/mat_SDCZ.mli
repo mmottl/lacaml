@@ -162,14 +162,14 @@ val copy_row : ?vec : vec -> mat -> int -> vec
 (** {6 Matrix transformations} *)
 
 val swap :
-  ?uplo : [ `U | `L ] ->
-  ?m : int -> ?n : int ->
+  ?patt : patt -> ?m : int -> ?n : int ->
   ?ar : int -> ?ac : int -> mat ->
   ?br : int -> ?bc : int -> mat ->
   unit
-  (** [swap ?m ?n ?ar ?ac a ?br ?bc b] swaps the contents of (sub-matrices)
-      [a] and [b].
+  (** [swap ?patt ?m ?n ?ar ?ac a ?br ?bc b]
+      swaps the contents of (sub-matrices) [a] and [b].
 
+      @param patt default = [`full]
       @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
       @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
       @param ar default = [1]
@@ -178,7 +178,11 @@ val swap :
       @param bc default = [1]
   *)
 
-val transpose_copy : unop
+val transpose_copy :
+  ?m : int -> ?n : int -> ?br : int ->
+  ?bc : int -> ?b : mat ->
+  ?ar : int -> ?ac : int -> mat ->
+  mat
 (** [transpose_copy ?m ?n ?br ?bc ?b ?ar ?ac a] @return the transpose of
     (sub-)matrix [a].  If [b] is given, the result will be stored in there
     using offsets [br] and [bc], otherwise a fresh matrix will be used.
@@ -229,19 +233,23 @@ val unpacked : ?up : bool -> ?n : int -> vec -> mat
 (** {6 Operations on one matrix} *)
 
 val fill :
-  ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type -> unit
-(** [fill ?m ?n ?ar ?ac a x] fills the specified sub-matrix in [a] with value
-    [x]. *)
+  ?patt : patt -> ?m : int -> ?n : int ->
+  ?ar : int -> ?ac : int -> mat -> num_type -> unit
+(** [fill ?patt ?m ?n ?ar ?ac a x] fills the specified sub-matrix in [a]
+    with value [x]. *)
 
-val sum : ?m : int -> ?n : int -> ?ar : int -> ?ac : int -> mat -> num_type
+val sum :
+  ?patt : patt -> ?m : int -> ?n : int ->
+  ?ar : int -> ?ac : int -> mat -> num_type
 (** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
     the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)
 
 val add_const : num_type -> unop
-(** [add_const c ?m ?n ?br ?bc ?b ?ar ?ac a] adds constant [c] to the
+(** [add_const c ?patt ?m ?n ?br ?bc ?b ?ar ?ac a] adds constant [c] to the
     designated [m] by [n] submatrix in [a] and stores the result in the
     designated submatrix in [b].
 
+    @param patt default = [`full]
     @param m default = [Mat.dim1 a]
     @param n default = [Mat.dim2 a]
     @param ar default = [1]
@@ -307,23 +315,25 @@ val trace : mat -> num_type
     diagonal elements will be returned. *)
 
 val scal :
-  ?m : int -> ?n : int -> num_type -> ?ar : int -> ?ac : int -> mat -> unit
-(** [scal ?m ?n alpha ?ar ?ac a] BLAS [scal] function for (sub-)matrices. *)
+  ?patt : patt -> ?m : int -> ?n : int ->
+  num_type -> ?ar : int -> ?ac : int -> mat -> unit
+(** [scal ?patt ?m ?n alpha ?ar ?ac a] BLAS [scal] function for
+    (sub-)matrices. *)
 
 val scal_cols :
-  ?m : int -> ?n : int ->
+  ?patt : patt -> ?m : int -> ?n : int ->
   ?ar : int -> ?ac : int -> mat ->
   ?ofs : int -> vec ->
   unit
-(** [scal_cols ?m ?n ?ar ?ac a ?ofs alphas] column-wise [scal]
+(** [scal_cols ?patt ?m ?n ?ar ?ac a ?ofs alphas] column-wise [scal]
     function for matrices. *)
 
 val scal_rows :
-  ?m : int -> ?n : int ->
+  ?patt : patt -> ?m : int -> ?n : int ->
   ?ofs : int -> vec ->
   ?ar : int -> ?ac : int -> mat ->
   unit
-(** [scal_rows ?m ?n ?ofs alphas ?ar ?ac a] row-wise [scal]
+(** [scal_rows ?patt ?m ?n ?ofs alphas ?ar ?ac a] row-wise [scal]
     function for matrices. *)
 
 val syrk_trace :
@@ -465,6 +475,7 @@ val div : binop
 
 val axpy :
   ?alpha : num_type ->
+  ?patt : patt ->
   ?m : int ->
   ?n : int ->
   ?xr : int ->
@@ -474,7 +485,7 @@ val axpy :
   ?yc : int ->
   mat
   -> unit
-(** [axpy ?alpha ?m ?n ?xr ?xc x ?yr ?yc y] BLAS [axpy] function for
+(** [axpy ?alpha ?patt ?m ?n ?xr ?xc x ?yr ?yc y] BLAS [axpy] function for
     matrices. *)
 
 val gemm_diag :
@@ -574,6 +585,7 @@ val symm2_trace :
 *)
 
 val ssqr_diff :
+  ?patt : patt ->
   ?m : int ->
   ?n : int ->
   ?ar : int ->
@@ -583,11 +595,12 @@ val ssqr_diff :
   ?bc : int ->
   mat ->
   num_type
-(** [ssqr_diff ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of squared
+(** [ssqr_diff ?patt ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of squared
     differences between the [m] by [n] sub-matrix of the matrix
     [a] starting in row [ar] and column [ac] with the corresponding
     sub-matrix of the matrix [b] starting in row [br] and column [bc].
 
+    @param patt default = [`full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param ar default = 1

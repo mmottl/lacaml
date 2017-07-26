@@ -23,7 +23,19 @@
 
 #include "lacaml_macros.h"
 
+static inline void STR(NAME, _range)(integer N,
+    NUMBER *A_data, NUMBER *B_data, NUMBER *C_data)
+{
+  for (int i = 0; i < N; i++) {
+    NUMBER a = A_data[i];
+    NUMBER b = B_data[i];
+    NUMBER *dst = C_data + i;
+    FUNC(dst, a, b);
+  }
+}
+
 CAMLprim value NAME(
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vAR, value vAC, value vA,
   value vBR, value vBC, value vB,
@@ -33,35 +45,80 @@ CAMLprim value NAME(
 
   integer GET_INT(M), GET_INT(N);
 
-  MAT_PARAMS(A);
-  MAT_PARAMS(B);
-  MAT_PARAMS(C);
-
   if (M > 0) {
-    NUMBER *last = A_data + N*rows_A;
-    integer diff_A = rows_A - M;
-    integer diff_B = rows_B - M;
-    integer diff_C = rows_C - M;
-
+    MAT_PARAMS(A);
+    MAT_PARAMS(B);
+    MAT_PARAMS(C);
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();  /* Allow other threads */
-
-    while (A_data != last) {
-      NUMBER *A_col_last = A_data + M;
-
-      while (A_data != A_col_last) {
-        NUMBER x = *A_data;
-        NUMBER y = *B_data;
-        FUNC(C_data, x, y);
-        A_data++;
-        B_data++;
-        C_data++;
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                STR(NAME, _range)(PINIT, A_data, B_data, C_data);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+                C_data += rows_C;
+              }
+            } else {
+              while (PINIT < M) {
+                STR(NAME, _range)(PINIT, A_data, B_data, C_data);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+                C_data += rows_C;
+              }
+              if (M == rows_A && M == rows_B && M == rows_C)
+                STR(NAME, _range)(A_stop - A_data, A_data, B_data, C_data);
+              else
+                while (A_data < A_stop) {
+                  STR(NAME, _range)(M, A_data, B_data, C_data);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                  C_data += rows_C;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A && M == rows_B && M == rows_C) {
+                integer MP = M*PINIT;
+                STR(NAME, _range)(MP, A_data, B_data, C_data);
+                A_data += MP;
+                B_data += MP;
+                C_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  STR(NAME, _range)(M, A_data, B_data, C_data);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                  C_data += rows_C;
+                }
+              }
+              M--;
+            }
+            rows_A++; rows_B++; rows_C++;
+            while (A_data < A_stop) {
+              STR(NAME, _range)(M, A_data, B_data, C_data);
+              M--;
+              A_data += rows_A;
+              B_data += rows_B;
+              C_data += rows_C;
+            }
+            break;
+          }
       }
-
-      A_data += diff_A;
-      B_data += diff_B;
-      C_data += diff_C;
-    }
-
     caml_leave_blocking_section();  /* Disallow other threads */
   }
 
@@ -72,7 +129,7 @@ CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
   return
     NAME(argv[0], argv[1], argv[2],argv[3], argv[4], argv[5],
-         argv[6], argv[7], argv[8], argv[9], argv[10]);
+         argv[6], argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
 }
 
 #undef NAME

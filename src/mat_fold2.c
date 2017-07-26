@@ -23,7 +23,19 @@
 
 #include "lacaml_macros.h"
 
+static inline NUMBER STR(NAME, _range)(integer N,
+    NUMBER *A_data, NUMBER *B_data, NUMBER acc)
+{
+  for (int i = 0; i < N; i++) {
+    NUMBER a = A_data[i];
+    NUMBER b = B_data[i];
+    FUNC(acc, a, b);
+  }
+  return acc;
+}
+
 CAMLprim value NAME(
+    value vPKIND, value vPINIT,
     value vM, value vN,
     value vAR, value vAC, value vA,
     value vBR, value vBC, value vB)
@@ -31,34 +43,75 @@ CAMLprim value NAME(
   CAMLparam2(vA, vB);
 
   integer GET_INT(M), GET_INT(N);
-
-  MAT_PARAMS(A);
-  MAT_PARAMS(B);
-
   NUMBER acc = INIT;
 
   if (M > 0) {
-    NUMBER *last = A_data + N*rows_A;
-    integer diff_A = rows_A - M;
-    integer diff_B = rows_B - M;
-
+    MAT_PARAMS(A);
+    MAT_PARAMS(B);
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();  /* Allow other threads */
-
-    while (A_data != last) {
-      NUMBER *A_col_last = A_data + M;
-
-      while (A_data != A_col_last) {
-        NUMBER x = *A_data;
-        NUMBER y = *B_data;
-        FUNC(acc, x, y);
-        A_data++;
-        B_data++;
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                acc = STR(NAME, _range)(PINIT, A_data, B_data, acc);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+            } else {
+              while (PINIT < M) {
+                acc = STR(NAME, _range)(PINIT, A_data, B_data, acc);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+              if (M == rows_A)
+                acc = STR(NAME, _range)(A_stop - A_data, A_data, B_data, acc);
+              else
+                while (A_data < A_stop) {
+                  acc = STR(NAME, _range)(M, A_data, B_data, acc);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A && M == rows_B) {
+                integer MP = M*PINIT;
+                acc = STR(NAME, _range)(MP, A_data, B_data, acc);
+                A_data += MP;
+                B_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  acc = STR(NAME, _range)(M, A_data, B_data, acc);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+              }
+              M--;
+            }
+            rows_A++;
+            while (A_data < A_stop) {
+              acc = STR(NAME, _range)(M, A_data, B_data, acc);
+              M--;
+              A_data += rows_A;
+              B_data += rows_B;
+            }
+            break;
+          }
       }
-
-      A_data += diff_A;
-      B_data += diff_B;
-    }
-
     caml_leave_blocking_section();  /* Disallow other threads */
   }
 
@@ -67,8 +120,9 @@ CAMLprim value NAME(
 
 CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
-  return NAME(argv[0], argv[1], argv[2], argv[3],
-              argv[4], argv[5], argv[6], argv[7]);
+  return NAME(
+      argv[0], argv[1], argv[2], argv[3], argv[4],
+      argv[5], argv[6], argv[7], argv[8], argv[9]);
 }
 
 #undef NAME

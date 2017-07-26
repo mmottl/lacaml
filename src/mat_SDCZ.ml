@@ -225,7 +225,8 @@ let as_vec mat =
   reshape_1 gen (dim1 mat * dim2 mat)
 
 external direct_swap :
-  uplo : char ->
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -236,18 +237,13 @@ external direct_swap :
   b : mat ->
   unit = "lacaml_NPRECswap_mat_stub_bc" "lacaml_NPRECswap_mat_stub"
 
-let swap ?uplo ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+let swap ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.Mat.swap" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let uplo =
-    match uplo with
-    | None -> 'A'
-    | Some `U -> 'U'
-    | Some `L -> 'L'
-  in
-  direct_swap ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_swap ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 external direct_transpose_copy :
   m : int ->
@@ -354,6 +350,8 @@ let trace mat =
   loop n_diag zero
 
 external direct_scal_mat :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   alpha : num_type ->
@@ -362,13 +360,16 @@ external direct_scal_mat :
   a : mat ->
   unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
 
-let scal ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
+let scal ?patt ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.scal" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_scal_mat ~m ~n ~alpha ~ar ~ac ~a
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_scal_mat ~pkind ~pinit ~m ~n ~alpha ~ar ~ac ~a
 
 external direct_scal_cols :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -378,15 +379,18 @@ external direct_scal_cols :
   alphas : vec ->
   unit = "lacaml_NPRECscal_cols_stub_bc" "lacaml_NPRECscal_cols_stub"
 
-let scal_cols ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
+let scal_cols ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
   let loc = "Lacaml.NPREC.Mat.scal_cols" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_vec_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some n));
-  direct_scal_cols ~m ~n ~ar ~ac ~a ~ofs ~alphas
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_scal_cols ~pkind ~pinit ~m ~n ~ar ~ac ~a ~ofs ~alphas
 
 external direct_scal_rows :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ofs : int ->
@@ -396,13 +400,14 @@ external direct_scal_rows :
   a : mat ->
   unit = "lacaml_NPRECscal_rows_stub_bc" "lacaml_NPRECscal_rows_stub"
 
-let scal_rows ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
+let scal_rows ?patt ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.scal_rows" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_vec_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some m));
-  direct_scal_rows ~m ~n ~ofs ~alphas ~ar ~ac ~a
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_scal_rows ~pkind ~pinit ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
 let vec_create n = Array1.create prec fortran_layout n
 
@@ -424,6 +429,8 @@ let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
 (* Operations on one matrix *)
 
 external direct_fill :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -432,28 +439,34 @@ external direct_fill :
   x : num_type ->
   unit = "lacaml_NPRECfill_mat_stub_bc" "lacaml_NPRECfill_mat_stub"
 
-let fill ?m ?n ?(ar = 1) ?(ac = 1) a x =
+let fill ?patt ?m ?n ?(ar = 1) ?(ac = 1) a x =
   let loc = "Lacaml.NPREC.Mat.fill" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_fill ~m ~n ~ar ~ac ~a ~x
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_fill ~pkind ~pinit ~m ~n ~ar ~ac ~a ~x
 
 external direct_sum :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
   ac : int ->
   a : mat ->
-  num_type = "lacaml_NPRECsum_mat_stub"
+  num_type = "lacaml_NPRECsum_mat_stub_bc" "lacaml_NPRECsum_mat_stub"
 
-let sum ?m ?n ?(ar = 1) ?(ac = 1) a =
+let sum ?patt ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.sum" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_sum ~m ~n ~ar ~ac ~a
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_sum ~pkind ~pinit ~m ~n ~ar ~ac ~a
 
 external direct_add_const :
   c : num_type ->
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -464,15 +477,19 @@ external direct_add_const :
   b : mat ->
   unit = "lacaml_NPRECadd_const_mat_stub_bc" "lacaml_NPRECadd_const_mat_stub"
 
-let add_const c ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+let add_const c ?patt ?m ?n
+      ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.add_const" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let b = get_mat loc b_str create br bc b m n in
-  direct_add_const ~c ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  direct_add_const ~c ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 external direct_neg :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -483,15 +500,18 @@ external direct_neg :
   b : mat ->
   unit = "lacaml_NPRECneg_mat_stub_bc" "lacaml_NPRECneg_mat_stub"
 
-let neg ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+let neg ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.neg" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let b = get_mat loc b_str create br bc b m n in
-  direct_neg ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  direct_neg ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 external direct_reci :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -502,12 +522,13 @@ external direct_reci :
   b : mat ->
   unit = "lacaml_NPRECreci_mat_stub_bc" "lacaml_NPRECreci_mat_stub"
 
-let reci ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+let reci ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.reci" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let b = get_mat loc b_str create br bc b m n in
-  direct_reci ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  direct_reci ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 external direct_syrk_diag :
@@ -537,6 +558,8 @@ let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
 (* Operations on two matrices *)
 
 external direct_mat_add :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -550,17 +573,20 @@ external direct_mat_add :
   c : mat ->
   unit = "lacaml_NPRECadd_mat_stub_bc" "lacaml_NPRECadd_mat_stub"
 
-let add ?m ?n
+let add ?patt ?m ?n
       ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.Mat.add" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
-  direct_mat_add ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  direct_mat_add ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_mat_sub :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -574,17 +600,20 @@ external direct_mat_sub :
   c : mat ->
   unit = "lacaml_NPRECsub_mat_stub_bc" "lacaml_NPRECsub_mat_stub"
 
-let sub ?m ?n
+let sub ?patt ?m ?n
       ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.Mat.sub" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
-  direct_mat_sub ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  direct_mat_sub ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_mat_mul :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -598,17 +627,20 @@ external direct_mat_mul :
   c : mat ->
   unit = "lacaml_NPRECmul_mat_stub_bc" "lacaml_NPRECmul_mat_stub"
 
-let mul ?m ?n
+let mul ?patt ?m ?n
       ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.Mat.mul" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
-  direct_mat_mul ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  direct_mat_mul ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_mat_div :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -622,18 +654,21 @@ external direct_mat_div :
   c : mat ->
   unit = "lacaml_NPRECdiv_mat_stub_bc" "lacaml_NPRECdiv_mat_stub"
 
-let div ?m ?n
+let div ?patt ?m ?n
       ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.Mat.div" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
-  direct_mat_div ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+  direct_mat_div ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_axpy_mat :
   alpha : num_type ->
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   xr : int ->
@@ -644,12 +679,14 @@ external direct_axpy_mat :
   y : mat ->
   unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
 
-let axpy ?(alpha = one) ?m ?n ?(xr = 1) ?(xc = 1) x ?(yr = 1) ?(yc = 1) y =
+let axpy ?(alpha = one) ?patt ?m ?n
+      ?(xr = 1) ?(xc = 1) x ?(yr = 1) ?(yc = 1) y =
   let loc = "Lacaml.NPREC.Mat.axpy" in
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
-  direct_axpy_mat ~alpha ~m ~n ~xr ~xc ~x ~yr ~yc ~y
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_axpy_mat ~alpha ~pkind ~pinit ~m ~n ~xr ~xc ~x ~yr ~yc ~y
 
 external direct_gemm_diag :
   transa : char ->
@@ -729,6 +766,8 @@ let symm2_trace
   direct_symm2_trace ~n ~uploa ~ar ~ac ~a ~uplob ~br ~bc ~b
 
 external direct_ssqr_diff :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -740,12 +779,13 @@ external direct_ssqr_diff :
   num_type
   = "lacaml_NPRECssqr_diff_mat_stub_bc" "lacaml_NPRECssqr_diff_mat_stub"
 
-let ssqr_diff ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+let ssqr_diff ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.Mat.ssqr_diff" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  direct_ssqr_diff ~m ~n ~ar ~ac ~a ~br ~bc ~b
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_ssqr_diff ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 
 (* Iterators over matrices *)

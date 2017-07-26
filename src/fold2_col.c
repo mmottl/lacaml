@@ -56,15 +56,19 @@ CAMLprim value NAME(
   if (INCY > 0) start2 = Y_data;
   else start2 = Y_data - (N - 1)*INCY;
 
-  while (start1 != last1) {
-    NUMBER x = *start1,
-           y = *start2;
-
-    FUNC(acc, x, y);
-
-    start1 += INCX;
-    start2 += INCY;
-  };
+  if (INCX == 1 && INCY == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      NUMBER x = X_data[i], y = Y_data[i];
+      FUNC(acc, x, y);
+    }
+  else
+    while (start1 != last1) {
+      NUMBER x = *start1, y = *start2;
+      FUNC(acc, x, y);
+      start1 += INCX;
+      start2 += INCY;
+    }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 

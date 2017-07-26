@@ -47,6 +47,7 @@ module Types = struct
   end  (* Vec *)
 
   module Mat = struct
+    type patt = Lacaml__common.Types.Mat.patt
     type unop = mat Lacaml__common.Types.Mat.unop
     type binop = mat Lacaml__common.Types.Mat.binop
   end  (* Mat *)

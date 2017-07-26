@@ -564,9 +564,41 @@ let get_vec_ofs loc var = function
 
 (**)
 
+(* Dealing with pentagonal patterns in matrices *)
+module Pentagon = struct
+  type kind = Upper | Lower
+
+  let normalize_args ~loc ~m ~n = function
+    | None | (Some `full) -> Lower, n
+    | Some `utri -> Upper, 1
+    | Some `ltri -> Lower, 1
+    | Some `upent init_rows when init_rows > m ->
+        failwith (
+          sprintf
+            "%s: initial rows (%d) of upper pentagon exceed maximum [m] (%d)"
+            loc init_rows m)
+    | Some `upent init_rows when init_rows <= 0 ->
+        failwith (
+          sprintf
+            "%s: illegal initial rows (%d) of upper pentagon" loc init_rows)
+    | Some `upent init_rows -> Upper, init_rows
+    | Some `lpent init_cols when init_cols <= 0 ->
+        failwith (
+          sprintf "%s: illegal initial columns (%d) of lower pentagon"
+            loc init_cols)
+    | Some `lpent init_cols when init_cols > n ->
+        failwith (
+          sprintf
+            "%s: initial columns (%d) of lower pentagon exceed maximum [n] (%d)"
+            loc init_cols n)
+    | Some `lpent init_cols -> Lower, init_cols
+end  (* Pentagon *)
+
+(**)
+
 (* Fetches problem-dependent parameters for LAPACK-functions *)
 external ilaenv : int -> string -> string -> int -> int -> int -> int -> int
-  = "lacaml_ilaenv_stub_bc" "lacaml_ilaenv_stub" "noalloc"
+  = "lacaml_ilaenv_stub_bc" "lacaml_ilaenv_stub" [@@noalloc]
 
 (* Get a work array *)
 let get_work loc vec_create work min_lwork opt_lwork lwork_str =

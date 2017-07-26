@@ -144,14 +144,17 @@ let random ?rnd_state ?(from = -1.) ?(range = 2.) m n =
 
 let unop direct loc =
   let loc = "Lacaml.FPREC.Mat." ^ loc in
-  fun ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a ->
+  fun ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a ->
     let m = get_dim1_mat loc a_str a ar m_str m in
     let n = get_dim2_mat loc a_str a ac n_str n in
     let b = get_mat loc b_str create br bc b m n in
-    direct ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+    let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+    direct ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
     b
 
 external direct_abs :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -165,6 +168,8 @@ external direct_abs :
 let abs = unop direct_abs "abs"
 
 external direct_signum :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -178,6 +183,8 @@ external direct_signum :
 let signum = unop direct_signum "signum"
 
 external direct_sqr :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -191,6 +198,8 @@ external direct_sqr :
 let sqr = unop direct_sqr "sqr"
 
 external direct_sqrt :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -204,6 +213,8 @@ external direct_sqrt :
 let sqrt = unop direct_sqrt "sqrt"
 
 external direct_cbrt :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -217,6 +228,8 @@ external direct_cbrt :
 let cbrt = unop direct_cbrt "cbrt"
 
 external direct_exp :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -230,6 +243,8 @@ external direct_exp :
 let exp = unop direct_exp "exp"
 
 external direct_exp2 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -243,6 +258,8 @@ external direct_exp2 :
 let exp2 = unop direct_exp2 "exp2"
 
 external direct_expm1 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -256,6 +273,8 @@ external direct_expm1 :
 let expm1 = unop direct_expm1 "expm1"
 
 external direct_log :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -269,6 +288,8 @@ external direct_log :
 let log = unop direct_log "log"
 
 external direct_log10 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -282,6 +303,8 @@ external direct_log10 :
 let log10 = unop direct_log10 "log10"
 
 external direct_log2 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -295,6 +318,8 @@ external direct_log2 :
 let log2 = unop direct_log2 "log2"
 
 external direct_log1p :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -308,6 +333,8 @@ external direct_log1p :
 let log1p = unop direct_log1p "log1p"
 
 external direct_sin :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -321,6 +348,8 @@ external direct_sin :
 let sin = unop direct_sin "sin"
 
 external direct_cos :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -334,6 +363,8 @@ external direct_cos :
 let cos = unop direct_cos "cos"
 
 external direct_tan :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -347,6 +378,8 @@ external direct_tan :
 let tan = unop direct_tan "tan"
 
 external direct_asin :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -360,6 +393,8 @@ external direct_asin :
 let asin = unop direct_asin "asin"
 
 external direct_acos :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -373,6 +408,8 @@ external direct_acos :
 let acos = unop direct_acos "acos"
 
 external direct_atan :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -386,6 +423,8 @@ external direct_atan :
 let atan = unop direct_atan "atan"
 
 external direct_sinh :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -399,6 +438,8 @@ external direct_sinh :
 let sinh = unop direct_sinh "sinh"
 
 external direct_cosh :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -412,6 +453,8 @@ external direct_cosh :
 let cosh = unop direct_cosh "cosh"
 
 external direct_tanh :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -425,6 +468,8 @@ external direct_tanh :
 let tanh = unop direct_tanh "tanh"
 
 external direct_asinh :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -438,6 +483,8 @@ external direct_asinh :
 let asinh = unop direct_asinh "asinh"
 
 external direct_acosh :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -451,6 +498,8 @@ external direct_acosh :
 let acosh = unop direct_acosh "acosh"
 
 external direct_atanh :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -464,6 +513,8 @@ external direct_atanh :
 let atanh = unop direct_atanh "atanh"
 
 external direct_floor :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -477,6 +528,8 @@ external direct_floor :
 let floor = unop direct_floor "floor"
 
 external direct_ceil :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -490,6 +543,8 @@ external direct_ceil :
 let ceil = unop direct_ceil "ceil"
 
 external direct_round :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -503,6 +558,8 @@ external direct_round :
 let round = unop direct_round "round"
 
 external direct_trunc :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -516,6 +573,8 @@ external direct_trunc :
 let trunc = unop direct_trunc "trunc"
 
 external direct_erf :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -529,6 +588,8 @@ external direct_erf :
 let erf = unop direct_erf "erf"
 
 external direct_erfc :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -542,6 +603,8 @@ external direct_erfc :
 let erfc = unop direct_erfc "erfc"
 
 external direct_logistic :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -555,6 +618,8 @@ external direct_logistic :
 let logistic = unop direct_logistic "logistic"
 
 external direct_relu :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -568,6 +633,8 @@ external direct_relu :
 let relu = unop direct_relu "relu"
 
 external direct_softplus :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -581,6 +648,8 @@ external direct_softplus :
 let softplus = unop direct_softplus "softplus"
 
 external direct_softsign :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -598,16 +667,19 @@ let softsign = unop direct_softsign "softsign"
 
 let binop direct loc =
   let loc = "Lacaml.FPREC.Mat." ^ loc in
-  fun ?m ?n
+  fun ?patt ?m ?n
     ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b ->
     let m = get_dim1_mat loc a_str a ar m_str m in
     let n = get_dim2_mat loc a_str a ac n_str n in
     check_dim_mat loc b_str br bc b m n;
     let c = get_mat loc c_str create cr cc c m n in
-    direct ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
+    let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+    direct ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
     c
 
 external direct_pow :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -624,6 +696,8 @@ external direct_pow :
 let pow = binop direct_pow "pow"
 
 external direct_atan2 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -640,6 +714,8 @@ external direct_atan2 :
 let atan2 = binop direct_atan2 "atan2"
 
 external direct_hypot :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -656,6 +732,8 @@ external direct_hypot :
 let hypot = binop direct_hypot "hypot"
 
 external direct_min2 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -672,6 +750,8 @@ external direct_min2 :
 let min2 = binop direct_min2 "min2"
 
 external direct_max2 :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -692,15 +772,18 @@ let max2 = binop direct_max2 "max2"
 
 let cqab direct loc =
   let loc = "Lacaml.FPREC.Mat." ^ loc in
-  fun ?m ?n
+  fun ?patt ?m ?n
     ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b ->
     let m = get_dim1_mat loc a_str a ar m_str m in
     let n = get_dim2_mat loc a_str a ac n_str n in
     check_dim_mat loc b_str br bc b m n;
     check_dim_mat loc c_str cr cc c m n;
-    direct ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c
+    let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+    direct ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c
 
 external direct_cpab :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -717,6 +800,8 @@ external direct_cpab :
 let cpab = cqab direct_cpab "cpab"
 
 external direct_cmab :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
@@ -736,15 +821,19 @@ let cmab = cqab direct_cmab "cmab"
 (* Misc functions *)
 
 external direct_log_sum_exp :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   m : int ->
   n : int ->
   ar : int ->
   ac : int ->
   a : mat ->
-  num_type = "lacaml_FPREClog_sum_exp_mat_stub"
+  num_type
+  = "lacaml_FPREClog_sum_exp_mat_stub_bc" "lacaml_FPREClog_sum_exp_mat_stub"
 
-let log_sum_exp ?m ?n ?(ar = 1) ?(ac = 1) a =
+let log_sum_exp ?patt ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.FPREC.Mat.log_sum_exp" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  direct_log_sum_exp ~m ~n ~ar ~ac ~a
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_log_sum_exp ~pkind ~pinit ~m ~n ~ar ~ac ~a

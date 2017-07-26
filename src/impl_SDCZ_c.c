@@ -31,6 +31,8 @@
 
 #include "lacaml_macros.h"
 
+static integer integer_one = 1;
+
 /*** BLAS-1 */
 
 /** SWAP */
@@ -89,7 +91,7 @@ CAMLprim value LFUN(scal_stub)(
   integer GET_INT(N),
           GET_INT(INCX);
 
-  CREATE_NUMBER(ALPHA);
+  NUMBER ALPHA;
 
   VEC_PARAMS(X);
 
@@ -204,7 +206,7 @@ CAMLprim value LFUN(axpy_stub)(
           GET_INT(INCX),
           GET_INT(INCY);
 
-  CREATE_NUMBER(ALPHA);
+  NUMBER ALPHA;
 
   VEC_PARAMS(X);
   VEC_PARAMS(Y);
@@ -287,8 +289,8 @@ CAMLprim value LFUN(gemv_stub)(
           GET_INT(INCX),
           GET_INT(INCY);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   VEC_PARAMS(X);
@@ -353,8 +355,8 @@ CAMLprim value LFUN(gbmv_stub)(
           GET_INT(INCX),
           GET_INT(INCY);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   VEC_PARAMS(X);
@@ -417,8 +419,8 @@ CAMLprim value LFUN(symv_stub)(
           GET_INT(INCX),
           GET_INT(INCY);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   VEC_PARAMS(X);
@@ -697,8 +699,8 @@ CAMLprim value LFUN(gemm_stub)(
   char GET_INT(TRANSA), GET_INT(TRANSB);
   integer GET_INT(M), GET_INT(N), GET_INT(K);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -754,8 +756,8 @@ CAMLprim value LFUN(symm_stub)(
   char GET_INT(SIDE), GET_INT(UPLO);
   integer GET_INT(M), GET_INT(N);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -808,7 +810,7 @@ CAMLprim value LFUN(trmm_stub)(
   char GET_INT(SIDE), GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
   integer GET_INT(M), GET_INT(N);
 
-  CREATE_NUMBER(ALPHA);
+  NUMBER ALPHA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -856,7 +858,7 @@ CAMLprim value LFUN(trsm_stub)(
   char GET_INT(SIDE), GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
   integer GET_INT(M), GET_INT(N);
 
-  CREATE_NUMBER(ALPHA);
+  NUMBER ALPHA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -905,8 +907,8 @@ CAMLprim value LFUN(syrk_stub)(
   char GET_INT(UPLO), GET_INT(TRANS);
   integer GET_INT(N), GET_INT(K);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(C);
@@ -959,8 +961,8 @@ CAMLprim value LFUN(syr2k_stub)(
   char GET_INT(UPLO), GET_INT(TRANS);
   integer GET_INT(N), GET_INT(K);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -1038,6 +1040,7 @@ extern void FUN(lacpy)(
   NUMBER *B, integer *LDB);
 
 CAMLprim value LFUN(lacpy_stub)(
+  value vPKIND, value vPINIT,
   value vUPLO,
   value vM, value vN,
   value vAR, value vAC,
@@ -1049,15 +1052,88 @@ CAMLprim value LFUN(lacpy_stub)(
 
   integer GET_INT(M), GET_INT(N);
   char GET_INT(UPLO);
-
   MAT_PARAMS(A);
   MAT_PARAMS(B);
+  pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+  integer PINIT = Long_val(vPINIT);
 
   caml_enter_blocking_section();  /* Allow other threads */
-  FUN(lacpy)(
-    &UPLO, &M, &N,
-    A_data, &rows_A,
-    B_data, &rows_B);
+
+    switch (UPLO) {
+      case 'A':
+      case 'U':
+      case 'L':
+        FUN(lacpy)(
+          &UPLO, &M, &N,
+          A_data, &rows_A,
+          B_data, &rows_B);
+        break;
+      default:
+        switch (PKIND) {
+          case UPPER :
+            {
+              NUMBER *A_stop = A_data + rows_A * N;
+              if (PINIT + N - 1 <= M) {
+                while (A_data < A_stop) {
+                  FUN(copy)(&PINIT, A_data, &integer_one, B_data, &integer_one);
+                  PINIT++;
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+              } else {
+                while (PINIT < M) {
+                  FUN(copy)(&PINIT, A_data, &integer_one, B_data, &integer_one);
+                  PINIT++;
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+                if (M == rows_A && M == rows_B) {
+                  integer MN = A_stop - A_data;
+                  FUN(copy)(&MN, A_data, &integer_one, B_data, &integer_one);
+                } else
+                  while (A_data < A_stop) {
+                    FUN(copy)(&M, A_data, &integer_one, B_data, &integer_one);
+                    A_data += rows_A;
+                    B_data += rows_B;
+                  }
+              }
+              break;
+            }
+          case LOWER :
+            {
+              NUMBER *A_stop;
+              integer stop_col = M + PINIT;
+              if (stop_col > N) stop_col = N;
+              A_stop = A_data + stop_col*rows_A;
+              if (PINIT > 1) {
+                if (M == rows_A && M == rows_B) {
+                  integer MP = M*PINIT;
+                  FUN(copy)(&MP, A_data, &integer_one, B_data, &integer_one);
+                  A_data += MP;
+                  B_data += MP;
+                } else {
+                  NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                  while (A_data < A_block_stop) {
+                    FUN(copy)(&M, A_data, &integer_one, B_data, &integer_one);
+                    A_data += rows_A;
+                    B_data += rows_B;
+                  }
+                }
+                M--;
+              }
+              rows_A++; rows_B++;
+              while (A_data < A_stop) {
+                FUN(copy)(&M, A_data, &integer_one, B_data, &integer_one);
+                M--;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+              break;
+            }
+        }
+        break;
+    }
+
   caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(Val_unit);
@@ -1066,8 +1142,8 @@ CAMLprim value LFUN(lacpy_stub)(
 CAMLprim value LFUN(lacpy_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(lacpy_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
+    argv[6], argv[7], argv[8], argv[9], argv[10]);
 }
 
 

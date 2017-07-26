@@ -48,29 +48,39 @@ CAMLprim value NAME(
 
   caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start_src1 = X_data;
-    last_src1 = start_src1 + N*INCX;
-  }
+  if (INCX == 1 && INCY == 1 && INCZ == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      NUMBER x = X_data[i];
+      NUMBER y = Y_data[i];
+      NUMBER *dst = Z_data + i;
+      FUNC(dst, x, y);
+    }
   else {
-    start_src1 = X_data - (N - 1)*INCX;
-    last_src1 = X_data + INCX;
-  };
+    if (INCX > 0) {
+      start_src1 = X_data;
+      last_src1 = start_src1 + N*INCX;
+    }
+    else {
+      start_src1 = X_data - (N - 1)*INCX;
+      last_src1 = X_data + INCX;
+    };
 
-  if (INCY > 0) start_src2 = Y_data;
-  else start_src2 = Y_data - (N - 1)*INCY;
+    if (INCY > 0) start_src2 = Y_data;
+    else start_src2 = Y_data - (N - 1)*INCY;
 
-  if (INCZ > 0) dst = Z_data;
-  else dst = Z_data - (N - 1)*INCZ;
+    if (INCZ > 0) dst = Z_data;
+    else dst = Z_data - (N - 1)*INCZ;
 
-  while (start_src1 != last_src1) {
-    NUMBER x = *start_src1;
-    NUMBER y = *start_src2;
-    FUNC(dst, x, y);
-    start_src1 += INCX;
-    start_src2 += INCY;
-    dst += INCZ;
-  };
+    while (start_src1 != last_src1) {
+      NUMBER x = *start_src1;
+      NUMBER y = *start_src2;
+      FUNC(dst, x, y);
+      start_src1 += INCX;
+      start_src2 += INCY;
+      dst += INCZ;
+    }
+  }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 

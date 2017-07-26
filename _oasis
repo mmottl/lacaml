@@ -71,11 +71,12 @@ Library lacaml
                  lacaml_macros.h,
                  utils_c.h
   BuildDepends:  bigarray, bytes
-  # Linux specific: gnu99 is required to have nanosleep, others can just use c99 standard
+  CCOpt:         -g -march=native -O3 -fPIC -DPIC
+  # Linux specific: gnu99 is required to have nanosleep, others can use c99
   if system(linux) || system(linux_elf)
-    CCOpt:      -g -std=gnu99 -O2 -fPIC -DPIC
+    CCOpt+:      -std=gnu99
   else
-    CCOpt:      -g -std=c99 -O2 -fPIC -DPIC
+    CCOpt+:      -std=c99
   if flag(strict) && ccomp_type(cc)
     CCOpt+:      -Wall -pedantic -Wextra -Wunused -Wno-long-long
   CCLib:         -lblas -llapack

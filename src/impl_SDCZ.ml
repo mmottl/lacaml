@@ -572,6 +572,8 @@ let syr2k ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
 (* LACPY *)
 
 external direct_lacpy :
+  pkind : Pentagon.kind ->
+  pinit : int ->
   uplo : char ->
   m : int ->
   n : int ->
@@ -583,7 +585,7 @@ external direct_lacpy :
   b : mat ->
   unit = "lacaml_NPREClacpy_stub_bc" "lacaml_NPREClacpy_stub"
 
-let lacpy ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+let lacpy ?patt ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.lacpy" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
@@ -597,13 +599,17 @@ let lacpy ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
         let min_bn = n + bc - 1 in
         Mat.create min_bm min_bn
   in
-  let uplo =
-    match uplo with
-    | None -> 'A'
-    | Some `U -> 'U'
-    | Some `L -> 'L'
+  let pkind, pinit, uplo =
+    match patt, uplo with
+    | Some _, Some _ ->
+        failwith (sprintf "%s: only one of [patt] and [uplo] are allowed" loc)
+    | (None | Some `full), None -> Pentagon.Upper, -1, 'A'
+    | Some `utri, None | None, Some `U -> Pentagon.Upper, -1, 'U'
+    | Some `ltri, None | None, Some `L -> Pentagon.Lower, -1, 'L'
+    | Some `upent pinit, None -> Pentagon.Upper, pinit, '?'
+    | Some `lpent pinit, None -> Pentagon.Lower, pinit, '?'
   in
-  direct_lacpy ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b;
+  direct_lacpy ~pkind ~pinit ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 (* LASWP  *)

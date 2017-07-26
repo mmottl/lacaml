@@ -45,24 +45,32 @@ CAMLprim value NAME(
 
   caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start1 = X_data;
-    last1 = start1 + N*INCX;
-  } else {
-    start1 = X_data - (N - 1)*INCX;
-    last1 = X_data + INCX;
-  };
+  if (INCX == 1 && INCY == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      NUMBER x = X_data[i];
+      NUMBER *dst = Y_data + i;
+      FUNC(dst, x);
+    }
+  else {
+    if (INCX > 0) {
+      start1 = X_data;
+      last1 = start1 + N*INCX;
+    } else {
+      start1 = X_data - (N - 1)*INCX;
+      last1 = X_data + INCX;
+    };
 
-  if (INCY > 0) dst = Y_data;
-  else dst = Y_data - (N - 1)*INCY;
+    if (INCY > 0) dst = Y_data;
+    else dst = Y_data - (N - 1)*INCY;
 
-  while (start1 != last1) {
-    NUMBER x = *start1;
-    FUNC(dst, x);
-
-    start1 += INCX;
-    dst += INCY;
-  };
+    while (start1 != last1) {
+      NUMBER x = *start1;
+      FUNC(dst, x);
+      start1 += INCX;
+      dst += INCY;
+    };
+  }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 

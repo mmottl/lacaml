@@ -27,23 +27,19 @@
 
 #include "lacaml_macros.h"
 
-CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
-{
-  CAMLparam1(vX);
-
-  integer GET_INT(N),
-          GET_INT(INCX);
-
-  VEC_PARAMS(X);
-
-  NUMBER *start, *last, acc = INIT;
-
+static inline NUMBER STR(NAME, _blocking)(
+    integer N, NUMBER *X_data, integer INCX, NUMBER acc) {
 #ifdef DECLARE_EXTRA
   DECLARE_EXTRA;
 #undef DECLARE_EXTRA
 #endif
 
-  caml_enter_blocking_section();  /* Allow other threads */
+#ifdef INIT_HAVE_LOCK
+      INIT_HAVE_LOCK;
+#undef INIT_HAVE_LOCK
+#endif
+
+  NUMBER *start, *last;
 
   if (INCX > 0) {
     start = X_data;
@@ -54,23 +50,45 @@ CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
     last = X_data + INCX;
   };
 
-#ifdef INIT_HAVE_LOCK
-  INIT_HAVE_LOCK;
-#undef INIT_HAVE_LOCK
-#endif
-
-  while (start != last) {
-    NUMBER x = *start;
-    FUNC(acc, x);
-    start += INCX;
-  };
+  if (INCX == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      NUMBER x = start[i];
+      FUNC(acc, x);
+    }
+  else
+    while (start != last) {
+      NUMBER x = *start;
+      FUNC(acc, x);
+      start += INCX;
+    }
 
 #ifdef FINISH_HAVE_LOCK
-  FINISH_HAVE_LOCK;
+      FINISH_HAVE_LOCK;
 #undef FINISH_HAVE_LOCK
 #endif
 
-  caml_leave_blocking_section();  /* Disallow other threads */
+  return acc;
+}
+
+
+CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
+{
+  CAMLparam1(vX);
+
+  integer GET_INT(N),
+          GET_INT(INCX);
+
+  NUMBER acc = INIT;
+
+  if (N > 0) {
+    VEC_PARAMS(X);
+    caml_enter_blocking_section();  /* Allow other threads */
+
+      acc = STR(NAME, _blocking)(N, X_data, INCX, acc);
+
+    caml_leave_blocking_section();  /* Disallow other threads */
+  }
 
   CAMLreturn(COPY_NUMBER(acc));
 }

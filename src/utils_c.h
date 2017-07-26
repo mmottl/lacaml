@@ -79,4 +79,11 @@ value copy_two_doubles(double d0, double d1);
  * Returns 0 on success. */
 int portable_sleep(int milliseconds);
 
+typedef enum { UPPER, LOWER } pentagon_kind;
+
+static inline pentagon_kind get_pentagon_kind(value vPKIND)
+{
+  return (pentagon_kind) Int_val(vPKIND);
+}
+
 #endif /* UTILS_C */

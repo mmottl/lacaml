@@ -33,6 +33,7 @@
 
 open Lacaml__common
 open Lacaml__numberxx
+open Types.Mat
 
 (** {6 BLAS-1 interface} *)
 
@@ -519,6 +520,7 @@ val syr2k :
 (** {7 Auxiliary routines} *)
 
 val lacpy :
+  ?patt : Types.Mat.patt ->
   ?uplo : [ `U | `L ] ->
   ?m : int ->
   ?n : int ->
@@ -529,9 +531,14 @@ val lacpy :
   ?ac : int ->
   mat ->
   mat
-(** [lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a] copy the (triangular)
+(** [lacpy ?patt ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a] copy the (triangular)
     (sub-)matrix [a] (to an optional (sub-)matrix [b]) and return it.
+    [patt] is more general than [uplo] and should be used in its place
+    whenever strict BLAS conformance is not required.  Only one of [patt]
+    and [uplo] can be specified at a time.
 
+    @raise Failure if both [patt] and [uplo] are specified simultaneously
+    @param patt default = [`full]
     @param uplo default = whole matrix
     @param b The target matrix.  By default a fresh matrix to
              accommodate the sizes [m] and [n] and the offsets [br]

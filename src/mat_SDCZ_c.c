@@ -33,7 +33,14 @@ static NUMBER number_minus_one = NUMBER_MINUS_ONE;
 
 /* sum_mat */
 
+static inline NUMBER sum_range(integer N, NUMBER *data, NUMBER acc)
+{
+  for (int i = 0; i < N; i++) acc = ADD_NUMBER(acc, data[i]);
+  return acc;
+}
+
 CAMLprim value LFUN(sum_mat_stub)(
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vAR, value vAC, value vA)
 {
@@ -43,24 +50,86 @@ CAMLprim value LFUN(sum_mat_stub)(
   NUMBER res = NUMBER_ZERO;
 
   if (M > 0 && N > 0) {
-    integer i;
     MAT_PARAMS(A);
-    NUMBER *A_last = A_data + rows_A * N;
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();
-      do {
-        for (i = 0; i < M; ++i) res = ADD_NUMBER(res, A_data[i]);
-        A_data += rows_A;
-      } while (A_data != A_last);
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                res = sum_range(PINIT, A_data, res);
+                PINIT++;
+                A_data += rows_A;
+              }
+            } else {
+              while (PINIT < M) {
+                res = sum_range(PINIT, A_data, res);
+                PINIT++;
+                A_data += rows_A;
+              }
+              if (M == rows_A) res = sum_range(A_stop - A_data, A_data, res);
+              else
+                while (A_data < A_stop) {
+                  res = sum_range(M, A_data, res);
+                  A_data += rows_A;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A) {
+                integer MP = M*PINIT;
+                res = sum_range(MP, A_data, res);
+                A_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  res = sum_range(M, A_data, res);
+                  A_data += rows_A;
+                }
+              }
+              M--;
+            }
+            rows_A++;
+            while (A_data < A_stop) {
+              res = sum_range(M, A_data, res);
+              M--;
+              A_data += rows_A;
+            }
+            break;
+          }
+      }
     caml_leave_blocking_section();
   }
 
   CAMLreturn(COPY_NUMBER(res));
 }
 
+CAMLprim value LFUN(sum_mat_stub_bc)(value *argv, int __unused argn)
+{
+  return LFUN(sum_mat_stub)(
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+}
+
 
 /* fill_mat */
 
+static inline void fill_range(integer N, NUMBER *data, NUMBER v)
+{
+  for (int i = 0; i < N; i++) data[i] = v;
+}
+
 CAMLprim value LFUN(fill_mat_stub)(
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vAR, value vAC, value vA,
   value vX)
@@ -69,16 +138,66 @@ CAMLprim value LFUN(fill_mat_stub)(
   integer GET_INT(M), GET_INT(N);
 
   if (M > 0 && N > 0) {
-    integer i;
     MAT_PARAMS(A);
-    CREATE_NUMBER(X);
-    NUMBER *A_last = A_data + rows_A * N;
+    NUMBER X;
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     INIT_NUMBER(X);
     caml_enter_blocking_section();
-      do {
-        for (i = 0; i < M; ++i) A_data[i] = X;
-        A_data += rows_A;
-      } while (A_data != A_last);
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                fill_range(PINIT, A_data, X);
+                PINIT++;
+                A_data += rows_A;
+              }
+            } else {
+              while (PINIT < M) {
+                fill_range(PINIT, A_data, X);
+                PINIT++;
+                A_data += rows_A;
+              }
+              if (M == rows_A) fill_range(A_stop - A_data, A_data, X);
+              else
+                while (A_data < A_stop) {
+                  fill_range(M, A_data, X);
+                  A_data += rows_A;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A) {
+                integer MP = M*PINIT;
+                fill_range(MP, A_data, X);
+                A_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  fill_range(M, A_data, X);
+                  A_data += rows_A;
+                }
+              }
+              M--;
+            }
+            rows_A++;
+            while (A_data < A_stop) {
+              fill_range(M, A_data, X);
+              M--;
+              A_data += rows_A;
+            }
+            break;
+          }
+      }
     caml_leave_blocking_section();
   }
 
@@ -88,16 +207,25 @@ CAMLprim value LFUN(fill_mat_stub)(
 CAMLprim value LFUN(fill_mat_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(fill_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+    argv[0], argv[1], argv[2], argv[3],
+    argv[4], argv[5], argv[6], argv[7]);
 }
 
 
 /* add_const_mat */
 
+static inline void add_const_range(
+    integer N, NUMBER *A_data, NUMBER *B_data, NUMBER v)
+{
+  for (int i = 0; i < N; i++) B_data[i] = ADD_NUMBER(A_data[i], v);
+}
+
 CAMLprim value LFUN(add_const_mat_stub)(
-  value vC, value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB)
+    value vC,
+    value vPKIND, value vPINIT,
+    value vM, value vN,
+    value vAR, value vAC, value vA,
+    value vBR, value vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
@@ -107,26 +235,72 @@ CAMLprim value LFUN(add_const_mat_stub)(
     NUMBER C;
     MAT_PARAMS(A);
     MAT_PARAMS(B);
-
-    NUMBER *A_last = A_data + rows_A * N;
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     INIT_NUMBER(C);
 
     caml_enter_blocking_section();  /* Allow other threads */
-
-      do {
-        NUMBER *A_src = A_data;
-        NUMBER *B_dst = B_data;
-        NUMBER *A_last_row = A_src + M;
-        do {
-          NUMBER A = *A_src;
-          *B_dst = ADD_NUMBER(A, C);
-          A_src++;
-          B_dst++;
-        } while (A_src != A_last_row);
-        A_data += rows_A;
-        B_data += rows_B;
-      } while (A_data != A_last);
-
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                add_const_range(PINIT, A_data, B_data, C);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+            } else {
+              while (PINIT < M) {
+                add_const_range(PINIT, A_data, B_data, C);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+              if (M == rows_A && M == rows_B)
+                add_const_range(A_stop - A_data, A_data, B_data, C);
+              else
+                while (A_data < A_stop) {
+                  add_const_range(M, A_data, B_data, C);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A && M == rows_B) {
+                integer MP = M*PINIT;
+                add_const_range(MP, A_data, B_data, C);
+                A_data += MP;
+                B_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  add_const_range(M, A_data, B_data, C);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+              }
+              M--;
+            }
+            rows_A++; rows_B++;
+            while (A_data < A_stop) {
+              add_const_range(M, A_data, B_data, C);
+              M--;
+              A_data += rows_A;
+              B_data += rows_B;
+            }
+            break;
+          }
+      }
     caml_leave_blocking_section();  /* Disallow other threads */
   }
 
@@ -136,8 +310,9 @@ CAMLprim value LFUN(add_const_mat_stub)(
 CAMLprim value LFUN(add_const_mat_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(add_const_mat_stub)(argv[0], argv[1], argv[2],argv[3], argv[4],
-                             argv[5], argv[6], argv[7], argv[8]);
+    LFUN(add_const_mat_stub)(
+        argv[0], argv[1], argv[2],argv[3], argv[4],
+        argv[5], argv[6], argv[7], argv[8], argv[9], argv[10]);
 }
 
 
@@ -149,42 +324,81 @@ extern void FUN(swap)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(swap_mat_stub)(
-  value vUPLO,
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vAR, value vAC, value vA,
   value vBR, value vBC, value vB)
 {
   CAMLparam2(vA, vB);
   integer GET_INT(M), GET_INT(N);
-  char UPLO = GET_INT(UPLO);
 
   if (M > 0 && N > 0) {
     MAT_PARAMS(A);
     MAT_PARAMS(B);
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();
-      if (M == rows_A && M == rows_B && UPLO == 'A') {
-        integer MN = M*N;
-        FUN(swap)(&MN, A_data, &integer_one, B_data, &integer_one);
-      } else {
-        NUMBER *A_last = A_data + rows_A * N;
-        integer LEN, LEN_DIFF, EXTREME_LEN;
-
-        switch (UPLO) {
-          case 'A' : LEN = M; LEN_DIFF = 0; EXTREME_LEN = M; break;
-          case 'U' : LEN = 1; LEN_DIFF = 1; EXTREME_LEN = M; break;
-          case 'L' :
-            LEN = M; LEN_DIFF = -1; EXTREME_LEN = 1;
-            rows_A++; rows_B++;
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                FUN(swap)(&PINIT, A_data, &integer_one, B_data, &integer_one);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+            } else {
+              while (PINIT < M) {
+                FUN(swap)(&PINIT, A_data, &integer_one, B_data, &integer_one);
+                PINIT++;
+                A_data += rows_A;
+                B_data += rows_B;
+              }
+              if (M == rows_A && M == rows_B) {
+                integer MN = A_stop - A_data;
+                FUN(swap)(&MN, A_data, &integer_one, B_data, &integer_one);
+              } else
+                while (A_data < A_stop) {
+                  FUN(swap)(&M, A_data, &integer_one, B_data, &integer_one);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+            }
             break;
-          default : assert(0);
-        }
-
-        do {
-          FUN(swap)(&LEN, A_data, &integer_one, B_data, &integer_one);
-          A_data += rows_A;
-          B_data += rows_B;
-          if (LEN != EXTREME_LEN) LEN += LEN_DIFF;
-        } while (A_data != A_last);
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A && M == rows_B) {
+                integer MP = M*PINIT;
+                FUN(swap)(&MP, A_data, &integer_one, B_data, &integer_one);
+                A_data += MP;
+                B_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  FUN(swap)(&M, A_data, &integer_one, B_data, &integer_one);
+                  A_data += rows_A;
+                  B_data += rows_B;
+                }
+              }
+              M--;
+            }
+            rows_A++; rows_B++;
+            while (A_data < A_stop) {
+              FUN(swap)(&M, A_data, &integer_one, B_data, &integer_one);
+              M--;
+              A_data += rows_A;
+              B_data += rows_B;
+            }
+            break;
+          }
       }
     caml_leave_blocking_section();
   }
@@ -196,7 +410,7 @@ CAMLprim value LFUN(swap_mat_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(swap_mat_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+    argv[5], argv[6], argv[7], argv[8], argv[9]);
 }
 
 
@@ -218,13 +432,13 @@ CAMLprim value LFUN(transpose_copy_stub)(
   if (M > 0 && N > 0) {
     MAT_PARAMS(A);
     MAT_PARAMS(B);
-    NUMBER *A_last = A_data + rows_A * N;
+    NUMBER *A_stop = A_data + rows_A * N;
     caml_enter_blocking_section();
       do {
         FUN(copy)(&M, A_data, &integer_one, B_data, &rows_B);
         A_data += rows_A;
         B_data++;
-      } while (A_data != A_last);
+      } while (A_data != A_stop);
     caml_leave_blocking_section();
   }
 
@@ -246,6 +460,7 @@ extern void FUN(scal)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(scal_mat_stub)(
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vALPHA,
   value vAR, value vAC, value vA)
@@ -254,19 +469,67 @@ CAMLprim value LFUN(scal_mat_stub)(
   integer GET_INT(M), GET_INT(N);
 
   if ( M > 0 && N > 0) {
-    CREATE_NUMBER(ALPHA);
+    NUMBER ALPHA;
     MAT_PARAMS(A);
     INIT_NUMBER(ALPHA);
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();
-      if (rows_A == M) {
-        integer MN = M * N;
-        FUN(scal)(&MN, &ALPHA, A_data, &integer_one);
-      } else {
-        NUMBER *A_last = A_data + rows_A * N;
-        do {
-          FUN(scal)(&M, &ALPHA, A_data, &integer_one);
-          A_data += rows_A;
-        } while (A_data != A_last);
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                FUN(scal)(&PINIT, &ALPHA, A_data, &integer_one);
+                PINIT++;
+                A_data += rows_A;
+              }
+            } else {
+              while (PINIT < M) {
+                FUN(scal)(&PINIT, &ALPHA, A_data, &integer_one);
+                PINIT++;
+                A_data += rows_A;
+              }
+              if (M == rows_A) {
+                integer MN = A_stop - A_data;
+                FUN(scal)(&MN, &ALPHA, A_data, &integer_one);
+              } else
+                while (A_data < A_stop) {
+                  FUN(scal)(&M, &ALPHA, A_data, &integer_one);
+                  A_data += rows_A;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              if (M == rows_A) {
+                integer MP = M*PINIT;
+                FUN(scal)(&MP, &ALPHA, A_data, &integer_one);
+                A_data += MP;
+              } else {
+                NUMBER *A_block_stop = A_data + PINIT*rows_A;
+                while (A_data < A_block_stop) {
+                  FUN(scal)(&M, &ALPHA, A_data, &integer_one);
+                  A_data += rows_A;
+                }
+              }
+              M--;
+            }
+            rows_A++;
+            while (A_data < A_stop) {
+              FUN(scal)(&M, &ALPHA, A_data, &integer_one);
+              M--;
+              A_data += rows_A;
+            }
+            break;
+          }
       }
     caml_leave_blocking_section();
   }
@@ -277,13 +540,14 @@ CAMLprim value LFUN(scal_mat_stub)(
 CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(scal_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
 }
 
 
 /* scal_cols */
 
 CAMLprim value LFUN(scal_cols_stub)(
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vAR, value vAC, value vA,
   value vOFSALPHAs, value vALPHAs)
@@ -294,13 +558,64 @@ CAMLprim value LFUN(scal_cols_stub)(
   if (M > 0 && N > 0) {
     VEC_PARAMS(ALPHAs);
     MAT_PARAMS(A);
-    NUMBER *A_last = A_data + rows_A * N;
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();
-      do {
-        FUN(scal)(&M, ALPHAs_data, A_data, &integer_one);
-        A_data += rows_A;
-        ALPHAs_data++;
-      } while (A_data != A_last);
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + rows_A * N;
+            if (PINIT + N - 1 <= M) {
+              while (A_data < A_stop) {
+                FUN(scal)(&PINIT, ALPHAs_data, A_data, &integer_one);
+                PINIT++;
+                A_data += rows_A;
+                ALPHAs_data++;
+              }
+            } else {
+              while (PINIT < M) {
+                FUN(scal)(&PINIT, ALPHAs_data, A_data, &integer_one);
+                PINIT++;
+                A_data += rows_A;
+                ALPHAs_data++;
+              }
+              if (M == rows_A) {
+                integer MN = A_stop - A_data;
+                FUN(scal)(&MN, ALPHAs_data, A_data, &integer_one);
+              } else
+                while (A_data < A_stop) {
+                  FUN(scal)(&M, ALPHAs_data, A_data, &integer_one);
+                  A_data += rows_A;
+                  ALPHAs_data++;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            A_stop = A_data + stop_col*rows_A;
+            if (PINIT > 1) {
+              NUMBER *A_block_stop = A_data + PINIT*rows_A;
+              while (A_data < A_block_stop) {
+                FUN(scal)(&M, ALPHAs_data, A_data, &integer_one);
+                A_data += rows_A;
+                ALPHAs_data++;
+              }
+              M--;
+            }
+            rows_A++;
+            while (A_data < A_stop) {
+              FUN(scal)(&M, ALPHAs_data, A_data, &integer_one);
+              M--;
+              A_data += rows_A;
+              ALPHAs_data++;
+            }
+            break;
+          }
+      }
     caml_leave_blocking_section();
   }
 
@@ -310,13 +625,15 @@ CAMLprim value LFUN(scal_cols_stub)(
 CAMLprim value LFUN(scal_cols_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(scal_cols_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+    argv[0], argv[1], argv[2], argv[3], argv[4],
+    argv[5], argv[6], argv[7], argv[8]);
 }
 
 
 /* scal_rows */
 
 CAMLprim value LFUN(scal_rows_stub)(
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vOFSALPHAs, value vALPHAs,
   value vAR, value vAC, value vA)
@@ -327,13 +644,43 @@ CAMLprim value LFUN(scal_rows_stub)(
   if (M > 0 && N > 0) {
     VEC_PARAMS(ALPHAs);
     MAT_PARAMS(A);
-    NUMBER *A_last = A_data + M;
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     caml_enter_blocking_section();
-      do {
-        FUN(scal)(&N, ALPHAs_data, A_data, &rows_A);
-        A_data++;
-        ALPHAs_data++;
-      } while (A_data != A_last);
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *A_stop = A_data + M + (M - PINIT + 1) * rows_A;
+            while (--PINIT) {
+              FUN(scal)(&N, ALPHAs_data, A_data, &rows_A);
+              A_data++;
+              ALPHAs_data++;
+            }
+            while (A_data != A_stop && N > 0) {
+              FUN(scal)(&N, ALPHAs_data, A_data, &rows_A);
+              A_data += rows_A + 1;
+              ALPHAs_data++;
+              N--;
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *A_stop = A_data + M;
+            while (A_data < A_stop && PINIT < N) {
+              FUN(scal)(&PINIT, ALPHAs_data, A_data, &rows_A);
+              A_data++;
+              ALPHAs_data++;
+              PINIT++;
+            }
+            while (A_data < A_stop) {
+              FUN(scal)(&PINIT, ALPHAs_data, A_data, &rows_A);
+              A_data++;
+              ALPHAs_data++;
+            }
+            break;
+          }
+      }
     caml_leave_blocking_section();
   }
 
@@ -343,7 +690,8 @@ CAMLprim value LFUN(scal_rows_stub)(
 CAMLprim value LFUN(scal_rows_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(scal_rows_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+    argv[0], argv[1], argv[2], argv[3], argv[4],
+    argv[5], argv[6], argv[7], argv[8]);
 }
 
 
@@ -357,6 +705,7 @@ extern void FUN(axpy)(
 
 CAMLprim value LFUN(axpy_mat_stub)(
   value vALPHA,
+  value vPKIND, value vPINIT,
   value vM, value vN,
   value vXR, value vXC, value vX,
   value vYR, value vYC, value vY)
@@ -364,21 +713,81 @@ CAMLprim value LFUN(axpy_mat_stub)(
   CAMLparam2(vX, vY);
   integer GET_INT(M), GET_INT(N);
   if (M > 0 && N > 0) {
-    CREATE_NUMBER(ALPHA);
+    NUMBER ALPHA;
     MAT_PARAMS(X);
     MAT_PARAMS(Y);
+    pentagon_kind PKIND = get_pentagon_kind(vPKIND);
+    integer PINIT = Long_val(vPINIT);
     INIT_NUMBER(ALPHA);
     caml_enter_blocking_section();
-      if (rows_X == M && rows_Y == M) {
-        integer MN = M * N;
-        FUN(axpy)(&MN, &ALPHA, X_data, &integer_one, Y_data, &integer_one);
-      } else {
-        NUMBER *X_last = X_data + rows_X * N;
-        do {
-          FUN(axpy)(&M, &ALPHA, X_data, &integer_one, Y_data, &integer_one);
-          X_data += rows_X;
-          Y_data += rows_Y;
-        } while (X_data != X_last);
+      switch (PKIND) {
+        case UPPER :
+          {
+            NUMBER *X_stop = X_data + rows_X * N;
+            if (PINIT + N - 1 <= M) {
+              while (X_data < X_stop) {
+                FUN(axpy)(&PINIT, &ALPHA,
+                    X_data, &integer_one, Y_data, &integer_one);
+                PINIT++;
+                X_data += rows_X;
+                Y_data += rows_Y;
+              }
+            } else {
+              while (PINIT < M) {
+                FUN(axpy)(&PINIT, &ALPHA,
+                    X_data, &integer_one, Y_data, &integer_one);
+                PINIT++;
+                X_data += rows_X;
+                Y_data += rows_Y;
+              }
+              if (M == rows_X && M == rows_Y) {
+                integer MN = X_stop - X_data;
+                FUN(axpy)(&MN, &ALPHA,
+                    X_data, &integer_one, Y_data, &integer_one);
+              } else
+                while (X_data < X_stop) {
+                  FUN(axpy)(&M, &ALPHA,
+                      X_data, &integer_one, Y_data, &integer_one);
+                  X_data += rows_X;
+                  Y_data += rows_Y;
+                }
+            }
+            break;
+          }
+        case LOWER :
+          {
+            NUMBER *X_stop;
+            integer stop_col = M + PINIT;
+            if (stop_col > N) stop_col = N;
+            X_stop = X_data + stop_col*rows_X;
+            if (PINIT > 1) {
+              if (M == rows_X && M == rows_Y) {
+                integer MP = M*PINIT;
+                FUN(axpy)(&MP, &ALPHA,
+                    X_data, &integer_one, Y_data, &integer_one);
+                X_data += MP;
+                Y_data += MP;
+              } else {
+                NUMBER *X_block_stop = X_data + PINIT*rows_X;
+                while (X_data < X_block_stop) {
+                  FUN(axpy)(&M, &ALPHA,
+                      X_data, &integer_one, Y_data, &integer_one);
+                  X_data += rows_X;
+                  Y_data += rows_Y;
+                }
+              }
+              M--;
+            }
+            rows_X++; rows_Y++;
+            while (X_data < X_stop) {
+              FUN(axpy)(&M, &ALPHA,
+                  X_data, &integer_one, Y_data, &integer_one);
+              M--;
+              X_data += rows_X;
+              Y_data += rows_Y;
+            }
+            break;
+          }
       }
     caml_leave_blocking_section();
   }
@@ -390,7 +799,7 @@ CAMLprim value LFUN(axpy_mat_stub_bc)(value *argv, int __unused argn)
 {
   return LFUN(axpy_mat_stub)(
     argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+    argv[5], argv[6], argv[7], argv[8], argv[9], argv[10]);
 }
 
 
@@ -452,7 +861,7 @@ DOTU(integer *N, NUMBER *X, integer *INCX, NUMBER *Y, integer *INCY);
   ++Y_data
 
 #define COMMON_GEMM_DIAG_LOOP(DOIT) \
-  while (Y_data != last_Y) { \
+  while (Y_data != stop_Y) { \
     NUMBER d = DOTU(&K, A_data, &dot_incr_A, B_data, &dot_incr_B); \
     DOIT; \
     GEMM_INCR; \
@@ -468,20 +877,20 @@ DOTC(integer *N, NUMBER *X, integer *INCX, NUMBER *Y, integer *INCY);
 #define GEMM_DIAG_LOOP(DOIT) \
   if (TRANSA == 'C') \
     if (TRANSB == 'C') \
-      while (Y_data != last_Y) { \
+      while (Y_data != stop_Y) { \
         NUMBER cd = DOTU(&K, A_data, &dot_incr_A, B_data, &dot_incr_B); \
         NUMBER d = COMLEX_CONJ(cd); \
         DOIT; \
         GEMM_INCR; \
       } \
     else \
-      while (Y_data != last_Y) { \
+      while (Y_data != stop_Y) { \
         NUMBER d = DOTC(&K, A_data, &dot_incr_A, B_data, &dot_incr_B); \
         DOIT; \
         GEMM_INCR; \
       } \
   else if (TRANSB == 'C') \
-    while (Y_data != last_Y) { \
+    while (Y_data != stop_Y) { \
       NUMBER d = DOTC(&K, B_data, &dot_incr_B, A_data, &dot_incr_A); \
       DOIT; \
       GEMM_INCR; \
@@ -508,8 +917,8 @@ CAMLprim value LFUN(gemm_diag_stub)(
   integer GET_INT(N), GET_INT(K);
   char GET_INT(TRANSA), GET_INT(TRANSB);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -517,7 +926,7 @@ CAMLprim value LFUN(gemm_diag_stub)(
 
   unsigned long iter_incr_A, iter_incr_B;
   integer dot_incr_A, dot_incr_B;
-  NUMBER *last_Y = Y_data + N;
+  NUMBER *stop_Y = Y_data + N;
 
   if (TRANSB == 'N') {
     iter_incr_B = rows_B;
@@ -562,7 +971,7 @@ CAMLprim value LFUN(gemm_diag_stub_bc)(value *argv, int __unused argn)
   ++Y_data
 
 #define SYRK_DIAG_LOOP(DOIT) \
-  while (Y_data != last_Y) { \
+  while (Y_data != stop_Y) { \
     NUMBER d = DOTU(&K, A_data, &dot_incr_A, A_data, &dot_incr_A); \
     DOIT; \
     SYRK_INCR; \
@@ -584,15 +993,15 @@ CAMLprim value LFUN(syrk_diag_stub)(
   integer GET_INT(N), GET_INT(K);
   char GET_INT(TRANS);
 
-  CREATE_NUMBER(ALPHA);
-  CREATE_NUMBER(BETA);
+  NUMBER ALPHA;
+  NUMBER BETA;
 
   MAT_PARAMS(A);
   VEC_PARAMS(Y);
 
   unsigned long iter_incr_A;
   integer dot_incr_A;
-  NUMBER *last_Y = Y_data + N;
+  NUMBER *stop_Y = Y_data + N;
 
   INIT_NUMBER(ALPHA);
   INIT_NUMBER(BETA);
@@ -627,7 +1036,7 @@ CAMLprim value LFUN(syrk_diag_stub_bc)(value *argv, int __unused argn)
 #define GEMM_TRACE_INCR A_data += iter_incr_A; B_data += iter_incr_B
 
 #define COMMON_GEMM_TRACE_LOOP \
-  while (A_data != last_A) { \
+  while (A_data != stop_A) { \
     NUMBER d = DOTU(&K, A_data, &dot_incr_A, B_data, &dot_incr_B); \
     res = ADD_NUMBER(res, d); \
     GEMM_TRACE_INCR; \
@@ -652,7 +1061,7 @@ CAMLprim value LFUN(gemm_trace_stub)(
   integer dot_incr_A, dot_incr_B;
 
   NUMBER res = NUMBER_ZERO;
-  NUMBER *last_A;
+  NUMBER *stop_A;
 
   caml_enter_blocking_section();  /* Allow other threads */
 
@@ -738,27 +1147,27 @@ CAMLprim value LFUN(gemm_trace_stub)(
     }
   }
 
-  last_A = A_data + N * iter_incr_A;
+  stop_A = A_data + N * iter_incr_A;
 
 #ifndef LACAML_COMPLEX          /* Real number */
   COMMON_GEMM_TRACE_LOOP
 #else                           /* Complex number */
   if (TRANSA == 'C')
     if (TRANSB == 'C')
-      while (A_data != last_A) {
+      while (A_data != stop_A) {
         NUMBER cd = DOTU(&K, A_data, &dot_incr_A, B_data, &dot_incr_B);
         NUMBER d = COMLEX_CONJ(cd);
         res = ADD_NUMBER(res, d);
         GEMM_TRACE_INCR;
       }
     else
-      while (A_data != last_A) {
+      while (A_data != stop_A) {
         NUMBER d = DOTC(&K, A_data, &dot_incr_A, B_data, &dot_incr_B);
         res = ADD_NUMBER(res, d);
         GEMM_TRACE_INCR;
       }
   else if (TRANSB == 'C')
-    while (A_data != last_A) {
+    while (A_data != stop_A) {
       NUMBER d = DOTC(&K, B_data, &dot_incr_B, A_data, &dot_incr_A);
       res = ADD_NUMBER(res, d);
       GEMM_TRACE_INCR;
@@ -795,8 +1204,8 @@ CAMLprim value LFUN(syrk_trace_stub)(
     integer NK = N * K;
     res = DOTU(&NK, A_data, &integer_one, A_data, &integer_one);
   } else {
-    NUMBER *last_A = A_data + K * rows_A;
-    while (A_data != last_A) {
+    NUMBER *stop_A = A_data + K * rows_A;
+    while (A_data != stop_A) {
       NUMBER d = DOTU(&N, A_data, &integer_one, A_data, &integer_one);
       res = ADD_NUMBER(res, d);
       A_data += rows_A;

@@ -152,7 +152,8 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 }
 
 #define NAME LFUN(max_stub)
-#define INIT LACAML_COMPLEX_NEG_INF; \
+#define INIT LACAML_COMPLEX_NEG_INF
+#define DECLARE_EXTRA \
   REAL acc_big = 0., acc_nrm = 1., x_big, x_nrm, q, r, i
 #define FUNC(acc, x) \
   r = x.r; \
@@ -180,7 +181,8 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 #include "fold_col.c"
 
 #define NAME LFUN(min_stub)
-#define INIT LACAML_COMPLEX_INF; \
+#define INIT LACAML_COMPLEX_INF
+#define DECLARE_EXTRA \
   REAL acc_big = INFINITY, acc_nrm = 1., x_big, x_nrm, q, r, i
 #define FUNC(acc, x) \
   r = x.r; \
@@ -251,22 +253,33 @@ CAMLprim value LFUN(ssqr_stub)(
 
   caml_enter_blocking_section();  /* Allow other threads */
 
-  if (INCX > 0) {
-    start = X_data;
-    last = start + N*INCX;
-  }
+  if (INCX == 1)
+    /* NOTE: may improve SIMD optimization */
+    for (int i = 0; i < N; i++) {
+      COMPLEX *xp = X_data + i;
+      diffr = xp->r - cr;
+      diffi = xp->i - ci;
+      acc.r += diffr * diffr - diffi * diffi;
+      acc.i += 2 * diffr * diffi;
+    }
   else {
-    start = X_data - (N - 1)*INCX;
-    last = X_data + INCX;
-  };
+    if (INCX > 0) {
+      start = X_data;
+      last = start + N*INCX;
+    }
+    else {
+      start = X_data - (N - 1)*INCX;
+      last = X_data + INCX;
+    };
 
-  while (start != last) {
-    diffr = start->r - cr;
-    diffi = start->i - ci;
-    acc.r += diffr * diffr - diffi * diffi;
-    acc.i += 2 * diffr * diffi;
-    start += INCX;
-  };
+    while (start != last) {
+      diffr = start->r - cr;
+      diffi = start->i - ci;
+      acc.r += diffr * diffr - diffi * diffi;
+      acc.i += 2 * diffr * diffi;
+      start += INCX;
+    }
+  }
 
   caml_leave_blocking_section();  /* Disallow other threads */
 

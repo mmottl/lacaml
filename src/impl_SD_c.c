@@ -359,7 +359,7 @@ CAMLprim value LFUN(orgqr_stub)(
     WORK_data, &LWORK, &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(orgqr_stub_bc)(value *argv, int __unused argn)
@@ -420,7 +420,7 @@ CAMLprim value LFUN(ormqr_stub)(
     WORK_data, &LWORK, &INFO);
   caml_leave_blocking_section(); /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(ormqr_stub_bc)(value *argv, int __unused argn)
@@ -1575,7 +1575,7 @@ CAMLprim value LFUN(sygv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLprim value LFUN(sygv_stub_bc)(value *argv, int __unused argn)
@@ -1654,7 +1654,7 @@ CAMLexport value LFUN(sbgv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_int(INFO));
+  CAMLreturn(Val_long(INFO));
 }
 
 CAMLexport value LFUN(sbgv_stub_bc)(value *argv, int __unused argn)
