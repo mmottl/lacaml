@@ -263,7 +263,7 @@ compatible substitute for BLAS.  It specializes code for the architecture it
 is compiled on.  Binary packages (e.g. RPMs) for Linux should be available
 from your distribution vendor's site (you must recompile the package to
 make sure it is suited to your distribution, see the package documentation
-for more details.).  
+for more details.).
 
 Another alternative for BLAS is [OpenBLAS](https://github.com/xianyi/OpenBLAS).
 
