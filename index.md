@@ -1,10 +1,6 @@
-LACAML - Linear Algebra for OCaml
-=================================
+## LACAML - Linear Algebra for OCaml
 
----------------------------------------------------------------------------
-
-What is LACAML?
----------------
+### What is LACAML?
 
 This [OCaml](http://www.ocaml.org)-library interfaces two widely used
 mathematical FORTRAN-libraries:
@@ -15,8 +11,7 @@ mathematical FORTRAN-libraries:
 This allows developers to write high-performance numerical code for
 applications that require linear algebra.
 
-Features
---------
+### Features
 
   * The BLAS- and LAPACK-libraries have evolved over about two decades of
     time and are therefore extremely mature both in terms of stability
@@ -82,10 +77,7 @@ Features
     the user to make sure that data contained in matrices is suitable for
     the application of the intended functions.
 
----------------------------------------------------------------------------
-
-Using LACAML
-------------
+### Using LACAML
 
 You can make use of this library by referring to the corresponding module
 for the required precision and number type.  E.g.:
@@ -145,7 +137,7 @@ for the column (1 by default).  A vector `y` would have an extra optional
 parameter `ofsy` (also 1 by default).  Parameters like `m` or `n` typically
 specify the numbers of rows or columns.
 
-### Printing vectors and matrices
+#### Printing vectors and matrices
 
 Here is a toplevel example of printing a large random matrix:
 
@@ -229,16 +221,16 @@ Many other options, e.g. for different padding, printing numbers in
 other formats or with different precision, etc., are available for output
 customization.
 
-### Other sources of usage information
+#### Other sources of usage information
 
-#### API documentation
+##### API documentation
 
 Please refer to the API-documentation that will be generated as HTML-files
 if requested (`make doc`).  It will give more details on the numerous
 functions and supported arguments in the library.  It can also be found
 [online](http://mmottl.github.io/lacaml/API.docdir).
 
-#### BLAS/LAPACK man pages
+##### BLAS/LAPACK man pages
 
 BLAS and LAPACK binary packages for Unix operating systems usually come
 with appropriate man-pages.  E.g. to quickly look up how to factorize a
@@ -252,13 +244,12 @@ The corresponding function in Lacaml would be `Lacaml.C.potrf`.  The naming
 conventions and additional documentation for BLAS and LAPACK can be found
 at their respective websites.
 
-#### Examples
+##### Examples
 
 The `examples`-directory contains several demonstrations of how to use this
 library for various linear algebra problems.
 
-Improving Performance
----------------------
+### Improving Performance
 
 It is highly recommended that users install a variant of BLAS (or even
 LAPACK) that has been optimized for their system.  Processor vendors
@@ -272,24 +263,13 @@ compatible substitute for BLAS.  It specializes code for the architecture it
 is compiled on.  Binary packages (e.g. RPMs) for Linux should be available
 from your distribution vendor's site (you must recompile the package to
 make sure it is suited to your distribution, see the package documentation
-for more details.).  
+for more details.).
 
 Another alternative for BLAS is [OpenBLAS](https://github.com/xianyi/OpenBLAS).
 
----------------------------------------------------------------------------
+### Contact Information and Contributing
 
-Contact Information and Contributing
-------------------------------------
+Please submit bugs reports, feature requests, contributions and similar to
+the [GitHub issue tracker](https://github.com/mmottl/lacaml/issues).
 
-In the case of bugs, feature requests, contributions and similar, please
-contact the maintainers:
-
-  * Markus Mottl <markus.mottl@gmail.com>
-  * Christophe Troestler <Christophe.Troestler@umons.ac.be>
-
-Up-to-date information concerning this tool should be available at:
-<http://mmottl.github.io/lacaml>
-
-Enjoy!
-
-Markus Mottl in Rutherford, NJ on July 9, 2012
+Up-to-date information is available at: <https://mmottl.github.io/lacaml>
