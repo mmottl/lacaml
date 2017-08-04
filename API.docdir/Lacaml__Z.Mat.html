@@ -55,10 +55,13 @@
 <div class="param_info"><code class="code">im_from</code> : default = -1.0</div>
 <div class="param_info"><code class="code">im_range</code> : default = 2.0</div>
 
-<pre><span id="TYPEunop"><span class="keyword">type</span> <code class="type"></code>unop</span> = <code class="type">?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a></code> </pre>
+<pre><span id="TYPEpatt"><span class="keyword">type</span> <code class="type"></code>patt</span> = <code class="type">[ `full | `lpent of int | `ltri | `upent of int | `utri ]</code> </pre>
 
 
-<pre><span id="TYPEbinop"><span class="keyword">type</span> <code class="type"></code>binop</span> = <code class="type">?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a></code> </pre>
+<pre><span id="TYPEunop"><span class="keyword">type</span> <code class="type"></code>unop</span> = <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a></code> </pre>
+
+
+<pre><span id="TYPEbinop"><span class="keyword">type</span> <code class="type"></code>binop</span> = <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a></code> </pre>
 
 <br>
 <h6 id="6_Creationofmatricesandaccessors">Creation of matrices and accessors</h6><br>
@@ -236,10 +239,11 @@
 <br>
 <h6 id="6_Matrixtransformations">Matrix transformations</h6><br>
 
-<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">swap ?m ?n ?ar ?ac a ?br ?bc b</code> swaps the contents of (sub-matrices)
-        <code class="code">a</code> and <code class="code">b</code>.<br>
+<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">swap ?patt ?m ?n ?ar ?ac a ?br ?bc b</code>
+        swaps the contents of (sub-matrices) <code class="code">a</code> and <code class="code">b</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">m</code> : default = greater n s.t. <code class="code">ar + m - 1 &lt;= dim1 a</code></div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ac + n - 1 &lt;= dim2 a</code></div>
 <div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
@@ -247,13 +251,21 @@
 <div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
 <div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
 
-<pre><span id="VALtranspose_copy"><span class="keyword">val</span> transpose_copy</span> : <code class="type"><a href="Lacaml__Z.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<pre><span id="VALtranspose_copy"><span class="keyword">val</span> transpose_copy</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a></code></pre><div class="info ">
 <code class="code">transpose_copy ?m ?n ?br ?bc ?b ?ar ?ac a</code><br>
 <b>Returns</b> the transpose of
       (sub-)matrix <code class="code">a</code>.  If <code class="code">b</code> is given, the result will be stored in there
       using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
       NOTE: this operations does _not_ support in-place transposes!<br>
 </div>
+<div class="param_info"><code class="code">m</code> : default = greater n s.t. <code class="code">ar + m - 1 &lt;= dim1 a</code></div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ac + n - 1 &lt;= dim2 a</code></div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">b</code> : default = fresh matrix with <code class="code">br + m - 1</code> rows and
+                         <code class="code">bc + n - 1</code> columns</div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
 
 <pre><span id="VALdetri"><span class="keyword">val</span> detri</span> : <code class="type">?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
 <code class="code">detri ?up ?n ?ar ?ac a</code> takes a triangular (sub-)matrix <code class="code">a</code>, i.e. one
@@ -287,18 +299,18 @@
 <br>
 <h6 id="6_Operationsononematrix">Operations on one matrix</h6><br>
 
-<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> Complex.t -> unit</code></pre><div class="info ">
-<code class="code">fill ?m ?n ?ar ?ac a x</code> fills the specified sub-matrix in <code class="code">a</code> with value
-      <code class="code">x</code>.<br>
+<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> Complex.t -> unit</code></pre><div class="info ">
+<code class="code">fill ?patt ?m ?n ?ar ?ac a x</code> fills the specified sub-matrix in <code class="code">a</code>
+      with value <code class="code">x</code>.<br>
 </div>
 
-<pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> Complex.t</code></pre><div class="info ">
+<pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> Complex.t</code></pre><div class="info ">
 <code class="code">sum ?m ?n ?ar ?ac a</code> computes the sum of all elements in
       the <code class="code">m</code>-by-<code class="code">n</code> submatrix starting at row <code class="code">ar</code> and column <code class="code">ac</code>.<br>
 </div>
 
 <pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type">Complex.t -> <a href="Lacaml__Z.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">add_const c ?m ?n ?br ?bc ?b ?ar ?ac a</code> adds constant <code class="code">c</code> to the
+<code class="code">add_const c ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> adds constant <code class="code">c</code> to the
       designated <code class="code">m</code> by <code class="code">n</code> submatrix in <code class="code">a</code> and stores the result in the
       designated submatrix in <code class="code">b</code>.<br>
 </div>
@@ -338,17 +350,18 @@
       diagonal elements will be returned.<br>
 </div>
 
-<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?m:int -> ?n:int -> Complex.t -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">scal ?m ?n alpha ?ar ?ac a</code> BLAS <code class="code">scal</code> function for (sub-)matrices.<br>
+<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> Complex.t -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">scal ?patt ?m ?n alpha ?ar ?ac a</code> BLAS <code class="code">scal</code> function for
+      (sub-)matrices.<br>
 </div>
 
-<pre><span id="VALscal_cols"><span class="keyword">val</span> scal_cols</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?ofs:int -> <a href="Lacaml__Z.html#TYPEvec">Lacaml__Z.vec</a> -> unit</code></pre><div class="info ">
-<code class="code">scal_cols ?m ?n ?ar ?ac a ?ofs alphas</code> column-wise <code class="code">scal</code>
+<pre><span id="VALscal_cols"><span class="keyword">val</span> scal_cols</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?ofs:int -> <a href="Lacaml__Z.html#TYPEvec">Lacaml__Z.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">scal_cols ?patt ?m ?n ?ar ?ac a ?ofs alphas</code> column-wise <code class="code">scal</code>
       function for matrices.<br>
 </div>
 
-<pre><span id="VALscal_rows"><span class="keyword">val</span> scal_rows</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ofs:int -> <a href="Lacaml__Z.html#TYPEvec">Lacaml__Z.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">scal_rows ?m ?n ?ofs alphas ?ar ?ac a</code> row-wise <code class="code">scal</code>
+<pre><span id="VALscal_rows"><span class="keyword">val</span> scal_rows</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ofs:int -> <a href="Lacaml__Z.html#TYPEvec">Lacaml__Z.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">scal_rows ?patt ?m ?n ?ofs alphas ?ar ?ac a</code> row-wise <code class="code">scal</code>
       function for matrices.<br>
 </div>
 
@@ -426,8 +439,8 @@
       will be used.  The resulting matrix is returned.<br>
 </div>
 
-<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:Complex.t -><br>       ?m:int -><br>       ?n:int -><br>       ?xr:int -><br>       ?xc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?yr:int -> ?yc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">axpy ?alpha ?m ?n ?xr ?xc x ?yr ?yc y</code> BLAS <code class="code">axpy</code> function for
+<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:Complex.t -><br>       ?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?xr:int -><br>       ?xc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?yr:int -> ?yc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">axpy ?alpha ?patt ?m ?n ?xr ?xc x ?yr ?yc y</code> BLAS <code class="code">axpy</code> function for
       matrices.<br>
 </div>
 
@@ -488,13 +501,14 @@
 <div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
 <div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
 
-<pre><span id="VALssqr_diff"><span class="keyword">val</span> ssqr_diff</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> Complex.t</code></pre><div class="info ">
-<code class="code">ssqr_diff ?m ?n ?ar ?ac a ?br ?bc b</code><br>
+<pre><span id="VALssqr_diff"><span class="keyword">val</span> ssqr_diff</span> : <code class="type">?patt:<a href="Lacaml__Z.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__Z.html#TYPEmat">Lacaml__Z.mat</a> -> Complex.t</code></pre><div class="info ">
+<code class="code">ssqr_diff ?patt ?m ?n ?ar ?ac a ?br ?bc b</code><br>
 <b>Returns</b> the sum of squared
       differences between the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix
       <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> with the corresponding
       sub-matrix of the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">m</code> : default = greater n s.t. <code class="code">ar + m - 1 &lt;= dim1 a</code></div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ac + n - 1 &lt;= dim2 a</code></div>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>

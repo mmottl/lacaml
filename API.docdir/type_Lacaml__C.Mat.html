@@ -24,7 +24,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;?re_from:float&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?re_range:float&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?im_from:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?im_range:float&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;patt&nbsp;=&nbsp;[&nbsp;<span class="keywordsign">`</span>full&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>lpent&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>ltri&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>upent&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>utri&nbsp;]
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;unop&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>
@@ -32,6 +34,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?b:<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;binop&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?cr:int&nbsp;<span class="keywordsign">-&gt;</span>
@@ -74,12 +77,17 @@
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;col&nbsp;:&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;copy_row&nbsp;:&nbsp;?vec:<span class="constructor">Lacaml__C</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;swap&nbsp;:
-&nbsp;&nbsp;&nbsp;&nbsp;?uplo:[&nbsp;<span class="keywordsign">`</span><span class="constructor">L</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">U</span>&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;transpose_copy&nbsp;:&nbsp;<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.unop
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;transpose_copy&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?b:<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;detri&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;packed&nbsp;:
@@ -87,9 +95,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;unpacked&nbsp;:&nbsp;?up:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;fill&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Complex</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;sum&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Complex</span>.t
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;add_const&nbsp;:&nbsp;<span class="constructor">Complex</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.unop
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;neg&nbsp;:&nbsp;<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.unop
@@ -101,13 +111,16 @@
 &nbsp;&nbsp;&nbsp;&nbsp;?y:<span class="constructor">Lacaml__C</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;trace&nbsp;:&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Complex</span>.t
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Complex</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal_cols&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ofs:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;scal_rows&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?ofs:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.vec&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?ac:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit
@@ -127,6 +140,7 @@
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;div&nbsp;:&nbsp;<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.binop
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;axpy&nbsp;:
 &nbsp;&nbsp;&nbsp;&nbsp;?alpha:<span class="constructor">Complex</span>.t&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?xr:int&nbsp;<span class="keywordsign">-&gt;</span>
@@ -161,6 +175,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?upb:bool&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?br:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?bc:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Lacaml__C</span>.mat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Complex</span>.t
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ssqr_diff&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;?patt:<span class="constructor">Lacaml__C</span>.<span class="constructor">Mat</span>.patt&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?m:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?n:int&nbsp;<span class="keywordsign">-&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;?ar:int&nbsp;<span class="keywordsign">-&gt;</span>

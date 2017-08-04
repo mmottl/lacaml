@@ -28,9 +28,12 @@
 
 <pre><span class="keyword">module</span> Mat: <code class="code">sig</code> <a href="Lacaml__common.Types.Mat.html">..</a> <code class="code">end</code></pre><hr width="100%">
 
-<pre><span id="TYPEunop"><span class="keyword">type</span> <code class="type">'mat</code> unop</span> = <code class="type">?m:int -><br>       ?n:int -> ?br:int -> ?bc:int -> ?b:'mat -> ?ar:int -> ?ac:int -> 'mat -> 'mat</code> </pre>
+<pre><span id="TYPEpatt"><span class="keyword">type</span> <code class="type"></code>patt</span> = <code class="type">[ `full | `lpent of int | `ltri | `upent of int | `utri ]</code> </pre>
 
 
-<pre><span id="TYPEbinop"><span class="keyword">type</span> <code class="type">'mat</code> binop</span> = <code class="type">?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:'mat -> ?ar:int -> ?ac:int -> 'mat -> ?br:int -> ?bc:int -> 'mat -> 'mat</code> </pre>
+<pre><span id="TYPEunop"><span class="keyword">type</span> <code class="type">'mat</code> unop</span> = <code class="type">?patt:<a href="Lacaml__common.Types.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -> ?br:int -> ?bc:int -> ?b:'mat -> ?ar:int -> ?ac:int -> 'mat -> 'mat</code> </pre>
+
+
+<pre><span id="TYPEbinop"><span class="keyword">type</span> <code class="type">'mat</code> binop</span> = <code class="type">?patt:<a href="Lacaml__common.Types.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:'mat -> ?ar:int -> ?ac:int -> 'mat -> ?br:int -> ?bc:int -> 'mat -> 'mat</code> </pre>
 
 </body></html>

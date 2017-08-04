@@ -1,0 +1,28 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Lacaml" rel="Chapter" href="Lacaml.html">
+<link title="Lacaml__common" rel="Chapter" href="Lacaml__common.html">
+<link title="Lacaml__io" rel="Chapter" href="Lacaml__io.html">
+<link title="Lacaml__S" rel="Chapter" href="Lacaml__S.html">
+<link title="Lacaml__D" rel="Chapter" href="Lacaml__D.html">
+<link title="Lacaml__C" rel="Chapter" href="Lacaml__C.html">
+<link title="Lacaml__Z" rel="Chapter" href="Lacaml__Z.html">
+<link title="Lacaml__utils" rel="Chapter" href="Lacaml__utils.html">
+<link title="Lacaml_version" rel="Chapter" href="Lacaml_version.html"><title>Lacaml__utils.Pentagon</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;kind&nbsp;=&nbsp;<span class="constructor">Upper</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Lower</span>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;normalize_args&nbsp;:
+&nbsp;&nbsp;&nbsp;&nbsp;loc:string&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;m:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;n:int&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">`</span>full&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>lpent&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>ltri&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>upent&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span>utri&nbsp;]&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Lacaml__utils</span>.<span class="constructor">Pentagon</span>.kind&nbsp;*&nbsp;int
+<span class="keyword">end</span></code></body></html>

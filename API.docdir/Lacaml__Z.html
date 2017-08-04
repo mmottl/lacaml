@@ -563,10 +563,15 @@ Pretty-printer for matrices.<br>
 <br>
 <div class="h7" id="7_Auxiliaryroutines">Auxiliary routines</div><br>
 
-<pre><span id="VALlacpy"><span class="keyword">val</span> lacpy</span> : <code class="type">?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__Z.html#TYPEmat">mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">mat</a> -> <a href="Lacaml__Z.html#TYPEmat">mat</a></code></pre><div class="info ">
-<code class="code">lacpy ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a</code> copy the (triangular)
-    (sub-)matrix <code class="code">a</code> (to an optional (sub-)matrix <code class="code">b</code>) and return it.<br>
+<pre><span id="VALlacpy"><span class="keyword">val</span> lacpy</span> : <code class="type">?patt:<a href="Lacaml__common.Types.Mat.html#TYPEpatt">Lacaml__common.Types.Mat.patt</a> -><br>       ?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__Z.html#TYPEmat">mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__Z.html#TYPEmat">mat</a> -> <a href="Lacaml__Z.html#TYPEmat">mat</a></code></pre><div class="info ">
+<code class="code">lacpy ?patt ?uplo ?m ?n ?br ?bc ?b ?ar ?ac a</code> copy the (triangular)
+    (sub-)matrix <code class="code">a</code> (to an optional (sub-)matrix <code class="code">b</code>) and return it.
+    <code class="code">patt</code> is more general than <code class="code">uplo</code> and should be used in its place
+    whenever strict BLAS conformance is not required.  Only one of <code class="code">patt</code>
+    and <code class="code">uplo</code> can be specified at a time.<br>
+<b>Raises</b> <code>Failure</code> if both <code class="code">patt</code> and <code class="code">uplo</code> are specified simultaneously<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">uplo</code> : default = whole matrix</div>
 <div class="param_info"><code class="code">b</code> : The target matrix.  By default a fresh matrix to
              accommodate the sizes <code class="code">m</code> and <code class="code">n</code> and the offsets <code class="code">br</code>

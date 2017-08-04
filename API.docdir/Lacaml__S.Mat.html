@@ -44,10 +44,13 @@
 <br>
 <h5 id="5_Matrixoperations">Matrix operations</h5><br>
 
-<pre><span id="TYPEunop"><span class="keyword">type</span> <code class="type"></code>unop</span> = <code class="type">?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a></code> </pre>
+<pre><span id="TYPEpatt"><span class="keyword">type</span> <code class="type"></code>patt</span> = <code class="type">[ `full | `lpent of int | `ltri | `upent of int | `utri ]</code> </pre>
 
 
-<pre><span id="TYPEbinop"><span class="keyword">type</span> <code class="type"></code>binop</span> = <code class="type">?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a></code> </pre>
+<pre><span id="TYPEunop"><span class="keyword">type</span> <code class="type"></code>unop</span> = <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a></code> </pre>
+
+
+<pre><span id="TYPEbinop"><span class="keyword">type</span> <code class="type"></code>binop</span> = <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       ?c:<a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -><br>       ?ar:int -><br>       ?ac:int -><br>       <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a></code> </pre>
 
 <br>
 <h6 id="6_Creationofmatrices">Creation of matrices</h6><br>
@@ -103,295 +106,297 @@
 <h6 id="6_Unarymatrixoperations">Unary matrix operations</h6><br>
 
 <pre><span id="VALabs"><span class="keyword">val</span> abs</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">abs ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the absolute value of
+<code class="code">abs ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the absolute value of
       the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
+      row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALsignum"><span class="keyword">val</span> signum</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">signum ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the sign value (<code class="code">-1</code> for
+<code class="code">signum ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the sign value (<code class="code">-1</code> for
       negative numbers, <code class="code">0</code> (or <code class="code">-0</code>) for zero, <code class="code">1</code> for positive numbers,
       <code class="code">nan</code> for <code class="code">nan</code>) of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the
-      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the
-      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
-      a fresh matrix will be used.  The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALsqr"><span class="keyword">val</span> sqr</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">sqr ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the square of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALsqrt"><span class="keyword">val</span> sqrt</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">sqrt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the square root of the
-      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALcbrt"><span class="keyword">val</span> cbrt</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">cbrt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the cubic root of the
-      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALexp"><span class="keyword">val</span> exp</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">exp ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the exponential of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALexp2"><span class="keyword">val</span> exp2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">exp2 ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the base-2 exponential of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALexpm1"><span class="keyword">val</span> expm1</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">expm1 ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes <code class="code">exp a -. 1.</code> of the elements
-      in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALlog"><span class="keyword">val</span> log</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">log ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the logarithm of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALlog10"><span class="keyword">val</span> log10</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">log10 ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the base-10 logarithm of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALlog2"><span class="keyword">val</span> log2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">log2 ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes base-2 logarithm of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALlog1p"><span class="keyword">val</span> log1p</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">log1p ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes <code class="code">log (1 + a)</code> of the elements
-      in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALsin"><span class="keyword">val</span> sin</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">sin ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the sine of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALcos"><span class="keyword">val</span> cos</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">cos ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the cosine of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALtan"><span class="keyword">val</span> tan</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">tan ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the tangent of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALasin"><span class="keyword">val</span> asin</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">asin ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the arc sine of the elements in
-      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALacos"><span class="keyword">val</span> acos</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">acos ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the arc cosine of the
-      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
-      <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALatan"><span class="keyword">val</span> atan</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">atan ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the arc tangent of the
-      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
-      <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALsinh"><span class="keyword">val</span> sinh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">sinh ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic sine of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALcosh"><span class="keyword">val</span> cosh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">cosh ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic cosine of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALtanh"><span class="keyword">val</span> tanh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">tanh ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic tangent of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALasinh"><span class="keyword">val</span> asinh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">asinh ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic arc sine of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALacosh"><span class="keyword">val</span> acosh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">acosh ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic arc cosine of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALatanh"><span class="keyword">val</span> atanh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">atanh ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic arc tangent of
-      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALfloor"><span class="keyword">val</span> floor</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">floor ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the floor of the elements
-      in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALceil"><span class="keyword">val</span> ceil</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">ceil ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the ceiling of the elements
-      in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALround"><span class="keyword">val</span> round</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">round ?m ?n ?br ?bc ?b ?ar ?ac a</code> rounds the elements in the <code class="code">m</code> by <code class="code">n</code>
-      sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code>
+      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code>
       is given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
       otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
-<pre><span id="VALtrunc"><span class="keyword">val</span> trunc</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">trunc ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the truncation of the elements
-      in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in
-      row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in
-      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALerf"><span class="keyword">val</span> erf</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">erf ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the error function of the elements
+<pre><span id="VALsqr"><span class="keyword">val</span> sqr</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">sqr ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the square of the elements
       in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will be stored in there
-      using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
-      The resulting matrix is returned.<br>
-</div>
-
-<pre><span id="VALerfc"><span class="keyword">val</span> erfc</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">erfc ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the complementary error
-      function of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code>
-      starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the result will
+      and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result will
       be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix
       will be used.  The resulting matrix is returned.<br>
 </div>
 
-<pre><span id="VALlogistic"><span class="keyword">val</span> logistic</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">logistic ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the logistic function
-      <code class="code">1/(1 + exp(-a)</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the
-      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the
+<pre><span id="VALsqrt"><span class="keyword">val</span> sqrt</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">sqrt ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the square root of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALcbrt"><span class="keyword">val</span> cbrt</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">cbrt ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the cubic root of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALexp"><span class="keyword">val</span> exp</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">exp ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the exponential of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALexp2"><span class="keyword">val</span> exp2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">exp2 ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the base-2 exponential of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
       result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
       a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALexpm1"><span class="keyword">val</span> expm1</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">expm1 ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes <code class="code">exp a -. 1.</code> of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALlog"><span class="keyword">val</span> log</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">log ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the logarithm of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALlog10"><span class="keyword">val</span> log10</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">log10 ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the base-10 logarithm of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALlog2"><span class="keyword">val</span> log2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">log2 ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes base-2 logarithm of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALlog1p"><span class="keyword">val</span> log1p</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">log1p ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes <code class="code">log (1 + a)</code> of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALsin"><span class="keyword">val</span> sin</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">sin ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the sine of the elements in
+      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column
+      <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result will be stored in
+      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
+      The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALcos"><span class="keyword">val</span> cos</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">cos ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the cosine of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALtan"><span class="keyword">val</span> tan</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">tan ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the tangent of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALasin"><span class="keyword">val</span> asin</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">asin ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the arc sine of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALacos"><span class="keyword">val</span> acos</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">acos ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the arc cosine of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALatan"><span class="keyword">val</span> atan</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">atan ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the arc tangent of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALsinh"><span class="keyword">val</span> sinh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">sinh ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic sine of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALcosh"><span class="keyword">val</span> cosh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">cosh ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic cosine of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALtanh"><span class="keyword">val</span> tanh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">tanh ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic tangent of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALasinh"><span class="keyword">val</span> asinh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">asinh ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic arc
+      sine of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code>
+      starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is
+      given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALacosh"><span class="keyword">val</span> acosh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">acosh ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic arc
+      cosine of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code>
+      starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is
+      given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALatanh"><span class="keyword">val</span> atanh</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">atanh ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the hyperbolic arc
+      tangent of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code>
+      starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is
+      given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALfloor"><span class="keyword">val</span> floor</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">floor ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the floor of the elements
+      in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
+      and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result will
+      be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix
+      will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALceil"><span class="keyword">val</span> ceil</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">ceil ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the ceiling of the
+      elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result
+      will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh
+      matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALround"><span class="keyword">val</span> round</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">round ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> rounds the elements in the <code class="code">m</code>
+      by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column
+      <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the result will be stored in
+      there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
+      The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALtrunc"><span class="keyword">val</span> trunc</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">trunc ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the truncation of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALerf"><span class="keyword">val</span> erf</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">erf ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the error function of
+      the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is given, the
+      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
+      a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALerfc"><span class="keyword">val</span> erfc</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">erfc ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the complementary error
+      function of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix
+      <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is
+      given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
+</div>
+
+<pre><span id="VALlogistic"><span class="keyword">val</span> logistic</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<code class="code">logistic ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the logistic function
+      <code class="code">1/(1 + exp(-a)</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix
+      <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is
+      given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALrelu"><span class="keyword">val</span> relu</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">relu ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the rectified linear unit
-      function <code class="code">max(a, 0)</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of
-      the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given,
-      the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
-      a fresh matrix will be used.  The resulting matrix is returned.<br>
+<code class="code">relu ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the rectified linear unit
+      function <code class="code">max(a, 0)</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the
+      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code>
+      is given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALsoftplus"><span class="keyword">val</span> softplus</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">softplus ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the softplus function
-      <code class="code">log(1 + exp(x)</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the
-      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the
-      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
-      a fresh matrix will be used.  The resulting matrix is returned.<br>
+<code class="code">softplus ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the softplus function
+      <code class="code">log(1 + exp(x)</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix
+      <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code> is
+      given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALsoftsign"><span class="keyword">val</span> softsign</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">softsign ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the softsign function
+<code class="code">softsign ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> computes the softsign function
       <code class="code">x / (1 + abs(x))</code> of the elements in the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the
-      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code>.  If <code class="code">b</code> is given, the
-      result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise
-      a fresh matrix will be used.  The resulting matrix is returned.<br>
+      matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.  If <code class="code">b</code>
+      is given, the result will be stored in there using offsets <code class="code">br</code> and <code class="code">bc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 <br>
 <h6 id="6_Binarymatrixoperations">Binary matrix operations</h6><br>
 
 <pre><span id="VALpow"><span class="keyword">val</span> pow</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEbinop">binop</a></code></pre><div class="info ">
-<code class="code">pow ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes <code class="code">pow(a, b)</code> for the
-      <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column
-      <code class="code">ac</code> with the corresponding sub-matrix of the matrix <code class="code">b</code> starting in row
-      <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given, the result will be stored in
-      there starting in row <code class="code">cr</code> and column <code class="code">cc</code>, otherwise a fresh matrix
-      will be used.  The resulting matrix is returned.<br>
+<code class="code">pow ?patt ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes <code class="code">pow(a, b)</code> for
+      the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and
+      column <code class="code">ac</code> and pattern <code class="code">patt</code> with the corresponding sub-matrix of
+      the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given,
+      the result will be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALatan2"><span class="keyword">val</span> atan2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEbinop">binop</a></code></pre><div class="info ">
-<code class="code">atan2 ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes <code class="code">atan2(a, b)</code> for the
-      <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code> and column
-      <code class="code">ac</code> with the corresponding sub-matrix of the matrix <code class="code">b</code> starting in row
-      <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given, the result will be stored in
-      there starting in row <code class="code">cr</code> and column <code class="code">cc</code>, otherwise a fresh matrix
-      will be used.  The resulting matrix is returned.
+<code class="code">atan2 ?patt ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes
+      <code class="code">atan2(a, b)</code> for the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting
+      in row <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code> with the corresponding
+      sub-matrix of the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.
+      If <code class="code">c</code> is given, the result will be stored in there starting in row <code class="code">cr</code>
+      and column <code class="code">cc</code>, otherwise a fresh matrix will be used.  The resulting
+      matrix is returned.
 <p>
 
       NOTE: WARNING!  From a geometric point of view, the <code class="code">atan2</code> function takes
@@ -401,40 +406,41 @@
 </div>
 
 <pre><span id="VALhypot"><span class="keyword">val</span> hypot</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEbinop">binop</a></code></pre><div class="info ">
-<code class="code">hypot ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes <code class="code">sqrt(a*a + b*b)</code>
+<code class="code">hypot ?patt ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes <code class="code">sqrt(a*a+b*b)</code>
       for the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row <code class="code">ar</code>
-      and column <code class="code">ac</code> with the corresponding sub-matrix of the matrix <code class="code">b</code>
-      starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given, the result will
-      be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>, otherwise a
-      fresh matrix will be used.  The resulting matrix is returned.<br>
+      and column <code class="code">ac</code> and pattern <code class="code">patt</code> with the corresponding sub-matrix of
+      the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given,
+      the result will be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALmin2"><span class="keyword">val</span> min2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEbinop">binop</a></code></pre><div class="info ">
-<code class="code">min2 ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes the elementwise
+<code class="code">min2 ?patt ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes the elementwise
       minimum of the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
-      <code class="code">ar</code> and column <code class="code">ac</code> with the corresponding sub-matrix of the matrix
-      <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given, the result
-      will be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>, otherwise
-      a fresh matrix will be used.  The resulting matrix is returned.<br>
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code> with the corresponding sub-matrix
+      of the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given,
+      the result will be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 
 <pre><span id="VALmax2"><span class="keyword">val</span> max2</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEbinop">binop</a></code></pre><div class="info ">
-<code class="code">max2 ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes the elementwise
+<code class="code">max2 ?patt ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b</code> computes the elementwise
       maximum of the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix <code class="code">a</code> starting in row
-      <code class="code">ar</code> and column <code class="code">ac</code> with the corresponding sub-matrix of the matrix
-      <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given, the result
-      will be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>, otherwise
-      a fresh matrix will be used.  The resulting matrix is returned.<br>
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code> with the corresponding sub-matrix
+      of the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.  If <code class="code">c</code> is given,
+      the result will be stored in there starting in row <code class="code">cr</code> and column <code class="code">cc</code>,
+      otherwise a fresh matrix will be used.  The resulting matrix is returned.<br>
 </div>
 <br>
 <h6 id="6_Ternarymatrixoperations">Ternary matrix operations</h6><br>
 
-<pre><span id="VALcpab"><span class="keyword">val</span> cpab</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">cpab ?m ?n ?cr ?cc c ?ar ?ac a ?br ?bc b</code> multiplies designated <code class="code">m</code>-by-<code class="code">n</code>
-      range of elements of matrices <code class="code">a</code> and <code class="code">b</code> elementwise, and adds the
-      result to and stores it in the specified range in <code class="code">c</code>.  This function
-      is useful for convolutions.  Similar to <code class="code">Vec.zpxy</code>.<br>
+<pre><span id="VALcpab"><span class="keyword">val</span> cpab</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">cpab ?patt ?m ?n ?cr ?cc c ?ar ?ac a ?br ?bc b</code> multiplies designated
+      <code class="code">m</code>-by-<code class="code">n</code> range of elements of matrices <code class="code">a</code> and <code class="code">b</code> and pattern <code class="code">patt</code>
+      elementwise, and adds the result to and stores it in the specified range
+      in <code class="code">c</code>.  This function is useful for convolutions.  Similar to <code class="code">Vec.zpxy</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code></div>
 <div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">a</code></div>
 <div class="param_info"><code class="code">cr</code> : default = 1</div>
@@ -444,12 +450,14 @@
 <div class="param_info"><code class="code">br</code> : default = 1</div>
 <div class="param_info"><code class="code">bc</code> : default = 1</div>
 
-<pre><span id="VALcmab"><span class="keyword">val</span> cmab</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">cmab ?m ?n ?cr ?cc c ?ar ?ac a ?br ?bc b</code> multiplies designated <code class="code">m</code>-by-<code class="code">n</code>
-      range of elements of matrices <code class="code">a</code> and <code class="code">b</code> elementwise, and subtracts the
-      result from and stores it in the specified range in <code class="code">c</code>.  This function
-      is useful for convolutions.  Similar to <code class="code">Vec.zmxy</code>.<br>
+<pre><span id="VALcmab"><span class="keyword">val</span> cmab</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?cr:int -><br>       ?cc:int -><br>       <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">cmab ?patt ?m ?n ?cr ?cc c ?ar ?ac a ?br ?bc b</code> multiplies designated
+      <code class="code">m</code>-by-<code class="code">n</code> range of elements of matrices <code class="code">a</code> and <code class="code">b</code> elementwise and
+      pattern <code class="code">patt</code> and subtracts the result from and stores it in the
+      specified range in <code class="code">c</code>.  This function is useful for convolutions.
+      Similar to <code class="code">Vec.zmxy</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code></div>
 <div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">a</code></div>
 <div class="param_info"><code class="code">cr</code> : default = 1</div>
@@ -461,11 +469,14 @@
 <br>
 <h6 id="6_Miscellaneousfunctions">Miscellaneous functions</h6><br>
 
-<pre><span id="VALlog_sum_exp"><span class="keyword">val</span> log_sum_exp</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float</code></pre><div class="info ">
-<code class="code">log_sum_exp ?m ?n ?ar ?ac a</code> computes the logarithm of the sum of
+<pre><span id="VALlog_sum_exp"><span class="keyword">val</span> log_sum_exp</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float</code></pre><div class="info ">
+<code class="code">log_sum_exp ?patt ?m ?n ?ar ?ac a</code> computes the logarithm of the sum of
       exponentials of all elements in the <code class="code">m</code>-by-<code class="code">n</code> submatrix starting at row
-      <code class="code">ar</code> and column <code class="code">ac</code>.<br>
+      <code class="code">ar</code> and column <code class="code">ac</code> and pattern <code class="code">patt</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
+<div class="param_info"><code class="code">m</code> : default = number of rows of <code class="code">a</code></div>
+<div class="param_info"><code class="code">n</code> : default = number of columns of <code class="code">a</code></div>
 <br>
 <h6 id="6_Creationofmatricesandaccessors">Creation of matrices and accessors</h6><br>
 
@@ -642,10 +653,11 @@
 <br>
 <h6 id="6_Matrixtransformations">Matrix transformations</h6><br>
 
-<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?uplo:[ `L | `U ] -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">swap ?m ?n ?ar ?ac a ?br ?bc b</code> swaps the contents of (sub-matrices)
-        <code class="code">a</code> and <code class="code">b</code>.<br>
+<pre><span id="VALswap"><span class="keyword">val</span> swap</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">swap ?patt ?m ?n ?ar ?ac a ?br ?bc b</code>
+        swaps the contents of (sub-matrices) <code class="code">a</code> and <code class="code">b</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">m</code> : default = greater n s.t. <code class="code">ar + m - 1 &lt;= dim1 a</code></div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ac + n - 1 &lt;= dim2 a</code></div>
 <div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
@@ -653,13 +665,21 @@
 <div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
 <div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
 
-<pre><span id="VALtranspose_copy"><span class="keyword">val</span> transpose_copy</span> : <code class="type"><a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
+<pre><span id="VALtranspose_copy"><span class="keyword">val</span> transpose_copy</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?br:int -><br>       ?bc:int -><br>       ?b:<a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a></code></pre><div class="info ">
 <code class="code">transpose_copy ?m ?n ?br ?bc ?b ?ar ?ac a</code><br>
 <b>Returns</b> the transpose of
       (sub-)matrix <code class="code">a</code>.  If <code class="code">b</code> is given, the result will be stored in there
       using offsets <code class="code">br</code> and <code class="code">bc</code>, otherwise a fresh matrix will be used.
       NOTE: this operations does _not_ support in-place transposes!<br>
 </div>
+<div class="param_info"><code class="code">m</code> : default = greater n s.t. <code class="code">ar + m - 1 &lt;= dim1 a</code></div>
+<div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ac + n - 1 &lt;= dim2 a</code></div>
+<div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">b</code> : default = fresh matrix with <code class="code">br + m - 1</code> rows and
+                         <code class="code">bc + n - 1</code> columns</div>
+<div class="param_info"><code class="code">ar</code> : default = <code class="code">1</code></div>
+<div class="param_info"><code class="code">ac</code> : default = <code class="code">1</code></div>
 
 <pre><span id="VALdetri"><span class="keyword">val</span> detri</span> : <code class="type">?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
 <code class="code">detri ?up ?n ?ar ?ac a</code> takes a triangular (sub-)matrix <code class="code">a</code>, i.e. one
@@ -693,18 +713,18 @@
 <br>
 <h6 id="6_Operationsononematrix">Operations on one matrix</h6><br>
 
-<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float -> unit</code></pre><div class="info ">
-<code class="code">fill ?m ?n ?ar ?ac a x</code> fills the specified sub-matrix in <code class="code">a</code> with value
-      <code class="code">x</code>.<br>
+<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float -> unit</code></pre><div class="info ">
+<code class="code">fill ?patt ?m ?n ?ar ?ac a x</code> fills the specified sub-matrix in <code class="code">a</code>
+      with value <code class="code">x</code>.<br>
 </div>
 
-<pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float</code></pre><div class="info ">
+<pre><span id="VALsum"><span class="keyword">val</span> sum</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float</code></pre><div class="info ">
 <code class="code">sum ?m ?n ?ar ?ac a</code> computes the sum of all elements in
       the <code class="code">m</code>-by-<code class="code">n</code> submatrix starting at row <code class="code">ar</code> and column <code class="code">ac</code>.<br>
 </div>
 
 <pre><span id="VALadd_const"><span class="keyword">val</span> add_const</span> : <code class="type">float -> <a href="Lacaml__S.Mat.html#TYPEunop">unop</a></code></pre><div class="info ">
-<code class="code">add_const c ?m ?n ?br ?bc ?b ?ar ?ac a</code> adds constant <code class="code">c</code> to the
+<code class="code">add_const c ?patt ?m ?n ?br ?bc ?b ?ar ?ac a</code> adds constant <code class="code">c</code> to the
       designated <code class="code">m</code> by <code class="code">n</code> submatrix in <code class="code">a</code> and stores the result in the
       designated submatrix in <code class="code">b</code>.<br>
 </div>
@@ -744,17 +764,18 @@
       diagonal elements will be returned.<br>
 </div>
 
-<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?m:int -> ?n:int -> float -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">scal ?m ?n alpha ?ar ?ac a</code> BLAS <code class="code">scal</code> function for (sub-)matrices.<br>
+<pre><span id="VALscal"><span class="keyword">val</span> scal</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -> ?n:int -> float -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">scal ?patt ?m ?n alpha ?ar ?ac a</code> BLAS <code class="code">scal</code> function for
+      (sub-)matrices.<br>
 </div>
 
-<pre><span id="VALscal_cols"><span class="keyword">val</span> scal_cols</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?ofs:int -> <a href="Lacaml__S.html#TYPEvec">Lacaml__S.vec</a> -> unit</code></pre><div class="info ">
-<code class="code">scal_cols ?m ?n ?ar ?ac a ?ofs alphas</code> column-wise <code class="code">scal</code>
+<pre><span id="VALscal_cols"><span class="keyword">val</span> scal_cols</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?ofs:int -> <a href="Lacaml__S.html#TYPEvec">Lacaml__S.vec</a> -> unit</code></pre><div class="info ">
+<code class="code">scal_cols ?patt ?m ?n ?ar ?ac a ?ofs alphas</code> column-wise <code class="code">scal</code>
       function for matrices.<br>
 </div>
 
-<pre><span id="VALscal_rows"><span class="keyword">val</span> scal_rows</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ofs:int -> <a href="Lacaml__S.html#TYPEvec">Lacaml__S.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">scal_rows ?m ?n ?ofs alphas ?ar ?ac a</code> row-wise <code class="code">scal</code>
+<pre><span id="VALscal_rows"><span class="keyword">val</span> scal_rows</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ofs:int -> <a href="Lacaml__S.html#TYPEvec">Lacaml__S.vec</a> -> ?ar:int -> ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">scal_rows ?patt ?m ?n ?ofs alphas ?ar ?ac a</code> row-wise <code class="code">scal</code>
       function for matrices.<br>
 </div>
 
@@ -832,8 +853,8 @@
       will be used.  The resulting matrix is returned.<br>
 </div>
 
-<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:float -><br>       ?m:int -><br>       ?n:int -><br>       ?xr:int -><br>       ?xc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?yr:int -> ?yc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
-<code class="code">axpy ?alpha ?m ?n ?xr ?xc x ?yr ?yc y</code> BLAS <code class="code">axpy</code> function for
+<pre><span id="VALaxpy"><span class="keyword">val</span> axpy</span> : <code class="type">?alpha:float -><br>       ?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?xr:int -><br>       ?xc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?yr:int -> ?yc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> unit</code></pre><div class="info ">
+<code class="code">axpy ?alpha ?patt ?m ?n ?xr ?xc x ?yr ?yc y</code> BLAS <code class="code">axpy</code> function for
       matrices.<br>
 </div>
 
@@ -894,13 +915,14 @@
 <div class="param_info"><code class="code">br</code> : default = <code class="code">1</code></div>
 <div class="param_info"><code class="code">bc</code> : default = <code class="code">1</code></div>
 
-<pre><span id="VALssqr_diff"><span class="keyword">val</span> ssqr_diff</span> : <code class="type">?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float</code></pre><div class="info ">
-<code class="code">ssqr_diff ?m ?n ?ar ?ac a ?br ?bc b</code><br>
+<pre><span id="VALssqr_diff"><span class="keyword">val</span> ssqr_diff</span> : <code class="type">?patt:<a href="Lacaml__S.Mat.html#TYPEpatt">patt</a> -><br>       ?m:int -><br>       ?n:int -><br>       ?ar:int -><br>       ?ac:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> ?br:int -> ?bc:int -> <a href="Lacaml__S.html#TYPEmat">Lacaml__S.mat</a> -> float</code></pre><div class="info ">
+<code class="code">ssqr_diff ?patt ?m ?n ?ar ?ac a ?br ?bc b</code><br>
 <b>Returns</b> the sum of squared
       differences between the <code class="code">m</code> by <code class="code">n</code> sub-matrix of the matrix
       <code class="code">a</code> starting in row <code class="code">ar</code> and column <code class="code">ac</code> with the corresponding
       sub-matrix of the matrix <code class="code">b</code> starting in row <code class="code">br</code> and column <code class="code">bc</code>.<br>
 </div>
+<div class="param_info"><code class="code">patt</code> : default = <code class="code">`full</code></div>
 <div class="param_info"><code class="code">m</code> : default = greater n s.t. <code class="code">ar + m - 1 &lt;= dim1 a</code></div>
 <div class="param_info"><code class="code">n</code> : default = greater n s.t. <code class="code">ac + n - 1 &lt;= dim2 a</code></div>
 <div class="param_info"><code class="code">ar</code> : default = 1</div>
