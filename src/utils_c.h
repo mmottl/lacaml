@@ -21,8 +21,6 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/* Store two doubles in an OCaml-block (complex number) */
-
 #ifndef UTILS_C
 #define UTILS_C
 
@@ -85,5 +83,7 @@ static inline pentagon_kind get_pentagon_kind(value vPKIND)
 {
   return (pentagon_kind) Int_val(vPKIND);
 }
+
+extern double exp10(double arg);
 
 #endif /* UTILS_C */

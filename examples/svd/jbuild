@@ -1,0 +1,12 @@
+(jbuild_version 1)
+
+(executables (
+  (names (svd))
+  (flags (
+    :standard
+    -w -9
+    -safe-string -strict-sequence
+    -principal -short-paths
+  ))
+  (libraries (lacaml))
+))

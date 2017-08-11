@@ -1,0 +1,94 @@
+(jbuild_version 1)
+
+(library (
+  (name lacaml)
+  (public_name lacaml)
+  (modules (
+    Lacaml Lacaml__common Lacaml__io
+    Lacaml__S Lacaml__D Lacaml__C Lacaml__Z
+    Lacaml__utils Lacaml__version
+    Lacaml__float32 Lacaml__float64
+    Lacaml__complex32 Lacaml__complex64
+    Lacaml__real_io Lacaml__complex_io
+    Lacaml__impl4_S Lacaml__impl4_D Lacaml__impl4_C Lacaml__impl4_Z
+    Lacaml__impl2_S Lacaml__impl2_D Lacaml__impl2_C Lacaml__impl2_Z
+    Lacaml__vec4_S Lacaml__vec4_D Lacaml__vec4_C Lacaml__vec4_Z
+    Lacaml__vec2_S Lacaml__vec2_D Lacaml__vec2_C Lacaml__vec2_Z
+    Lacaml__mat4_S Lacaml__mat4_D Lacaml__mat4_C Lacaml__mat4_Z
+    Lacaml__mat2_S Lacaml__mat2_D Lacaml__mat2_C Lacaml__mat2_Z
+  ))
+  (flags (
+    :standard
+    -w -9
+    -safe-string -strict-sequence
+    -principal -short-paths
+  ))
+  (c_names (
+    impl_c utils_c
+    vec2_S_c vec2_D_c vec2_C_c vec2_Z_c
+    vec4_S_c vec4_D_c vec4_C_c vec4_Z_c
+    mat2_S_c mat2_D_c mat2_C_c mat2_Z_c
+    mat4_S_c mat4_D_c mat4_C_c mat4_Z_c
+    impl2_S_c impl2_D_c impl2_C_c impl2_Z_c
+    impl4_S_c impl4_D_c impl4_C_c impl4_Z_c
+  ))
+  (c_flags (
+    (:include c_flags.sexp) -g -O3 -march=native -fPIC -DPIC
+    ; NOTE: for debugging before releases
+    ; -Wall -pedantic -Wextra -Wunused -Wno-long-long -Wno-keyword-macro
+  ))
+  (c_library_flags (:include c_library_flags.sexp))
+  (libraries (bigarray))
+))
+
+(rule (
+  (targets (c_flags.sexp c_library_flags.sexp))
+  (deps (config/discover.exe))
+  (action (run ${<} -ocamlc ${OCAMLC}))
+))
+
+(rule (
+  (targets (
+    lacaml.mli
+    ;
+    lacaml__S.mli lacaml__S.ml
+    lacaml__D.mli lacaml__D.ml
+    lacaml__C.mli lacaml__C.ml
+    lacaml__Z.mli lacaml__Z.ml
+    ;
+    lacaml__impl4_S.mli lacaml__impl4_S.ml
+    lacaml__impl4_D.mli lacaml__impl4_D.ml
+    lacaml__impl4_C.mli lacaml__impl4_C.ml
+    lacaml__impl4_Z.mli lacaml__impl4_Z.ml
+    lacaml__impl2_S.mli lacaml__impl2_S.ml
+    lacaml__impl2_D.mli lacaml__impl2_D.ml
+    lacaml__impl2_C.mli lacaml__impl2_C.ml
+    lacaml__impl2_Z.mli lacaml__impl2_Z.ml
+    ;
+    lacaml__mat4_S.mli lacaml__mat4_S.ml
+    lacaml__mat4_D.mli lacaml__mat4_D.ml
+    lacaml__mat4_C.mli lacaml__mat4_C.ml
+    lacaml__mat4_Z.mli lacaml__mat4_Z.ml
+    lacaml__mat2_S.mli lacaml__mat2_S.ml
+    lacaml__mat2_D.mli lacaml__mat2_D.ml
+    lacaml__mat2_C.mli lacaml__mat2_C.ml
+    lacaml__mat2_Z.mli lacaml__mat2_Z.ml
+    ;
+    lacaml__vec4_S.mli lacaml__vec4_S.ml
+    lacaml__vec4_D.mli lacaml__vec4_D.ml
+    lacaml__vec4_C.mli lacaml__vec4_C.ml
+    lacaml__vec4_Z.mli lacaml__vec4_Z.ml
+    lacaml__vec2_S.mli lacaml__vec2_S.ml
+    lacaml__vec2_D.mli lacaml__vec2_D.ml
+    lacaml__vec2_C.mli lacaml__vec2_C.ml
+    lacaml__vec2_Z.mli lacaml__vec2_Z.ml
+  ))
+  (deps (
+    config/make_prec_dep.exe
+    SD.mli SD.ml CZ.mli CZ.ml
+    impl_SDCZ.mli impl_SDCZ.ml impl_SD.mli impl_SD.ml impl_CZ.mli impl_CZ.ml
+    mat_SDCZ.mli mat_SDCZ.ml mat_SD.mli mat_SD.ml mat_CZ.mli mat_CZ.ml
+    vec_SDCZ.mli vec_SDCZ.ml vec_SD.mli vec_SD.ml vec_CZ.mli vec_CZ.ml
+  ))
+  (action (run config/make_prec_dep.exe))
+))

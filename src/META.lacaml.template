@@ -1,0 +1,15 @@
+# JBUILDER_GEN
+
+package "top" (
+  description = "Toplevel module for Lacaml"
+  requires = "lacaml"
+  archive(byte) = "lacaml_top.cma"
+  archive(byte, plugin) = "lacaml_top.cma"
+  archive(native) = "lacaml_top.cmxa"
+  archive(native, plugin) = "lacaml_top.cmxs"
+  exists_if = "lacaml_top.cma"
+)
+
+#requires(toploop) += "lacaml.top"
+archive(toploop,byte) += "lacaml_top.cma"
+archive(toploop,native) += "lacaml_top.cmxa"

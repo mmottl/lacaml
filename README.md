@@ -225,10 +225,8 @@ customization.
 
 ##### API documentation
 
-Please refer to the API-documentation that will be generated as HTML-files
-if requested (`make doc`).  It will give more details on the numerous
-functions and supported arguments in the library.  It can also be found
-[online](http://mmottl.github.io/lacaml/API.docdir).
+Besides the Lacaml interface file, the API documentation can also be found
+[online](http://mmottl.github.io/lacaml/api/lacaml).
 
 ##### BLAS/LAPACK man pages
 
@@ -266,6 +264,15 @@ make sure it is suited to your distribution, see the package documentation
 for more details.).
 
 Another alternative for BLAS is [OpenBLAS](https://github.com/xianyi/OpenBLAS).
+
+If a non-standard library or library location is required, the user can override
+the platform-dependent default by setting the following environment variables:
+
+  * `LACAML_CFLAGS`
+  * `LACAML_LIBS`
+
+The first one can be used to add compilation flags, and the second one to
+override the default linking flags (`-lblas` and `-llapack`).
 
 ### Contact Information and Contributing
 

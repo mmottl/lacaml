@@ -1,0 +1,13 @@
+(jbuild_version 1)
+
+(executable (
+  (name discover)
+  (modules discover)
+  (libraries (base stdio configurator))
+))
+
+(executable (
+  (name make_prec_dep)
+  (modules make_prec_dep)
+  (libraries (base stdio str))
+))

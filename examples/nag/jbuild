@@ -1,0 +1,15 @@
+(jbuild_version 1)
+
+(executables (
+  (names (
+    nag_gbsv nag_gesv nag_gtsv nag_pbsv nag_posv
+    nag_ppsv nag_ptsv nag_spsv nag_sysv
+  ))
+  (flags (
+    :standard
+    -w -9
+    -safe-string -strict-sequence
+    -principal -short-paths
+  ))
+  (libraries (lacaml))
+))

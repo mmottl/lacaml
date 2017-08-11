@@ -1,0 +1,14 @@
+(jbuild_version 1)
+
+(library (
+  (name lacaml_top)
+  (public_name lacaml.top)
+  (modes (byte))
+  (flags (
+    :standard
+    -w -9
+    -safe-string -strict-sequence
+    -principal -short-paths
+  ))
+  (libraries (compiler-libs.toplevel lacaml))
+))

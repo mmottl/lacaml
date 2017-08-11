@@ -24,8 +24,10 @@
 // Enable POSIX.1-2001 for use of `struct timespec' and `nanosleep'
 #define _POSIX_C_SOURCE 200112L
 
-#include "utils_c.h"
+#include <math.h>
 #include <caml/alloc.h>
+
+#include "utils_c.h"
 
 #ifdef WIN32
   #include <windows.h>
@@ -33,6 +35,7 @@
   #include <time.h>
 #endif // WIN32
 
+/* Store two doubles in an OCaml-block (complex number) */
 value copy_two_doubles(double d0, double d1)
 {
   value res = caml_alloc_small(2 * Double_wosize, Double_array_tag);
@@ -41,6 +44,8 @@ value copy_two_doubles(double d0, double d1)
   return res;
 }
 
+
+/* Portable sleep function */
 int portable_sleep(int milliseconds)
 {
 #ifdef WIN32
@@ -54,3 +59,16 @@ int portable_sleep(int milliseconds)
   return nanosleep(&tim , &tim2);
 #endif // WIN32
 }
+
+
+/* exp10 */
+
+#ifdef EXTERNAL_EXP10
+
+#ifndef M_LN10
+#define M_LN10 2.30258509299404568402  /* log_e 10 */
+#endif
+
+double exp10(double arg) { return exp(M_LN10 * arg); }
+
+#endif /* EXTERNAL_EXP10 */

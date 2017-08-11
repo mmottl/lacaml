@@ -33,7 +33,6 @@
 
 open Lacaml__common
 open Lacaml__numberxx
-open Types.Mat
 
 (** {6 BLAS-1 interface} *)
 

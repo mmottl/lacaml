@@ -1,0 +1,12 @@
+(jbuild_version 1)
+
+(executable (
+  (name blas)
+  (flags (
+    :standard
+    -w -9
+    -safe-string -strict-sequence
+    -principal -short-paths
+  ))
+  (libraries (lacaml))
+))
