@@ -241,13 +241,14 @@ val fill :
 val sum :
   ?patt : patt -> ?m : int -> ?n : int ->
   ?ar : int -> ?ac : int -> mat -> num_type
-(** [sum ?m ?n ?ar ?ac a] computes the sum of all elements in
-    the [m]-by-[n] submatrix starting at row [ar] and column [ac]. *)
+(** [sum ?patt ?m ?n ?ar ?ac a] computes the sum of all elements in
+    the [m]-by-[n] submatrix using pattern [patt], starting at row [ar] and
+    column [ac].  *)
 
 val add_const : num_type -> unop
 (** [add_const c ?patt ?m ?n ?br ?bc ?b ?ar ?ac a] adds constant [c] to the
-    designated [m] by [n] submatrix in [a] and stores the result in the
-    designated submatrix in [b].
+    designated [m] by [n] submatrix in [a] using pattern [patt] and stores the
+    result in the designated submatrix in [b].
 
     @param patt default = [`full]
     @param m default = [Mat.dim1 a]

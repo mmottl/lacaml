@@ -816,8 +816,8 @@ val cpab :
   mat
   -> unit
 (** [cpab ?patt ?m ?n ?cr ?cc c ?ar ?ac a ?br ?bc b] multiplies designated
-    [m]-by-[n] range of elements of matrices [a] and [b] and pattern [patt]
-    elementwise, and adds the result to and stores it in the specified range
+    [m]-by-[n] range of elements of matrices [a] and [b] using pattern [patt]
+    elementwise and adds the result to and stores it in the specified range
     in [c].  This function is useful for convolutions.  Similar to [Vec.zpxy].
 
     @param patt default = [`full]
@@ -846,7 +846,7 @@ val cmab :
   mat
   -> unit
 (** [cmab ?patt ?m ?n ?cr ?cc c ?ar ?ac a ?br ?bc b] multiplies designated
-    [m]-by-[n] range of elements of matrices [a] and [b] elementwise and
+    [m]-by-[n] range of elements of matrices [a] and [b] elementwise using
     pattern [patt] and subtracts the result from and stores it in the
     specified range in [c].  This function is useful for convolutions.
     Similar to [Vec.zmxy].

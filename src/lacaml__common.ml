@@ -94,6 +94,7 @@ module Types = struct
   end  (* Vec *)
 
   module Mat = struct
+    (** Pattern of a matrix operation *)
     type patt = [
       | `full  (* full matrix *)
       | `utri  (* upper triangular matrix *)
