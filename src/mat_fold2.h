@@ -126,5 +126,6 @@ CAMLprim value BC_NAME(value *argv, int __unused argn)
 }
 
 #undef NAME
+#undef BC_NAME
 #undef INIT
 #undef FUNC
