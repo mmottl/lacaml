@@ -798,6 +798,20 @@ val max2 : binop
     @param ac default = 1
 *)
 
+(** {6 Miscellaneous functions} *)
+
+val log_sum_exp :
+  ?patt : patt -> ?m : int -> ?n : int ->
+  ?ar : int -> ?ac : int -> mat -> num_type
+(** [log_sum_exp ?patt ?m ?n ?ar ?ac a] computes the logarithm of the sum of
+    exponentials of all elements in the [m]-by-[n] submatrix using pattern
+    [patt], starting at row [ar] and column [ac].
+
+    @param patt default = [`full]
+    @param m default = number of rows of [a]
+    @param n default = number of columns of [a]
+*)
+
 
 (** {6 Ternary matrix operations} *)
 
@@ -860,19 +874,4 @@ val cmab :
     @param ac default = 1
     @param br default = 1
     @param bc default = 1
-*)
-
-
-(** {6 Miscellaneous functions} *)
-
-val log_sum_exp :
-  ?patt : patt -> ?m : int -> ?n : int ->
-  ?ar : int -> ?ac : int -> mat -> num_type
-(** [log_sum_exp ?patt ?m ?n ?ar ?ac a] computes the logarithm of the sum of
-    exponentials of all elements in the [m]-by-[n] submatrix starting at row
-    [ar] and column [ac] and pattern [patt].
-
-    @param patt default = [`full]
-    @param m default = number of rows of [a]
-    @param n default = number of columns of [a]
 *)
