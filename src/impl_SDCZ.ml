@@ -585,7 +585,7 @@ external direct_lacpy :
   b : mat ->
   unit = "lacaml_NPREClacpy_stub_bc" "lacaml_NPREClacpy_stub"
 
-let lacpy ?patt ?uplo ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
+let lacpy ?uplo ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.lacpy" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in

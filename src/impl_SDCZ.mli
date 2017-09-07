@@ -519,8 +519,8 @@ val syr2k :
 (** {7 Auxiliary routines} *)
 
 val lacpy :
-  ?patt : Types.Mat.patt ->
   ?uplo : [ `U | `L ] ->
+  ?patt : Types.Mat.patt ->
   ?m : int ->
   ?n : int ->
   ?br : int ->
