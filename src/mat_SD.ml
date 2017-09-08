@@ -767,6 +767,28 @@ external direct_max2 :
 
 let max2 = binop direct_max2 "max2"
 
+external direct_sum_prod :
+  pkind : Pentagon.kind ->
+  pinit : int ->
+  m : int ->
+  n : int ->
+  ar : int ->
+  ac : int ->
+  a : mat ->
+  br : int ->
+  bc : int ->
+  b : mat ->
+  num_type
+  = "lacaml_FPRECsum_prod_mat_stub_bc" "lacaml_FPRECsum_prod_mat_stub"
+
+let sum_prod ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
+  let loc = "Lacaml.FPREC.Mat.sum_prod" in
+  let m = get_dim1_mat loc a_str a ar m_str m in
+  let n = get_dim2_mat loc a_str a ac n_str n in
+  check_dim_mat loc b_str br bc b m n;
+  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  direct_sum_prod ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b
+
 
 (* Ternary matrix operations *)
 

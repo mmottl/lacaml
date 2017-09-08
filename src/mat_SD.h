@@ -303,3 +303,13 @@
 #  define FUNC(acc, x, y) x -= y; x *= x; acc += x
 # endif
 #include "mat_fold2.h"
+
+#define NAME LFUN(sum_prod_mat_stub)
+#define BC_NAME LFUN(sum_prod_mat_stub_bc)
+#define INIT 0.0
+# ifdef FP_FAST_FMA
+#  define FUNC(acc, x, y) acc = SDMATHH(fma)(x, y, acc)
+# else
+#  define FUNC(acc, x, y) acc += x*y
+# endif
+#include "mat_fold2.h"

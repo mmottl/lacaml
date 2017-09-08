@@ -798,6 +798,33 @@ val max2 : binop
     @param ac default = 1
 *)
 
+val sum_prod :
+  ?patt : patt ->
+  ?m : int ->
+  ?n : int ->
+  ?ar : int ->
+  ?ac : int ->
+  mat ->
+  ?br : int ->
+  ?bc : int ->
+  mat ->
+  num_type
+(** [sum_prod ?patt ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of elementwise
+    products between the [m] by [n] sub-matrix of the matrix [a] starting in row
+    [ar] and column [ac] with the corresponding sub-matrix of the matrix [b]
+    starting in row [br] and column [bc].
+
+    @param patt default = [`full]
+    @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
+    @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
+    @param ar default = 1
+    @param ac default = 1
+    @param br default = 1
+    @param bc default = 1
+*)
+
+
+
 (** {6 Miscellaneous functions} *)
 
 val log_sum_exp :
