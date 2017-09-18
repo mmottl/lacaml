@@ -94,13 +94,12 @@ module Types = struct
   end  (* Vec *)
 
   module Mat = struct
-    (** Pattern of a matrix operation *)
     type patt = [
-      | `full  (* full matrix *)
-      | `utri  (* upper triangular matrix *)
-      | `ltri  (* lower triangular matrix *)
-      | `upent of int  (* initial full rows of pentagon *)
-      | `lpent of int  (* initial full columns of pentagon *)
+      | `full  (* Full matrix *)
+      | `utr  (* Upper triangular or trapezoidal matrix *)
+      | `ltr  (* lower triangular or trapezoidal matrix *)
+      | `upent of int  (* Initial full rows of pentagonal matrix *)
+      | `lpent of int  (* Initial full columns of pentagonal matrix *)
     ]
 
     type 'mat unop =

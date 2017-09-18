@@ -604,8 +604,8 @@ let lacpy ?uplo ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
     | Some _, Some _ ->
         failwith (sprintf "%s: only one of [patt] and [uplo] are allowed" loc)
     | (None | Some `full), None -> Pentagon.Upper, -1, 'A'
-    | Some `utri, None | None, Some `U -> Pentagon.Upper, -1, 'U'
-    | Some `ltri, None | None, Some `L -> Pentagon.Lower, -1, 'L'
+    | Some `utr, None | None, Some `U -> Pentagon.Upper, -1, 'U'
+    | Some `ltr, None | None, Some `L -> Pentagon.Lower, -1, 'L'
     | Some `upent pinit, None -> Pentagon.Upper, pinit, '?'
     | Some `lpent pinit, None -> Pentagon.Lower, pinit, '?'
   in

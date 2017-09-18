@@ -75,11 +75,13 @@ let explicit_vec_mat s =
   let type_mat = Str.regexp " *open *Types.Mat *" in
   let s = Str.replace_first type_mat
             "  type patt = [\n    \
-             | `full\n    \
-             | `utri  (* upper triangular matrix *)\n    \
-             | `ltri  (* lower triangular matrix *)\n    \
-             | `upent of int  (* initial full rows *)\n    \
-             | `lpent of int  (* initial full columns *)\n  \
+             | `full  (* Full matrix *)\n    \
+             | `utr  (* Upper triangular or trapezoidal matrix *)\n    \
+             | `ltr  (* lower triangular or trapezoidal matrix *)\n    \
+             | `upent of int  \
+               (* Initial full rows of pentagonal matrix *)\n    \
+             | `lpent of int  \
+               (* Initial full columns of pentagonal matrix *)\n  \
              ]\n\
              \n  \
              type unop =\n    \

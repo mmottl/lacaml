@@ -114,12 +114,22 @@ module Types : sig
   end  (* Vec *)
 
   module Mat : sig
+    (** Pattern of a matrix operation
+
+        The following holds:
+
+          * [`utr = `upent 1]
+          * [`ltr = `lpent 1]
+
+        Whether an operation operates on a triangular or trapezoidal part of a
+        matrix is inferred from size parameters [m] and [n] passed separately.
+    *)
     type patt = [
-      | `full  (* full matrix *)
-      | `utri  (* upper triangular matrix *)
-      | `ltri  (* lower triangular matrix *)
-      | `upent of int  (* initial full rows *)
-      | `lpent of int  (* initial full columns *)
+      | `full  (* Full matrix *)
+      | `utr  (* Upper triangular or trapezoidal matrix *)
+      | `ltr  (* lower triangular or trapezoidal matrix *)
+      | `upent of int  (* Initial full rows of pentagonal matrix *)
+      | `lpent of int  (* Initial full columns of pentagonal matrix *)
     ]
 
     type 'mat unop =
