@@ -494,7 +494,7 @@ let gelsy ?m ?n ?(ar = 1) ?(ac = 1) a ?(rcond = -1.0)
         else jpvt
     | None ->
         let jpvt = create_int32_vec n in
-        Array1.fill jpvt Int32.zero;
+        Array1.fill jpvt 0l;
         jpvt in
 
   let work, lwork =

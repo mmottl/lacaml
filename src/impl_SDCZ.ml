@@ -705,18 +705,18 @@ let larnv ?idist ?iseed ?n ?ofsx ?x () =
     match iseed with
     | None ->
         let iseed = create_int32_vec (ofsiseed + 3) in
-        for i = ofsiseed to ofsiseed + 3 do iseed.{i} <- Int32.one done;
+        for i = ofsiseed to ofsiseed + 3 do iseed.{i} <- 1l done;
         iseed
     | Some iseed ->
         if Array1.dim iseed - ofsiseed < 3 then
           invalid_arg (
             sprintf "%s: iseed needs at least four available elements" loc);
         for i = ofsiseed to ofsiseed + 3 do
-          if iseed.{i} < Int32.zero || iseed.{i} > 4095l then
+          if iseed.{i} < 0l || iseed.{i} > 4095l then
             invalid_arg (
               sprintf "%s: iseed entries must be between 0 and 4095" loc)
         done;
-        if (Int32.to_int iseed.{ofsiseed + 3}) land 1 = 1 then iseed
+        if Int32.logand iseed.{ofsiseed + 3} 1l = 1l then iseed
         else invalid_arg (sprintf "%s: last iseed entry must be odd" loc)
   in
   let ofsx = get_vec_ofs loc x_str ofsx in
