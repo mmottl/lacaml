@@ -130,7 +130,7 @@
 /* Fetch matrix parameters from bigarray */
 #define MAT_PARAMS(M) \
   struct caml_ba_array *big_##M = Caml_ba_array_val(v##M); \
-  long *dims_##M = big_##M->dim; \
+  intnat *dims_##M = big_##M->dim; \
   integer M##R = Long_val(v##M##R); \
   integer M##C = Long_val(v##M##C); \
   integer rows_##M = *dims_##M++; \
