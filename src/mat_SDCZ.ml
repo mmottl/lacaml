@@ -225,7 +225,7 @@ let as_vec mat =
   reshape_1 gen (dim1 mat * dim2 mat)
 
 external direct_swap :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -242,7 +242,7 @@ let swap ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_swap ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 external direct_transpose_copy :
@@ -350,7 +350,7 @@ let trace mat =
   loop n_diag zero
 
 external direct_scal_mat :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -364,11 +364,11 @@ let scal ?patt ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.scal" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_scal_mat ~pkind ~pinit ~m ~n ~alpha ~ar ~ac ~a
 
 external direct_scal_cols :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -385,11 +385,11 @@ let scal_cols ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_vec_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some n));
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_scal_cols ~pkind ~pinit ~m ~n ~ar ~ac ~a ~ofs ~alphas
 
 external direct_scal_rows :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -406,7 +406,7 @@ let scal_rows ?patt ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
   let n = get_dim2_mat loc a_str a ac n_str n in
   let ofs = get_vec_ofs loc alphas_str ofs in
   ignore (get_dim_vec loc alphas_str ofs 1 alphas n_str (Some m));
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_scal_rows ~pkind ~pinit ~m ~n ~ofs ~alphas ~ar ~ac ~a
 
 let vec_create n = Array1.create prec fortran_layout n
@@ -429,7 +429,7 @@ let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
 (* Operations on one matrix *)
 
 external direct_fill :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -443,11 +443,11 @@ let fill ?patt ?m ?n ?(ar = 1) ?(ac = 1) a x =
   let loc = "Lacaml.NPREC.Mat.fill" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_fill ~pkind ~pinit ~m ~n ~ar ~ac ~a ~x
 
 external direct_sum :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -460,12 +460,12 @@ let sum ?patt ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.sum" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_sum ~pkind ~pinit ~m ~n ~ar ~ac ~a
 
 external direct_add_const :
   c : num_type ->
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -482,13 +482,13 @@ let add_const c ?patt ?m ?n
   let loc = "Lacaml.NPREC.Mat.add_const" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let b = get_mat loc b_str create br bc b m n in
   direct_add_const ~c ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 external direct_neg :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -504,13 +504,13 @@ let neg ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.neg" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let b = get_mat loc b_str create br bc b m n in
   direct_neg ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
 external direct_reci :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -526,7 +526,7 @@ let reci ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.reci" in
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let b = get_mat loc b_str create br bc b m n in
   direct_reci ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
@@ -558,7 +558,7 @@ let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
 (* Operations on two matrices *)
 
 external direct_mat_add :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -579,13 +579,13 @@ let add ?patt ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
   direct_mat_add ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_mat_sub :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -606,13 +606,13 @@ let sub ?patt ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
   direct_mat_sub ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_mat_mul :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -633,13 +633,13 @@ let mul ?patt ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
   direct_mat_mul ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_mat_div :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -660,14 +660,14 @@ let div ?patt ?m ?n
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   let c = get_mat loc c_str create cr cc c m n in
   direct_mat_div ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b ~cr ~cc ~c;
   c
 
 external direct_axpy_mat :
   alpha : num_type ->
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -685,7 +685,7 @@ let axpy ?(alpha = one) ?patt ?m ?n
   let m = get_dim1_mat loc x_str x xr m_str m in
   let n = get_dim2_mat loc x_str x xc n_str n in
   check_dim_mat loc y_str yr yc y m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_axpy_mat ~alpha ~pkind ~pinit ~m ~n ~xr ~xc ~x ~yr ~yc ~y
 
 external direct_gemm_diag :
@@ -766,7 +766,7 @@ let symm2_trace
   direct_symm2_trace ~n ~uploa ~ar ~ac ~a ~uplob ~br ~bc ~b
 
 external direct_ssqr_diff :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   m : int ->
   n : int ->
@@ -784,7 +784,7 @@ let ssqr_diff ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
   check_dim_mat loc b_str br bc b m n;
-  let pkind, pinit = Pentagon.normalize_args ~loc ~m ~n patt in
+  let pkind, pinit = Mat_patt.normalize_args ~loc ~m ~n patt in
   direct_ssqr_diff ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 

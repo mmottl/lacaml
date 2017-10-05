@@ -572,7 +572,7 @@ let syr2k ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
 (* LACPY *)
 
 external direct_lacpy :
-  pkind : Pentagon.kind ->
+  pkind : Mat_patt.kind ->
   pinit : int ->
   uplo : char ->
   m : int ->
@@ -603,11 +603,11 @@ let lacpy ?uplo ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
     match patt, uplo with
     | Some _, Some _ ->
         failwith (sprintf "%s: only one of [patt] and [uplo] are allowed" loc)
-    | (None | Some `full), None -> Pentagon.Upper, -1, 'A'
-    | Some `utr, None | None, Some `U -> Pentagon.Upper, -1, 'U'
-    | Some `ltr, None | None, Some `L -> Pentagon.Lower, -1, 'L'
-    | Some `upent pinit, None -> Pentagon.Upper, pinit, '?'
-    | Some `lpent pinit, None -> Pentagon.Lower, pinit, '?'
+    | (None | Some `full), None -> Mat_patt.Upper, -1, 'A'
+    | Some `utr, None | None, Some `U -> Mat_patt.Upper, -1, 'U'
+    | Some `ltr, None | None, Some `L -> Mat_patt.Lower, -1, 'L'
+    | Some `upent pinit, None -> Mat_patt.Upper, pinit, '?'
+    | Some `lpent pinit, None -> Mat_patt.Lower, pinit, '?'
   in
   direct_lacpy ~pkind ~pinit ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b

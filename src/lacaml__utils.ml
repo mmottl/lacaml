@@ -564,8 +564,8 @@ let get_vec_ofs loc var = function
 
 (**)
 
-(* Dealing with pentagonal patterns in matrices *)
-module Pentagon = struct
+(* Dealing with pattern arguments in matrices *)
+module Mat_patt = struct
   type kind = Upper | Lower
 
   let check_upent ~loc ~l ~m =
@@ -587,18 +587,24 @@ module Pentagon = struct
           "%s: initial columns (%d) of lower pentagon exceed maximum [n] (%d)"
           loc l n)
 
-  let check_args ~loc ~m ~n = function
+  let check_args ~loc ~m ~n : Types.Mat.patt option -> unit= function
     | None | Some `full | Some `utr | Some `ltr -> ()
     | Some `upent l -> check_upent ~loc ~l ~m
     | Some `lpent l -> check_lpent ~loc ~l ~n
 
-  let normalize_args ~loc ~m ~n = function
+  let normalize_args ~loc ~m ~n : Types.Mat.patt option -> kind * int = function
     | None | Some `full -> Lower, n
     | Some `utr -> Upper, 1
     | Some `ltr -> Lower, 1
     | Some `upent l -> check_upent ~loc ~l ~m; Upper, l
     | Some `lpent l -> check_lpent ~loc ~l ~n; Lower, l
-end  (* Pentagon *)
+
+  let patt_of_uplo ~(uplo : [`U | `L] option) ~(patt : Types.Mat.patt option) =
+    match uplo with
+    | Some `U -> Some `utr
+    | Some `L -> Some `ltr
+    | _ -> patt
+end  (* Mat_patt *)
 
 (**)
 
