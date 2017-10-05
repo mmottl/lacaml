@@ -35,7 +35,7 @@
   (c_flags (
     (:include c_flags.sexp) -g -O3 -march=native -fPIC -DPIC
     ; NOTE: for debugging before releases
-    ; -Wall -pedantic -Wextra -Wunused -Wno-long-long -Wno-keyword-macro
+    ; -Wall -pedantic -Wextra -Wunused
   ))
   (c_library_flags (:include c_library_flags.sexp))
   (libraries (bigarray))
