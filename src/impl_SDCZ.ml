@@ -46,12 +46,12 @@ module RVec = Lacaml__vec4_NBPREC
 (* SWAP *)
 
 external direct_swap :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECswap_stub_bc" "lacaml_NPRECswap_stub"
 
@@ -67,12 +67,12 @@ let swap ?n ?ofsx ?incx x ?ofsy ?incy y =
 (* SCAL *)
 
 external direct_scal :
-  n : int ->
-  alpha : num_type ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  alpha : num_type_arg ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  unit = "lacaml_NPRECscal_stub"
+  unit = "lacaml_NPRECscal_stub_bc" "lacaml_NPRECscal_stub"
 
 let scal ?n alpha ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.scal" in
@@ -84,12 +84,12 @@ let scal ?n alpha ?ofsx ?incx x =
 (* COPY *)
 
 external direct_copy :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
+  n : (int [@untagged]) ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
 
@@ -110,11 +110,11 @@ let copy ?n ?ofsy ?incy ?y ?ofsx ?incx x =
 (* NRM2 *)
 
 external direct_nrm2 :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec
-  -> float = "lacaml_NPRECnrm2_stub"
+  -> (float [@unboxed]) = "lacaml_NPRECnrm2_stub_bc" "lacaml_NPRECnrm2_stub"
 
 let nrm2 ?n ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.nrm2" in
@@ -126,13 +126,13 @@ let nrm2 ?n ?ofsx ?incx x =
 (* AXPY *)
 
 external direct_axpy :
-  alpha : num_type ->
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  alpha : num_type_arg ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECaxpy_stub_bc" "lacaml_NPRECaxpy_stub"
 
@@ -148,11 +148,11 @@ let axpy ?(alpha = one) ?n ?ofsx ?incx x ?ofsy ?incy y =
 (* AMAX *)
 
 external direct_iamax :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  int = "lacaml_NPRECiamax_stub"
+  (int [@untagged]) = "lacaml_NPRECiamax_stub_bc" "lacaml_NPRECiamax_stub"
 
 let iamax ?n ?ofsx ?incx x =
   let loc = "Lacaml.NPREC.iamax" in
@@ -173,19 +173,19 @@ let amax ?n ?ofsx ?incx x =
 (* GEMV *)
 
 external direct_gemv :
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  m : int ->
-  n : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
   trans : char ->
-  alpha : num_type ->
-  beta : num_type ->
-  ofsx : int ->
-  incx : int ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECgemv_stub_bc" "lacaml_NPRECgemv_stub"
 
@@ -205,21 +205,21 @@ let gemv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
 (* GBMV *)
 
 external direct_gbmv :
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  m : int ->
-  n : int ->
-  kl : int ->
-  ku : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  kl : (int [@untagged]) ->
+  ku : (int [@untagged]) ->
   trans : char ->
-  alpha : num_type ->
-  beta : num_type ->
-  ofsx : int ->
-  incx : int ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECgbmv_stub_bc" "lacaml_NPRECgbmv_stub"
 
@@ -244,18 +244,18 @@ let gbmv ?m ?n ?(beta = zero) ?ofsy ?incy ?y ?(trans = `N) ?(alpha = one)
 (* SYMV *)
 
 external direct_symv :
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
-  alpha : num_type ->
-  beta : num_type ->
-  ofsx : int ->
-  incx : int ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECsymv_stub_bc" "lacaml_NPRECsymv_stub"
 
@@ -273,15 +273,15 @@ let symv ?n ?(beta = zero) ?ofsy ?incy ?y ?(up = true) ?(alpha = one)
 (* TRMV *)
 
 external direct_trmv :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
   trans : char ->
   diag : char ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECtrmv_stub_bc" "lacaml_NPRECtrmv_stub"
 
@@ -300,15 +300,15 @@ let trmv
 (* TRSV *)
 
 external direct_trsv :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
   trans : char ->
   diag : char ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECtrsv_stub_bc" "lacaml_NPRECtrsv_stub"
 
@@ -327,14 +327,14 @@ let trsv
 (* TPMV *)
 
 external direct_tpmv :
-  ofsap : int ->
+  ofsap : (int [@untagged]) ->
   ap : vec ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
   trans : char ->
   diag : char ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECtpmv_stub_bc" "lacaml_NPRECtpmv_stub"
 
@@ -349,14 +349,14 @@ let tpmv ?n ?(trans = `N) ?(diag = `N) ?(up = true) ?ofsap ap ?ofsx ?incx x =
 (* TPSV *)
 
 external direct_tpsv :
-  ofsap : int ->
+  ofsap : (int [@untagged]) ->
   ap : vec ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
   trans : char ->
   diag : char ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECtpsv_stub_bc" "lacaml_NPRECtpsv_stub"
 
@@ -375,20 +375,20 @@ let tpsv ?n ?(trans = `N) ?(diag = `N) ?(up = true) ?ofsap ap ?ofsx ?incx x =
 external direct_gemm :
   transa : char ->
   transb : char ->
-  m : int ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
-  alpha : num_type ->
-  beta : num_type ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
   unit = "lacaml_NPRECgemm_stub_bc" "lacaml_NPRECgemm_stub"
 
 let gemm ?m ?n ?k ?beta ?(cr = 1) ?(cc = 1) ?c
@@ -418,19 +418,19 @@ let gemm ?m ?n ?k ?beta ?(cr = 1) ?(cc = 1) ?c
 external direct_symm :
   side : char ->
   uplo : char ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
-  alpha : num_type ->
-  beta : num_type ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
   unit = "lacaml_NPRECsymm_stub_bc" "lacaml_NPRECsymm_stub"
 
 let symm ?m ?n ?(side = `L) ?(up = true)
@@ -453,15 +453,15 @@ external direct_trmm :
   uplo : char ->
   transa : char ->
   diag : char ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  alpha : num_type ->
+  alpha : num_type_arg ->
   unit = "lacaml_NPRECtrmm_stub_bc" "lacaml_NPRECtrmm_stub"
 
 let trmm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
@@ -482,15 +482,15 @@ external direct_trsm :
   uplo : char ->
   transa : char ->
   diag : char ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  alpha : num_type ->
+  alpha : num_type_arg ->
   unit = "lacaml_NPRECtrsm_stub_bc" "lacaml_NPRECtrsm_stub"
 
 let trsm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
@@ -509,16 +509,16 @@ let trsm ?m ?n ?(side = `L) ?(up = true) ?(transa = `N) ?(diag = `N)
 external direct_syrk :
   uplo : char ->
   trans : char ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
-  alpha : num_type ->
-  beta : num_type ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
   unit = "lacaml_NPRECsyrk_stub_bc" "lacaml_NPRECsyrk_stub"
 
 let syrk ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
@@ -537,19 +537,19 @@ let syrk ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
 external direct_syr2k :
   uplo : char ->
   trans : char ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
-  alpha : num_type ->
-  beta : num_type ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
   unit = "lacaml_NPRECsyr2k_stub_bc" "lacaml_NPRECsyr2k_stub"
 
 let syr2k ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
@@ -573,15 +573,15 @@ let syr2k ?n ?k ?(up = true) ?(beta = zero) ?(cr = 1) ?(cc = 1) ?c
 
 external direct_lacpy :
   pkind : Mat_patt.kind ->
-  pinit : int ->
+  pinit : (int [@untagged]) ->
   uplo : char ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   unit = "lacaml_NPREClacpy_stub_bc" "lacaml_NPREClacpy_stub"
 
@@ -615,14 +615,14 @@ let lacpy ?uplo ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
 (* LASWP  *)
 
 external direct_laswp :
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  k1 : int ->
-  k2 : int ->
+  k1 : (int [@untagged]) ->
+  k2 : (int [@untagged]) ->
   ipiv : int32_vec ->
-  incx : int ->
+  incx : (int [@untagged]) ->
   unit = "lacaml_NPREClaswp_stub_bc" "lacaml_NPREClaswp_stub"
 
 let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
@@ -649,11 +649,11 @@ let laswp ?n ?(ar = 1) ?(ac = 1) a ?(k1 = 1) ?k2 ?(incx = 1) ipiv =
 
 external direct_lapmt :
   forward : bool ->
-  m : int ->
-  n : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
   k : int32_vec ->
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   unit = "lacaml_NPREClapmt_stub_bc" "lacaml_NPREClapmt_stub"
 
@@ -667,12 +667,12 @@ let lapmt ?(forward = true) ?m ?n ?(ar = 1) ?(ac = 1) a k =
 (* LASSQ *)
 
 external direct_lassq :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  scale : float ->
-  sumsq : float ->
+  scale : (float [@unboxed]) ->
+  sumsq : (float [@unboxed]) ->
   float * float = "lacaml_NPREClassq_stub_bc" "lacaml_NPREClassq_stub"
 
 let lassq ?n ?(scale = 0.) ?(sumsq = 1.) ?ofsx ?incx x =
@@ -685,12 +685,12 @@ let lassq ?n ?(scale = 0.) ?(sumsq = 1.) ?ofsx ?incx x =
 (* LARNV *)
 
 external direct_larnv :
-  idist : int ->
+  idist : (int [@untagged]) ->
   iseed : int32_vec ->
-  n : int ->
-  ofsx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
   x : vec ->
-  unit = "lacaml_NPREClarnv_stub"
+  unit = "lacaml_NPREClarnv_stub_bc" "lacaml_NPREClarnv_stub"
 
 let larnv ?idist ?iseed ?n ?ofsx ?x () =
   let loc = "Lacaml.NPREC.larnv" in
@@ -741,13 +741,13 @@ let larnv ?idist ?iseed ?n ?ofsx ?x () =
 
 external direct_lange :
   norm : char ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   work : rvec ->
-  float = "lacaml_NPREClange_stub_bc" "lacaml_NPREClange_stub"
+  (float [@unboxed]) = "lacaml_NPREClange_stub_bc" "lacaml_NPREClange_stub"
 
 let lange_min_lwork m = function `I -> m | _ -> 0
 
@@ -774,11 +774,11 @@ let lange ?m ?n ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
 
 external direct_lauum :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  unit = "lacaml_NPREClauum_stub"
+  unit = "lacaml_NPREClauum_stub_bc" "lacaml_NPREClauum_stub"
 
 let lauum ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.lauum" in
@@ -793,13 +793,13 @@ let lauum ?(up = true) ?n ?(ar = 1) ?(ac = 1) a =
 (* GETRF *)
 
 external direct_getrf :
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   ipiv : int32_vec ->
-  int = "lacaml_NPRECgetrf_stub_bc" "lacaml_NPRECgetrf_stub"
+  (int [@untagged]) = "lacaml_NPRECgetrf_stub_bc" "lacaml_NPRECgetrf_stub"
 
 let getrf ?m ?n ?ipiv ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.getrf" in
@@ -815,16 +815,16 @@ let getrf ?m ?n ?ipiv ?(ar = 1) ?(ac = 1) a =
 
 external direct_getrs :
   trans : char ->
-  n : int ->
-  nrhs : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   ipiv : int32_vec ->
-  int = "lacaml_NPRECgetrs_stub_bc" "lacaml_NPRECgetrs_stub"
+  (int [@untagged]) = "lacaml_NPRECgetrs_stub_bc" "lacaml_NPRECgetrs_stub"
 
 let getrs
     ?n ?ipiv ?(trans = `N) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
@@ -840,14 +840,14 @@ let getrs
 (* GETRI *)
 
 external direct_getri :
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   ipiv : int32_vec ->
   work : vec ->
-  lwork : int ->
-  int = "lacaml_NPRECgetri_stub_bc" "lacaml_NPRECgetri_stub"
+  lwork : (int [@untagged]) ->
+  (int [@untagged]) = "lacaml_NPRECgetri_stub_bc" "lacaml_NPRECgetri_stub"
 
 let getri_min_lwork n = max 1 n
 
@@ -883,14 +883,14 @@ let getri ?n ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
 
 external direct_sytrf :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   ipiv : int32_vec ->
   work : vec ->
-  lwork : int ->
-  int = "lacaml_NPRECsytrf_stub_bc" "lacaml_NPRECsytrf_stub"
+  lwork : (int [@untagged]) ->
+  (int [@untagged]) = "lacaml_NPRECsytrf_stub_bc" "lacaml_NPRECsytrf_stub"
 
 let sytrf_get_opt_lwork loc uplo n ar ac a =
   let work = Vec.create 1 in
@@ -928,16 +928,16 @@ let sytrf ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
 
 external direct_sytrs :
   uplo : char ->
-  n : int ->
-  nrhs : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   ipiv : int32_vec ->
-  int = "lacaml_NPRECsytrs_stub_bc" "lacaml_NPRECsytrs_stub"
+  (int [@untagged]) = "lacaml_NPRECsytrs_stub_bc" "lacaml_NPRECsytrs_stub"
 
 let sytrs
       ?n ?(up = true) ?ipiv ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
@@ -954,13 +954,13 @@ let sytrs
 
 external direct_sytri :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   ipiv : int32_vec ->
   work : vec ->
-  int = "lacaml_NPRECsytri_stub_bc" "lacaml_NPRECsytri_stub"
+  (int [@untagged]) = "lacaml_NPRECsytri_stub_bc" "lacaml_NPRECsytri_stub"
 
 let sytri_min_lwork n = n
 
@@ -986,11 +986,11 @@ let sytri ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a =
 
 external direct_potrf :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  int = "lacaml_NPRECpotrf_stub"
+  (int [@untagged]) = "lacaml_NPRECpotrf_stub_bc" "lacaml_NPRECpotrf_stub"
 
 let maybe_add_jitter ~loc ?jitter ~ar ~ac ~n a =
   match jitter with
@@ -1019,15 +1019,15 @@ let potrf ?n ?(up = true) ?(ar = 1) ?(ac = 1) ?jitter a =
 
 external direct_potrs :
   uplo : char ->
-  n : int ->
-  nrhs : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECpotrs_stub_bc" "lacaml_NPRECpotrs_stub"
+  (int [@untagged]) = "lacaml_NPRECpotrs_stub_bc" "lacaml_NPRECpotrs_stub"
 
 let potrs
       ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1)
@@ -1043,11 +1043,11 @@ let potrs
 
 external direct_potri :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  int = "lacaml_NPRECpotri_stub"
+  (int [@untagged]) = "lacaml_NPRECpotri_stub_bc" "lacaml_NPRECpotri_stub"
 
 let potri ?n ?(up = true) ?(ar = 1) ?(ac = 1) ?(factorize = true) ?jitter a =
   let loc = "Lacaml.NPREC.potri" in
@@ -1065,15 +1065,15 @@ external direct_trtrs :
   uplo : char ->
   trans : char ->
   diag : char ->
-  n : int ->
-  nrhs : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECtrtrs_stub_bc" "lacaml_NPRECtrtrs_stub"
+  (int [@untagged]) = "lacaml_NPRECtrtrs_stub_bc" "lacaml_NPRECtrtrs_stub"
 
 let trtrs
       ?n ?(up = true) ?(trans = `N) ?(diag = `N)
@@ -1093,11 +1093,11 @@ let trtrs
 external direct_trtri :
   uplo : char ->
   diag : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  int = "lacaml_NPRECtrtri_stub_bc" "lacaml_NPRECtrtri_stub"
+  (int [@untagged]) = "lacaml_NPRECtrtri_stub_bc" "lacaml_NPRECtrtri_stub"
 
 let trtri ?n ?(up = true) ?(diag = `N) ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.trtri" in
@@ -1115,16 +1115,16 @@ external direct_tbtrs :
   uplo : char ->
   trans : char ->
   diag : char ->
-  n : int ->
-  kd : int ->
-  nrhs : int ->
-  abr : int ->
-  abc : int ->
+  n : (int [@untagged]) ->
+  kd : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  abr : (int [@untagged]) ->
+  abc : (int [@untagged]) ->
   ab : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECtbtrs_stub_bc" "lacaml_NPRECtbtrs_stub"
+  (int [@untagged]) = "lacaml_NPRECtbtrs_stub_bc" "lacaml_NPRECtbtrs_stub"
 
 let tbtrs
     ?n ?kd ?(up = true) ?(trans = `N) ?(diag = `N)
@@ -1144,15 +1144,15 @@ let tbtrs
 (* GEQRF *)
 
 external direct_geqrf :
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   tau : vec ->
   work : vec ->
-  lwork : int ->
-  int = "lacaml_NPRECgeqrf_stub_bc" "lacaml_NPRECgeqrf_stub"
+  lwork : (int [@untagged]) ->
+  (int [@untagged]) = "lacaml_NPRECgeqrf_stub_bc" "lacaml_NPRECgeqrf_stub"
 
 let geqrf_get_opt_lwork loc m n ar ac a =
   let work = Vec.create 1 in
@@ -1195,16 +1195,16 @@ let geqrf ?m ?n ?work ?tau ?(ar = 1) ?(ac = 1) a =
 (* GESV *)
 
 external direct_gesv :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
+  n : (int [@untagged]) ->
   ipiv : int32_vec ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECgesv_stub_bc" "lacaml_NPRECgesv_stub"
+  (int [@untagged]) = "lacaml_NPRECgesv_stub_bc" "lacaml_NPRECgesv_stub"
 
 let gesv ?n ?ipiv ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.gesv" in
@@ -1220,18 +1220,18 @@ let gesv ?n ?ipiv ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
 (* GBSV *)
 
 external direct_gbsv :
-  abr : int ->
-  abc : int ->
+  abr : (int [@untagged]) ->
+  abc : (int [@untagged]) ->
   ab : mat ->
-  n : int ->
-  kl : int ->
-  ku : int ->
+  n : (int [@untagged]) ->
+  kl : (int [@untagged]) ->
+  ku : (int [@untagged]) ->
   ipiv : int32_vec ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECgbsv_stub_bc" "lacaml_NPRECgbsv_stub"
+  (int [@untagged]) = "lacaml_NPRECgbsv_stub_bc" "lacaml_NPRECgbsv_stub"
 
 let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.gbsv" in
@@ -1258,18 +1258,18 @@ let gbsv ?n ?ipiv ?(abr = 1) ?(abc = 1) ab kl ku ?nrhs ?(br = 1) ?(bc = 1) b =
 (* GTSV *)
 
 external direct_gtsv :
-  ofsdl : int ->
+  ofsdl : (int [@untagged]) ->
   dl : vec ->
-  ofsd : int ->
+  ofsd : (int [@untagged]) ->
   d : vec ->
-  ofsdu : int ->
+  ofsdu : (int [@untagged]) ->
   du : vec ->
-  n : int ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  n : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECgtsv_stub_bc" "lacaml_NPRECgtsv_stub"
+  (int [@untagged]) = "lacaml_NPRECgtsv_stub_bc" "lacaml_NPRECgtsv_stub"
 
 let gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.gtsv" in
@@ -1288,16 +1288,16 @@ let gtsv ?n ?ofsdl dl ?ofsd d ?ofsdu du ?nrhs ?(br = 1) ?(bc = 1) b =
 (* POSV *)
 
 external direct_posv :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECposv_stub_bc" "lacaml_NPRECposv_stub"
+  (int [@untagged]) = "lacaml_NPRECposv_stub_bc" "lacaml_NPRECposv_stub"
 
 let posv ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.posv" in
@@ -1314,15 +1314,15 @@ let posv ?n ?(up = true) ?(ar = 1) ?(ac = 1) a ?nrhs ?(br = 1) ?(bc = 1) b =
 (* PPSV *)
 
 external direct_ppsv :
-  ofsap : int ->
+  ofsap : (int [@untagged]) ->
   ap : vec ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECppsv_stub_bc" "lacaml_NPRECppsv_stub"
+  (int [@untagged]) = "lacaml_NPRECppsv_stub_bc" "lacaml_NPRECppsv_stub"
 
 let ppsv ?n ?(up = true) ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.ppsv" in
@@ -1339,17 +1339,17 @@ let ppsv ?n ?(up = true) ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
 (* PBSV *)
 
 external direct_pbsv :
-  abr : int ->
-  abc : int ->
+  abr : (int [@untagged]) ->
+  abc : (int [@untagged]) ->
   ab : mat ->
-  n : int ->
-  kd : int ->
+  n : (int [@untagged]) ->
+  kd : (int [@untagged]) ->
   uplo : char ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECpbsv_stub_bc" "lacaml_NPRECpbsv_stub"
+  (int [@untagged]) = "lacaml_NPRECpbsv_stub_bc" "lacaml_NPRECpbsv_stub"
 
 let pbsv ?n ?(up = true) ?kd ?(abr = 1) ?(abc = 1) ab
       ?nrhs ?(br = 1) ?(bc = 1) b =
@@ -1376,16 +1376,16 @@ let pbsv ?n ?(up = true) ?kd ?(abr = 1) ?(abc = 1) ab
 (* PTSV *)
 
 external direct_ptsv :
-  ofsd : int ->
+  ofsd : (int [@untagged]) ->
   d : vec ->
-  ofse : int ->
+  ofse : (int [@untagged]) ->
   e : vec ->
-  n : int ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  n : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECptsv_stub_bc" "lacaml_NPRECptsv_stub"
+  (int [@untagged]) = "lacaml_NPRECptsv_stub_bc" "lacaml_NPRECptsv_stub"
 
 let ptsv ?n ?ofsd d ?ofse e ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.ptsv" in
@@ -1402,19 +1402,19 @@ let ptsv ?n ?ofsd d ?ofse e ?nrhs ?(br = 1) ?(bc = 1) b =
 (* SYSV *)
 
 external direct_sysv :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
   ipiv : int32_vec ->
   work : vec ->
-  lwork : int ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  lwork : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECsysv_stub_bc" "lacaml_NPRECsysv_stub"
+  (int [@untagged]) = "lacaml_NPRECsysv_stub_bc" "lacaml_NPRECsysv_stub"
 
 let sysv_get_opt_lwork loc ar ac a n uplo nrhs br bc b =
   let work = Vec.create 1 in
@@ -1457,16 +1457,16 @@ let sysv ?n ?(up = true) ?ipiv ?work ?(ar = 1) ?(ac = 1) a
 (* SPSV *)
 
 external direct_spsv :
-  ofsap : int ->
+  ofsap : (int [@untagged]) ->
   ap : vec ->
-  n : int ->
+  n : (int [@untagged]) ->
   uplo : char ->
   ipiv : int32_vec ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECspsv_stub_bc" "lacaml_NPRECspsv_stub"
+  (int [@untagged]) = "lacaml_NPRECspsv_stub_bc" "lacaml_NPRECspsv_stub"
 
 let spsv ?n ?(up = true) ?ipiv ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
   let loc = "Lacaml.NPREC.spsv" in
@@ -1508,19 +1508,19 @@ let spsv ?n ?(up = true) ?ipiv ?ofsap ap ?nrhs ?(br = 1) ?(bc = 1) b =
 (* GELS *)
 
 external direct_gels :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  m : int ->
-  n : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
   trans : char ->
   work : vec ->
-  lwork : int ->
-  nrhs : int ->
-  br : int ->
-  bc : int ->
+  lwork : (int [@untagged]) ->
+  nrhs : (int [@untagged]) ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  int = "lacaml_NPRECgels_stub_bc" "lacaml_NPRECgels_stub"
+  (int [@untagged]) = "lacaml_NPRECgels_stub_bc" "lacaml_NPRECgels_stub"
 
 let gels_min_lwork ~m ~n ~nrhs =
   let min_dim = min m n in

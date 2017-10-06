@@ -27,10 +27,10 @@
 
 #include "lacaml_macros.h"
 
-CAMLprim value NAME(
-  value vN,
-  value vOFSX, value vINCX, value vX,
-  value vOFSY, value vINCY, value vY)
+CAMLprim vNUMBER NAME(
+  intnat vN,
+  intnat vOFSX, intnat vINCX, value vX,
+  intnat vOFSY, intnat vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 
@@ -77,10 +77,19 @@ CAMLprim value NAME(
 
 CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
-  return NAME(argv[0], argv[1], argv[2],
-              argv[3], argv[4], argv[5], argv[6]);
+  return
+    COPY_NUMBER_BC(
+        NAME(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          argv[3],
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          argv[6]));
 }
 
 #undef NAME
+#undef BC_NAME
 #undef INIT
 #undef FUNC

@@ -108,10 +108,10 @@ static inline NUMBER STR(NAME, _blocking)(
   return acc;
 }
 
-CAMLprim value NAME(
-    value vPKIND, value vPINIT,
-    value vM, value vN,
-    value vAR, value vAC, value vA)
+CAMLprim vNUMBER NAME(
+    value vPKIND, intnat vPINIT,
+    intnat vM, intnat vN,
+    intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
 
@@ -121,7 +121,7 @@ CAMLprim value NAME(
   if (M > 0) {
     MAT_PARAMS(A);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
 
     caml_enter_blocking_section();  /* Allow other threads */
 
@@ -135,7 +135,16 @@ CAMLprim value NAME(
 
 CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
-  return NAME(argv[0], argv[1], argv[2],argv[3], argv[4], argv[5], argv[6]);
+  return
+    COPY_NUMBER_BC(
+        NAME(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          argv[6]));
 }
 
 #undef FOLD_REGION

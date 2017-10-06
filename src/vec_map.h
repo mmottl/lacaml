@@ -28,9 +28,9 @@
 #include "lacaml_macros.h"
 
 CAMLprim value NAME(
-  value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX)
+  intnat vN,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vX, vY);
 
@@ -79,7 +79,15 @@ CAMLprim value NAME(
 
 CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
-  return NAME(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+  return
+    NAME(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6]);
 }
 
 #undef NAME

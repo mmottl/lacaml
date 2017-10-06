@@ -43,9 +43,9 @@ extern void FUN(swap)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(swap_stub)(
-  value vN,
-  value vOFSX, value vINCX, value vX,
-  value vOFSY, value vINCY, value vY)
+  intnat vN,
+  intnat vOFSX, intnat vINCX, value vX,
+  intnat vOFSY, intnat vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 
@@ -69,8 +69,14 @@ CAMLprim value LFUN(swap_stub)(
 CAMLprim value LFUN(swap_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(swap_stub)(argv[0], argv[1], argv[2], argv[3],
-                    argv[4], argv[5], argv[6]);
+    LFUN(swap_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6]);
 }
 
 
@@ -82,9 +88,9 @@ extern void FUN(scal)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(scal_stub)(
-  value vN,
-  value vALPHA,
-  value vOFSX, value vINCX, value vX)
+  intnat vN,
+  vNUMBER vALPHA,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -107,6 +113,17 @@ CAMLprim value LFUN(scal_stub)(
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value LFUN(scal_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(scal_stub)(
+        Int_val(argv[0]),
+        NUMBER_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4]);
+}
+
 
 /** COPY */
 
@@ -116,9 +133,9 @@ extern void FUN(copy)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(copy_stub)(
-  value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX)
+  intnat vN,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vX, vY);
 
@@ -141,9 +158,15 @@ CAMLprim value LFUN(copy_stub)(
 
 CAMLprim value LFUN(copy_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(copy_stub)(
-    argv[0], argv[1], argv[2], argv[3],
-    argv[4], argv[5], argv[6]);
+  return
+    LFUN(copy_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6]);
 }
 
 
@@ -159,7 +182,7 @@ extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
 #endif
 #endif
 
-CAMLprim value LFUN(nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
+CAMLprim double LFUN(nrm2_stub)(intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -182,7 +205,18 @@ CAMLprim value LFUN(nrm2_stub)(value vN, value vOFSX, value vINCX, value vX)
 #endif
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(caml_copy_double(res));
+  CAMLreturn(res);
+}
+
+CAMLprim value LFUN(nrm2_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    caml_copy_double(
+        LFUN(nrm2_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          argv[3]));
 }
 
 
@@ -195,10 +229,10 @@ extern void FUN(axpy)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(axpy_stub)(
-  value vALPHA,
-  value vN,
-  value vOFSX, value vINCX, value vX,
-  value vOFSY, value vINCY, value vY)
+  vNUMBER vALPHA,
+  intnat vN,
+  intnat vOFSX, intnat vINCX, value vX,
+  intnat vOFSY, intnat vINCY, value vY)
 {
   CAMLparam2(vX, vY);
 
@@ -226,17 +260,25 @@ CAMLprim value LFUN(axpy_stub)(
 
 CAMLprim value LFUN(axpy_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(axpy_stub)(
-    argv[0], argv[1], argv[2], argv[3],
-    argv[4], argv[5], argv[6], argv[7]);
+  return
+    LFUN(axpy_stub)(
+        NUMBER_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4],
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7]);
 }
 
 
 /** AMAX */
 
-extern integer FUN2(i,amax)(integer *N, NUMBER *X, integer *INCX);
+extern integer FUN2(i, amax)(integer *N, NUMBER *X, integer *INCX);
 
-CAMLprim value LFUN(iamax_stub)(value vN, value vOFSX, value vINCX, value vX)
+CAMLprim intnat LFUN(iamax_stub)(
+    intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -250,9 +292,19 @@ CAMLprim value LFUN(iamax_stub)(value vN, value vOFSX, value vINCX, value vX)
   index = FUN2(i,amax)(&N, X_data, &INCX);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(index));
+  CAMLreturn(index);
 }
 
+CAMLprim value LFUN(iamax_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    Val_int(
+        LFUN(iamax_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[3]),
+          argv[4]));
+}
 
 
 /*** BLAS-2 */
@@ -269,20 +321,16 @@ extern void FUN(gemv)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(gemv_stub)(
-  value vOFSY, value vINCY, value vY,
-  value vAR,
-  value vAC,
-  value vA,
-  value vM,
-  value vN,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vAR, intnat vAC, value vA,
+  intnat vM, intnat vN,
   value vTRANS,
-  value vALPHA,
-  value vBETA,
-  value vOFSX, value vINCX, value vX)
+  vNUMBER vALPHA, vNUMBER vBETA,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam3(vA, vX, vY);
 
-  char GET_INT(TRANS);
+  char GET_CHAR(TRANS);
 
   integer GET_INT(M),
           GET_INT(N),
@@ -315,10 +363,22 @@ CAMLprim value LFUN(gemv_stub)(
 
 CAMLprim value LFUN(gemv_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(gemv_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8], argv[9],
-    argv[10], argv[11], argv[12], argv[13]);
+  return
+    LFUN(gemv_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        argv[2],
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        argv[5],
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        argv[8],
+        NUMBER_val(argv[9]),
+        NUMBER_val(argv[10]),
+        Int_val(argv[11]),
+        Int_val(argv[12]),
+        argv[13]);
 }
 
 
@@ -334,19 +394,16 @@ extern void FUN(gbmv)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(gbmv_stub)(
-  value vOFSY, value vINCY, value vY,
-  value vAR,
-  value vAC,
-  value vA,
-  value vM, value vN, value vKL, value vKU,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vAR, intnat vAC, value vA,
+  intnat vM, intnat vN, intnat vKL, intnat vKU,
   value vTRANS,
-  value vALPHA,
-  value vBETA,
-  value vOFSX, value vINCX, value vX)
+  vNUMBER vALPHA, vNUMBER vBETA,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam3(vA, vX, vY);
 
-  char GET_INT(TRANS);
+  char GET_CHAR(TRANS);
 
   integer GET_INT(M),
           GET_INT(N),
@@ -383,9 +440,22 @@ CAMLprim value LFUN(gbmv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gbmv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12], argv[13],
-      argv[14], argv[15]);
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        argv[2],
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        argv[5],
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        Int_val(argv[9]),
+        argv[10],
+        NUMBER_val(argv[11]),
+        NUMBER_val(argv[12]),
+        Int_val(argv[13]),
+        Int_val(argv[14]),
+        argv[15]);
 }
 
 
@@ -401,19 +471,19 @@ extern void FUN(symv)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(symv_stub)(
-  value vOFSY, value vINCY, value vY,
-  value vAR,
-  value vAC,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vAR,
+  intnat vAC,
   value vA,
-  value vN,
+  intnat vN,
   value vUPLO,
-  value vALPHA,
-  value vBETA,
-  value vOFSX, value vINCX, value vX)
+  vNUMBER vALPHA,
+  vNUMBER vBETA,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam3(vA, vX, vY);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
 
   integer GET_INT(N),
           GET_INT(INCX),
@@ -447,8 +517,19 @@ CAMLprim value LFUN(symv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(symv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        argv[2],
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        argv[5],
+        Int_val(argv[6]),
+        argv[7],
+        NUMBER_val(argv[8]),
+        NUMBER_val(argv[9]),
+        Int_val(argv[10]),
+        Int_val(argv[11]),
+        argv[12]);
 }
 
 
@@ -463,20 +544,20 @@ extern void FUN(trmv)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(trmv_stub)(
-  value vAR,
-  value vAC,
+  intnat vAR,
+  intnat vAC,
   value vA,
-  value vN,
+  intnat vN,
   value vUPLO,
   value vTRANS,
   value vDIAG,
-  value vOFSX, value vINCX, value vX)
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vA, vX);
 
-  char GET_INT(UPLO),
-       GET_INT(TRANS),
-       GET_INT(DIAG);
+  char GET_CHAR(UPLO),
+       GET_CHAR(TRANS),
+       GET_CHAR(DIAG);
 
   integer GET_INT(N),
           GET_INT(INCX);
@@ -501,8 +582,16 @@ CAMLprim value LFUN(trmv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(trmv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9]);
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        argv[2],
+        Int_val(argv[3]),
+        argv[4],
+        argv[5],
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9]);
 }
 
 
@@ -517,20 +606,20 @@ extern void FUN(trsv)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(trsv_stub)(
-  value vAR,
-  value vAC,
+  intnat vAR,
+  intnat vAC,
   value vA,
-  value vN,
+  intnat vN,
   value vUPLO,
   value vTRANS,
   value vDIAG,
-  value vOFSX, value vINCX, value vX)
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vA, vX);
 
-  char GET_INT(UPLO),
-       GET_INT(TRANS),
-       GET_INT(DIAG);
+  char GET_CHAR(UPLO),
+       GET_CHAR(TRANS),
+       GET_CHAR(DIAG);
 
   integer GET_INT(N),
           GET_INT(INCX);
@@ -555,8 +644,16 @@ CAMLprim value LFUN(trsv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(trsv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9]);
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        argv[2],
+        Int_val(argv[3]),
+        argv[4],
+        argv[5],
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9]);
 }
 
 
@@ -571,19 +668,19 @@ extern void FUN(tpmv)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(tpmv_stub)(
-  value vOFSAP,
+  intnat vOFSAP,
   value vAP,
-  value vN,
+  intnat vN,
   value vUPLO,
   value vTRANS,
   value vDIAG,
-  value vOFSX, value vINCX, value vX)
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vAP, vX);
 
-  char GET_INT(UPLO),
-       GET_INT(TRANS),
-       GET_INT(DIAG);
+  char GET_CHAR(UPLO),
+       GET_CHAR(TRANS),
+       GET_CHAR(DIAG);
 
   integer GET_INT(N),
           GET_INT(INCX);
@@ -608,8 +705,15 @@ CAMLprim value LFUN(tpmv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(tpmv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8]);
+        Int_val(argv[0]),
+        argv[1],
+        Int_val(argv[2]),
+        argv[3],
+        argv[4],
+        argv[5],
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        argv[8]);
 }
 
 
@@ -624,19 +728,19 @@ extern void FUN(tpsv)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(tpsv_stub)(
-  value vOFSAP,
+  intnat vOFSAP,
   value vAP,
-  value vN,
+  intnat vN,
   value vUPLO,
   value vTRANS,
   value vDIAG,
-  value vOFSX, value vINCX, value vX)
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vAP, vX);
 
-  char GET_INT(UPLO),
-       GET_INT(TRANS),
-       GET_INT(DIAG);
+  char GET_CHAR(UPLO),
+       GET_CHAR(TRANS),
+       GET_CHAR(DIAG);
 
   integer GET_INT(N),
           GET_INT(INCX);
@@ -661,8 +765,15 @@ CAMLprim value LFUN(tpsv_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(tpsv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8]);
+        Int_val(argv[0]),
+        argv[1],
+        Int_val(argv[2]),
+        argv[3],
+        argv[4],
+        argv[5],
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        argv[8]);
 }
 
 
@@ -688,15 +799,15 @@ extern void FUN(gemm)(
 
 CAMLprim value LFUN(gemm_stub)(
   value vTRANSA, value vTRANSB,
-  value vM, value vN, value vK,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB,
-  value vCR, value vCC, value vC,
-  value vALPHA, value vBETA)
+  intnat vM, intnat vN, intnat vK,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB,
+  intnat vCR, intnat vCC, value vC,
+  vNUMBER vALPHA, vNUMBER vBETA)
 {
   CAMLparam3(vA, vB, vC);
 
-  char GET_INT(TRANSA), GET_INT(TRANSB);
+  char GET_CHAR(TRANSA), GET_CHAR(TRANSB);
   integer GET_INT(M), GET_INT(N), GET_INT(K);
 
   NUMBER ALPHA;
@@ -727,9 +838,22 @@ CAMLprim value LFUN(gemm_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(gemm_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12], argv[13],
-      argv[14], argv[15]);
+        argv[0],
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7],
+        Int_val(argv[8]),
+        Int_val(argv[9]),
+        argv[10],
+        Int_val(argv[11]),
+        Int_val(argv[12]),
+        argv[13],
+        NUMBER_val(argv[14]),
+        NUMBER_val(argv[15]));
 }
 
 /** SYMM */
@@ -745,15 +869,15 @@ extern void FUN(symm)(
 
 CAMLprim value LFUN(symm_stub)(
   value vSIDE, value vUPLO,
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB,
-  value vCR, value vCC, value vC,
-  value vALPHA, value vBETA)
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB,
+  intnat vCR, intnat vCC, value vC,
+  vNUMBER vALPHA, vNUMBER vBETA)
 {
   CAMLparam3(vA, vB, vC);
 
-  char GET_INT(SIDE), GET_INT(UPLO);
+  char GET_CHAR(SIDE), GET_CHAR(UPLO);
   integer GET_INT(M), GET_INT(N);
 
   NUMBER ALPHA;
@@ -784,9 +908,21 @@ CAMLprim value LFUN(symm_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(symm_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12], argv[13],
-      argv[14]);
+        argv[0],
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9],
+        Int_val(argv[10]),
+        Int_val(argv[11]),
+        argv[12],
+        NUMBER_val(argv[13]),
+        NUMBER_val(argv[14]));
 }
 
 /** TRMM */
@@ -800,14 +936,14 @@ extern void FUN(trmm)(
 
 CAMLprim value LFUN(trmm_stub)(
   value vSIDE, value vUPLO, value vTRANS, value vDIAG,
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB,
-  value vALPHA)
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB,
+  vNUMBER vALPHA)
 {
   CAMLparam2(vA, vB);
 
-  char GET_INT(SIDE), GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  char GET_CHAR(SIDE), GET_CHAR(UPLO), GET_CHAR(TRANS), GET_CHAR(DIAG);
   integer GET_INT(M), GET_INT(N);
 
   NUMBER ALPHA;
@@ -833,8 +969,19 @@ CAMLprim value LFUN(trmm_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(trmm_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+        argv[0],
+        argv[1],
+        argv[2],
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        argv[8],
+        Int_val(argv[9]),
+        Int_val(argv[10]),
+        argv[11],
+        NUMBER_val(argv[12]));
 }
 
 /** TRSM */
@@ -848,14 +995,14 @@ extern void FUN(trsm)(
 
 CAMLprim value LFUN(trsm_stub)(
   value vSIDE, value vUPLO, value vTRANS, value vDIAG,
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB,
-  value vALPHA)
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB,
+  vNUMBER vALPHA)
 {
   CAMLparam2(vA, vB);
 
-  char GET_INT(SIDE), GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  char GET_CHAR(SIDE), GET_CHAR(UPLO), GET_CHAR(TRANS), GET_CHAR(DIAG);
   integer GET_INT(M), GET_INT(N);
 
   NUMBER ALPHA;
@@ -881,8 +1028,19 @@ CAMLprim value LFUN(trsm_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(trsm_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12]);
+        argv[0],
+        argv[1],
+        argv[2],
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        argv[8],
+        Int_val(argv[9]),
+        Int_val(argv[10]),
+        argv[11],
+        NUMBER_val(argv[12]));
 }
 
 /** SYRK */
@@ -897,14 +1055,14 @@ extern void FUN(syrk)(
 
 CAMLprim value LFUN(syrk_stub)(
   value vUPLO, value vTRANS,
-  value vN, value vK,
-  value vAR, value vAC, value vA,
-  value vCR, value vCC, value vC,
-  value vALPHA, value vBETA)
+  intnat vN, intnat vK,
+  intnat vAR, intnat vAC, value vA,
+  intnat vCR, intnat vCC, value vC,
+  vNUMBER vALPHA, vNUMBER vBETA)
 {
   CAMLparam2(vA, vC);
 
-  char GET_INT(UPLO), GET_INT(TRANS);
+  char GET_CHAR(UPLO), GET_CHAR(TRANS);
   integer GET_INT(N), GET_INT(K);
 
   NUMBER ALPHA;
@@ -933,8 +1091,18 @@ CAMLprim value LFUN(syrk_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(syrk_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11]);
+        argv[0],
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9],
+        NUMBER_val(argv[10]),
+        NUMBER_val(argv[11]));
 }
 
 /** SYR2K */
@@ -950,15 +1118,15 @@ extern void FUN(syr2k)(
 
 CAMLprim value LFUN(syr2k_stub)(
   value vUPLO, value vTRANS,
-  value vN, value vK,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB,
-  value vCR, value vCC, value vC,
-  value vALPHA, value vBETA)
+  intnat vN, intnat vK,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB,
+  intnat vCR, intnat vCC, value vC,
+  vNUMBER vALPHA, vNUMBER vBETA)
 {
   CAMLparam2(vA, vC);
 
-  char GET_INT(UPLO), GET_INT(TRANS);
+  char GET_CHAR(UPLO), GET_CHAR(TRANS);
   integer GET_INT(N), GET_INT(K);
 
   NUMBER ALPHA;
@@ -989,9 +1157,21 @@ CAMLprim value LFUN(syr2k_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(syr2k_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-      argv[7], argv[8], argv[9], argv[10], argv[11], argv[12],
-      argv[13], argv[14]);
+        argv[0],
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9],
+        Int_val(argv[10]),
+        Int_val(argv[11]),
+        argv[12],
+        NUMBER_val(argv[13]),
+        NUMBER_val(argv[14]));
 }
 
 
@@ -1009,10 +1189,10 @@ extern void FUN(larnv)(
   NUMBER *X);
 
 CAMLprim value LFUN(larnv_stub)(
-  value vIDIST,
+  intnat vIDIST,
   value vISEED,
-  value vN,
-  value vOFSX,
+  intnat vN,
+  intnat vOFSX,
   value vX)
 {
   CAMLparam2(vISEED, vX);
@@ -1029,6 +1209,17 @@ CAMLprim value LFUN(larnv_stub)(
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value LFUN(larnv_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(larnv_stub)(
+        Int_val(argv[0]),
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4]);
+}
+
 
 /** LACPY */
 
@@ -1040,22 +1231,19 @@ extern void FUN(lacpy)(
   NUMBER *B, integer *LDB);
 
 CAMLprim value LFUN(lacpy_stub)(
-  value vPKIND, value vPINIT,
+  value vPKIND, intnat vPINIT,
   value vUPLO,
-  value vM, value vN,
-  value vAR, value vAC,
-  value vA,
-  value vBR, value vBC,
-  value vB)
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
-  integer GET_INT(M), GET_INT(N);
-  char GET_INT(UPLO);
+  integer GET_INT(M), GET_INT(N), GET_INT(PINIT);
+  char GET_CHAR(UPLO);
   MAT_PARAMS(A);
   MAT_PARAMS(B);
   pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-  integer PINIT = Long_val(vPINIT);
 
   caml_enter_blocking_section();  /* Allow other threads */
 
@@ -1141,9 +1329,19 @@ CAMLprim value LFUN(lacpy_stub)(
 
 CAMLprim value LFUN(lacpy_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(lacpy_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
-    argv[6], argv[7], argv[8], argv[9], argv[10]);
+  return
+    LFUN(lacpy_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        argv[2],
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7],
+        Int_val(argv[8]),
+        Int_val(argv[9]),
+        argv[10]);
 }
 
 
@@ -1159,14 +1357,11 @@ extern void FUN(laswp)(
   integer *INCX);
 
 CAMLprim value LFUN(laswp_stub)(
-  value vN,
-  value vAR,
-  value vAC,
-  value vA,
-  value vK1,
-  value vK2,
+  intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  value vK1, value vK2,
   value vIPIV,
-  value vINCX)
+  intnat vINCX)
 {
   CAMLparam2(vA, vIPIV);
 
@@ -1191,9 +1386,16 @@ CAMLprim value LFUN(laswp_stub)(
 
 CAMLprim value LFUN(laswp_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(laswp_stub)(
-    argv[0], argv[1], argv[2], argv[3],
-    argv[4], argv[5], argv[6], argv[7]);
+  return
+    LFUN(laswp_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]));
 }
 
 
@@ -1209,11 +1411,11 @@ extern void FUN(lapmt)(
 
 CAMLprim value LFUN(lapmt_stub)(
   value vFORWRD,
-  value vM,
-  value vN,
+  intnat vM,
+  intnat vN,
   value vK,
-  value vAR,
-  value vAC,
+  intnat vAR,
+  intnat vAC,
   value vA)
 {
   CAMLparam2(vA, vK);
@@ -1240,8 +1442,15 @@ CAMLprim value LFUN(lapmt_stub)(
 
 CAMLprim value LFUN(lapmt_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(lapmt_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+  return
+    LFUN(lapmt_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6]);
 }
 
 
@@ -1253,9 +1462,9 @@ extern void FUN(lassq)(
   REAL *SCALE, REAL *SUMSQ);
 
 CAMLprim value LFUN(lassq_stub)(
-  value vN,
-  value vOFSX, value vINCX, value vX,
-  value vSCALE, value vSUMSQ)
+  intnat vN,
+  intnat vOFSX, intnat vINCX, value vX,
+  double vSCALE, double vSUMSQ)
 {
   CAMLparam1(vX);
   CAMLlocal2(v_scl, v_smsq);
@@ -1286,7 +1495,14 @@ CAMLprim value LFUN(lassq_stub)(
 
 CAMLprim value LFUN(lassq_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(lassq_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+  return
+    LFUN(lassq_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        Double_val(argv[4]),
+        Double_val(argv[5]));
 }
 
 
@@ -1298,18 +1514,15 @@ extern REAL FUN(lange)(
   NUMBER *A, integer *LDA,
   REAL *WORK);
 
-CAMLprim value LFUN(lange_stub)(
+CAMLprim double LFUN(lange_stub)(
   value vNORM,
-  value vM,
-  value vN,
-  value vAR,
-  value vAC,
-  value vA,
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
   value vWORK)
 {
   CAMLparam2(vA, vWORK);
 
-  char GET_INT(NORM);
+  char GET_CHAR(NORM);
   integer GET_INT(M), GET_INT(N);
 
   REAL res;
@@ -1324,32 +1537,39 @@ CAMLprim value LFUN(lange_stub)(
           WORK_data);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(caml_copy_double(res));
+  CAMLreturn(res);
 }
 
 CAMLprim value LFUN(lange_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(lange_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+    caml_copy_double(
+        LFUN(lange_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5],
+          argv[6]));
 }
 
 
 /** LAUUM */
 
-extern REAL FUN(lauum)(
+extern void FUN(lauum)(
   char *UPLO,
   integer *N,
   NUMBER *A, integer *LDA,
   integer *INFO);
 
 CAMLprim value LFUN(lauum_stub)(
-  value vUPLO, value vN,
-  value vAR, value vAC, value vA)
+  value vUPLO, intnat vN,
+  intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), INFO;
 
   MAT_PARAMS(A);
@@ -1359,6 +1579,17 @@ CAMLprim value LFUN(lauum_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value LFUN(lauum_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(lauum_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4]);
 }
 
 
@@ -1373,11 +1604,11 @@ extern void FUN(getrf)(
   integer *IPIV,
   integer *INFO);
 
-CAMLprim value LFUN(getrf_stub)(
-  value vM,
-  value vN,
-  value vAR,
-  value vAC,
+CAMLprim intnat LFUN(getrf_stub)(
+  intnat vM,
+  intnat vN,
+  intnat vAR,
+  intnat vAC,
   value vA,
   value vIPIV)
 {
@@ -1396,14 +1627,20 @@ CAMLprim value LFUN(getrf_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(getrf_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(getrf_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+    Val_int(
+        LFUN(getrf_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4],
+          argv[5]));
 }
 
 /** GETRS */
@@ -1416,21 +1653,21 @@ extern void FUN(getrs)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(getrs_stub)(
+CAMLprim intnat LFUN(getrs_stub)(
   value vTRANS,
-  value vN,
-  value vNRHS,
-  value vAR,
-  value vAC,
+  intnat vN,
+  intnat vNRHS,
+  intnat vAR,
+  intnat vAC,
   value vA,
-  value vBR,
-  value vBC,
+  intnat vBR,
+  intnat vBC,
   value vB,
   value vIPIV)
 {
   CAMLparam3(vA, vB, vIPIV);
 
-  char GET_INT(TRANS);
+  char GET_CHAR(TRANS);
   integer GET_INT(N), GET_INT(NRHS), INFO;
 
   MAT_PARAMS(A);
@@ -1447,15 +1684,24 @@ CAMLprim value LFUN(getrs_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(getrs_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(getrs_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
-      argv[6], argv[7], argv[8], argv[9]);
+    Val_int(
+        LFUN(getrs_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5],
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8],
+          argv[9]));
 }
 
 /** GETRI */
@@ -1467,14 +1713,14 @@ extern void FUN(getri)(
   NUMBER *WORK, integer *LWORK,
   integer *INFO);
 
-CAMLprim value LFUN(getri_stub)(
-  value vN,
-  value vAR,
-  value vAC,
+CAMLprim intnat LFUN(getri_stub)(
+  intnat vN,
+  intnat vAR,
+  intnat vAC,
   value vA,
   value vIPIV,
   value vWORK,
-  value vLWORK)
+  intnat vLWORK)
 {
   CAMLparam3(vA, vIPIV, vWORK);
 
@@ -1492,14 +1738,21 @@ CAMLprim value LFUN(getri_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(getri_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(getri_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+    Val_int(
+        LFUN(getri_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          argv[3],
+          argv[4],
+          argv[5],
+          Int_val(argv[6])));
 }
 
 /** SYTRF */
@@ -1511,19 +1764,19 @@ extern void FUN(sytrf)(
   NUMBER *WORK, integer *LWORK,
   integer *INFO);
 
-CAMLprim value LFUN(sytrf_stub)(
+CAMLprim intnat LFUN(sytrf_stub)(
   value vUPLO,
-  value vN,
-  value vAR,
-  value vAC,
+  intnat vN,
+  intnat vAR,
+  intnat vAC,
   value vA,
   value vIPIV,
   value vWORK,
-  value vLWORK)
+  intnat vLWORK)
 {
   CAMLparam3(vA, vIPIV, vWORK);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), GET_INT(LWORK), INFO;
 
   MAT_PARAMS(A);
@@ -1539,14 +1792,22 @@ CAMLprim value LFUN(sytrf_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(sytrf_stub_bc)(value *argv, int __unused argn)
 {
   return
+    Val_int(
     LFUN(sytrf_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+      argv[0],
+      Int_val(argv[1]),
+      Int_val(argv[2]),
+      Int_val(argv[3]),
+      argv[4],
+      argv[5],
+      argv[6],
+      Int_val(argv[7])));
 }
 
 /** SYTRS */
@@ -1559,21 +1820,21 @@ extern void FUN(sytrs)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(sytrs_stub)(
+CAMLprim intnat LFUN(sytrs_stub)(
   value vUPLO,
-  value vN,
-  value vNRHS,
-  value vAR,
-  value vAC,
+  intnat vN,
+  intnat vNRHS,
+  intnat vAR,
+  intnat vAC,
   value vA,
-  value vBR,
-  value vBC,
+  intnat vBR,
+  intnat vBC,
   value vB,
   value vIPIV)
 {
   CAMLparam3(vA, vB, vIPIV);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), GET_INT(NRHS), INFO;
 
   MAT_PARAMS(A);
@@ -1590,15 +1851,24 @@ CAMLprim value LFUN(sytrs_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(sytrs_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(sytrs_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
-      argv[6], argv[7], argv[8], argv[9]);
+    Val_int(
+        LFUN(sytrs_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5],
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8],
+          argv[9]));
 }
 
 /** SYTRI */
@@ -1611,18 +1881,18 @@ extern void FUN(sytri)(
   NUMBER *WORK,
   integer *INFO);
 
-CAMLprim value LFUN(sytri_stub)(
+CAMLprim intnat LFUN(sytri_stub)(
   value vUPLO,
-  value vN,
-  value vAR,
-  value vAC,
+  intnat vN,
+  intnat vAR,
+  intnat vAC,
   value vA,
   value vIPIV,
   value vWORK)
 {
   CAMLparam3(vA, vIPIV, vWORK);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), INFO;
 
   MAT_PARAMS(A);
@@ -1638,14 +1908,21 @@ CAMLprim value LFUN(sytri_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(sytri_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(sytri_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+    Val_int(
+        LFUN(sytri_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4],
+          argv[5],
+          argv[6]));
 }
 
 /** POTRF */
@@ -1655,16 +1932,16 @@ extern void FUN(potrf)(
   NUMBER *A, integer *LDA,
   integer *INFO);
 
-CAMLprim value LFUN(potrf_stub)(
+CAMLprim intnat LFUN(potrf_stub)(
   value vUPLO,
-  value vN,
-  value vAR,
-  value vAC,
+  intnat vN,
+  intnat vAR,
+  intnat vAC,
   value vA)
 {
   CAMLparam1(vA);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), INFO;
 
   MAT_PARAMS(A);
@@ -1673,7 +1950,19 @@ CAMLprim value LFUN(potrf_stub)(
   FUN(potrf)(&UPLO, &N, A_data, &rows_A, &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
+}
+
+CAMLprim value LFUN(potrf_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    Val_int(
+        LFUN(potrf_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4]));
 }
 
 /** POTRS */
@@ -1685,15 +1974,15 @@ extern void FUN(potrs)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(potrs_stub)(
-  value vUPLO, value vN,
-  value vNRHS,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB)
+CAMLprim intnat LFUN(potrs_stub)(
+  value vUPLO,
+  intnat vN, intnat vNRHS,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), GET_INT(NRHS), INFO;
 
   MAT_PARAMS(A);
@@ -1708,15 +1997,23 @@ CAMLprim value LFUN(potrs_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(potrs_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(potrs_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
-      argv[6], argv[7], argv[8]);
+    Val_int(
+        LFUN(potrs_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5],
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8]));
 }
 
 /** POTRI */
@@ -1726,14 +2023,14 @@ extern void FUN(potri)(
   NUMBER *A, integer *LDA,
   integer *INFO);
 
-CAMLprim value LFUN(potri_stub)(
+CAMLprim intnat LFUN(potri_stub)(
   value vUPLO,
-  value vN,
-  value vAR, value vAC, value vA)
+  intnat vN,
+  intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
   integer GET_INT(N), INFO;
 
   MAT_PARAMS(A);
@@ -1742,7 +2039,19 @@ CAMLprim value LFUN(potri_stub)(
   FUN(potri)(&UPLO, &N, A_data, &rows_A, &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
+}
+
+CAMLprim value LFUN(potri_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    Val_int(
+        LFUN(potri_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4]));
 }
 
 /** TRTRS */
@@ -1754,15 +2063,15 @@ extern void FUN(trtrs)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(trtrs_stub)(
+CAMLprim intnat LFUN(trtrs_stub)(
   value vUPLO, value vTRANS, value vDIAG,
-  value vN, value vNRHS,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB)
+  intnat vN, intnat vNRHS,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
-  char GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  char GET_CHAR(UPLO), GET_CHAR(TRANS), GET_CHAR(DIAG);
   integer GET_INT(N), GET_INT(NRHS), INFO;
 
   MAT_PARAMS(A);
@@ -1777,15 +2086,25 @@ CAMLprim value LFUN(trtrs_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(trtrs_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(trtrs_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
-      argv[6], argv[7], argv[8], argv[9], argv[10]);
+    Val_int(
+        LFUN(trtrs_stub)(
+          argv[0],
+          argv[1],
+          argv[2],
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          argv[7],
+          Int_val(argv[8]),
+          Int_val(argv[9]),
+          argv[10]));
 }
 
 /** TRTRI */
@@ -1796,14 +2115,14 @@ extern void FUN(trtri)(
   NUMBER *A, integer *LDA,
   integer *INFO);
 
-CAMLprim value LFUN(trtri_stub)(
+CAMLprim intnat LFUN(trtri_stub)(
   value vUPLO, value vDIAG,
-  value vN,
-  value vAR, value vAC, value vA)
+  intnat vN,
+  intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
 
-  char GET_INT(UPLO), GET_INT(DIAG);
+  char GET_CHAR(UPLO), GET_CHAR(DIAG);
   integer GET_INT(N), INFO;
 
   MAT_PARAMS(A);
@@ -1812,12 +2131,20 @@ CAMLprim value LFUN(trtri_stub)(
   FUN(trtri)(&UPLO, &DIAG, &N, A_data, &rows_A, &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(trtri_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(trtri_stub)(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+  return
+    Val_int(
+        LFUN(trtri_stub)(
+          argv[0],
+          argv[1],
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5]));
 }
 
 /** TBTRS */
@@ -1829,15 +2156,15 @@ extern void FUN(tbtrs)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(tbtrs_stub)(
+CAMLprim intnat LFUN(tbtrs_stub)(
   value vUPLO, value vTRANS, value vDIAG,
-  value vN, value vKD, value vNRHS,
-  value vABR, value vABC, value vAB,
-  value vBR, value vBC, value vB)
+  intnat vN, intnat vKD, intnat vNRHS,
+  intnat vABR, intnat vABC, value vAB,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vAB, vB);
 
-  char GET_INT(UPLO), GET_INT(TRANS), GET_INT(DIAG);
+  char GET_CHAR(UPLO), GET_CHAR(TRANS), GET_CHAR(DIAG);
   integer GET_INT(N), GET_INT(KD), GET_INT(NRHS), INFO;
 
   MAT_PARAMS(AB);
@@ -1852,15 +2179,26 @@ CAMLprim value LFUN(tbtrs_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(tbtrs_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(tbtrs_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5],
-      argv[6], argv[7], argv[8], argv[9], argv[10], argv[11]);
+    Val_int(
+        LFUN(tbtrs_stub)(
+          argv[0],
+          argv[1],
+          argv[2],
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8],
+          Int_val(argv[9]),
+          Int_val(argv[10]),
+          argv[11]));
 }
 
 /** GEQRF */
@@ -1873,11 +2211,11 @@ extern void FUN(geqrf)(
   NUMBER *WORK, integer *LWORK,
   integer *INFO);
 
-CAMLprim value LFUN(geqrf_stub)(
-  value vM, value vN,
-  value vAR, value vAC, value vA,
+CAMLprim intnat LFUN(geqrf_stub)(
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
   value vTAU,
-  value vWORK, value vLWORK)
+  value vWORK, intnat vLWORK)
 {
   CAMLparam3(vA, vTAU, vWORK);
 
@@ -1896,14 +2234,22 @@ CAMLprim value LFUN(geqrf_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(geqrf_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(geqrf_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+    Val_int(
+        LFUN(geqrf_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4],
+          argv[5],
+          argv[6],
+          Int_val(argv[7])));
 }
 
 
@@ -1919,16 +2265,12 @@ extern void FUN(gesv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(gesv_stub)(
-  value vAR,
-  value vAC,
-  value vA,
-  value vN,
+CAMLprim intnat LFUN(gesv_stub)(
+  intnat vAR, intnat vAC, value vA,
+  intnat vN,
   value vIPIV,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam3(vA, vB, vIPIV);
 
@@ -1949,15 +2291,23 @@ CAMLprim value LFUN(gesv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(gesv_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(gesv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-      argv[8]);
+    Val_int(
+        LFUN(gesv_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          argv[2],
+          Int_val(argv[3]),
+          argv[4],
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8]));
 }
 
 
@@ -1970,17 +2320,12 @@ extern void FUN(gbsv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(gbsv_stub)(
-  value vABR,
-  value vABC,
-  value vAB,
-  value vN,
-  value vKL, value vKU,
+CAMLprim intnat LFUN(gbsv_stub)(
+  intnat vABR, intnat vABC, value vAB,
+  intnat vN, intnat vKL, intnat vKU,
   value vIPIV,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam3(vAB, vB, vIPIV);
 
@@ -2003,15 +2348,25 @@ CAMLprim value LFUN(gbsv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(gbsv_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(gbsv_stub)(
-     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-     argv[8], argv[9], argv[10]);
+    Val_int(
+        LFUN(gbsv_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          argv[2],
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          argv[6],
+          Int_val(argv[7]),
+          Int_val(argv[8]),
+          Int_val(argv[9]),
+          argv[10]));
 }
 
 
@@ -2023,12 +2378,14 @@ extern void FUN(gtsv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(gtsv_stub)(
-  value vOFSDL, value vDL, value vOFSD, value vD, value vOFSDU, value vDU,
-  value vN,
-  value vNRHS,
-  value vBR,
-  value vBC,
+CAMLprim intnat LFUN(gtsv_stub)(
+  intnat vOFSDL, value vDL,
+  intnat vOFSD, value vD,
+  intnat vOFSDU, value vDU,
+  intnat vN,
+  intnat vNRHS,
+  intnat vBR,
+  intnat vBC,
   value vB)
 {
   CAMLparam4(vDL, vD, vDU, vB);
@@ -2050,15 +2407,25 @@ CAMLprim value LFUN(gtsv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(gtsv_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(gtsv_stub)(
-     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-     argv[8], argv[9], argv[10]);
+    Val_int(
+        LFUN(gtsv_stub)(
+          Int_val(argv[0]),
+          argv[1],
+          Int_val(argv[2]),
+          argv[3],
+          Int_val(argv[4]),
+          argv[5],
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          Int_val(argv[8]),
+          Int_val(argv[9]),
+          argv[10]));
 }
 
 
@@ -2071,20 +2438,16 @@ extern void FUN(posv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(posv_stub)(
-  value vAR,
-  value vAC,
-  value vA,
-  value vN,
+CAMLprim intnat LFUN(posv_stub)(
+  intnat vAR, intnat vAC, value vA,
+  intnat vN,
   value vUPLO,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
 
   integer GET_INT(N),
           GET_INT(NRHS),
@@ -2102,15 +2465,23 @@ CAMLprim value LFUN(posv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(posv_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(posv_stub)(
-     argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-     argv[8]);
+    Val_int(
+        LFUN(posv_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          argv[2],
+          Int_val(argv[3]),
+          argv[4],
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8]));
 }
 
 
@@ -2123,18 +2494,16 @@ extern void FUN(ppsv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(ppsv_stub)(
-  value vOFSAP, value vAP,
-  value vN,
+CAMLprim intnat LFUN(ppsv_stub)(
+  intnat vOFSAP, value vAP,
+  intnat vN,
   value vUPLO,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vAP, vB);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
 
   integer GET_INT(N),
           GET_INT(NRHS),
@@ -2152,13 +2521,22 @@ CAMLprim value LFUN(ppsv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(ppsv_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(ppsv_stub)(argv[0], argv[1], argv[2], argv[3],
-                         argv[4], argv[5], argv[6], argv[7]);
+  return
+    Val_int(
+        LFUN(ppsv_stub)(
+          Int_val(argv[0]),
+          argv[1],
+          Int_val(argv[2]),
+          argv[3],
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          argv[7]));
 }
 
 
@@ -2171,21 +2549,17 @@ extern void FUN(pbsv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(pbsv_stub)(
-  value vABR,
-  value vABC,
-  value vAB,
-  value vN,
-  value vKD,
+CAMLprim intnat LFUN(pbsv_stub)(
+  intnat vABR, intnat vABC, value vAB,
+  intnat vN,
+  intnat vKD,
   value vUPLO,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vAB, vB);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
 
   integer GET_INT(N),
           GET_INT(KD),
@@ -2204,15 +2578,24 @@ CAMLprim value LFUN(pbsv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(pbsv_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(pbsv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-      argv[8], argv[9]);
+    Val_int(
+        LFUN(pbsv_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          argv[2],
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5],
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          Int_val(argv[8]),
+          argv[9]));
 }
 
 
@@ -2224,13 +2607,12 @@ extern void FUN(ptsv)(
   NUMBER *B, integer *LDB,
   integer *INFO);
 
-CAMLprim value LFUN(ptsv_stub)(
-  value vOFSD, value vD, value vOFSE, value vE,
-  value vN,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+CAMLprim intnat LFUN(ptsv_stub)(
+  intnat vOFSD, value vD,
+  intnat vOFSE, value vE,
+  intnat vN,
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam3(vD, vE, vB);
 
@@ -2250,13 +2632,23 @@ CAMLprim value LFUN(ptsv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(ptsv_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(ptsv_stub)(argv[0], argv[1], argv[2], argv[3],
-                         argv[4], argv[5], argv[6], argv[7], argv[8]);
+  return
+    Val_int(
+        LFUN(ptsv_stub)(
+          Int_val(argv[0]),
+          argv[1],
+          Int_val(argv[2]),
+          argv[3],
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8]));
 }
 
 
@@ -2271,23 +2663,19 @@ extern void FUN(sysv)(
   NUMBER *WORK, integer *LWORK,
   integer *INFO);
 
-CAMLprim value LFUN(sysv_stub)(
-  value vAR,
-  value vAC,
-  value vA,
-  value vN,
+CAMLprim intnat LFUN(sysv_stub)(
+  intnat vAR, intnat vAC, value vA,
+  intnat vN,
   value vUPLO,
   value vIPIV,
   value vWORK,
-  value vLWORK,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vLWORK,
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam4(vA, vIPIV, vWORK, vB);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
 
   integer GET_INT(N),
           GET_INT(LWORK),
@@ -2310,15 +2698,26 @@ CAMLprim value LFUN(sysv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(sysv_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(sysv_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-      argv[8], argv[9], argv[10], argv[11]);
+    Val_int(
+        LFUN(sysv_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          argv[2],
+          Int_val(argv[3]),
+          argv[4],
+          argv[5],
+          argv[6],
+          Int_val(argv[7]),
+          Int_val(argv[8]),
+          Int_val(argv[9]),
+          Int_val(argv[10]),
+          argv[11]));
 }
 
 
@@ -2333,19 +2732,17 @@ extern void FUN(spsv)(
   integer *INFO);
 
 
-CAMLprim value LFUN(spsv_stub)(
-  value vOFSAP, value vAP,
-  value vN,
+CAMLprim intnat LFUN(spsv_stub)(
+  intnat vOFSAP, value vAP,
+  intnat vN,
   value vUPLO,
   value vIPIV,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam3(vAP, vIPIV, vB);
 
-  char GET_INT(UPLO);
+  char GET_CHAR(UPLO);
 
   integer GET_INT(N),
           GET_INT(NRHS),
@@ -2365,13 +2762,23 @@ CAMLprim value LFUN(spsv_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(spsv_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(spsv_stub)(argv[0], argv[1], argv[2], argv[3],
-                         argv[4], argv[5], argv[6], argv[7], argv[8]);
+  return
+    Val_int(
+        LFUN(spsv_stub)(
+          Int_val(argv[0]),
+          argv[1],
+          Int_val(argv[2]),
+          argv[3],
+          argv[4],
+          Int_val(argv[5]),
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8]));
 }
 
 
@@ -2410,23 +2817,18 @@ extern void FUN(gels)(
   NUMBER *WORK, integer *LWORK,
   integer *INFO);
 
-CAMLprim value LFUN(gels_stub)(
-  value vAR,
-  value vAC,
-  value vA,
-  value vM,
-  value vN,
+CAMLprim intnat LFUN(gels_stub)(
+  intnat vAR, intnat vAC, value vA,
+  intnat vM, intnat vN,
   value vTRANS,
   value vWORK,
-  value vLWORK,
-  value vNRHS,
-  value vBR,
-  value vBC,
-  value vB)
+  intnat vLWORK,
+  intnat vNRHS,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam3(vA, vB, vWORK);
 
-  char GET_INT(TRANS);
+  char GET_CHAR(TRANS);
 
   integer GET_INT(M),
           GET_INT(N),
@@ -2449,15 +2851,26 @@ CAMLprim value LFUN(gels_stub)(
     &INFO);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(Val_long(INFO));
+  CAMLreturn(INFO);
 }
 
 CAMLprim value LFUN(gels_stub_bc)(value *argv, int __unused argn)
 {
   return
-    LFUN(gels_stub)(
-      argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7],
-      argv[8], argv[9], argv[10], argv[11]);
+    Val_int(
+        LFUN(gels_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          argv[2],
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          argv[5],
+          argv[6],
+          Int_val(argv[7]),
+          Int_val(argv[8]),
+          Int_val(argv[9]),
+          Int_val(argv[10]),
+          argv[11]));
 }
 
 

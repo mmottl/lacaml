@@ -52,24 +52,24 @@ module RVec = Lacaml__vec4_CBPREC
 (* BLAS-1 interface *)
 
 external direct_dotu :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  num_type = "lacaml_CPRECdotu_stub_bc" "lacaml_CPRECdotu_stub"
+  Complex.t = "lacaml_CPRECdotu_stub_bc" "lacaml_CPRECdotu_stub"
 
 external direct_dotc :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  num_type = "lacaml_CPRECdotc_stub_bc" "lacaml_CPRECdotc_stub"
+  Complex.t = "lacaml_CPRECdotc_stub_bc" "lacaml_CPRECdotc_stub"
 
 let gen_dot loc dot_fun = (); fun ?n ?ofsx ?incx x ?ofsy ?incy y ->
   let ofsx, incx = get_vec_geom loc x_str ofsx incx in
@@ -87,12 +87,12 @@ let dotc = gen_dot "Lacaml.CPREC.dotc" direct_dotc
 external direct_lansy :
   norm : char ->
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   work : rvec ->
-  float = "lacaml_CPREClansy_stub_bc" "lacaml_CPREClansy_stub"
+  (float [@unboxed]) = "lacaml_CPREClansy_stub_bc" "lacaml_CPREClansy_stub"
 
 let lansy_min_lwork n = function `I -> n | _ -> 0
 
@@ -111,14 +111,14 @@ let lansy ?n ?(up = true) ?(norm = `O) ?work ?(ar = 1) ?(ac = 1) a =
 (* GECON *)
 
 external direct_gecon :
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   work : vec ->
   rwork : rvec ->
   norm : char ->
-  anorm : float ->
+  anorm : (float [@unboxed]) ->
   int * float = "lacaml_CPRECgecon_stub_bc" "lacaml_CPRECgecon_stub"
 
 let gecon_min_lwork n = 2 * n
@@ -149,13 +149,13 @@ let gecon ?n ?(norm = `O) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
 
 external direct_sycon :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   ipiv : int32_vec ->
   work : vec ->
-  anorm : float ->
+  anorm : (float [@unboxed]) ->
   int * float = "lacaml_CPRECsycon_stub_bc" "lacaml_CPRECsycon_stub"
 
 let sycon_min_lwork n = 2 * n
@@ -182,13 +182,13 @@ let sycon ?n ?(up = true) ?ipiv ?anorm ?work ?(ar = 1) ?(ac = 1) a =
 
 external direct_pocon :
   uplo : char ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   work : vec ->
   rwork : rvec ->
-  anorm : float ->
+  anorm : (float [@unboxed]) ->
   int * float = "lacaml_CPRECpocon_stub_bc" "lacaml_CPRECpocon_stub"
 
 let pocon_min_lwork n = 3 * n
@@ -220,18 +220,18 @@ let pocon ?n ?(up = true) ?anorm ?work ?rwork ?(ar = 1) ?(ac = 1) a =
 external direct_gees :
   jobvs : char ->
   sort : char ->
-  select : int ->
+  select : (int [@untagged]) ->
   select_fun : (Complex.t -> bool) ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   w : vec ->
-  vsr : int ->
-  vsc : int ->
+  vsr : (int [@untagged]) ->
+  vsc : (int [@untagged]) ->
   vs : mat ->
   work : vec ->
-  lwork : int ->
+  lwork : (int [@untagged]) ->
   rwork : rvec ->
   bwork : int32_vec
   -> int * int = "lacaml_CPRECgees_stub_bc" "lacaml_CPRECgees_stub"
@@ -301,22 +301,22 @@ let gees
 external direct_gesvd :
   jobu : char ->
   jobvt : char ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   s : rvec ->
-  ur : int ->
-  uc : int ->
+  ur : (int [@untagged]) ->
+  uc : (int [@untagged]) ->
   u : mat ->
-  vtc : int ->
-  vtr : int ->
+  vtc : (int [@untagged]) ->
+  vtr : (int [@untagged]) ->
   vt : mat ->
   work : vec ->
-  lwork : int ->
+  lwork : (int [@untagged]) ->
   rwork : rvec ->
-  int = "lacaml_CPRECgesvd_stub_bc" "lacaml_CPRECgesvd_stub"
+  (int [@untagged]) = "lacaml_CPRECgesvd_stub_bc" "lacaml_CPRECgesvd_stub"
 
 let gesvd_min_lwork ~m ~n =
   let min_m_n = min m n in
@@ -408,23 +408,23 @@ let geev_err loc min_work a n vl vr lwork err =
 (* GEEV *)
 
 external direct_geev :
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  n : int ->
-  ofsw : int -> w : vec ->
-  vlr : int ->
-  vlc : int ->
+  n : (int [@untagged]) ->
+  ofsw : (int [@untagged]) -> w : vec ->
+  vlr : (int [@untagged]) ->
+  vlc : (int [@untagged]) ->
   vl : mat ->
   jobvl : char ->
-  vrr : int ->
-  vrc : int ->
+  vrr : (int [@untagged]) ->
+  vrc : (int [@untagged]) ->
   vr : mat ->
   jobvr : char ->
   work : vec ->
-  lwork : int ->
+  lwork : (int [@untagged]) ->
   rwork : vec ->
-  int = "lacaml_CPRECgeev_stub_bc" "lacaml_CPRECgeev_stub"
+  (int [@untagged]) = "lacaml_CPRECgeev_stub_bc" "lacaml_CPRECgeev_stub"
 
 let geev_min_lwork n = max 1 (n + n)
 let geev_min_lrwork n = n + n

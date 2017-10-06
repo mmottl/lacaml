@@ -168,11 +168,39 @@ let () =
   let num_type_float = num_type "float" in
   let num_type_complex = num_type "Complex.t" in
 
-  let float32 = r ["NPREC", "S";  "NBPREC", "S"; "numberxx", "float32"]
-  and float64 = r ["NPREC", "D"; "NBPREC", "D"; "numberxx", "float64"]
-  and complex32 = r ["NPREC", "C"; "NBPREC", "S"; "numberxx", "complex32"]
-  and complex64 = r ["NPREC", "Z"; "NBPREC", "D"; "numberxx", "complex64"]
+  let float32 =
+    r [
+      "NPREC", "S";
+      "NBPREC", "S";
+      "numberxx", "float32";
+      "num_type_arg", "(float [@unboxed])";
+    ]
+
+  and float64 =
+    r [
+      "NPREC", "D";
+      "NBPREC", "D";
+      "numberxx", "float64";
+      "num_type_arg", "(float [@unboxed])";
+    ]
+
+  and complex32 =
+    r [
+      "NPREC", "C";
+      "NBPREC", "S";
+      "numberxx", "complex32";
+      "num_type_arg", "num_type";
+    ]
+
+  and complex64 =
+    r [
+      "NPREC", "Z";
+      "NBPREC", "D";
+      "numberxx", "complex64";
+      "num_type_arg", "num_type";
+    ]
   in
+
   derive "_SDCZ.mli" [("4_S.mli", num_type_float :: float32);
                       ("4_D.mli", num_type_float :: float64);
                       ("4_C.mli", num_type_complex :: complex32);
@@ -180,15 +208,40 @@ let () =
   derive "_SDCZ.ml"  [("4_S.ml", float32);   ("4_D.ml", float64);
                       ("4_C.ml", complex32); ("4_Z.ml", complex64) ];
 
-  let float32 = r["FPREC", "S";  "floatxx", "float32"]
-  and float64 = r["FPREC", "D";  "floatxx", "float64"]
-  and complex32 = r["CPREC", "C";  "CBPREC", "S";
-                    "floatxx", "float32"; "complexxx", "complex32"]
-  and complex64 = r["CPREC", "Z";  "CBPREC", "D";
-                    "floatxx", "float64"; "complexxx", "complex64"]
+  let float32 =
+    r [
+      "FPREC", "S";
+      "floatxx", "float32";
+      "num_type_arg", "(float [@unboxed])";
+    ]
+
+  and float64 =
+    r [
+      "FPREC", "D";
+      "floatxx", "float64";
+      "num_type_arg", "(float [@unboxed])";
+    ]
+
+  and complex32 =
+    r [
+      "CPREC", "C";  "CBPREC", "S";
+      "floatxx", "float32";
+      "complexxx", "complex32";
+      "num_type_arg", "num_type";
+    ]
+
+  and complex64 =
+    r [
+      "CPREC", "Z";
+      "CBPREC", "D";
+      "floatxx", "float64";
+      "complexxx", "complex64";
+      "num_type_arg", "num_type";
+    ]
   in
-  derive "_SD.mli" [("2_S.mli", float32); ("2_D.mli", float64) ];
-  derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64) ];
+
+  derive "_SD.mli" [("2_S.mli", float32); ("2_D.mli", float64)];
+  derive "_SD.ml"  [("2_S.ml",  float32); ("2_D.ml", float64)];
   derive "SD.ml"   [("S.ml", float32);     ("D.ml", float64)];
   derive "SD.mli"  [("S.mli", num_type_float :: float32);
                     ("D.mli", num_type_float :: float64)] ~full_doc:true;

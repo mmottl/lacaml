@@ -84,12 +84,15 @@
 /* Real vs. imaginery */
 #ifndef LACAML_COMPLEX          /* Real number */
 #define NUMBER REAL
-#define COPY_NUMBER(x) caml_copy_double(x)
+#define COPY_NUMBER(X) X
+#define COPY_NUMBER_BC(X) caml_copy_double(X)
 #define NUMBER_ZERO 0
 #define NUMBER_ONE 1
 #define NUMBER_MINUS_ONE (-1)
 #define NUMBER_EQUAL(X, Y) (X) == (Y)
-#define INIT_NUMBER(name) name = Double_val(v##name)
+#define INIT_NUMBER(name) name = v##name
+#define vNUMBER double
+#define NUMBER_val(X) Double_val(X)
 #define DOTU FUN(dot)
 #define ADD_NUMBER(X, Y) (X + Y)
 #define SUB_NUMBER(X, Y) (X - Y)
@@ -98,7 +101,8 @@
 #define NEG_NUMBER(X) (-X)
 #else                           /* Complex number */
 #define NUMBER COMPLEX
-#define COPY_NUMBER(x) copy_two_doubles(x.r, x.i)
+#define COPY_NUMBER(X) copy_two_doubles(X.r, X.i)
+#define COPY_NUMBER_BC(X) X
 #define NUMBER_ZERO { 0, 0 }
 #define NUMBER_ONE { 1, 0 }
 #define NUMBER_MINUS_ONE { -1, 0 }
@@ -106,6 +110,8 @@
 #define INIT_NUMBER(name) \
   name.r = Double_field(v##name, 0); \
   name.i = Double_field(v##name, 1)
+#define vNUMBER value
+#define NUMBER_val(X) X
 #define DOTU FUN(dotu)
 #define DOTC FUN(dotc)
 #define ADD_NUMBER(X, Y) ((NUMBER) { X.r + Y.r, X.i + Y.i })
@@ -121,18 +127,21 @@
 /* Fetch boolean parameters */
 #define GET_BOOL(V) V = Bool_val(v##V)
 
+/* Fetch char parameters */
+#define GET_CHAR(V) V = Int_val(v##V)
+
 /* Fetch integer parameters */
-#define GET_INT(V) V = Long_val(v##V)
+#define GET_INT(V) V = v##V
 
 /* Fetch double parameters */
-#define GET_DOUBLE(V) V = Double_val(v##V)
+#define GET_DOUBLE(V) V = v##V
 
 /* Fetch matrix parameters from bigarray */
 #define MAT_PARAMS(M) \
   struct caml_ba_array *big_##M = Caml_ba_array_val(v##M); \
   intnat *dims_##M = big_##M->dim; \
-  integer M##R = Long_val(v##M##R); \
-  integer M##C = Long_val(v##M##C); \
+  integer M##R = v##M##R; \
+  integer M##C = v##M##C; \
   integer rows_##M = *dims_##M++; \
   CAMLunused integer cols_##M = *dims_##M; \
   NUMBER *M##_data = ((NUMBER *) big_##M->data) + M##R + rows_##M*(M##C - 1) - 1
@@ -141,13 +150,13 @@
 #define VEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
   CAMLunused integer dim_##V = *big_##V->dim; \
-  NUMBER *V##_data = ((NUMBER *) big_##V->data) + (Long_val(vOFS##V) - 1)
+  NUMBER *V##_data = ((NUMBER *) big_##V->data) + (vOFS##V - 1)
 
 /* Fetch vector parameters from real bigarray */
 #define RVEC_PARAMS(V) \
   struct caml_ba_array *big_##V = Caml_ba_array_val(v##V); \
   CAMLunused integer dim_##V = *big_##V->dim; \
-  REAL *V##_data = ((REAL *) big_##V->data) + (Long_val(vOFS##V) - 1)
+  REAL *V##_data = ((REAL *) big_##V->data) + (vOFS##V - 1)
 
 /* Fetch vector parameters from bigarray with offset 1 */
 #define VEC_PARAMS1(V) \
@@ -169,7 +178,7 @@
 
 /* Split an integer couple (int * int) into two ints */
 #define INT_COUPLE(V) \
-  integer V##1 = Long_val(Field(v##V, 0)); \
-  integer V##2 = Long_val(Field(v##V, 1))
+  integer V##1 = Int_val(Field(v##V, 0)); \
+  integer V##2 = Int_val(Field(v##V, 1))
 
 #endif  /* LACAML_MACROS */

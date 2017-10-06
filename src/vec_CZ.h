@@ -29,7 +29,7 @@
 static COMPLEX LACAML_COMPLEX_INF = { INFINITY, INFINITY };
 static COMPLEX LACAML_COMPLEX_NEG_INF = { -INFINITY, -INFINITY };
 
-CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
+CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, intnat vN)
 {
   CAMLparam1(vY);
   integer i, GET_INT(N);
@@ -57,12 +57,35 @@ CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value LFUN(linspace_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(linspace_stub)(
+        argv[0],
+        argv[1],
+        argv[2],
+        Int_val(argv[3]));
+}
+
+
+#ifndef LACAML_DOUBLE
+extern float expf(float);
+extern float exp10f(float);
+extern float exp2f(float);
+#define myexp expf
+#define myexp10 exp10f
+#define myexp2 exp2f
+#else
 extern double exp(double);
-extern double exp2(double);
 extern double exp10(double);
+extern double exp2(double);
+#define myexp exp
+#define myexp10 exp10
+#define myexp2 exp2
+#endif
 
 CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
-                                   value vbase, value vN)
+                                   double vbase, intnat vN)
 {
   CAMLparam1(vY);
   integer i, GET_INT(N);
@@ -71,33 +94,33 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
        N1 = N - 1.,
        hr = (Double_field(vb, 0) - ar) / N1,
        hi = (Double_field(vb, 1) - ai) / N1,
-       base = Double_val(vbase),
        xr = ar,
        xi = ai;
+  double GET_DOUBLE(base);
   VEC_PARAMS1(Y);
 
   caml_enter_blocking_section();  /* Allow other threads */
 
   if (base == 2.0)
     for (i = 1; i <= N; i++) {
-      Y_data->r = exp2(xr);
-      Y_data->i = exp2(xi);
+      Y_data->r = myexp2(xr);
+      Y_data->i = myexp2(xi);
       Y_data++;
       xr = ar + i * hr;
       xi = ai + i * hi;
     }
   else if (base == 10.0)
     for (i = 1; i <= N; i++) {
-      Y_data->r = exp10(xr);
-      Y_data->i = exp10(xi);
+      Y_data->r = myexp10(xr);
+      Y_data->i = myexp10(xi);
       Y_data++;
       xr = ar + i * hr;
       xi = ai + i * hi;
     }
   else if (base == 2.7182818284590452353602874713526625L)
     for (i = 1; i <= N; i++) {
-      Y_data->r = exp(xr);
-      Y_data->i = exp(xi);
+      Y_data->r = myexp(xr);
+      Y_data->i = myexp(xi);
       Y_data++;
       xr = ar + i * hr;
       xi = ai + i * hi;
@@ -105,8 +128,8 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   else {
     double log_base = log(base);
     for (i = 1; i <= N; i++) {
-      Y_data->r = exp(xr * log_base);
-      Y_data->i = exp(xi * log_base);
+      Y_data->r = myexp(xr * log_base);
+      Y_data->i = myexp(xi * log_base);
       Y_data++;
       xr = ar + i * hr;
       xi = ai + i * hi;
@@ -118,6 +141,18 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value LFUN(logspace_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(logspace_stub)(
+        argv[0],
+        argv[1],
+        argv[2],
+        Double_val(argv[3]),
+        Int_val(argv[4]));
+}
+
+
 extern real scnrm2_(integer *N, complex *X, integer *INCX);
 extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
 
@@ -127,7 +162,7 @@ extern COMPLEX FUN(dotc)(
   COMPLEX *Y, integer *INCY);
 
 CAMLprim value LFUN(sqr_nrm2_stub)(
-  value vSTABLE, value vN, value vOFSX, value vINCX, value vX)
+  value vSTABLE, intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -153,7 +188,20 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
   CAMLreturn(caml_copy_double(res));
 }
 
+CAMLprim value LFUN(sqr_nrm2_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    caml_copy_double(
+        LFUN(sqr_nrm2_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4]));
+}
+
 #define NAME LFUN(max_stub)
+#define BC_NAME LFUN(max_stub_bc)
 #define INIT LACAML_COMPLEX_NEG_INF
 #define DECLARE_EXTRA \
   REAL acc_big = 0., acc_nrm = 1., x_big, x_nrm, q, r, i
@@ -183,6 +231,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 #include "fold_col.h"
 
 #define NAME LFUN(min_stub)
+#define BC_NAME LFUN(min_stub_bc)
 #define INIT LACAML_COMPLEX_INF
 #define DECLARE_EXTRA \
   REAL acc_big = INFINITY, acc_nrm = 1., x_big, x_nrm, q, r, i
@@ -212,11 +261,13 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 #include "fold_col.h"
 
 #define NAME LFUN(sum_vec_stub)
+#define BC_NAME LFUN(sum_vec_stub_bc)
 #define INIT { 0.0, 0.0 }
 #define FUNC(acc, x) acc.r += x.r; acc.i += x.i
 #include "fold_col.h"
 
 #define NAME LFUN(prod_stub)
+#define BC_NAME LFUN(prod_stub_bc)
 #define INIT { 1.0, 1.0 }
 #define FUNC(acc, x) \
   acc.r = acc.r*x.r - acc.i*x.i; \
@@ -229,15 +280,25 @@ extern value LFUN(dotu_stub)(
   value vOFSX, value vINCX, value vX);
 
 CAMLprim value LFUN(ssqr_zero_stub)(
-  value vN, value vOFSX, value vINCX, value vX)
+  intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   return LFUN(dotu_stub(vN, vOFSX, vINCX, vX, vOFSX, vINCX, vX));
 }
 
+CAMLprim value LFUN(ssqr_zero_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(ssqr_zero_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3]);
+}
+
 CAMLprim value LFUN(ssqr_stub)(
-  value vN,
+  intnat vN,
   value vC,
-  value vOFSX, value vINCX, value vX)
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -286,6 +347,17 @@ CAMLprim value LFUN(ssqr_stub)(
   caml_leave_blocking_section();  /* Disallow other threads */
 
   CAMLreturn(copy_two_doubles(acc.r, acc.i));
+}
+
+CAMLprim value LFUN(ssqr_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(ssqr_stub)(
+        Int_val(argv[0]),
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4]);
 }
 
 #define NAME LFUN(neg_stub)
@@ -382,6 +454,7 @@ CAMLprim value LFUN(ssqr_stub)(
   (ANY_NAN(b) ? (!ANY_NAN(a)) : (!ANY_NAN(a) && (SORT)))
 
 #define NAME LFUN(sort_incr)
+#define BC_NAME LFUN(sort_incr_bc)
 #define NAME_PERM LFUN(sort_incr_perm)
 #define BC_NAME_PERM LFUN(sort_incr_perm_bc)
 #define OCAML_SORT_LT(a, b) \
@@ -389,6 +462,7 @@ CAMLprim value LFUN(ssqr_stub)(
 #include "vec_sort.h"
 
 #define NAME LFUN(sort_decr)
+#define BC_NAME LFUN(sort_decr_bc)
 #define NAME_PERM LFUN(sort_decr_perm)
 #define BC_NAME_PERM LFUN(sort_decr_perm_bc)
 #define OCAML_SORT_LT(a, b) \
@@ -396,6 +470,7 @@ CAMLprim value LFUN(ssqr_stub)(
 #include "vec_sort.h"
 
 #define NAME LFUN(sort)
+#define BC_NAME LFUN(sort_bc)
 #define NAME_PERM LFUN(sort_perm)
 #define BC_NAME_PERM LFUN(sort_perm_bc)
 #define OCAML_SORT_LT(a, b)                                     \

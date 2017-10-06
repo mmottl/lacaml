@@ -214,8 +214,8 @@
   }
 
 
-CAMLprim value NAME(value vCMP, value vN,
-                    value vOFSX, value vINCX, value vX)
+CAMLprim value NAME(value vCMP, intnat vN,
+                    intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vCMP, vX);
 #if defined(OCAML_SORT_CALLBACK)
@@ -245,10 +245,20 @@ CAMLprim value NAME(value vCMP, value vN,
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value BC_NAME(value *argv, int __unused argn)
+{
+  return
+    NAME(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4]);
+}
 
-CAMLprim value NAME_PERM(value vCMP, value vN,
-                         value vOFSP, value vINCP, value vP,
-                         value vOFSX, value vINCX, value vX)
+CAMLprim value NAME_PERM(value vCMP, intnat vN,
+                         intnat vOFSP, intnat vINCP, value vP,
+                         intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam3(vCMP, vP, vX);
 #if defined(OCAML_SORT_CALLBACK)
@@ -259,7 +269,7 @@ CAMLprim value NAME_PERM(value vCMP, value vN,
           GET_INT(OFSX),
           GET_INT(INCP);
   VEC_PARAMS(X);
-  intnat *P_data = ((intnat *) Caml_ba_data_val(vP)) + (Long_val(vOFSP) - 1);
+  intnat *P_data = ((intnat *) Caml_ba_data_val(vP)) + (vOFSP - 1);
   size_t i;
 
   NUMBER *const X = X_data - OFSX;  /* so P values are FORTRAN indices */
@@ -289,11 +299,20 @@ CAMLprim value NAME_PERM(value vCMP, value vN,
 
 CAMLprim value BC_NAME_PERM(value *argv, int __unused argn)
 {
-  return NAME_PERM(argv[0], argv[1], argv[2], argv[3], argv[4],
-                   argv[5], argv[6], argv[7]);
+  return
+    NAME_PERM(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4],
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7]);
 }
 
 #undef NAME
+#undef BC_NAME
 #undef NAME_PERM
 #undef BC_NAME_PERM
 #undef OCAML_SORT_LT

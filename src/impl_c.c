@@ -30,9 +30,9 @@ extern integer ilaenv_(
   integer *N1, integer *N2, integer *N3, integer *N4,
   ftnlen name_len, ftnlen opts_len);
 
-CAMLprim value lacaml_ilaenv_stub(
-  value vISPEC, value vNAME, value vOPTS,
-  value vN1, value vN2, value vN3, value vN4)
+CAMLprim intnat lacaml_ilaenv_stub(
+  intnat vISPEC, value vNAME, value vOPTS,
+  intnat vN1, intnat vN2, intnat vN3, intnat vN4)
 {
   integer GET_INT(ISPEC),
           GET_INT(N1),
@@ -46,12 +46,19 @@ CAMLprim value lacaml_ilaenv_stub(
   ftnlen NAME_LEN = caml_string_length(vNAME),
          OPTS_LEN = caml_string_length(vOPTS);
 
-  return Val_long(ilaenv_(&ISPEC, NAME, OPTS,
-                          &N1, &N2, &N3, &N4, NAME_LEN, OPTS_LEN));
+  return ilaenv_(&ISPEC, NAME, OPTS, &N1, &N2, &N3, &N4, NAME_LEN, OPTS_LEN);
 }
 
 CAMLprim value lacaml_ilaenv_stub_bc(value *argv, int __unused argn)
 {
-  return lacaml_ilaenv_stub(argv[0], argv[1], argv[2],
-                            argv[3], argv[4], argv[5], argv[6]);
+  return
+    Val_int (
+        lacaml_ilaenv_stub(
+          Int_val(argv[0]),
+          argv[1],
+          argv[2],
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          Int_val(argv[6])));
 }

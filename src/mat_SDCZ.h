@@ -39,10 +39,10 @@ static inline NUMBER sum_range(integer N, NUMBER *data, NUMBER acc)
   return acc;
 }
 
-CAMLprim value LFUN(sum_mat_stub)(
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vAR, value vAC, value vA)
+CAMLprim vNUMBER LFUN(sum_mat_stub)(
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
   integer GET_INT(M), GET_INT(N);
@@ -52,7 +52,7 @@ CAMLprim value LFUN(sum_mat_stub)(
   if (M > 0 && N > 0) {
     MAT_PARAMS(A);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     caml_enter_blocking_section();
       switch (PKIND) {
         case UPPER :
@@ -116,8 +116,16 @@ CAMLprim value LFUN(sum_mat_stub)(
 
 CAMLprim value LFUN(sum_mat_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(sum_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
+  return
+    COPY_NUMBER_BC(
+        LFUN(sum_mat_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          argv[6]));
 }
 
 
@@ -129,10 +137,10 @@ static inline void fill_range(integer N, NUMBER *data, NUMBER v)
 }
 
 CAMLprim value LFUN(fill_mat_stub)(
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vX)
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  vNUMBER vX)
 {
   CAMLparam1(vA);
   integer GET_INT(M), GET_INT(N);
@@ -141,7 +149,7 @@ CAMLprim value LFUN(fill_mat_stub)(
     MAT_PARAMS(A);
     NUMBER X;
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     INIT_NUMBER(X);
     caml_enter_blocking_section();
       switch (PKIND) {
@@ -206,9 +214,16 @@ CAMLprim value LFUN(fill_mat_stub)(
 
 CAMLprim value LFUN(fill_mat_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(fill_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3],
-    argv[4], argv[5], argv[6], argv[7]);
+  return
+    LFUN(fill_mat_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        NUMBER_val(argv[7]));
 }
 
 
@@ -221,11 +236,11 @@ static inline void add_const_range(
 }
 
 CAMLprim value LFUN(add_const_mat_stub)(
-    value vC,
-    value vPKIND, value vPINIT,
-    value vM, value vN,
-    value vAR, value vAC, value vA,
-    value vBR, value vBC, value vB)
+    vNUMBER vC,
+    value vPKIND, intnat vPINIT,
+    intnat vM, intnat vN,
+    intnat vAR, intnat vAC, value vA,
+    intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
@@ -236,7 +251,7 @@ CAMLprim value LFUN(add_const_mat_stub)(
     MAT_PARAMS(A);
     MAT_PARAMS(B);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     INIT_NUMBER(C);
 
     caml_enter_blocking_section();  /* Allow other threads */
@@ -311,8 +326,17 @@ CAMLprim value LFUN(add_const_mat_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(add_const_mat_stub)(
-        argv[0], argv[1], argv[2],argv[3], argv[4],
-        argv[5], argv[6], argv[7], argv[8], argv[9], argv[10]);
+        NUMBER_val(argv[0]),
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7],
+        Int_val(argv[8]),
+        Int_val(argv[9]),
+        argv[10]);
 }
 
 
@@ -324,10 +348,10 @@ extern void FUN(swap)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(swap_mat_stub)(
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB)
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
   integer GET_INT(M), GET_INT(N);
@@ -336,7 +360,7 @@ CAMLprim value LFUN(swap_mat_stub)(
     MAT_PARAMS(A);
     MAT_PARAMS(B);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     caml_enter_blocking_section();
       switch (PKIND) {
         case UPPER :
@@ -408,9 +432,18 @@ CAMLprim value LFUN(swap_mat_stub)(
 
 CAMLprim value LFUN(swap_mat_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(swap_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8], argv[9]);
+  return
+    LFUN(swap_mat_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9]);
 }
 
 
@@ -422,9 +455,9 @@ extern void FUN(copy)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(transpose_copy_stub)(
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB)
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
   integer GET_INT(M), GET_INT(N);
@@ -447,8 +480,16 @@ CAMLprim value LFUN(transpose_copy_stub)(
 
 CAMLprim value LFUN(transpose_copy_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(transpose_copy_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+  return
+    LFUN(transpose_copy_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4],
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7]);
 }
 
 
@@ -460,10 +501,10 @@ extern void FUN(scal)(
   NUMBER *X, integer *INCX);
 
 CAMLprim value LFUN(scal_mat_stub)(
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vALPHA,
-  value vAR, value vAC, value vA)
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  vNUMBER vALPHA,
+  intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
   integer GET_INT(M), GET_INT(N);
@@ -473,7 +514,7 @@ CAMLprim value LFUN(scal_mat_stub)(
     MAT_PARAMS(A);
     INIT_NUMBER(ALPHA);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     caml_enter_blocking_section();
       switch (PKIND) {
         case UPPER :
@@ -539,18 +580,26 @@ CAMLprim value LFUN(scal_mat_stub)(
 
 CAMLprim value LFUN(scal_mat_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(scal_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6], argv[7]);
+  return
+    LFUN(scal_mat_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        NUMBER_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7]);
 }
 
 
 /* scal_cols */
 
 CAMLprim value LFUN(scal_cols_stub)(
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vAR, value vAC, value vA,
-  value vOFSALPHAs, value vALPHAs)
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  intnat vAR, intnat vAC, value vA,
+  intnat vOFSALPHAs, value vALPHAs)
 {
   CAMLparam2(vALPHAs, vA);
   integer GET_INT(M), GET_INT(N);
@@ -559,7 +608,7 @@ CAMLprim value LFUN(scal_cols_stub)(
     VEC_PARAMS(ALPHAs);
     MAT_PARAMS(A);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     caml_enter_blocking_section();
       switch (PKIND) {
         case UPPER :
@@ -624,19 +673,27 @@ CAMLprim value LFUN(scal_cols_stub)(
 
 CAMLprim value LFUN(scal_cols_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(scal_cols_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+  return
+    LFUN(scal_cols_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        argv[8]);
 }
 
 
 /* scal_rows */
 
 CAMLprim value LFUN(scal_rows_stub)(
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vOFSALPHAs, value vALPHAs,
-  value vAR, value vAC, value vA)
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  intnat vOFSALPHAs, value vALPHAs,
+  intnat vAR, intnat vAC, value vA)
 {
   CAMLparam2(vALPHAs, vA);
   integer GET_INT(M), GET_INT(N);
@@ -645,7 +702,7 @@ CAMLprim value LFUN(scal_rows_stub)(
     VEC_PARAMS(ALPHAs);
     MAT_PARAMS(A);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     caml_enter_blocking_section();
       switch (PKIND) {
         case UPPER :
@@ -689,9 +746,17 @@ CAMLprim value LFUN(scal_rows_stub)(
 
 CAMLprim value LFUN(scal_rows_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(scal_rows_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+  return
+    LFUN(scal_rows_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        argv[5],
+        Int_val(argv[6]),
+        Int_val(argv[7]),
+        argv[8]);
 }
 
 
@@ -704,11 +769,11 @@ extern void FUN(axpy)(
   NUMBER *Y, integer *INCY);
 
 CAMLprim value LFUN(axpy_mat_stub)(
-  value vALPHA,
-  value vPKIND, value vPINIT,
-  value vM, value vN,
-  value vXR, value vXC, value vX,
-  value vYR, value vYC, value vY)
+  vNUMBER vALPHA,
+  value vPKIND, intnat vPINIT,
+  intnat vM, intnat vN,
+  intnat vXR, intnat vXC, value vX,
+  intnat vYR, intnat vYC, value vY)
 {
   CAMLparam2(vX, vY);
   integer GET_INT(M), GET_INT(N);
@@ -717,7 +782,7 @@ CAMLprim value LFUN(axpy_mat_stub)(
     MAT_PARAMS(X);
     MAT_PARAMS(Y);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     INIT_NUMBER(ALPHA);
     caml_enter_blocking_section();
       switch (PKIND) {
@@ -797,9 +862,19 @@ CAMLprim value LFUN(axpy_mat_stub)(
 
 CAMLprim value LFUN(axpy_mat_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(axpy_mat_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8], argv[9], argv[10]);
+  return
+    LFUN(axpy_mat_stub)(
+        NUMBER_val(argv[0]),
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7],
+        Int_val(argv[8]),
+        Int_val(argv[9]),
+        argv[10]);
 }
 
 
@@ -903,19 +978,19 @@ DOTC(integer *N, NUMBER *X, integer *INCX, NUMBER *Y, integer *INCY);
 CAMLprim value LFUN(gemm_diag_stub)(
   value vTRANSA,
   value vTRANSB,
-  value vN, value vK,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB,
-  value vOFSY,
+  intnat vN, intnat vK,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB,
+  intnat vOFSY,
   value vY,
-  value vALPHA,
-  value vBETA
+  vNUMBER vALPHA,
+  vNUMBER vBETA
   )
 {
   CAMLparam3(vA, vB, vY);
 
   integer GET_INT(N), GET_INT(K);
-  char GET_INT(TRANSA), GET_INT(TRANSB);
+  char GET_CHAR(TRANSA), GET_CHAR(TRANSB);
 
   NUMBER ALPHA;
   NUMBER BETA;
@@ -958,9 +1033,22 @@ CAMLprim value LFUN(gemm_diag_stub)(
 
 CAMLprim value LFUN(gemm_diag_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(gemm_diag_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-    argv[7], argv[8], argv[9], argv[10], argv[11], argv[12], argv[13]);
+  return
+    LFUN(gemm_diag_stub)(
+        argv[0],
+        argv[1],
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9],
+        Int_val(argv[10]),
+        argv[11],
+        NUMBER_val(argv[12]),
+        NUMBER_val(argv[13]));
 }
 
 
@@ -981,17 +1069,17 @@ CAMLprim value LFUN(gemm_diag_stub_bc)(value *argv, int __unused argn)
 
 CAMLprim value LFUN(syrk_diag_stub)(
   value vTRANS,
-  value vN, value vK,
-  value vAR, value vAC, value vA,
-  value vOFSY,
+  intnat vN, intnat vK,
+  intnat vAR, intnat vAC, value vA,
+  intnat vOFSY,
   value vY,
-  value vALPHA,
-  value vBETA)
+  vNUMBER vALPHA,
+  vNUMBER vBETA)
 {
   CAMLparam2(vA, vY);
 
   integer GET_INT(N), GET_INT(K);
-  char GET_INT(TRANS);
+  char GET_CHAR(TRANS);
 
   NUMBER ALPHA;
   NUMBER BETA;
@@ -1025,9 +1113,18 @@ CAMLprim value LFUN(syrk_diag_stub)(
 
 CAMLprim value LFUN(syrk_diag_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(syrk_diag_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6],
-    argv[7], argv[8], argv[9]);
+  return
+    LFUN(syrk_diag_stub)(
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        argv[5],
+        Int_val(argv[6]),
+        argv[7],
+        NUMBER_val(argv[8]),
+        NUMBER_val(argv[9]));
 }
 
 
@@ -1042,17 +1139,17 @@ CAMLprim value LFUN(syrk_diag_stub_bc)(value *argv, int __unused argn)
     GEMM_TRACE_INCR; \
   }
 
-CAMLprim value LFUN(gemm_trace_stub)(
+CAMLprim vNUMBER LFUN(gemm_trace_stub)(
   value vTRANSA,
   value vTRANSB,
-  value vN, value vK,
-  value vAR, value vAC, value vA,
-  value vBR, value vBC, value vB)
+  intnat vN, intnat vK,
+  intnat vAR, intnat vAC, value vA,
+  intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
   integer GET_INT(N), GET_INT(K);
-  char GET_INT(TRANSA), GET_INT(TRANSB);
+  char GET_CHAR(TRANSA), GET_CHAR(TRANSB);
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -1184,16 +1281,26 @@ end:
 
 CAMLprim value LFUN(gemm_trace_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(gemm_trace_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8], argv[9]);
+  return
+    COPY_NUMBER_BC(
+        LFUN(gemm_trace_stub)(
+          argv[0],
+          argv[1],
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          Int_val(argv[4]),
+          Int_val(argv[5]),
+          argv[6],
+          Int_val(argv[7]),
+          Int_val(argv[8]),
+          argv[9]));
 }
 
 
 /* syrk_trace */
 
-CAMLprim value LFUN(syrk_trace_stub)(
-  value vN, value vK, value vAR, value vAC, value vA)
+CAMLprim vNUMBER LFUN(syrk_trace_stub)(
+  intnat vN, intnat vK, intnat vAR, intnat vAC, value vA)
 {
   CAMLparam1(vA);
   integer GET_INT(N), GET_INT(K);
@@ -1215,18 +1322,30 @@ CAMLprim value LFUN(syrk_trace_stub)(
   CAMLreturn(COPY_NUMBER(res));
 }
 
+CAMLprim value LFUN(syrk_trace_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    COPY_NUMBER_BC(
+        LFUN(syrk_trace_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4]));
+}
+
 
 /* symm2_trace */
 
-CAMLprim value LFUN(symm2_trace_stub)(
-  value vN,
-  value vUPLOA, value vAR, value vAC, value vA,
-  value vUPLOB, value vBR, value vBC, value vB)
+CAMLprim vNUMBER LFUN(symm2_trace_stub)(
+  intnat vN,
+  value vUPLOA, intnat vAR, intnat vAC, value vA,
+  value vUPLOB, intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
   integer GET_INT(N);
-  char GET_INT(UPLOA), GET_INT(UPLOB);
+  char GET_CHAR(UPLOA), GET_CHAR(UPLOB);
 
   MAT_PARAMS(A);
   MAT_PARAMS(B);
@@ -1305,7 +1424,16 @@ CAMLprim value LFUN(symm2_trace_stub)(
 
 CAMLprim value LFUN(symm2_trace_stub_bc)(value *argv, int __unused argn)
 {
-  return LFUN(symm2_trace_stub)(
-    argv[0], argv[1], argv[2], argv[3], argv[4],
-    argv[5], argv[6], argv[7], argv[8]);
+  return
+    COPY_NUMBER_BC(
+        LFUN(symm2_trace_stub)(
+          Int_val(argv[0]),
+          argv[1],
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4],
+          argv[5],
+          Int_val(argv[6]),
+          Int_val(argv[7]),
+          argv[8]));
 }

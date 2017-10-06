@@ -808,7 +808,7 @@ val sum_prod :
   ?br : int ->
   ?bc : int ->
   mat ->
-  num_type
+  float
 (** [sum_prod ?patt ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of elementwise
     products between the [m] by [n] sub-matrix of the matrix [a] starting in row
     [ar] and column [ac] with the corresponding sub-matrix of the matrix [b]
@@ -829,7 +829,7 @@ val sum_prod :
 
 val log_sum_exp :
   ?patt : patt -> ?m : int -> ?n : int ->
-  ?ar : int -> ?ac : int -> mat -> num_type
+  ?ar : int -> ?ac : int -> mat -> float
 (** [log_sum_exp ?patt ?m ?n ?ar ?ac a] computes the logarithm of the sum of
     exponentials of all elements in the [m]-by-[n] submatrix using pattern
     [patt], starting at row [ar] and column [ac].

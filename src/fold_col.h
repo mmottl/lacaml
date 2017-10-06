@@ -71,8 +71,7 @@ static inline NUMBER STR(NAME, _blocking)(
   return acc;
 }
 
-
-CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
+CAMLprim vNUMBER NAME(intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -93,6 +92,18 @@ CAMLprim value NAME(value vN, value vOFSX, value vINCX, value vX)
   CAMLreturn(COPY_NUMBER(acc));
 }
 
+CAMLprim value BC_NAME(value *argv, int __unused argn)
+{
+  return
+    COPY_NUMBER_BC(
+        NAME(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          argv[3]));
+}
+
 #undef NAME
+#undef BC_NAME
 #undef INIT
 #undef FUNC

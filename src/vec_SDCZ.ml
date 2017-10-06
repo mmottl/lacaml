@@ -38,12 +38,12 @@ let get_y_vec ~loc ~ofsy ~incy ~n y = get_vec loc y_str y ofsy incy n create
 let get_z_vec ~loc ~ofsz ~incz ~n z = get_vec loc z_str z ofsz incz n create
 
 external direct_fill :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  a : num_type ->
-  unit = "lacaml_NPRECfill_vec_stub"
+  a : num_type_arg ->
+  unit = "lacaml_NPRECfill_vec_stub_bc" "lacaml_NPRECfill_vec_stub"
 
 let make n a =
   let x = create n in
@@ -104,12 +104,12 @@ let rec coll_size n = function
   | v :: vs -> coll_size (dim v + n) vs
 
 external direct_copy :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
+  n : (int [@untagged]) ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
 
@@ -127,10 +127,10 @@ let empty = create 0
 
 external direct_linspace :
   y : vec ->
-  a : num_type ->
-  b : num_type ->
-  n : int ->
-  unit = "lacaml_NPREClinspace_stub"
+  a : num_type_arg ->
+  b : num_type_arg ->
+  n : (int [@untagged]) ->
+  unit = "lacaml_NPREClinspace_stub_bc" "lacaml_NPREClinspace_stub"
 
 let linspace ?y a b n =
   let y =
@@ -142,11 +142,11 @@ let linspace ?y a b n =
 
 external direct_logspace :
   y : vec ->
-  a : num_type ->
-  b : num_type ->
-  base : float ->
-  n : int ->
-  unit = "lacaml_NPREClogspace_stub"
+  a : num_type_arg ->
+  b : num_type_arg ->
+  base : (float [@unboxed]) ->
+  n : (int [@untagged]) ->
+  unit = "lacaml_NPREClogspace_stub_bc" "lacaml_NPREClogspace_stub"
 
 let logspace ?y a b ?(base = 10.0) n =
   if base <= 0.0 then invalid_arg "Vec.logspace: base <= 0.0";
@@ -246,11 +246,11 @@ let fill ?n ?ofsx ?incx x a =
 (* MAX *)
 
 external direct_max :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  num_type = "lacaml_NPRECmax_stub"
+  num_type_arg = "lacaml_NPRECmax_stub_bc" "lacaml_NPRECmax_stub"
 
 let vec_max_str = "Vec.max"
 
@@ -264,11 +264,11 @@ let max ?n ?ofsx ?incx x =
 let vec_min_str = "Vec.min"
 
 external direct_min :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  num_type = "lacaml_NPRECmin_stub"
+  num_type_arg = "lacaml_NPRECmin_stub_bc" "lacaml_NPRECmin_stub"
 
 let min ?n ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_min_str x_str ofsx incx in
@@ -278,11 +278,11 @@ let min ?n ?ofsx ?incx x =
 (* SUM *)
 
 external direct_sum :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  num_type = "lacaml_NPRECsum_vec_stub"
+  num_type_arg = "lacaml_NPRECsum_vec_stub_bc" "lacaml_NPRECsum_vec_stub"
 
 let vec_sum_str = "Vec.sum"
 
@@ -296,11 +296,11 @@ let sum ?n ?ofsx ?incx x =
 let vec_prod_str = "Vec.prod"
 
 external direct_prod :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  num_type = "lacaml_NPRECprod_stub"
+  num_type_arg = "lacaml_NPRECprod_stub_bc" "lacaml_NPRECprod_stub"
 
 let prod ?n ?ofsx ?incx x =
   let ofsx, incx = get_vec_geom vec_prod_str x_str ofsx incx in
@@ -310,13 +310,13 @@ let prod ?n ?ofsx ?incx x =
 (* ADD_CONST *)
 
 external direct_add_const :
-  c : num_type ->
-  n : int ->
-  ofsy : int ->
-  incy : int ->
+  c : num_type_arg ->
+  n : (int [@untagged]) ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECadd_const_vec_stub_bc" "lacaml_NPRECadd_const_vec_stub"
 
@@ -334,11 +334,12 @@ let add_const c ?n ?ofsy ?incy ?y ?ofsx ?incx x =
 
 external direct_sqr_nrm2 :
   stable : bool ->
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  float = "lacaml_NPRECsqr_nrm2_stub"
+  (float [@unboxed])
+  = "lacaml_NPRECsqr_nrm2_stub_bc" "lacaml_NPRECsqr_nrm2_stub"
 
 let sqr_nrm2 ?(stable = false) ?n ?ofsx ?incx x =
   let loc = "Vec.sqr_nrm2" in
@@ -349,19 +350,19 @@ let sqr_nrm2 ?(stable = false) ?n ?ofsx ?incx x =
 (* SSQR *)
 
 external direct_ssqr :
-  n : int ->
-  c : num_type ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  c : num_type_arg ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  num_type = "lacaml_NPRECssqr_stub"
+  num_type_arg = "lacaml_NPRECssqr_stub_bc" "lacaml_NPRECssqr_stub"
 
 external direct_ssqr_zero :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  num_type = "lacaml_NPRECssqr_zero_stub"
+  num_type_arg = "lacaml_NPRECssqr_zero_stub_bc" "lacaml_NPRECssqr_zero_stub"
 
 let vec_ssqr_str = "Vec.ssqr"
 
@@ -378,58 +379,58 @@ let ssqr ?n ?c ?ofsx ?incx x =
 
 external direct_sort_incr :
   cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  unit = "lacaml_NPRECsort_incr"
+  unit = "lacaml_NPRECsort_incr_bc" "lacaml_NPRECsort_incr"
 
 external direct_sort_incr_perm :
   cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
-  n : int ->
-  ofsp : int ->
-  incp : int ->
+  n : (int [@untagged]) ->
+  ofsp : (int [@untagged]) ->
+  incp : (int [@untagged]) ->
   p : int_vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECsort_incr_perm_bc" "lacaml_NPRECsort_incr_perm"
 
 external direct_sort_decr :
   cmp : (num_type -> num_type -> int) -> (* not used, usual decreasing order *)
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  unit = "lacaml_NPRECsort_decr"
+  unit = "lacaml_NPRECsort_decr_bc" "lacaml_NPRECsort_decr"
 
 external direct_sort_decr_perm :
   cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
-  n : int ->
-  ofsp : int ->
-  incp : int ->
+  n : (int [@untagged]) ->
+  ofsp : (int [@untagged]) ->
+  incp : (int [@untagged]) ->
   p : int_vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECsort_decr_perm_bc" "lacaml_NPRECsort_decr_perm"
 
 external direct_sort :
   cmp : (num_type -> num_type -> int) ->
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  unit = "lacaml_NPRECsort"
+  unit = "lacaml_NPRECsort_bc" "lacaml_NPRECsort"
 
 external direct_sort_perm :
   cmp : (num_type -> num_type -> int) -> (* not used, ususal order *)
-  n : int ->
-  ofsp : int ->
-  incp : int ->
+  n : (int [@untagged]) ->
+  ofsp : (int [@untagged]) ->
+  incp : (int [@untagged]) ->
   p : int_vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECsort_perm_bc" "lacaml_NPRECsort_perm"
 
@@ -467,12 +468,12 @@ let sort ?cmp ?(decr = false) ?n ?ofsp ?incp ?p ?ofsx ?incx x =
 (* NEG *)
 
 external direct_neg :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
+  n : (int [@untagged]) ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECneg_stub_bc" "lacaml_NPRECneg_stub"
 
@@ -489,12 +490,12 @@ let neg ?n ?ofsy ?incy ?y ?ofsx ?incx x =
 (* RECI *)
 
 external direct_reci :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
+  n : (int [@untagged]) ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECreci_stub_bc" "lacaml_NPRECreci_stub"
 
@@ -514,15 +515,15 @@ let reci ?n ?ofsy ?incy ?y ?ofsx ?incx x =
 (* ADD *)
 
 external direct_add :
-  n : int ->
-  ofsz : int ->
-  incz : int ->
+  n : (int [@untagged]) ->
+  ofsz : (int [@untagged]) ->
+  incz : (int [@untagged]) ->
   z : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECadd_stub_bc" "lacaml_NPRECadd_stub"
 
@@ -542,15 +543,15 @@ let add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
 (* SUB *)
 
 external direct_sub :
-  n : int ->
-  ofsz : int ->
-  incz : int ->
+  n : (int [@untagged]) ->
+  ofsz : (int [@untagged]) ->
+  incz : (int [@untagged]) ->
   z : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECsub_stub_bc" "lacaml_NPRECsub_stub"
 
@@ -570,15 +571,15 @@ let sub ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
 (* MUL *)
 
 external direct_mul :
-  n : int ->
-  ofsz : int ->
-  incz : int ->
+  n : (int [@untagged]) ->
+  ofsz : (int [@untagged]) ->
+  incz : (int [@untagged]) ->
   z : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECmul_stub_bc" "lacaml_NPRECmul_stub"
 
@@ -597,15 +598,15 @@ let mul ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
 (* DIV *)
 
 external direct_div :
-  n : int ->
-  ofsz : int ->
-  incz : int ->
+  n : (int [@untagged]) ->
+  ofsz : (int [@untagged]) ->
+  incz : (int [@untagged]) ->
   z : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECdiv_stub_bc" "lacaml_NPRECdiv_stub"
 
@@ -624,15 +625,15 @@ let div ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y =
 (* ZPXY *)
 
 external direct_zpxy :
-  n : int ->
-  ofsz : int ->
-  incz : int ->
+  n : (int [@untagged]) ->
+  ofsz : (int [@untagged]) ->
+  incz : (int [@untagged]) ->
   z : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECzpxy_stub_bc" "lacaml_NPRECzpxy_stub"
 
@@ -650,15 +651,15 @@ let zpxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y =
 (* ZMXY *)
 
 external direct_zmxy :
-  n : int ->
-  ofsz : int ->
-  incz : int ->
+  n : (int [@untagged]) ->
+  ofsz : (int [@untagged]) ->
+  incz : (int [@untagged]) ->
   z : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
   unit = "lacaml_NPRECzmxy_stub_bc" "lacaml_NPRECzmxy_stub"
 
@@ -676,14 +677,14 @@ let zmxy ?n ?ofsz ?incz z ?ofsx ?incx x ?ofsy ?incy y =
 (* SSQR_DIFF *)
 
 external direct_ssqr_diff :
-  n : int ->
-  ofsx : int ->
-  incx : int ->
+  n : (int [@untagged]) ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
-  ofsy : int ->
-  incy : int ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  num_type = "lacaml_NPRECssqr_diff_stub_bc" "lacaml_NPRECssqr_diff_stub"
+  num_type_arg = "lacaml_NPRECssqr_diff_stub_bc" "lacaml_NPRECssqr_diff_stub"
 
 let vec_ssqr_diff_str = "Vec.ssqr_diff"
 

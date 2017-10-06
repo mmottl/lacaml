@@ -27,7 +27,7 @@
 /* fill_vec */
 
 CAMLprim value LFUN(fill_vec_stub)(
-  value vN, value vOFSX, value vINCX, value vX, value vA)
+  intnat vN, intnat vOFSX, intnat vINCX, value vX, vNUMBER vA)
 {
   CAMLparam1(vX);
 
@@ -65,13 +65,23 @@ CAMLprim value LFUN(fill_vec_stub)(
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value LFUN(fill_vec_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(fill_vec_stub)(
+        Int_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        argv[3],
+        NUMBER_val(argv[4]));
+}
 
 /* add_const_vec */
 
 CAMLprim value LFUN(add_const_vec_stub)(
-  value vC, value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX)
+  vNUMBER vC, intnat vN,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam2(vX, vY);
 
@@ -122,6 +132,12 @@ CAMLprim value LFUN(add_const_vec_stub_bc)(value *argv, int __unused argn)
 {
   return
     LFUN(add_const_vec_stub)(
-        argv[0], argv[1], argv[2],argv[3],
-        argv[4], argv[5], argv[6], argv[7]);
+        NUMBER_val(argv[0]),
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        argv[4],
+        Int_val(argv[5]),
+        Int_val(argv[6]),
+        argv[7]);
 }

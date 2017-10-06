@@ -639,7 +639,7 @@ val max2 : binop
 
 (** {6 Miscellaneous functions} *)
 
-val log_sum_exp : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> num_type
+val log_sum_exp : ?n : int -> ?ofsx : int -> ?incx : int -> vec -> float
 (** [log_sum_exp ?n ?ofsx ?incx x] computes the logarithm of the sum of
     exponentials of the [n] elements in vector [x], separated by [incx]
     incremental steps.

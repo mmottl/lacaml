@@ -33,10 +33,10 @@ static inline void STR(NAME, _range)(integer N, NUMBER *A_data, NUMBER *B_data)
 }
 
 CAMLprim value NAME(
-    value vPKIND, value vPINIT,
-    value vM, value vN,
-    value vAR, value vAC, value vA,
-    value vBR, value vBC, value vB)
+    value vPKIND, intnat vPINIT,
+    intnat vM, intnat vN,
+    intnat vAR, intnat vAC, value vA,
+    intnat vBR, intnat vBC, value vB)
 {
   CAMLparam2(vA, vB);
 
@@ -46,7 +46,7 @@ CAMLprim value NAME(
     MAT_PARAMS(A);
     MAT_PARAMS(B);
     pentagon_kind PKIND = get_pentagon_kind(vPKIND);
-    integer PINIT = Long_val(vPINIT);
+    integer GET_INT(PINIT);
     caml_enter_blocking_section();  /* Allow other threads */
       switch (PKIND) {
         case UPPER :
@@ -119,8 +119,16 @@ CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
   return
     NAME(
-      argv[0], argv[1], argv[2], argv[3], argv[4],
-      argv[5], argv[6], argv[7], argv[8], argv[9]);
+        argv[0],
+        Int_val(argv[1]),
+        Int_val(argv[2]),
+        Int_val(argv[3]),
+        Int_val(argv[4]),
+        Int_val(argv[5]),
+        argv[6],
+        Int_val(argv[7]),
+        Int_val(argv[8]),
+        argv[9]);
 }
 
 #undef NAME

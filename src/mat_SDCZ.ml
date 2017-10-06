@@ -134,12 +134,12 @@ let copy_row ?vec mat r =
   vec
 
 external direct_copy :
-  n : int ->
-  ofsy : int ->
-  incy : int ->
+  n : (int [@untagged]) ->
+  ofsy : (int [@untagged]) ->
+  incy : (int [@untagged]) ->
   y : vec ->
-  ofsx : int ->
-  incx : int ->
+  ofsx : (int [@untagged]) ->
+  incx : (int [@untagged]) ->
   x : vec ->
   unit = "lacaml_NPRECcopy_stub_bc" "lacaml_NPRECcopy_stub"
 
@@ -226,14 +226,14 @@ let as_vec mat =
 
 external direct_swap :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   unit = "lacaml_NPRECswap_mat_stub_bc" "lacaml_NPRECswap_mat_stub"
 
@@ -246,13 +246,13 @@ let swap ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
   direct_swap ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b
 
 external direct_transpose_copy :
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   unit = "lacaml_NPRECtranspose_copy_stub_bc" "lacaml_NPRECtranspose_copy_stub"
 
@@ -351,12 +351,12 @@ let trace mat =
 
 external direct_scal_mat :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  alpha : num_type ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  alpha : num_type_arg ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   unit = "lacaml_NPRECscal_mat_stub_bc" "lacaml_NPRECscal_mat_stub"
 
@@ -369,13 +369,13 @@ let scal ?patt ?m ?n alpha ?(ar = 1) ?(ac = 1) a =
 
 external direct_scal_cols :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  ofs : int ->
+  ofs : (int [@untagged]) ->
   alphas : vec ->
   unit = "lacaml_NPRECscal_cols_stub_bc" "lacaml_NPRECscal_cols_stub"
 
@@ -390,13 +390,13 @@ let scal_cols ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?ofs alphas =
 
 external direct_scal_rows :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ofs : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ofs : (int [@untagged]) ->
   alphas : vec ->
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   unit = "lacaml_NPRECscal_rows_stub_bc" "lacaml_NPRECscal_rows_stub"
 
@@ -412,12 +412,12 @@ let scal_rows ?patt ?m ?n ?ofs alphas ?(ar = 1) ?(ac = 1) a =
 let vec_create n = Array1.create prec fortran_layout n
 
 external direct_syrk_trace :
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  num_type = "lacaml_NPRECsyrk_trace_stub"
+  num_type_arg = "lacaml_NPRECsyrk_trace_stub_bc" "lacaml_NPRECsyrk_trace_stub"
 
 let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.syrk_trace" in
@@ -430,13 +430,13 @@ let syrk_trace ?n ?k ?(ar = 1) ?(ac = 1) a =
 
 external direct_fill :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  x : num_type ->
+  x : num_type_arg ->
   unit = "lacaml_NPRECfill_mat_stub_bc" "lacaml_NPRECfill_mat_stub"
 
 let fill ?patt ?m ?n ?(ar = 1) ?(ac = 1) a x =
@@ -448,13 +448,13 @@ let fill ?patt ?m ?n ?(ar = 1) ?(ac = 1) a x =
 
 external direct_sum :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  num_type = "lacaml_NPRECsum_mat_stub_bc" "lacaml_NPRECsum_mat_stub"
+  num_type_arg = "lacaml_NPRECsum_mat_stub_bc" "lacaml_NPRECsum_mat_stub"
 
 let sum ?patt ?m ?n ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.NPREC.Mat.sum" in
@@ -464,16 +464,16 @@ let sum ?patt ?m ?n ?(ar = 1) ?(ac = 1) a =
   direct_sum ~pkind ~pinit ~m ~n ~ar ~ac ~a
 
 external direct_add_const :
-  c : num_type ->
+  c : num_type_arg ->
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   unit = "lacaml_NPRECadd_const_mat_stub_bc" "lacaml_NPRECadd_const_mat_stub"
 
@@ -489,14 +489,14 @@ let add_const c ?patt ?m ?n
 
 external direct_neg :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   unit = "lacaml_NPRECneg_mat_stub_bc" "lacaml_NPRECneg_mat_stub"
 
@@ -511,14 +511,14 @@ let neg ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
 
 external direct_reci :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
   unit = "lacaml_NPRECreci_mat_stub_bc" "lacaml_NPRECreci_mat_stub"
 
@@ -533,15 +533,15 @@ let reci ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
 
 external direct_syrk_diag :
   trans : char ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  ofsy : int ->
+  ofsy : (int [@untagged]) ->
   y : vec ->
-  alpha : num_type ->
-  beta : num_type ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
   unit = "lacaml_NPRECsyrk_diag_stub_bc" "lacaml_NPRECsyrk_diag_stub"
 
 let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
@@ -559,17 +559,17 @@ let syrk_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
 
 external direct_mat_add :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
   unit = "lacaml_NPRECadd_mat_stub_bc" "lacaml_NPRECadd_mat_stub"
 
@@ -586,17 +586,17 @@ let add ?patt ?m ?n
 
 external direct_mat_sub :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
   unit = "lacaml_NPRECsub_mat_stub_bc" "lacaml_NPRECsub_mat_stub"
 
@@ -613,17 +613,17 @@ let sub ?patt ?m ?n
 
 external direct_mat_mul :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
   unit = "lacaml_NPRECmul_mat_stub_bc" "lacaml_NPRECmul_mat_stub"
 
@@ -640,17 +640,17 @@ let mul ?patt ?m ?n
 
 external direct_mat_div :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  cr : int ->
-  cc : int ->
+  cr : (int [@untagged]) ->
+  cc : (int [@untagged]) ->
   c : mat ->
   unit = "lacaml_NPRECdiv_mat_stub_bc" "lacaml_NPRECdiv_mat_stub"
 
@@ -666,16 +666,16 @@ let div ?patt ?m ?n
   c
 
 external direct_axpy_mat :
-  alpha : num_type ->
+  alpha : num_type_arg ->
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  xr : int ->
-  xc : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  xr : (int [@untagged]) ->
+  xc : (int [@untagged]) ->
   x : mat ->
-  yr : int ->
-  yc : int ->
+  yr : (int [@untagged]) ->
+  yc : (int [@untagged]) ->
   y : mat ->
   unit = "lacaml_NPRECaxpy_mat_stub_bc" "lacaml_NPRECaxpy_mat_stub"
 
@@ -691,18 +691,18 @@ let axpy ?(alpha = one) ?patt ?m ?n
 external direct_gemm_diag :
   transa : char ->
   transb : char ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  ofsy : int ->
+  ofsy : (int [@untagged]) ->
   y : vec ->
-  alpha : num_type ->
-  beta : num_type ->
+  alpha : num_type_arg ->
+  beta : num_type_arg ->
   unit = "lacaml_NPRECgemm_diag_stub_bc" "lacaml_NPRECgemm_diag_stub"
 
 let gemm_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
@@ -722,15 +722,15 @@ let gemm_diag ?n ?k ?(beta = zero) ?(ofsy = 1) ?y
 external direct_gemm_trace :
   transa : char ->
   transb : char ->
-  n : int ->
-  k : int ->
-  ar : int ->
-  ac : int ->
+  n : (int [@untagged]) ->
+  k : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  num_type = "lacaml_NPRECgemm_trace_stub_bc" "lacaml_NPRECgemm_trace_stub"
+  num_type_arg = "lacaml_NPRECgemm_trace_stub_bc" "lacaml_NPRECgemm_trace_stub"
 
 let gemm_trace ?n ?k ?(transa = `N) ?(ar = 1) ?(ac = 1) a
   ?(transb = `N) ?(br = 1) ?(bc = 1) b =
@@ -743,16 +743,17 @@ let gemm_trace ?n ?k ?(transa = `N) ?(ar = 1) ?(ac = 1) a
   direct_gemm_trace ~transa ~transb ~n ~k ~ar ~ac ~a ~br ~bc ~b
 
 external direct_symm2_trace :
-  n : int ->
+  n : (int [@untagged]) ->
   uploa : char ->
-  ar : int ->
-  ac : int ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
   uplob : char ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  num_type = "lacaml_NPRECsymm2_trace_stub_bc" "lacaml_NPRECsymm2_trace_stub"
+  num_type_arg
+  = "lacaml_NPRECsymm2_trace_stub_bc" "lacaml_NPRECsymm2_trace_stub"
 
 let symm2_trace
   ?n
@@ -767,16 +768,16 @@ let symm2_trace
 
 external direct_ssqr_diff :
   pkind : Mat_patt.kind ->
-  pinit : int ->
-  m : int ->
-  n : int ->
-  ar : int ->
-  ac : int ->
+  pinit : (int [@untagged]) ->
+  m : (int [@untagged]) ->
+  n : (int [@untagged]) ->
+  ar : (int [@untagged]) ->
+  ac : (int [@untagged]) ->
   a : mat ->
-  br : int ->
-  bc : int ->
+  br : (int [@untagged]) ->
+  bc : (int [@untagged]) ->
   b : mat ->
-  num_type
+  num_type_arg
   = "lacaml_NPRECssqr_diff_mat_stub_bc" "lacaml_NPRECssqr_diff_mat_stub"
 
 let ssqr_diff ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =

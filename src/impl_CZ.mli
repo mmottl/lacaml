@@ -49,7 +49,7 @@ val dotu :
   ?ofsy : int ->
   ?incy : int ->
   vec
-  -> num_type
+  -> Complex.t
 (** [dotu ?n ?ofsx ?incx x ?ofsy ?incy y] see BLAS documentation!
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
@@ -67,7 +67,7 @@ val dotc :
   ?ofsy : int ->
   ?incy : int ->
   vec
-  -> num_type
+  -> Complex.t
 (** [dotc ?n ?ofsx ?incx x ?ofsy ?incy y] see BLAS documentation!
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]

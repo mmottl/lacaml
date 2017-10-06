@@ -609,7 +609,15 @@ end  (* Mat_patt *)
 (**)
 
 (* Fetches problem-dependent parameters for LAPACK-functions *)
-external ilaenv : int -> string -> string -> int -> int -> int -> int -> int
+external ilaenv :
+  (int [@untagged]) ->
+  string ->
+  string ->
+  (int [@untagged]) ->
+  (int [@untagged]) ->
+  (int [@untagged]) ->
+  (int [@untagged]) ->
+  (int [@untagged])
   = "lacaml_ilaenv_stub_bc" "lacaml_ilaenv_stub" [@@noalloc]
 
 (* Get a work array *)

@@ -28,13 +28,13 @@
 #include <math.h>
 #include "lacaml_macros.h"
 
-CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
+CAMLprim value LFUN(linspace_stub)(value vY, double va, double vb, intnat vN)
 {
   CAMLparam1(vY);
   integer i, GET_INT(N);
-  double a = Double_val(va),
-         h = (Double_val(vb) - a)/(N - 1),
-         x = a;
+  REAL GET_DOUBLE(a);
+  REAL GET_DOUBLE(b);
+  REAL h = (b - a)/(N - 1), x = a;
   VEC_PARAMS1(Y);
 
   caml_enter_blocking_section();  /* Allow other threads */
@@ -50,17 +50,34 @@ CAMLprim value LFUN(linspace_stub)(value vY, value va, value vb, value vN)
   CAMLreturn(Val_unit);
 }
 
-extern double exp10(double);
+CAMLprim value LFUN(linspace_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(linspace_stub)(
+        argv[0],
+        Double_val(argv[1]),
+        Double_val(argv[2]),
+        Int_val(argv[3]));
+}
 
-CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
-                                   value vbase, value vN)
+
+#ifndef LACAML_DOUBLE
+extern float exp10f(float);
+#define myexp10 exp10f
+#else
+extern double exp10(double);
+#define myexp10 exp10
+#endif
+
+CAMLprim value LFUN(logspace_stub)(
+    value vY, double va, double vb, double vbase, intnat vN)
 {
   CAMLparam1(vY);
   integer i, GET_INT(N);
-  double a = Double_val(va),
-         h = (Double_val(vb) - a)/(N - 1),
-         base = Double_val(vbase),
-         x = a;
+  REAL GET_DOUBLE(a);
+  REAL GET_DOUBLE(b);
+  double GET_DOUBLE(base);
+  REAL h = (b - a)/(N - 1), x = a;
   VEC_PARAMS1(Y);
 
   caml_enter_blocking_section();  /* Allow other threads */
@@ -73,7 +90,7 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
     }
   else if (base == 10.0)
     for (i = 1; i <= N; i++) {
-      *Y_data = exp10(x);
+      *Y_data = myexp10(x);
       Y_data++;
       x = a + i * h;
     }
@@ -97,6 +114,18 @@ CAMLprim value LFUN(logspace_stub)(value vY, value va, value vb,
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value LFUN(logspace_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    LFUN(logspace_stub)(
+        argv[0],
+        Double_val(argv[1]),
+        Double_val(argv[2]),
+        Double_val(argv[3]),
+        Int_val(argv[4]));
+}
+
+
 extern REAL FUN(nrm2)(integer *N, REAL *X, integer *INCX);
 
 extern REAL FUN(dot)(
@@ -104,8 +133,8 @@ extern REAL FUN(dot)(
   REAL *X, integer *INCX,
   REAL *Y, integer *INCY);
 
-CAMLprim value LFUN(sqr_nrm2_stub)(
-  value vSTABLE, value vN, value vOFSX, value vINCX, value vX)
+CAMLprim double LFUN(sqr_nrm2_stub)(
+  value vSTABLE, intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -121,44 +150,71 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
   } else res = FUN(dot)(&N, X_data, &INCX, X_data, &INCX);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(caml_copy_double(res));
+  CAMLreturn(res);
+}
+
+CAMLprim value LFUN(sqr_nrm2_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    caml_copy_double(
+        LFUN(sqr_nrm2_stub)(
+          argv[0],
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4]));
 }
 
 #define NAME LFUN(max_stub)
+#define BC_NAME LFUN(max_stub_bc)
 #define INIT -INFINITY
 #define FUNC(acc, x) acc = SDMATHH(fmax)(acc, x)
 #include "fold_col.h"
 
 #define NAME LFUN(min_stub)
+#define BC_NAME LFUN(min_stub_bc)
 #define INIT INFINITY
 #define FUNC(acc, x) acc = SDMATHH(fmin)(acc, x)
 #include "fold_col.h"
 
 #define NAME LFUN(sum_vec_stub)
+#define BC_NAME LFUN(sum_vec_stub_bc)
 #define INIT 0.0
 #define FUNC(acc, x) acc += x
 #include "fold_col.h"
 
 #define NAME LFUN(prod_stub)
+#define BC_NAME LFUN(prod_stub_bc)
 #define INIT 1.0
 #define FUNC(acc, x) acc *= x
 #include "fold_col.h"
 
 extern value LFUN(dot_stub)(
-  value vN,
-  value vOFSY, value vINCY, value vY,
-  value vOFSX, value vINCX, value vX);
+  intnat vN,
+  intnat vOFSY, intnat vINCY, value vY,
+  intnat vOFSX, intnat vINCX, value vX);
 
-CAMLprim value LFUN(ssqr_zero_stub)(
-  value vN, value vOFSX, value vINCX, value vX)
+CAMLprim double LFUN(ssqr_zero_stub)(
+  intnat vN, intnat vOFSX, intnat vINCX, value vX)
 {
   return LFUN(dot_stub(vN, vOFSX, vINCX, vX, vOFSX, vINCX, vX));
 }
 
-CAMLprim value LFUN(ssqr_stub)(
-  value vN,
-  value vC,
-  value vOFSX, value vINCX, value vX)
+CAMLprim value LFUN(ssqr_zero_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    caml_copy_double(
+        LFUN(ssqr_zero_stub)(
+          Int_val(argv[0]),
+          Int_val(argv[1]),
+          Int_val(argv[2]),
+          argv[3]));
+}
+
+CAMLprim double LFUN(ssqr_stub)(
+  intnat vN,
+  double vC,
+  intnat vOFSX, intnat vINCX, value vX)
 {
   CAMLparam1(vX);
 
@@ -169,14 +225,14 @@ CAMLprim value LFUN(ssqr_stub)(
 
   REAL *start, *last;
   REAL acc = 0.0;
-  REAL c = Double_val(vC);
+  REAL GET_DOUBLE(C);
 
   caml_enter_blocking_section();  /* Allow other threads */
 
   if (INCX == 1)
     /* NOTE: may improve SIMD optimization */
     for (int i = 0; i < N; i++) {
-      REAL diff = X_data[i] - c;
+      REAL diff = X_data[i] - C;
       acc += diff * diff;
     }
   else {
@@ -190,7 +246,7 @@ CAMLprim value LFUN(ssqr_stub)(
     }
 
     while (start != last) {
-      REAL diff = *start - c;
+      REAL diff = *start - C;
       acc += diff * diff;
       start += INCX;
     }
@@ -198,7 +254,19 @@ CAMLprim value LFUN(ssqr_stub)(
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(caml_copy_double(acc));
+  CAMLreturn(acc);
+}
+
+CAMLprim value LFUN(ssqr_stub_bc)(value *argv, int __unused argn)
+{
+  return
+    caml_copy_double(
+        LFUN(ssqr_stub)(
+          Int_val(argv[0]),
+          Double_val(argv[1]),
+          Int_val(argv[2]),
+          Int_val(argv[3]),
+          argv[4]));
 }
 
 /* Unary vector operations */
@@ -452,6 +520,7 @@ CAMLprim value LFUN(ssqr_stub)(
 /* Unary vector operations yielding floats */
 
 #define NAME LFUN(log_sum_exp_vec_stub)
+#define BC_NAME LFUN(log_sum_exp_vec_stub_bc)
 #define DECLARE_EXTRA NUMBER x_max = -INFINITY
 #define INIT_HAVE_LOCK \
   x_max = LFUN(max_stub_blocking)(N, X_data, INCX, x_max)
@@ -486,18 +555,21 @@ CAMLprim value LFUN(ssqr_stub)(
   (isnan(b) ? (!isnan(a)) : (!isnan(a) && (SORT)))
 
 #define NAME LFUN(sort_incr)
+#define BC_NAME LFUN(sort_incr_bc)
 #define NAME_PERM LFUN(sort_incr_perm)
 #define BC_NAME_PERM LFUN(sort_incr_perm_bc)
 #define OCAML_SORT_LT(a, b) NAN_LAST(a, b, a < b)
 #include "vec_sort.h"
 
 #define NAME LFUN(sort_decr)
+#define BC_NAME LFUN(sort_decr_bc)
 #define NAME_PERM LFUN(sort_decr_perm)
 #define BC_NAME_PERM LFUN(sort_decr_perm_bc)
 #define OCAML_SORT_LT(a, b) NAN_LAST(a, b, a > b)
 #include "vec_sort.h"
 
 #define NAME LFUN(sort)
+#define BC_NAME LFUN(sort_bc)
 #define NAME_PERM LFUN(sort_perm)
 #define BC_NAME_PERM LFUN(sort_perm_bc)
 #define OCAML_SORT_LT(a, b)                                     \
