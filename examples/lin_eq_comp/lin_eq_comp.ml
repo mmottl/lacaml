@@ -34,8 +34,6 @@ open Format
 open Lacaml.D
 open Lacaml.Io
 
-let () = Random.self_init ()
-
 let pp_space ppf = pp_print_string ppf " "
 
 let () =

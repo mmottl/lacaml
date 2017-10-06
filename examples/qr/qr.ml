@@ -25,8 +25,6 @@ open Format
 
 open Lacaml.D
 
-let () = Random.self_init ()
-
 let () =
   let m = 10 in
   let n = 5 in

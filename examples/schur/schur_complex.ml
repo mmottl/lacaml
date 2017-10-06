@@ -28,8 +28,6 @@
 open Format
 open Lacaml.Io
 
-let () = Random.self_init ()
-
 (* GEES DEMO *)
 
 let () =
