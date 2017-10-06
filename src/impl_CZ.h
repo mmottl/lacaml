@@ -183,7 +183,7 @@ CAMLprim double LFUN(lansy_stub)(
     WORK_data);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(lansy_stub_bc)(value *argv, int __unused argn)

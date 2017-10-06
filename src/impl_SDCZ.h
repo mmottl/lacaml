@@ -205,7 +205,7 @@ CAMLprim double LFUN(nrm2_stub)(intnat vN, intnat vOFSX, intnat vINCX, value vX)
 #endif
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(nrm2_stub_bc)(value *argv, int __unused argn)
@@ -1537,7 +1537,7 @@ CAMLprim double LFUN(lange_stub)(
           WORK_data);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(lange_stub_bc)(value *argv, int __unused argn)

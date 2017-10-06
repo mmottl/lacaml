@@ -68,7 +68,7 @@ CAMLprim double LFUN(dot_stub)(
       Y_data, &INCY);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(dot_stub_bc)(value *argv, int __unused argn)
@@ -105,7 +105,7 @@ CAMLprim double LFUN(asum_stub)(intnat vN, intnat vOFSX, intnat vINCX, value vX)
   res = FUN(asum)(&N, X_data, &INCX);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(asum_stub_bc)(value *argv, int __unused argn)
@@ -341,7 +341,7 @@ CAMLprim double LFUN(lansy_stub)(
     WORK_data);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(lansy_stub_bc)(value *argv, int __unused argn)

@@ -84,8 +84,8 @@
 /* Real vs. imaginery */
 #ifndef LACAML_COMPLEX          /* Real number */
 #define NUMBER REAL
-#define COPY_NUMBER(X) X
-#define COPY_NUMBER_BC(X) caml_copy_double(X)
+#define CAMLreturnNUMBER(X) CAMLreturnT(double, X)
+#define COPY_NUMBER(X) caml_copy_double(X)
 #define NUMBER_ZERO 0
 #define NUMBER_ONE 1
 #define NUMBER_MINUS_ONE (-1)
@@ -101,8 +101,8 @@
 #define NEG_NUMBER(X) (-X)
 #else                           /* Complex number */
 #define NUMBER COMPLEX
-#define COPY_NUMBER(X) copy_two_doubles(X.r, X.i)
-#define COPY_NUMBER_BC(X) X
+#define CAMLreturnNUMBER(X) CAMLreturn(copy_two_doubles(X.r, X.i))
+#define COPY_NUMBER(X) X
 #define NUMBER_ZERO { 0, 0 }
 #define NUMBER_ONE { 1, 0 }
 #define NUMBER_MINUS_ONE { -1, 0 }

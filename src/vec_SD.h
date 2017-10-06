@@ -150,7 +150,7 @@ CAMLprim double LFUN(sqr_nrm2_stub)(
   } else res = FUN(dot)(&N, X_data, &INCX, X_data, &INCX);
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(res);
+  CAMLreturnT(double, res);
 }
 
 CAMLprim value LFUN(sqr_nrm2_stub_bc)(value *argv, int __unused argn)
@@ -254,7 +254,7 @@ CAMLprim double LFUN(ssqr_stub)(
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(acc);
+  CAMLreturnT(double, acc);
 }
 
 CAMLprim value LFUN(ssqr_stub_bc)(value *argv, int __unused argn)

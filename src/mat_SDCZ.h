@@ -111,13 +111,13 @@ CAMLprim vNUMBER LFUN(sum_mat_stub)(
     caml_leave_blocking_section();
   }
 
-  CAMLreturn(COPY_NUMBER(res));
+  CAMLreturnNUMBER(res);
 }
 
 CAMLprim value LFUN(sum_mat_stub_bc)(value *argv, int __unused argn)
 {
   return
-    COPY_NUMBER_BC(
+    COPY_NUMBER(
         LFUN(sum_mat_stub)(
           argv[0],
           Int_val(argv[1]),
@@ -1276,13 +1276,13 @@ end:
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(COPY_NUMBER(res));
+  CAMLreturnNUMBER(res);
 }
 
 CAMLprim value LFUN(gemm_trace_stub_bc)(value *argv, int __unused argn)
 {
   return
-    COPY_NUMBER_BC(
+    COPY_NUMBER(
         LFUN(gemm_trace_stub)(
           argv[0],
           argv[1],
@@ -1319,13 +1319,13 @@ CAMLprim vNUMBER LFUN(syrk_trace_stub)(
     }
   }
   caml_leave_blocking_section();  /* Disallow other threads */
-  CAMLreturn(COPY_NUMBER(res));
+  CAMLreturnNUMBER(res);
 }
 
 CAMLprim value LFUN(syrk_trace_stub_bc)(value *argv, int __unused argn)
 {
   return
-    COPY_NUMBER_BC(
+    COPY_NUMBER(
         LFUN(syrk_trace_stub)(
           Int_val(argv[0]),
           Int_val(argv[1]),
@@ -1352,7 +1352,7 @@ CAMLprim vNUMBER LFUN(symm2_trace_stub)(
 
   NUMBER diag_sum, res = NUMBER_ZERO;
 
-  if (N == 0) CAMLreturn(COPY_NUMBER(number_zero));
+  if (N == 0) CAMLreturnNUMBER(number_zero);
 
   caml_enter_blocking_section();  /* Allow other threads */
 
@@ -1419,13 +1419,13 @@ CAMLprim vNUMBER LFUN(symm2_trace_stub)(
 
   caml_leave_blocking_section();  /* Disallow other threads */
 
-  CAMLreturn(COPY_NUMBER(res));
+  CAMLreturnNUMBER(res);
 }
 
 CAMLprim value LFUN(symm2_trace_stub_bc)(value *argv, int __unused argn)
 {
   return
-    COPY_NUMBER_BC(
+    COPY_NUMBER(
         LFUN(symm2_trace_stub)(
           Int_val(argv[0]),
           argv[1],

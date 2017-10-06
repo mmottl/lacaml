@@ -89,13 +89,13 @@ CAMLprim vNUMBER NAME(intnat vN, intnat vOFSX, intnat vINCX, value vX)
     caml_leave_blocking_section();  /* Disallow other threads */
   }
 
-  CAMLreturn(COPY_NUMBER(acc));
+  CAMLreturnNUMBER(acc);
 }
 
 CAMLprim value BC_NAME(value *argv, int __unused argn)
 {
   return
-    COPY_NUMBER_BC(
+    COPY_NUMBER(
         NAME(
           Int_val(argv[0]),
           Int_val(argv[1]),
