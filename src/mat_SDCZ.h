@@ -1322,16 +1322,17 @@ CAMLprim vNUMBER LFUN(syrk_trace_stub)(
   CAMLreturnNUMBER(res);
 }
 
-CAMLprim value LFUN(syrk_trace_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(syrk_trace_stub_bc)(
+    value vN, value vK, value vAR, value vAC, value vA)
 {
   return
     COPY_NUMBER(
         LFUN(syrk_trace_stub)(
-          Int_val(argv[0]),
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          Int_val(argv[3]),
-          argv[4]));
+          Int_val(vN),
+          Int_val(vK),
+          Int_val(vAR),
+          Int_val(vAC),
+          vA));
 }
 
 

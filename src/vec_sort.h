@@ -245,15 +245,15 @@ CAMLprim value NAME(value vCMP, intnat vN,
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value BC_NAME(value *argv, int __unused argn)
+CAMLprim value BC_NAME(value vCMP, value vN, value vOFSX, value vINCX, value vX)
 {
   return
     NAME(
-        argv[0],
-        Int_val(argv[1]),
-        Int_val(argv[2]),
-        Int_val(argv[3]),
-        argv[4]);
+        vCMP,
+        Int_val(vN),
+        Int_val(vOFSX),
+        Int_val(vINCX),
+        vX);
 }
 
 CAMLprim value NAME_PERM(value vCMP, intnat vN,

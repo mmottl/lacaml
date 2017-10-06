@@ -113,15 +113,16 @@ CAMLprim value LFUN(scal_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(scal_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(scal_stub_bc)(
+    value vN, value vALPHA, value vOFSX, value vINCX, value vX)
 {
   return
     LFUN(scal_stub)(
-        Int_val(argv[0]),
-        NUMBER_val(argv[1]),
-        Int_val(argv[2]),
-        Int_val(argv[3]),
-        argv[4]);
+        Int_val(vN),
+        NUMBER_val(vALPHA),
+        Int_val(vOFSX),
+        Int_val(vINCX),
+        vX);
 }
 
 
@@ -208,15 +209,15 @@ CAMLprim double LFUN(nrm2_stub)(intnat vN, intnat vOFSX, intnat vINCX, value vX)
   CAMLreturnT(double, res);
 }
 
-CAMLprim value LFUN(nrm2_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(nrm2_stub_bc)(value vN, value vOFSX, value vINCX, value vX)
 {
   return
     caml_copy_double(
         LFUN(nrm2_stub)(
-          Int_val(argv[0]),
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          argv[3]));
+          Int_val(vN),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 
@@ -295,15 +296,15 @@ CAMLprim intnat LFUN(iamax_stub)(
   CAMLreturn(index);
 }
 
-CAMLprim value LFUN(iamax_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(iamax_stub_bc)(value vN, value vOFSX, value vINCX, value vX)
 {
   return
     Val_int(
         LFUN(iamax_stub)(
-          Int_val(argv[0]),
-          Int_val(argv[1]),
-          Int_val(argv[3]),
-          argv[4]));
+          Int_val(vN),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 
@@ -1209,15 +1210,16 @@ CAMLprim value LFUN(larnv_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(larnv_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(larnv_stub_bc)(
+    value vIDIST, value vISEED, value vN, value vOFSX, value vX)
 {
   return
     LFUN(larnv_stub)(
-        Int_val(argv[0]),
-        argv[1],
-        Int_val(argv[2]),
-        Int_val(argv[3]),
-        argv[4]);
+        Int_val(vIDIST),
+        vISEED,
+        Int_val(vN),
+        Int_val(vOFSX),
+        vX);
 }
 
 
@@ -1581,15 +1583,16 @@ CAMLprim value LFUN(lauum_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(lauum_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(lauum_stub_bc)(
+    value vUPLO, value vN, value vAR, value vAC, value vA)
 {
   return
     LFUN(lauum_stub)(
-        argv[0],
-        Int_val(argv[1]),
-        Int_val(argv[2]),
-        Int_val(argv[3]),
-        argv[4]);
+        vUPLO,
+        Int_val(vN),
+        Int_val(vAR),
+        Int_val(vAC),
+        vA);
 }
 
 
@@ -1953,16 +1956,17 @@ CAMLprim intnat LFUN(potrf_stub)(
   CAMLreturn(INFO);
 }
 
-CAMLprim value LFUN(potrf_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(potrf_stub_bc)(
+    value vUPLO, value vN, value vAR, value vAC, value vA)
 {
   return
     Val_int(
         LFUN(potrf_stub)(
-          argv[0],
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          Int_val(argv[3]),
-          argv[4]));
+          vUPLO,
+          Int_val(vN),
+          Int_val(vAR),
+          Int_val(vAC),
+          vA));
 }
 
 /** POTRS */
@@ -2042,16 +2046,17 @@ CAMLprim intnat LFUN(potri_stub)(
   CAMLreturn(INFO);
 }
 
-CAMLprim value LFUN(potri_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(potri_stub_bc)(
+    value vUPLO, value vN, value vAR, value vAC, value vA)
 {
   return
     Val_int(
         LFUN(potri_stub)(
-          argv[0],
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          Int_val(argv[3]),
-          argv[4]));
+          vUPLO,
+          Int_val(vN),
+          Int_val(vAR),
+          Int_val(vAC),
+          vA));
 }
 
 /** TRTRS */

@@ -108,15 +108,15 @@ CAMLprim double LFUN(asum_stub)(intnat vN, intnat vOFSX, intnat vINCX, value vX)
   CAMLreturnT(double, res);
 }
 
-CAMLprim value LFUN(asum_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(asum_stub_bc)(value vN, value vOFSX, value vINCX, value vX)
 {
   return
     caml_copy_double(
         LFUN(asum_stub)(
-          Int_val(argv[0]),
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          argv[3]));
+          Int_val(vN),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 

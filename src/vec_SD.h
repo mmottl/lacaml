@@ -50,14 +50,14 @@ CAMLprim value LFUN(linspace_stub)(value vY, double va, double vb, intnat vN)
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(linspace_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(linspace_stub_bc)(value vY, value va, value vb, value vN)
 {
   return
     LFUN(linspace_stub)(
-        argv[0],
-        Double_val(argv[1]),
-        Double_val(argv[2]),
-        Int_val(argv[3]));
+        vY,
+        Double_val(va),
+        Double_val(vb),
+        Int_val(vN));
 }
 
 
@@ -114,15 +114,16 @@ CAMLprim value LFUN(logspace_stub)(
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(logspace_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(logspace_stub_bc)(
+    value vY, value va, value vb, value vbase, value vN)
 {
   return
     LFUN(logspace_stub)(
-        argv[0],
-        Double_val(argv[1]),
-        Double_val(argv[2]),
-        Double_val(argv[3]),
-        Int_val(argv[4]));
+        vY,
+        Double_val(va),
+        Double_val(vb),
+        Double_val(vbase),
+        Int_val(vN));
 }
 
 
@@ -153,16 +154,17 @@ CAMLprim double LFUN(sqr_nrm2_stub)(
   CAMLreturnT(double, res);
 }
 
-CAMLprim value LFUN(sqr_nrm2_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(sqr_nrm2_stub_bc)(
+    value vSTABLE, value vN, value vOFSX, value vINCX, value vX)
 {
   return
     caml_copy_double(
         LFUN(sqr_nrm2_stub)(
-          argv[0],
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          Int_val(argv[3]),
-          argv[4]));
+          vSTABLE,
+          Int_val(vN),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 #define NAME LFUN(max_stub)
@@ -200,15 +202,16 @@ CAMLprim double LFUN(ssqr_zero_stub)(
   return LFUN(dot_stub(vN, vOFSX, vINCX, vX, vOFSX, vINCX, vX));
 }
 
-CAMLprim value LFUN(ssqr_zero_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(ssqr_zero_stub_bc)(
+    value vN, value vOFSX, value vINCX, value vX)
 {
   return
     caml_copy_double(
         LFUN(ssqr_zero_stub)(
-          Int_val(argv[0]),
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          argv[3]));
+          Int_val(vN),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 CAMLprim double LFUN(ssqr_stub)(
@@ -257,16 +260,17 @@ CAMLprim double LFUN(ssqr_stub)(
   CAMLreturnT(double, acc);
 }
 
-CAMLprim value LFUN(ssqr_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(ssqr_stub_bc)(
+    value vN, value vC, value vOFSX, value vINCX, value vX)
 {
   return
     caml_copy_double(
         LFUN(ssqr_stub)(
-          Int_val(argv[0]),
-          Double_val(argv[1]),
-          Int_val(argv[2]),
-          Int_val(argv[3]),
-          argv[4]));
+          Int_val(vN),
+          Double_val(vC),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 /* Unary vector operations */

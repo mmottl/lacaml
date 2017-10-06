@@ -92,15 +92,15 @@ CAMLprim vNUMBER NAME(intnat vN, intnat vOFSX, intnat vINCX, value vX)
   CAMLreturnNUMBER(acc);
 }
 
-CAMLprim value BC_NAME(value *argv, int __unused argn)
+CAMLprim value BC_NAME(value vN, value vOFSX, value vINCX, value vX)
 {
   return
     COPY_NUMBER(
         NAME(
-          Int_val(argv[0]),
-          Int_val(argv[1]),
-          Int_val(argv[2]),
-          argv[3]));
+          Int_val(vN),
+          Int_val(vOFSX),
+          Int_val(vINCX),
+          vX));
 }
 
 #undef NAME
