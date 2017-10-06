@@ -27,7 +27,6 @@ let to_vec arr =
     Array.map (fun i -> Int32.of_int (i + 1)) arr)
 
 let () =
-  let () = Random.self_init () in
   let r = 10 in
   let m = Mat.random r 3 in
   let ipiv = to_vec (shuffle r) in

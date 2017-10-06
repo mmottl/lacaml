@@ -33,8 +33,6 @@ open Format
 
 open Lacaml.Io
 
-let () = Random.self_init ()
-
 (* SYEV DEMO *)
 
 let () =

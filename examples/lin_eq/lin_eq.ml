@@ -35,8 +35,6 @@ open Bigarray
 open Lacaml.D
 open Lacaml.Io
 
-let () = Random.self_init ()
-
 let () =
   let n = 5 in
 
