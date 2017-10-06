@@ -574,7 +574,7 @@ CAMLprim value LFUN(sycon_stub)(
   value vIPIV,
   value vWORK,
   value vIWORK,
-  value vANORM)
+  double vANORM)
 {
   CAMLparam4(vA, vIPIV, vWORK, vIWORK);
   CAMLlocal1(v_rcond);
@@ -619,7 +619,7 @@ CAMLprim value LFUN(sycon_stub_bc)(value *argv, int __unused argn)
         argv[5],
         argv[6],
         argv[7],
-        argv[8]);
+        Double_val(argv[8]));
 }
 
 /** POCON */
@@ -638,7 +638,7 @@ CAMLprim value LFUN(pocon_stub)(
   intnat vAR, intnat vAC, value vA,
   value vWORK,
   value vIWORK,
-  value vANORM)
+  double vANORM)
 {
   CAMLparam3(vA, vWORK, vIWORK);
   CAMLlocal1(v_rcond);
@@ -680,7 +680,7 @@ CAMLprim value LFUN(pocon_stub_bc)(value *argv, int __unused argn)
         argv[4],
         argv[5],
         argv[6],
-        argv[7]);
+        Double_val(argv[7]));
 }
 
 /* Least squares (expert drivers)
