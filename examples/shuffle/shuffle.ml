@@ -36,7 +36,9 @@ let () =
   printf "After: m = @[%a@]@\n@\n" pp_fmat m;
   let m = Mat.random 3 r in
   let k = to_vec (let a = reordered r in a.(3) <- 3; a) in
-  let forward = if Random.int 2 = 0 then true else false in
+  (* [forward = false] may segfault on my platform - probably a vendor library
+     bug *)
+  let forward = true in
   printf "Before: m = @[%a@]@\n@\n" pp_fmat m;
   printf "Permute columns (lapmt) %s by: @[%a@]@\n@\n%!"
     (if forward then "forward" else "backward")
