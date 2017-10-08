@@ -1,46 +1,32 @@
 open Base
 open Stdio
 
-let split_ws str = List.filter (String.split ~on:' ' str) ~f:(String.(<>) "")
+let split_ws str = String.(split str ~on:' ' |> List.filter ~f:((<>) ""))
 
 let () =
   let module C = Configurator in
   C.main ~name:"lacaml" (fun c ->
     let cflags =
-      let cflags =
-        match Caml.Sys.getenv "LACAML_CFLAGS" with
-        | alt_cflags -> split_ws alt_cflags
-        | exception Not_found -> []
-      in
-      "-std=c99" :: cflags
+      match Caml.Sys.getenv "LACAML_CFLAGS" with
+      | alt_cflags -> split_ws alt_cflags
+      | exception Not_found -> []
     in
-    let libs_override = ref false in
-    let libs =
+    let libs, libs_override =
       match Caml.Sys.getenv "LACAML_LIBS" with
-      | alt_libs -> libs_override := true; split_ws alt_libs
-      | exception Not_found -> ["-lblas"; "-llapack"]
+      | alt_libs -> split_ws alt_libs, true
+      | exception Not_found -> ["-lblas"; "-llapack"], false
     in
     let conf =
-      let default : C.Pkg_config.package_conf = { cflags; libs } in
-      let var = C.ocaml_config_var c "system" in
-      let ext_exp10 = "-DEXTERNAL_EXP10" in
-      Option.value_map var ~default ~f:(function
-        | "linux" | "linux_elf" ->
-            let cflags = "-std=gnu99" :: cflags in
-            { cflags; libs }
-        | "macosx" ->
-            let cflags = ext_exp10 :: cflags in
-            let libs =
-              if !libs_override then libs
-              else ["-framework"; "Accelerate"]
-            in
-            { cflags; libs }
-        | "freebsd" ->
-            let cflags = ext_exp10 :: cflags in
-            { cflags; libs }
-        | "mingw64" ->
-            let cflags = "-DWIN32" :: ext_exp10 :: cflags in
-            { cflags; libs }
+      (* [exp10] is a GNU compiler extension so we have to provide our own
+         external implementation by default unless we know that our platform is
+         using the GNU compiler. *)
+      let default : C.Pkg_config.package_conf =
+        { cflags = "-DEXTERNAL_EXP10" :: "-std=c99" :: cflags; libs } in
+      Option.value_map (C.ocaml_config_var c "system") ~default ~f:(function
+        | "linux" | "linux_elf" -> { cflags = "-std=gnu99" :: cflags; libs }
+        | "macosx" when libs_override ->
+            { default with libs = "-framework" :: "Accelerate" :: libs }
+        | "mingw64" -> { cflags = "-DWIN32" :: default.cflags; libs }
         | _ -> default)
     in
     let write_sexp file sexp =
