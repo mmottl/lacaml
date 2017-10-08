@@ -1,6 +1,6 @@
-## LACAML - Linear Algebra for OCaml
+## Lacaml - Linear Algebra for OCaml
 
-### What is LACAML?
+### What is Lacaml?
 
 This [OCaml](http://www.ocaml.org)-library interfaces two widely used
 mathematical FORTRAN-libraries:
@@ -17,7 +17,7 @@ applications that require linear algebra.
     time and are therefore extremely mature both in terms of stability
     and performance.
 
-  * LACAML interfaces most of the functions in BLAS and LAPACK (many
+  * Lacaml interfaces most of the functions in BLAS and LAPACK (many
     hundreds!).  It supports among other things linear equations, least
     squares problems, eigenvalue problems, singular value decomposition
     (SVD), Cholesky and QR-factorization, etc.
@@ -28,7 +28,7 @@ applications that require linear algebra.
     information (e.g. row and column headers).  Users can specify easily how
     much context to print.  For example, it is usually sufficient to print
     small blocks of the four corners of a large result matrix to manually
-    verify the correctness of an algorithm.  LACAML uses this approach to
+    verify the correctness of an algorithm.  Lacaml uses this approach to
     limit the output to human-manageable size.
 
   * Integration into the OCaml-toplevel allows for easy experimentation for
@@ -77,7 +77,7 @@ applications that require linear algebra.
     the user to make sure that data contained in matrices is suitable for
     the application of the intended functions.
 
-### Using LACAML
+### Using Lacaml
 
 You can make use of this library by referring to the corresponding module
 for the required precision and number type.  E.g.:
@@ -179,7 +179,7 @@ R100  0.419968  0.333358 ... -0.0224016  0.513944
 ```
 
 Applications can use the standard `Format`-module in the OCaml-distribution
-together with LACAML printing functions to output vectors and matrices.
+together with Lacaml printing functions to output vectors and matrices.
 Here is an example using labels and showing the high customizability of the
 printing functions:
 
@@ -273,6 +273,10 @@ the platform-dependent default by setting the following environment variables:
 
 The first one can be used to add compilation flags, and the second one to
 override the default linking flags (`-lblas` and `-llapack`).
+
+Lacaml already passes `-O3 -march=native -ffast-math` as compiler flags to fully
+exploit SIMD instructions when supported by the used platform.  The current
+Lacaml code base is probably safe with these options.
 
 ### Contact Information and Contributing
 
