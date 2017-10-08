@@ -19,7 +19,7 @@ homepage: "http://mmottl.github.io/lacaml"
 doc: "https://mmottl.github.io/lacaml/api"
 dev-repo: "https://github.com/mmottl/lacaml.git"
 bug-reports: "https://github.com/mmottl/lacaml/issues"
-tags: [ "clib:lapack" "clib:blas"  ]
+tags: [ "clib:lapack" "clib:blas" ]
 
 build: [
   ["jbuilder" "subst"]{pinned}
@@ -37,4 +37,4 @@ depends: [
   "base-bigarray"
 ]
 
-available: [ ocaml-version >= "4.04" ]
+available: [ ocaml-version >= "4.05" ]
