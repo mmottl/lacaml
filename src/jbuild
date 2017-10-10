@@ -90,6 +90,7 @@
   ))
   (deps (
     config/make_prec_dep.exe
+    lacaml.mli.h
     SD.mli SD.ml CZ.mli CZ.ml
     impl_SDCZ.mli impl_SDCZ.ml impl_SD.mli impl_SD.ml impl_CZ.mli impl_CZ.ml
     mat_SDCZ.mli mat_SDCZ.ml mat_SD.mli mat_SD.ml mat_CZ.mli mat_CZ.ml
