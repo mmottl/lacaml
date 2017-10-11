@@ -37,7 +37,7 @@
 
 open Printf
 open Bigarray
-open Lacaml__common
+open Common
 
 (* Zero-sized dummy vector (int) *)
 let empty_int32_vec = create_int32_vec 0

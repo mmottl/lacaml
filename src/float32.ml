@@ -1,6 +1,6 @@
-(* File: complex64.ml
+(* File: float32.ml
 
-   Copyright (C) 2005-
+   Copyright (C) 2005
 
      Markus Mottl
      email: markus.mottl@gmail.com
@@ -23,32 +23,32 @@
 
 open Bigarray
 
-type prec = complex64_elt
-type num_type = Complex.t
-type vec = (Complex.t, complex64_elt, fortran_layout) Array1.t
-type rvec = (float, float64_elt, fortran_layout) Array1.t
-type mat = (Complex.t, complex64_elt, fortran_layout) Array2.t
+type prec = float32_elt
+type num_type = float
+type vec = (float, float32_elt, fortran_layout) Array1.t
+type rvec = vec
+type mat = (float, float32_elt, fortran_layout) Array2.t
 
-type trans3 = [ `N | `T | `C ]
+type trans3 = [ `N | `T ]
 
-let prec = complex64
-let zero = Complex.zero
-let one = Complex.one
-let add = Complex.add
+let prec = float32
+let zero = 0.0
+let one = 1.0
+let add = (+.)
 
 let vec_create n = Array1.create prec fortran_layout n
 
-let int_of_complex64 z = int_of_float z.Complex.re
+let int_of_float32 = int_of_float
 
 module Types = struct
   module Vec = struct
-    type unop = vec Lacaml__common.Types.Vec.unop
-    type binop = vec Lacaml__common.Types.Vec.binop
+    type unop = vec Common.Types.Vec.unop
+    type binop = vec Common.Types.Vec.binop
   end  (* Vec *)
 
   module Mat = struct
-    type patt = Lacaml__common.Types.Mat.patt
-    type unop = mat Lacaml__common.Types.Mat.unop
-    type binop = mat Lacaml__common.Types.Mat.binop
+    type patt = Common.Types.Mat.patt
+    type unop = mat Common.Types.Mat.unop
+    type binop = mat Common.Types.Mat.binop
   end  (* Mat *)
 end  (* Types *)

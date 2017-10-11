@@ -27,7 +27,7 @@
 
 (** {5 Matrix operations} *)
 
-open Lacaml__complexxx
+open Complexxx
 
 (** {6 Creation of matrices} *)
 

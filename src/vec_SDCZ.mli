@@ -25,8 +25,8 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Lacaml__common
-open Lacaml__numberxx
+open Common
+open Numberxx
 open Types.Vec
 
 (** {6 Creation/conversion of vectors and dimension accessor} *)

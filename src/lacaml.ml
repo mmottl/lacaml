@@ -1,11 +1,11 @@
 
 (* Module aliases *)
-module Io = Lacaml__io
+module Io = Io
 
-module Common = Lacaml__common
-module Utils = Lacaml__utils
+module Common = Common
+module Utils = Utils
 
-module D = Lacaml__D
-module S = Lacaml__S
-module Z = Lacaml__Z
-module C = Lacaml__C
+module D = D
+module S = S
+module Z = Z
+module C = C

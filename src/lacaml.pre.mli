@@ -47,26 +47,26 @@
 (** {2 Pretty printing} *)
 
 (** Pretty-printing of vector and matrices. *)
-module Io : module type of Lacaml__io
+module Io : module type of Io
 
 
 (** {2 Precision dependent modules} *)
 
 (** Types and functions common to all precision dependent sub-modules. *)
-module Common : module type of Lacaml__common
+module Common : module type of Common
 
 (** Double precision real BLAS and LAPACK functions. *)
-module D : module type of Lacaml__D
+module D : module type of D
 
 (** Single precision real BLAS and LAPACK functions. *)
-module S : module type of Lacaml__S
+module S : module type of S
 
 (** Double precision complex BLAS and LAPACK functions. *)
-module Z : module type of Lacaml__Z
+module Z : module type of Z
 
 (** Single precision complex BLAS and LAPACK functions. *)
-module C : module type of Lacaml__C
+module C : module type of C
 
 
 (** {2 Utility functions} *)
-module Utils : module type of Lacaml__utils
+module Utils : module type of Utils

@@ -26,7 +26,7 @@
 *)
 
 open Complex
-open Lacaml__vec4_CPREC
+open Vec4_CPREC
 
 let random
       ?rnd_state

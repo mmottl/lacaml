@@ -27,7 +27,7 @@
 
 (** {5 Matrix operations} *)
 
-open Lacaml__floatxx
+open Floatxx
 open Types.Mat
 
 (** {6 Creation of matrices} *)

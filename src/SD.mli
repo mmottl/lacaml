@@ -53,18 +53,18 @@ val prec : (float, floatxx_elt) Bigarray.kind
 module Vec : sig
   type t = vec
 
-  include module type of Lacaml__vec2_FPREC
-  include module type of Lacaml__vec4_FPREC
+  include module type of Vec2_FPREC
+  include module type of Vec4_FPREC
 end
 
 module Mat : sig
   type t = mat
 
-  include module type of Lacaml__mat2_FPREC
-  include module type of Lacaml__mat4_FPREC
+  include module type of Mat2_FPREC
+  include module type of Mat4_FPREC
 end
 
-include module type of Lacaml__real_io
+include module type of Real_io
 
-include module type of Lacaml__impl2_FPREC
-include module type of Lacaml__impl4_FPREC
+include module type of Impl2_FPREC
+include module type of Impl4_FPREC

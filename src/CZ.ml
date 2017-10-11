@@ -28,26 +28,25 @@
 (** Modules with functions specialized for simple (C) or double (Z)
     precision complex numbers. *)
 
-include Lacaml__complexxx
+include Complexxx
 
-include Lacaml__complex_io
+include Complex_io
 
-include Lacaml__impl2_CPREC
-include Lacaml__impl4_CPREC
+include Impl2_CPREC
+include Impl4_CPREC
 
 module Vec = struct
   type t = vec
 
-  include Types.Vec (* Export [unop],... so they can be explicit in
-                       Lacaml__C and Lacaml__Z. *)
-  include Lacaml__vec2_CPREC
-  include Lacaml__vec4_CPREC
+  include Types.Vec (* Export [unop],... so they can be explicit in C and Z. *)
+  include Vec2_CPREC
+  include Vec4_CPREC
 end
 
 module Mat = struct
   type t = mat
 
   include Types.Mat
-  include Lacaml__mat2_CPREC
-  include Lacaml__mat4_CPREC
+  include Mat2_CPREC
+  include Mat4_CPREC
 end

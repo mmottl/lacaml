@@ -25,7 +25,7 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Lacaml__io
+open Io
 
 let pp_num ppf n = !pp_complex_el_default ppf n
 let pp_vec = pp_cvec

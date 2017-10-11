@@ -27,7 +27,7 @@
 
 (** {5 Vector operations} *)
 
-open Lacaml__complexxx
+open Complexxx
 
 (** {6 Creation of vectors} *)
 

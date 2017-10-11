@@ -39,15 +39,15 @@
 open Printf
 open Bigarray
 open Complex
-open Lacaml__complexxx
-open Lacaml__common
-open Lacaml__utils
-open Lacaml__impl4_CPREC
+open Complexxx
+open Common
+open Utils
+open Impl4_CPREC
 
-module Vec = Lacaml__vec4_CPREC
-module Mat = Lacaml__mat4_CPREC
+module Vec = Vec4_CPREC
+module Mat = Mat4_CPREC
 
-module RVec = Lacaml__vec4_CBPREC
+module RVec = Vec4_CBPREC
 
 (* BLAS-1 interface *)
 
@@ -332,7 +332,7 @@ let gesvd_get_opt_lwork loc jobu jobvt m n ar ac a s ur uc u vtr vtc vt =
       ~jobu ~jobvt ~m ~n ~ar ~ac ~a ~s ~ur ~uc ~u ~vtr ~vtc ~vt
       ~work ~lwork ~rwork:RVec.empty
   in
-  if info = 0 then Lacaml__floatxx.int_of_floatxx work.{1}.re
+  if info = 0 then Floatxx.int_of_floatxx work.{1}.re
   else gesvd_err loc jobu jobvt m n a u vt lwork info
 
 let gesvd_opt_lwork

@@ -27,7 +27,7 @@
 
 (** {5 Vector operations} *)
 
-open Lacaml__floatxx
+open Floatxx
 open Types.Vec
 
 (** {6 Creation of vectors} *)

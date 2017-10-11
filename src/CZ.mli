@@ -53,18 +53,18 @@ val prec : (Complex.t, complexxx_elt) Bigarray.kind
 module Vec : sig
   type t = vec
 
-  include module type of Lacaml__vec2_CPREC
-  include module type of Lacaml__vec4_CPREC
+  include module type of Vec2_CPREC
+  include module type of Vec4_CPREC
 end
 
 module Mat : sig
   type t = mat
 
-  include module type of Lacaml__mat2_CPREC
-  include module type of Lacaml__mat4_CPREC
+  include module type of Mat2_CPREC
+  include module type of Mat4_CPREC
 end
 
-include module type of Lacaml__complex_io
+include module type of Complex_io
 
-include module type of Lacaml__impl2_CPREC
-include module type of Lacaml__impl4_CPREC
+include module type of Impl2_CPREC
+include module type of Impl4_CPREC

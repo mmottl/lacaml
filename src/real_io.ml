@@ -1,10 +1,14 @@
-(* File: float32.ml
+(* File: real_io.ml
 
-   Copyright (C) 2005
+   Copyright (C) 2001-
 
      Markus Mottl
      email: markus.mottl@gmail.com
      WWW: http://www.ocaml.info
+
+     Christophe Troestler
+     email: Christophe.Troestler@umons.ac.be
+     WWW: http://math.umh.ac.be/an/
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -21,34 +25,8 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 *)
 
-open Bigarray
+open Io
 
-type prec = float32_elt
-type num_type = float
-type vec = (float, float32_elt, fortran_layout) Array1.t
-type rvec = vec
-type mat = (float, float32_elt, fortran_layout) Array2.t
-
-type trans3 = [ `N | `T ]
-
-let prec = float32
-let zero = 0.0
-let one = 1.0
-let add = (+.)
-
-let vec_create n = Array1.create prec fortran_layout n
-
-let int_of_float32 = int_of_float
-
-module Types = struct
-  module Vec = struct
-    type unop = vec Lacaml__common.Types.Vec.unop
-    type binop = vec Lacaml__common.Types.Vec.binop
-  end  (* Vec *)
-
-  module Mat = struct
-    type patt = Lacaml__common.Types.Mat.patt
-    type unop = mat Lacaml__common.Types.Mat.unop
-    type binop = mat Lacaml__common.Types.Mat.binop
-  end  (* Mat *)
-end  (* Types *)
+let pp_num ppf n = !pp_float_el_default ppf n
+let pp_vec = pp_fvec
+let pp_mat = pp_fmat

@@ -24,26 +24,25 @@
 (** Modules with functions specialized for simple (S) or double (D)
     precision numbers. *)
 
-include Lacaml__floatxx
+include Floatxx
 
-include Lacaml__impl2_FPREC
-include Lacaml__impl4_FPREC
+include Impl2_FPREC
+include Impl4_FPREC
 
-include Lacaml__real_io
+include Real_io
 
 module Vec = struct
   type t = vec
 
-  include Types.Vec (* Export [unop],... so they can be explicit in
-                       Lacaml__S and Lacaml__D. *)
-  include Lacaml__vec2_FPREC
-  include Lacaml__vec4_FPREC
+  include Types.Vec (* Export [unop],... so they can be explicit in S and D. *)
+  include Vec2_FPREC
+  include Vec4_FPREC
 end
 
 module Mat = struct
   type t = mat
 
   include Types.Mat
-  include Lacaml__mat2_FPREC
-  include Lacaml__mat4_FPREC
+  include Mat2_FPREC
+  include Mat4_FPREC
 end

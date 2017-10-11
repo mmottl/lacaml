@@ -49,12 +49,12 @@ let inc_module_type_of_re =
   Str.regexp "^\\( *\\)include module type of +\\([A-Za-z0-9_]+\\)"
 
 (* Replace [open Types.Vec] and [open Types.Mat] by their explicit
-   definition (when [full_doc] is desired).  [Lacaml__float*] and
-   [Lacaml__complex*] are thus internal modules. *)
+   definition (when [full_doc] is desired).  [Float*] and
+   [Complex*] are thus internal modules. *)
 let explicit_vec_mat s =
-  let s = Str.global_replace (Str.regexp "^ *open *Lacaml__float[0-9]+ *\n")
+  let s = Str.global_replace (Str.regexp "^ *open *Float[0-9]+ *\n")
             "" s in
-  let s = Str.global_replace (Str.regexp "^ *open *Lacaml__complex[0-9]+ *\n")
+  let s = Str.global_replace (Str.regexp "^ *open *Complex[0-9]+ *\n")
             "" s in
   (* Only replace the 1st ones. *)
   let type_vec = Str.regexp " *open *Types.Vec *" in
@@ -100,9 +100,8 @@ let explicit_vec_mat s =
              -> mat" s in
   Str.global_replace type_mat "" s
 
-
 (* [full_doc] means that one wants all "include module type of" to be
-   replaced with the actual .mli content to be easier to read anb search. *)
+   replaced with the actual .mli content to be easier to read and search. *)
 let rec substitute fname0 fname1 ?(full_doc=false) subs =
   let ml0 = input_file fname0 in
   let s = substitute_string ~full_doc ml0 subs in
@@ -123,7 +122,7 @@ and substitute_string ~full_doc s subs =
         String.concat [": sig\n"; m; "\nend\n"] in
       Str.global_substitute sig_module_type_of_re subst s
     else s in
-  (* Substitute [module type of] if not supported of explicit doc is desired. *)
+  (* Substitute [module type of] if not supported or explicit doc is desired. *)
   if has_module_type_of && not full_doc then s
   else (
     let subst s =
@@ -144,7 +143,7 @@ and string_of_mod_name ~prefix ~full_doc mname subs =
 
 (* [derived] is a list of (new_suffix, substitutions).  Returns the
    list of created files. *)
-let derived_files ?(prefix=true) ?full_doc fnames suffix derived =
+let derived_files ?full_doc fnames suffix derived =
   let re = Str.regexp ("\\([a-zA-Z]*\\)" ^ suffix ^ "$") in
   let derive fname =
     if Str.string_match re fname 0 then (
@@ -152,7 +151,6 @@ let derived_files ?(prefix=true) ?full_doc fnames suffix derived =
       if String.(seed <> "lacaml") then (
         let derive1 (new_suffix, subs) =
           let fname1 = seed ^ new_suffix in
-          let fname1 = if prefix then "lacaml__" ^ fname1 else fname1 in
           substitute fname fname1 ?full_doc subs;
         in
         List.iter ~f:derive1 derived;
@@ -173,6 +171,7 @@ let () =
       "NPREC", "S";
       "NBPREC", "S";
       "numberxx", "float32";
+      "Numberxx", "Float32";
       "num_type_arg", "(float [@unboxed])";
     ]
 
@@ -181,6 +180,7 @@ let () =
       "NPREC", "D";
       "NBPREC", "D";
       "numberxx", "float64";
+      "Numberxx", "Float64";
       "num_type_arg", "(float [@unboxed])";
     ]
 
@@ -189,6 +189,7 @@ let () =
       "NPREC", "C";
       "NBPREC", "S";
       "numberxx", "complex32";
+      "Numberxx", "Complex32";
       "num_type_arg", "num_type";
     ]
 
@@ -197,6 +198,7 @@ let () =
       "NPREC", "Z";
       "NBPREC", "D";
       "numberxx", "complex64";
+      "Numberxx", "Complex64";
       "num_type_arg", "num_type";
     ]
   in
@@ -212,6 +214,7 @@ let () =
     r [
       "FPREC", "S";
       "floatxx", "float32";
+      "Floatxx", "Float32";
       "num_type_arg", "(float [@unboxed])";
     ]
 
@@ -219,6 +222,7 @@ let () =
     r [
       "FPREC", "D";
       "floatxx", "float64";
+      "Floatxx", "Float64";
       "num_type_arg", "(float [@unboxed])";
     ]
 
@@ -226,7 +230,9 @@ let () =
     r [
       "CPREC", "C";  "CBPREC", "S";
       "floatxx", "float32";
+      "Floatxx", "Float32";
       "complexxx", "complex32";
+      "Complexxx", "Complex32";
       "num_type_arg", "num_type";
     ]
 
@@ -235,7 +241,9 @@ let () =
       "CPREC", "Z";
       "CBPREC", "D";
       "floatxx", "float64";
+      "Floatxx", "Float64";
       "complexxx", "complex64";
+      "Complexxx", "Complex64";
       "num_type_arg", "num_type";
     ]
   in
@@ -257,4 +265,4 @@ let () =
 
 let () =
   (* Will also resolve the "module type of" *)
-  substitute "lacaml.mli.h" "lacaml.mli" []
+  substitute "lacaml.pre.mli" "lacaml.mli" []
