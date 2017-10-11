@@ -116,13 +116,94 @@ module Types : sig
   module Mat : sig
     (** Pattern of a matrix operation
 
-        The following holds:
+        Documentation of matrix patterns:
+
+          x = accessed
+          ? = not accessed
+
+        [`Full] for an [(m, n) = (3, 4)] full matrix operation:
+
+          x x x x
+          x x x x
+          x x x x
+
+        [`Utr] for an [(m, n) = (3, 4)] upper trapezoidal matrix operation:
+
+          x x x x
+          ? x x x
+          ? ? x x
+
+        [`Utr] for an [(m, n) = (4, 3)] upper trapezoidal matrix operation (the
+        accessed part is actually only upper triangular due to dimension
+        constraints):
+
+          x x x
+          ? x x
+          ? ? x
+          ? ? ?
+
+        [`Utr] for an [(m, n) = (3, 3)] upper triangular matrix operation:
+
+          x x x
+          ? x x
+          ? ? x
+
+        [`Ltr] for an [(m, n) = (4, 3)] lower trapezoidal matrix operation:
+
+          x ? ?
+          x x ?
+          x x x
+          x x x
+
+        [`Ltr] for an [(m, n) = (3, 4)] lower trapezoidal matrix operation (the
+        accessed part is actually only lower triangular due to dimension
+        constraints):
+
+          x ? ? ?
+          x x ? ?
+          x x x ?
+
+        [`Ltr] for an [(m, n) = (3, 3)] lower triangular matrix operation:
+
+          x x x
+          ? x x
+          ? ? x
+
+        [`Upent 2] for an [(m, n) = (4, 3)] upper pentagonal matrix operation.
+        The pattern argument describes the number of topmost full rows:
+
+          x x x
+          x x x
+          ? x x
+          ? ? x
+
+        [`Lpent 2] for an [(m, n) = (3, 4)] lower pentagonal matrix operation.
+        The pattern argument describes the number of leftmost full columns:
+
+          x x ? ?
+          x x x ?
+          x x x x
+
+        The transpose of a [`Upent l] operation is an [`Lpent l] operation if
+        [m] and [n] are also flipped.
+
+        Note that the following holds:
 
           * [`Utr = `Upent 1]
           * [`Ltr = `Lpent 1]
 
         Whether an operation operates on a triangular or trapezoidal part of a
-        matrix is inferred from size parameters [m] and [n] passed separately.
+        matrix is inferred from size parameters [m] and [n], which are passed
+        separately.
+
+        Pentagonal matrix patterns have the advantage of being fractal: it is
+        always possible to cut a pentagonal pattern along an arbitrary row or
+        column and obtain two sub-problems that can also be described by a
+        pentagonal pattern.  This makes pentagonal patterns suitable for
+        parallelizing many operations, e.g. on triagonal matrices, by cutting
+        them into smaller problems using pentagonal patterns.  Neither triagonal
+        nor trapezoidal patterns are fractal.  Rectangular patterns are fractal,
+        but too limited in expressiveness.
     *)
     type patt = [
       | `Full  (* Full matrix *)
