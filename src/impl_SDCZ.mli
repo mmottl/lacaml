@@ -537,7 +537,7 @@ val lacpy :
     and [uplo] can be specified at a time.
 
     @raise Failure if both [patt] and [uplo] are specified simultaneously
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param uplo default = whole matrix
     @param b The target matrix.  By default a fresh matrix to
              accommodate the sizes [m] and [n] and the offsets [br]

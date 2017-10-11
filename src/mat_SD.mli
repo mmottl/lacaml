@@ -79,7 +79,7 @@ val abs : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -98,7 +98,7 @@ val signum : unop
     is given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -116,7 +116,7 @@ val sqr : unop
     be stored in there using offsets [br] and [bc], otherwise a fresh matrix
     will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -134,7 +134,7 @@ val sqrt : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -152,7 +152,7 @@ val cbrt : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -170,7 +170,7 @@ val exp : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -188,7 +188,7 @@ val exp2 : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -206,7 +206,7 @@ val expm1 : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -241,7 +241,7 @@ val log10 : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -259,7 +259,7 @@ val log2 : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -277,7 +277,7 @@ val log1p : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -295,7 +295,7 @@ val sin : unop
     there using offsets [br] and [bc], otherwise a fresh matrix will be used.
     The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -313,7 +313,7 @@ val cos : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -331,7 +331,7 @@ val tan : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -349,7 +349,7 @@ val asin : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -367,7 +367,7 @@ val acos : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -385,7 +385,7 @@ val atan : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -403,7 +403,7 @@ val sinh : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -421,7 +421,7 @@ val cosh : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -439,7 +439,7 @@ val tanh : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -457,7 +457,7 @@ val asinh : unop
     given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -475,7 +475,7 @@ val acosh : unop
     given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -493,7 +493,7 @@ val atanh : unop
     given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -511,7 +511,7 @@ val floor : unop
     be stored in there using offsets [br] and [bc], otherwise a fresh matrix
     will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -529,7 +529,7 @@ val ceil : unop
     will be stored in there using offsets [br] and [bc], otherwise a fresh
     matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -547,7 +547,7 @@ val round : unop
     there using offsets [br] and [bc], otherwise a fresh matrix will be used.
     The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -565,7 +565,7 @@ val trunc : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -583,7 +583,7 @@ val erf : unop
     result will be stored in there using offsets [br] and [bc], otherwise
     a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -601,7 +601,7 @@ val erfc : unop
     given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -619,7 +619,7 @@ val logistic : unop
     given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -637,7 +637,7 @@ val relu : unop
     is given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -655,7 +655,7 @@ val softplus : unop
     given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -673,7 +673,7 @@ val softsign : unop
     is given, the result will be stored in there using offsets [br] and [bc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = 1
@@ -695,7 +695,7 @@ val pow : binop
     the result will be stored in there starting in row [cr] and column [cc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param cr default = 1
@@ -722,7 +722,7 @@ val atan2 : binop
     a sad consequence of the C99-standard reversing the argument order for
     [atan2] for no good reason.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param cr default = 1
@@ -743,7 +743,7 @@ val hypot : binop
     the result will be stored in there starting in row [cr] and column [cc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param cr default = 1
@@ -764,7 +764,7 @@ val min2 : binop
     the result will be stored in there starting in row [cr] and column [cc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param cr default = 1
@@ -785,7 +785,7 @@ val max2 : binop
     the result will be stored in there starting in row [cr] and column [cc],
     otherwise a fresh matrix will be used.  The resulting matrix is returned.
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param cr default = 1
@@ -814,7 +814,7 @@ val sum_prod :
     [ar] and column [ac] with the corresponding sub-matrix of the matrix [b]
     starting in row [br] and column [bc].
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param ar default = 1
@@ -834,7 +834,7 @@ val log_sum_exp :
     exponentials of all elements in the [m]-by-[n] submatrix using pattern
     [patt], starting at row [ar] and column [ac].
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = number of rows of [a]
     @param n default = number of columns of [a]
 *)
@@ -861,7 +861,7 @@ val cpab :
     elementwise and adds the result to and stores it in the specified range
     in [c].  This function is useful for convolutions.  Similar to [Vec.zpxy].
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = number of rows of [a]
     @param n default = number of columns of [a]
     @param cr default = 1
@@ -892,7 +892,7 @@ val cmab :
     specified range in [c].  This function is useful for convolutions.
     Similar to [Vec.zmxy].
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = number of rows of [a]
     @param n default = number of columns of [a]
     @param cr default = 1

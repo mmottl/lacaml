@@ -588,21 +588,21 @@ module Mat_patt = struct
           loc l n)
 
   let check_args ~loc ~m ~n : Types.Mat.patt option -> unit= function
-    | None | Some `full | Some `utr | Some `ltr -> ()
-    | Some `upent l -> check_upent ~loc ~l ~m
-    | Some `lpent l -> check_lpent ~loc ~l ~n
+    | None | Some `Full | Some `Utr | Some `Ltr -> ()
+    | Some `Upent l -> check_upent ~loc ~l ~m
+    | Some `Lpent l -> check_lpent ~loc ~l ~n
 
   let normalize_args ~loc ~m ~n : Types.Mat.patt option -> kind * int = function
-    | None | Some `full -> Lower, n
-    | Some `utr -> Upper, 1
-    | Some `ltr -> Lower, 1
-    | Some `upent l -> check_upent ~loc ~l ~m; Upper, l
-    | Some `lpent l -> check_lpent ~loc ~l ~n; Lower, l
+    | None | Some `Full -> Lower, n
+    | Some `Utr -> Upper, 1
+    | Some `Ltr -> Lower, 1
+    | Some `Upent l -> check_upent ~loc ~l ~m; Upper, l
+    | Some `Lpent l -> check_lpent ~loc ~l ~n; Lower, l
 
   let patt_of_uplo ~(uplo : [`U | `L] option) ~(patt : Types.Mat.patt option) =
     match uplo with
-    | Some `U -> Some `utr
-    | Some `L -> Some `ltr
+    | Some `U -> Some `Utr
+    | Some `L -> Some `Ltr
     | _ -> patt
 end  (* Mat_patt *)
 

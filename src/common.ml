@@ -95,11 +95,11 @@ module Types = struct
 
   module Mat = struct
     type patt = [
-      | `full  (* Full matrix *)
-      | `utr  (* Upper triangular or trapezoidal matrix *)
-      | `ltr  (* lower triangular or trapezoidal matrix *)
-      | `upent of int  (* Initial full rows of pentagonal matrix *)
-      | `lpent of int  (* Initial full columns of pentagonal matrix *)
+      | `Full  (* Full matrix *)
+      | `Utr  (* Upper triangular or trapezoidal matrix *)
+      | `Ltr  (* lower triangular or trapezoidal matrix *)
+      | `Upent of int  (* Initial full rows of pentagonal matrix *)
+      | `Lpent of int  (* Initial full columns of pentagonal matrix *)
     ]
 
     type 'mat unop =

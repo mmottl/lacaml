@@ -603,11 +603,11 @@ let lacpy ?uplo ?patt ?m ?n ?(br = 1) ?(bc = 1) ?b ?(ar = 1) ?(ac = 1) a =
     match patt, uplo with
     | Some _, Some _ ->
         failwith (sprintf "%s: only one of [patt] and [uplo] are allowed" loc)
-    | (None | Some `full), None -> Mat_patt.Upper, -1, 'A'
-    | Some `utr, None | None, Some `U -> Mat_patt.Upper, -1, 'U'
-    | Some `ltr, None | None, Some `L -> Mat_patt.Lower, -1, 'L'
-    | Some `upent pinit, None -> Mat_patt.Upper, pinit, '?'
-    | Some `lpent pinit, None -> Mat_patt.Lower, pinit, '?'
+    | (None | Some `Full), None -> Mat_patt.Upper, -1, 'A'
+    | Some `Utr, None | None, Some `U -> Mat_patt.Upper, -1, 'U'
+    | Some `Ltr, None | None, Some `L -> Mat_patt.Lower, -1, 'L'
+    | Some `Upent pinit, None -> Mat_patt.Upper, pinit, '?'
+    | Some `Lpent pinit, None -> Mat_patt.Lower, pinit, '?'
   in
   direct_lacpy ~pkind ~pinit ~uplo ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b

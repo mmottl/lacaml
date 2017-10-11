@@ -169,7 +169,7 @@ val swap :
   (** [swap ?patt ?m ?n ?ar ?ac a ?br ?bc b]
       swaps the contents of (sub-matrices) [a] and [b].
 
-      @param patt default = [`full]
+      @param patt default = [`Full]
       @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
       @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
       @param ar default = [1]
@@ -250,7 +250,7 @@ val add_const : num_type -> unop
     designated [m] by [n] submatrix in [a] using pattern [patt] and stores the
     result in the designated submatrix in [b].
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = [Mat.dim1 a]
     @param n default = [Mat.dim2 a]
     @param ar default = [1]
@@ -601,7 +601,7 @@ val ssqr_diff :
     [a] starting in row [ar] and column [ac] with the corresponding
     sub-matrix of the matrix [b] starting in row [br] and column [bc].
 
-    @param patt default = [`full]
+    @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param ar default = 1

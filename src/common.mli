@@ -118,18 +118,18 @@ module Types : sig
 
         The following holds:
 
-          * [`utr = `upent 1]
-          * [`ltr = `lpent 1]
+          * [`Utr = `Upent 1]
+          * [`Ltr = `Lpent 1]
 
         Whether an operation operates on a triangular or trapezoidal part of a
         matrix is inferred from size parameters [m] and [n] passed separately.
     *)
     type patt = [
-      | `full  (* Full matrix *)
-      | `utr  (* Upper triangular or trapezoidal matrix *)
-      | `ltr  (* lower triangular or trapezoidal matrix *)
-      | `upent of int  (* Initial full rows of pentagonal matrix *)
-      | `lpent of int  (* Initial full columns of pentagonal matrix *)
+      | `Full  (* Full matrix *)
+      | `Utr  (* Upper triangular or trapezoidal matrix *)
+      | `Ltr  (* lower triangular or trapezoidal matrix *)
+      | `Upent of int  (* Initial full rows of pentagonal matrix *)
+      | `Lpent of int  (* Initial full columns of pentagonal matrix *)
     ]
 
     type 'mat unop =
