@@ -26,3 +26,5 @@
     improve performance of some operations.
 
   * Improved documentation
+
+  * Improved configuration and build process
