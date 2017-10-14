@@ -487,7 +487,17 @@ val axpy :
   mat
   -> unit
 (** [axpy ?alpha ?patt ?m ?n ?xr ?xc x ?yr ?yc y] BLAS [axpy] function for
-    matrices. *)
+    matrices.
+
+    @param alpha default = [{ re = 1.; im = 0. }]
+    @param patt default = [`Full]
+    @param m default = greater n s.t. [xr + m - 1 <= dim1 x]
+    @param n default = greater n s.t. [xc + n - 1 <= dim2 x]
+    @param xr default = 1
+    @param xc default = 1
+    @param yr default = 1
+    @param yc default = 1
+*)
 
 val gemm_diag :
   ?n : int ->
