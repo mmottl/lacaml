@@ -12,7 +12,7 @@
 
       * New functions
 
-        * `Mat.sum_prod` computes the sum of elemenet-wise products of
+        * `Mat.sum_prod` computes the sum of element-wise products of
           two matrices.  Some use cases are already covered by `Mat.gemm_trace`,
           but the latter does not support patterns.
 
