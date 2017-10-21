@@ -1,4 +1,4 @@
-### 10.0.0 (2017-10-08)
+### 10.0.0 (2017-10-20)
 
   * Switched to jbuilder and topkg
 
