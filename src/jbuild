@@ -74,20 +74,20 @@
     mat4_S.mli mat4_S.ml
     mat4_D.mli mat4_D.ml
     mat4_C.mli mat4_C.ml
-    mat4_Z.mli Mat4_Z.ml
-    Mat2_S.mli Mat2_S.ml
-    Mat2_D.mli Mat2_D.ml
-    Mat2_C.mli Mat2_C.ml
-    Mat2_Z.mli Mat2_Z.ml
+    mat4_Z.mli mat4_Z.ml
+    mat2_S.mli mat2_S.ml
+    mat2_D.mli mat2_D.ml
+    mat2_C.mli mat2_C.ml
+    mat2_Z.mli mat2_Z.ml
     ;
-    Vec4_S.mli Vec4_S.ml
-    Vec4_D.mli Vec4_D.ml
-    Vec4_C.mli Vec4_C.ml
-    Vec4_Z.mli Vec4_Z.ml
-    Vec2_S.mli Vec2_S.ml
-    Vec2_D.mli Vec2_D.ml
-    Vec2_C.mli Vec2_C.ml
-    Vec2_Z.mli Vec2_Z.ml
+    vec4_S.mli vec4_S.ml
+    vec4_D.mli vec4_D.ml
+    vec4_C.mli vec4_C.ml
+    vec4_Z.mli vec4_Z.ml
+    vec2_S.mli vec2_S.ml
+    vec2_D.mli vec2_D.ml
+    vec2_C.mli vec2_C.ml
+    vec2_Z.mli vec2_Z.ml
   ))
   (deps (
     config/make_prec_dep.exe
