@@ -205,7 +205,7 @@ val detri : ?up : bool -> ?n : int -> ?ar : int -> ?ac : int -> mat -> unit
     along the diagonal.
 
     @param up default = [true]
-    @param n default = [Mat.dim1 a]
+    @param n default = [Mat.dim2 a]
     @param ar default = [1]
     @param ac default = [1]
 *)
