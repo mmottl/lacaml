@@ -97,9 +97,12 @@ CAMLprim value NAME(
                   B_data += rows_B;
                 }
               }
+              A_data++;
+              B_data++;
               M--;
             }
             rows_A++;
+            rows_B++;
             while (A_data < A_stop) {
               STR(NAME, _range)(M, A_data, B_data);
               M--;

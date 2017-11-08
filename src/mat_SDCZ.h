@@ -97,6 +97,7 @@ CAMLprim vNUMBER LFUN(sum_mat_stub)(
                   A_data += rows_A;
                 }
               }
+              A_data++;
               M--;
             }
             rows_A++;
@@ -195,6 +196,7 @@ CAMLprim value LFUN(fill_mat_stub)(
                   A_data += rows_A;
                 }
               }
+              A_data++;
               M--;
             }
             rows_A++;
@@ -304,9 +306,12 @@ CAMLprim value LFUN(add_const_mat_stub)(
                   B_data += rows_B;
                 }
               }
+              A_data++;
+              B_data++;
               M--;
             }
-            rows_A++; rows_B++;
+            rows_A++;
+            rows_B++;
             while (A_data < A_stop) {
               add_const_range(M, A_data, B_data, C);
               M--;
@@ -412,9 +417,12 @@ CAMLprim value LFUN(swap_mat_stub)(
                   B_data += rows_B;
                 }
               }
+              A_data++;
+              B_data++;
               M--;
             }
-            rows_A++; rows_B++;
+            rows_A++;
+            rows_B++;
             while (A_data < A_stop) {
               FUN(swap)(&M, A_data, &integer_one, B_data, &integer_one);
               M--;
@@ -561,6 +569,7 @@ CAMLprim value LFUN(scal_mat_stub)(
                   A_data += rows_A;
                 }
               }
+              A_data++;
               M--;
             }
             rows_A++;
@@ -653,6 +662,7 @@ CAMLprim value LFUN(scal_cols_stub)(
                 A_data += rows_A;
                 ALPHAs_data++;
               }
+              A_data++;
               M--;
             }
             rows_A++;
@@ -841,9 +851,12 @@ CAMLprim value LFUN(axpy_mat_stub)(
                   Y_data += rows_Y;
                 }
               }
+              X_data++;
+              Y_data++;
               M--;
             }
-            rows_X++; rows_Y++;
+            rows_X++;
+            rows_Y++;
             while (X_data < X_stop) {
               FUN(axpy)(&M, &ALPHA,
                   X_data, &integer_one, Y_data, &integer_one);

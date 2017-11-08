@@ -1309,9 +1309,12 @@ CAMLprim value LFUN(lacpy_stub)(
                     B_data += rows_B;
                   }
                 }
+                A_data++;
+                B_data++;
                 M--;
               }
-              rows_A++; rows_B++;
+              rows_A++;
+              rows_B++;
               while (A_data < A_stop) {
                 FUN(copy)(&M, A_data, &integer_one, B_data, &integer_one);
                 M--;

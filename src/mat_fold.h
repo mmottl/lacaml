@@ -88,6 +88,7 @@ static inline NUMBER STR(NAME, _blocking)(
               A_data += rows_A;
             }
           }
+          A_data++;
           M--;
         }
         rows_A++;

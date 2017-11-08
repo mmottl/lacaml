@@ -100,9 +100,12 @@ CAMLprim vNUMBER NAME(
                   B_data += rows_B;
                 }
               }
+              A_data++;
+              B_data++;
               M--;
             }
             rows_A++;
+            rows_B++;
             while (A_data < A_stop) {
               acc = STR(NAME, _range)(M, A_data, B_data, acc);
               M--;
