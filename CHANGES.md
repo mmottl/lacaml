@@ -1,3 +1,10 @@
+### 10.0.2 (2017-11-08)
+
+  * Fixed bugs accessing lower pentagonal matrix patterns
+
+  * Fixed library override issue on Mac OS X
+
+
 ### 10.0.1 (2017-10-21)
 
   * Fixed wrongly capitalized build targets missed due to Mac OS X file
