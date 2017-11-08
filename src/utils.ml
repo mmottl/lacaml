@@ -603,7 +603,13 @@ module Mat_patt = struct
     match uplo with
     | Some `U -> Some `Utr
     | Some `L -> Some `Ltr
-    | _ -> patt
+    | None -> patt
+
+  let patt_of_up ~up ~(patt : Types.Mat.patt option) =
+    match up with
+    | Some true -> Some `Utr
+    | Some false -> Some `Ltr
+    | None -> patt
 end  (* Mat_patt *)
 
 (**)
