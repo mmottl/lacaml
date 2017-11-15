@@ -260,6 +260,16 @@ val add_const : num_type -> unop
     @param b default = fresh matrix of size [m] by [n]
 *)
 
+val add_const_diag :
+  num_type -> ?n : int -> ?ar : int -> ?ac : int -> mat -> unit
+(** [add_const c ?n ?ar ?ac a] adds constant [c] to the diagonal of the
+    designated [n] by [n] submatrix in [a].
+
+    @param n default = [Mat.dim2 a]
+    @param ar default = [1]
+    @param ac default = [1]
+*)
+
 val neg : unop
 (** [neg ?m ?n ?br ?bc ?b ?ar ?ac a] computes the negative of the elements in
     the [m] by [n] (sub-)matrix of the matrix [a] starting in row [ar]

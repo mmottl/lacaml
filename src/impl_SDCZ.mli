@@ -660,19 +660,19 @@ val lange :
     @param ac default = 1 *)
 
 val lauum :
-  ?up : bool ->
   ?n : int ->
+  ?up : bool ->
   ?ar : int ->
   ?ac : int ->
   mat ->
   unit
-(** [lauum ?up ?n ?ar ?ac a] computes the product U * U**T or L**T * L,
+(** [lauum ?n ?up ?ar ?ac a] computes the product U * U**T or L**T * L,
     where the triangular factor U or L is stored in the upper or lower
     triangular part of the array [a].  The upper or lower part of [a]
     is overwritten.
 
-    @param up default = [true]
     @param n default = minimum of available number of rows/columns in matrix [a]
+    @param up default = [true]
     @param ar default = 1
     @param ac default = 1 *)
 
@@ -857,20 +857,10 @@ val potrf :
   ?up : bool ->
   ?ar : int ->
   ?ac : int ->
-  ?jitter : num_type ->
   mat ->
   unit
-(** [potrf ?n ?up ?ar ?ac ?jitter a] factorizes symmetric positive
-    definite matrix [a] (or the designated submatrix) using Cholesky
-    factorization.
-
-    Due to rounding errors ill-conditioned matrices may actually appear
-    as if they were not positive definite, thus leading to an exception.
-    One remedy for this problem is to add a small [jitter] to the
-    diagonal of the matrix, which will usually allow Cholesky to complete
-    successfully (though at a small bias).  For extremely ill-conditioned
-    matrices it is recommended to use (symmetric) eigenvalue decomposition
-    instead of this function for a numerically more stable factorization.
+(** [potrf ?n ?up ?ar ?ac a] factorizes symmetric positive definite matrix
+    [a] (or the designated submatrix) using Cholesky factorization.
 
     @raise Failure if the matrix is singular.
 
@@ -878,7 +868,6 @@ val potrf :
     @param up default = true (store upper triangle in [a])
     @param ar default = 1
     @param ac default = 1
-    @param jitter default = nothing
 *)
 
 val potrs :
@@ -890,11 +879,9 @@ val potrs :
   ?nrhs : int ->
   ?br : int ->
   ?bc : int ->
-  ?factorize : bool ->
-  ?jitter : num_type ->
   mat ->
   unit
-(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc ?factorize ?jitter b] solves
+(** [potrs ?n ?up ?ar ?ac a ?nrhs ?br ?bc b] solves
     a system of linear equations [a]*X = [b], where [a] is symmetric
     positive definite matrix, using the Cholesky factorization [a] =
     U**T*U or [a] = L*L**T computed by {!potrf}.
@@ -908,8 +895,6 @@ val potrs :
     @param nrhs default = available number of columns in matrix [b]
     @param br default = 1
     @param bc default = 1
-    @param factorize default = true (calls {!potrf} implicitly)
-    @param jitter default = nothing
 *)
 
 val potri :
@@ -917,14 +902,11 @@ val potri :
   ?up : bool ->
   ?ar : int ->
   ?ac : int ->
-  ?factorize : bool ->
-  ?jitter : num_type ->
   mat ->
   unit
-(** [potri ?n ?up ?ar ?ac ?factorize ?jitter a] computes the inverse
-    of the real symmetric positive definite matrix [a] using the
-    Cholesky factorization [a] = U**T*U or [a] = L*L**T computed by
-    {!potrf}.
+(** [potri ?n ?up ?ar ?ac a] computes the inverse of the real symmetric
+    positive definite matrix [a] using the Cholesky factorization [a] =
+    U**T*U or [a] = L*L**T computed by {!potrf}.
 
     @raise Failure if the matrix is singular.
 
@@ -932,8 +914,6 @@ val potri :
     @param up default = true (upper triangle stored in [a])
     @param ar default = 1
     @param ac default = 1
-    @param factorize default = true (calls {!potrf} implicitly)
-    @param jitter default = nothing
 *)
 
 val trtrs :

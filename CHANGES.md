@@ -1,3 +1,41 @@
+### 11.0.0 (????-??-??)
+
+  _WARNINIG_ _WARNING_ _WARNING_
+
+  * User code changes in existing code required!  User code may still compile,
+    but can behave differently!
+
+    The following functions are affected:
+
+      * `potrf`
+      * `potri`
+      * `potrs`
+
+    The above functions now do not support the `jitter` argument anymore.
+    Users should remove the flag from calls to the above functions and
+    call the new `Mat.add_const_diag` function if they need to add jitter.
+    This call should happen right before the (now required) call to `potrf`.
+
+    More importantly, `potri` and `potrs` now do not support the `factorize`
+    flag anymore, which would call `potrf` automatically beforehand.  This was
+    the (ill-conceived) default, which makes it harder to port LAPACK code
+    to Lacaml.  In order to upgrade your code, please do the following:
+
+      * If `potri` or `potrs` were passed `~factorize:false`, just remove
+        the flag.
+
+      * If `potri` or `potrs` were passed `~factorize:true` _or were called
+        without the `factorize` flag_, remove the flag if necessary and call
+        `potrf` with the exactly corresponding arguments before.
+
+    Luckily, these functions are typically used rarely, and the changes
+    are trivial.  Apologies anyway for the churn!
+
+  * New functions
+
+      * `Mat.add_const_diag` for adding a constant to the diagonal of a
+        (sub-)matrix.
+
 ### 10.0.2 (2017-11-08)
 
   * Fixed bugs accessing lower pentagonal matrix patterns

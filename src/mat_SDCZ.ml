@@ -487,6 +487,15 @@ let add_const c ?patt ?m ?n
   direct_add_const ~c ~pkind ~pinit ~m ~n ~ar ~ac ~a ~br ~bc ~b;
   b
 
+let add_const_diag c ?n ?(ar = 1) ?(ac = 1) a =
+  let loc = "Lacaml.NPREC.Mat.add_const_diag" in
+  let n = get_n_of_square loc a_str ar ac a n in
+  for i = 0 to n - 1 do
+    let ari = ar + i in
+    let aci = ac + i in
+    a.{ari, aci} <- add a.{ari, aci} c
+  done
+
 external direct_neg :
   pkind : Mat_patt.kind ->
   pinit : (int [@untagged]) ->

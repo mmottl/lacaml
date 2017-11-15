@@ -92,7 +92,7 @@ let () =
   printf "chol(B) = @[%a@]@\n@\n" pp_fmat chol;
 
   let inv = lacpy chol in
-  potri ~factorize:false inv;
+  potri inv;
   printf "inv(B) = @[%a@]@\n@\n" pp_fmat inv;
 
   let normM = lange ~norm:`M b in
