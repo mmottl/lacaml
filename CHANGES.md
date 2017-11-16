@@ -36,6 +36,10 @@
       * `Mat.add_const_diag` for adding a constant to the diagonal of a
         (sub-)matrix.
 
+  * `orgqr` now detects if `m < n` and raises an exception instead of printing
+    a Fortran error message and continuing.
+
+
 ### 10.0.2 (2017-11-08)
 
   * Fixed bugs accessing lower pentagonal matrix patterns

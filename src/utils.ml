@@ -718,8 +718,10 @@ let orgqr_err ~loc ~m ~n ~k ~work ~a ~err =
 let orgqr_get_params loc ?m ?n ?k ~tau ~ar ~ac a =
   let m = get_dim1_mat loc a_str a ar m_str m in
   let n = get_dim2_mat loc a_str a ac n_str n in
-  let k = get_dim_vec loc tau_str 1 1 tau k_str k in
-  m, n, k
+  if m < n then invalid_arg (sprintf "%s: m(%d) < n(%d)" loc m n)
+  else
+    let k = get_dim_vec loc tau_str 1 1 tau k_str k in
+    m, n, k
 
 
 (* ORMQR - Auxiliary Functions *)
