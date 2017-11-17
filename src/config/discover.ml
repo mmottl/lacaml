@@ -5,6 +5,7 @@ let split_ws str = String.(split str ~on:' ' |> List.filter ~f:((<>) ""))
 
 let () =
   let module C = Configurator in
+  let open C.Pkg_config in
   C.main ~name:"lacaml" (fun c ->
     let cflags =
       match Caml.Sys.getenv "LACAML_CFLAGS" with
@@ -20,7 +21,7 @@ let () =
       (* [exp10] is a GNU compiler extension so we have to provide our own
          external implementation by default unless we know that our platform is
          using the GNU compiler. *)
-      let default : C.Pkg_config.package_conf =
+      let default =
         { cflags = "-DEXTERNAL_EXP10" :: "-std=c99" :: cflags; libs } in
       Option.value_map (C.ocaml_config_var c "system") ~default ~f:(function
         | "linux" | "linux_elf" -> { cflags = "-std=gnu99" :: cflags; libs }
