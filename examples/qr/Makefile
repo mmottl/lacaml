@@ -3,7 +3,6 @@ TARGETS = $(addsuffix .bc, qr)
 .PHONY: all clean
 
 all:
-	@echo jbuilder: Entering directory \`$(abspath $(dir $(lastword $(PWD))))\'
 	@jbuilder build --dev $(TARGETS)
 
 clean:
