@@ -39,6 +39,8 @@
   * `orgqr` now detects if `m < n` and raises an exception instead of printing
     a Fortran error message and continuing.
 
+  * Improved documentation.
+
 
 ### 10.0.2 (2017-11-08)
 

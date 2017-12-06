@@ -192,8 +192,8 @@ val transpose_copy :
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = [1]
     @param bc default = [1]
-    @param b default = fresh matrix with [br + m - 1] rows and
-                       [bc + n - 1] columns
+    @param b default = fresh matrix with [br + n - 1] rows and
+                       [bc + m - 1] columns
     @param ar default = [1]
     @param ac default = [1]
 *)
