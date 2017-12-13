@@ -1014,7 +1014,7 @@ val sygv :
   ?bc : int ->
   mat
   -> vec
-(** [sygv ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a]
+(** [sygv ?n ?vectors ?up ?ofswork ?work ?ofsw ?w ?ar ?ac a ?br ?bc b]
     computes all the eigenvalues, and optionally, the eigenvectors
     of a real generalized symmetric-definite eigenproblem, of the
     form [a*x=(lambda)*b*x], [a*b*x=(lambda)*x], or [b*a*x=(lambda)*x].
