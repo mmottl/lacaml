@@ -67,16 +67,6 @@ applications that require linear algebra.
     These exceptions will explain the error in detail, for example the
     received illegal parameter and the range of expected legal values.
 
-    The only exception to the above is illegal contents of vectors and
-    matrices.  This can happen, for example, when freshly allocated matrices
-    are used without initialization.  Some LAPACK-algorithms may not be able
-    to deal with floats that correspond to NaNs, infinities, or are subnormal.
-    Checking matrices on every call would seem excessive.  Some functions
-    also expect matrices with certain properties, e.g. positive-definiteness,
-    which would be way too costly to verify beforehand.  It is the task of
-    the user to make sure that data contained in matrices is suitable for
-    the application of the intended functions.
-
 ### Using Lacaml
 
 You can make use of this library by referring to the corresponding module
@@ -220,6 +210,27 @@ This is an indented random matrix:
 Many other options, e.g. for different padding, printing numbers in
 other formats or with different precision, etc., are available for output
 customization.
+
+#### Error handling
+
+Though Lacaml is quite thorough in checking arguments for consistency with
+BLAS/LAPACK, an exception to the above is illegal contents of vectors and
+matrices.  This can happen, for example, when freshly allocated matrices
+are used without initialization.  Some LAPACK-algorithms may not be able
+to deal with floats that correspond to NaNs, infinities, or are subnormal.
+Checking matrices on every call would seem excessive.  Some functions also
+expect matrices with certain properties, e.g. positive-definiteness, which
+would be way too costly to verify beforehand.
+
+Degenerate value shapes, e.g. empty matrices and vectors, and zero-sized
+operations may also be handled inconsistently by BLAS/LAPACK itself.  It is
+rather difficult to detect all such corner cases and to predetermine for
+all on how they should be handled to provide a sane workaround.
+
+_Users are well-advised to to ensure the sanity of the contents of values
+passed to Lacaml functions and to avoid calling Lacaml with values having
+degenerate dimensions.  User code should either raise exceptions if values
+seem degenerate or handle unusual corner cases explicitly._
 
 #### Other sources of usage information
 
