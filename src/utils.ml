@@ -813,8 +813,8 @@ let xxev_get_params loc ar ac a n vectors up =
 
 let xxev_get_wx vec_create loc wname ofsw w n =
   match w with
-  | None -> 1, vec_create n
-  | Some w -> check_vec loc wname w (ofsw - 1 + n); ofsw, w
+  | None -> vec_create (ofsw - 1 + n)
+  | Some w -> check_vec loc wname w (ofsw - 1 + n); w
 
 
 (* geev -- auxiliary functions *)

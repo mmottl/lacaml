@@ -451,7 +451,7 @@ let geev_opt_lwork
     ?(ofsw = 1) ?w
     ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.geev_opt_lwork" in
-  let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, _), (ofsw, w) =
+  let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, _), w =
     geev_get_params loc ar ac a n vlr vlc vl vrr vrc vr ofsw w
   in
   geev_get_opt_lwork loc n vlr vlc vl jobvl vrr vrc vr jobvr ofsw w ar ac a
@@ -463,7 +463,7 @@ let geev
     ?(ofsw = 1) ?w
     ?(ar = 1) ?(ac = 1) a =
   let loc = "Lacaml.CPREC.geev" in
-  let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, _), (ofsw, w) =
+  let (n, vlr, vlc, vl, jobvl, vrr, vrc, vr, jobvr, _), w =
     geev_get_params loc ar ac a n vlr vlc vl vrr vrc vr ofsw w in
 
   let work, lwork =

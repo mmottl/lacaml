@@ -39,6 +39,8 @@
   * `orgqr` now detects if `m < n` and raises an exception instead of printing
     a Fortran error message and continuing.
 
+  * Eigenvalue offsets should now work correctly.
+
   * Improved documentation.
 
 
