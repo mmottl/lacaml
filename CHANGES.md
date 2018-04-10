@@ -1,3 +1,7 @@
+### ??.?.? (????-??-??)
+
+  * Fixed warnings and errors in configuration code due to upstream changes.
+
 ### 11.0.0 (2018-02-28)
 
   _WARNINIG_ _WARNING_ _WARNING_
