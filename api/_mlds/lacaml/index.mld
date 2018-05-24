@@ -1,0 +1,6 @@
+{1 Library lacaml}
+The entry point of this library is the module:
+{!module-Lacaml}.
+{1 Library lacaml.top}
+The entry point of this library is the module:
+{!module-Lacaml_top}.
