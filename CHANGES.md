@@ -1,6 +1,8 @@
-### ??.?.? (????-??-??)
+### 11.0.1 (2018-05-23)
 
   * Fixed warnings and errors in configuration code due to upstream changes.
+
+  * Fixed bug in Vec.ssqr.
 
 
 ### 11.0.0 (2018-02-28)

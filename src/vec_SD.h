@@ -191,7 +191,7 @@ CAMLprim value LFUN(sqr_nrm2_stub_bc)(
 #define FUNC(acc, x) acc *= x
 #include "fold_col.h"
 
-extern value LFUN(dot_stub)(
+extern double LFUN(dot_stub)(
   intnat vN,
   intnat vOFSY, intnat vINCY, value vY,
   intnat vOFSX, intnat vINCX, value vX);
