@@ -45,5 +45,4 @@ let () =
   let res = Vec.sub (gbmv ab kl ku ~ar:(kl + row) sol) b in
   printf "@[<2>Solving general band matrix:@\n@\n";
   printf "Sol: X  = @[%a@]@\n" pp_rfvec sol;
-  printf "A X - b = %a@]@\n@\n" pp_rfvec res;
-
+  printf "A X - b = %a@]@\n@\n" pp_rfvec res

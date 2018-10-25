@@ -22,18 +22,24 @@ bug-reports: "https://github.com/mmottl/lacaml/issues"
 tags: [ "clib:lapack" "clib:blas" ]
 
 build: [
-  ["jbuilder" "subst" "-p" name] {pinned}
-  ["jbuilder" "build" "-p" name "-j" jobs]
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
 ]
 
 depends: [
   "ocaml" {>= "4.05"}
+  "dune" {build & >= "1.4.0"}
   "conf-blas" {build}
   "conf-lapack" {build}
   "base" {build}
   "stdio" {build}
-  "configurator" {build}
-  "jbuilder" {build & >= "1.0+beta13"}
   "base-bytes"
   "base-bigarray"
 ]
+
+synopsis: "Lacaml - OCaml-bindings to BLAS and LAPACK"
+
+description: """
+Lacaml interfaces the BLAS-library (Basic Linear Algebra Subroutines) and
+LAPACK-library (Linear Algebra routines).  It also contains many additional
+convenience functions for vectors and matrices."""

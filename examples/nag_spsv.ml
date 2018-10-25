@@ -54,4 +54,3 @@ let () =
   pp_float_el_default := (fun fm x -> if (x: float) = x then fprintf fm "%G" x);
   printf "Details of the factorization: @[%a@]@\n" pp_fmat a;
   printf "Pivot indices: @[%a@]@\n" pp_rivec ipiv
-

@@ -36,5 +36,4 @@ let b= Vec.of_array [| 2.7; -0.5;  2.6;  0.6;  2.7 |]
 let () =
   let x = copy b in
   gtsv dl d du (Mat.from_col_vec x);
-  printf "Solution: X = @[%a@]@\n" pp_rfvec x;
-
+  printf "Solution: X = @[%a@]@\n" pp_rfvec x

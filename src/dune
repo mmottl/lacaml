@@ -1,9 +1,6 @@
-(jbuild_version 1)
-
-(library (
-  (name lacaml)
+(library
   (public_name lacaml)
-  (modules (
+  (modules
     Lacaml
     Common Io
     S D C Z
@@ -17,12 +14,8 @@
     Vec2_S Vec2_D Vec2_C Vec2_Z
     Mat4_S Mat4_D Mat4_C Mat4_Z
     Mat2_S Mat2_D Mat2_C Mat2_Z
-  ))
-  (flags (
-    :standard
-    -w -9 -strict-sequence -principal -short-paths
-  ))
-  (c_names (
+  )
+  (c_names
     impl_c utils_c
     vec2_S_c vec2_D_c vec2_C_c vec2_Z_c
     vec4_S_c vec4_D_c vec4_C_c vec4_Z_c
@@ -30,8 +23,8 @@
     mat4_S_c mat4_D_c mat4_C_c mat4_Z_c
     impl2_S_c impl2_D_c impl2_C_c impl2_Z_c
     impl4_S_c impl4_D_c impl4_C_c impl4_Z_c
-  ))
-  (c_flags (
+  )
+  (c_flags
     (:include c_flags.sexp)
     -g
     ; -ffast-math can break IEEE754 floating point semantics, but it is likely
@@ -40,23 +33,20 @@
     -fPIC -DPIC
     ; NOTE: for debugging before releases
     ; -Wall -pedantic -Wextra -Wunused
-  ))
-  (c_library_flags (
-    (:include c_library_flags.sexp)
-    -lm
-  ))
+  )
+  (c_library_flags (:include c_library_flags.sexp) -lm)
 
-  (libraries (bigarray))
-))
+  (libraries bigarray)
+)
 
-(rule (
-  (targets (c_flags.sexp c_library_flags.sexp))
-  (deps (config/discover.exe))
-  (action (run ${<} -ocamlc ${OCAMLC}))
-))
+(rule
+  (targets c_flags.sexp c_library_flags.sexp)
+  (deps (:discover config/discover.exe))
+  (action (run %{discover}))
+)
 
-(rule (
-  (targets (
+(rule
+  (targets
     lacaml.mli
     ;
     S.mli S.ml
@@ -90,14 +80,14 @@
     vec2_D.mli vec2_D.ml
     vec2_C.mli vec2_C.ml
     vec2_Z.mli vec2_Z.ml
-  ))
-  (deps (
+  )
+  (deps
     config/make_prec_dep.exe
     lacaml.pre.mli
     SD.mli SD.ml CZ.mli CZ.ml
     impl_SDCZ.mli impl_SDCZ.ml impl_SD.mli impl_SD.ml impl_CZ.mli impl_CZ.ml
     mat_SDCZ.mli mat_SDCZ.ml mat_SD.mli mat_SD.ml mat_CZ.mli mat_CZ.ml
     vec_SDCZ.mli vec_SDCZ.ml vec_SD.mli vec_SD.ml vec_CZ.mli vec_CZ.ml
-  ))
+  )
   (action (run config/make_prec_dep.exe))
-))
+)

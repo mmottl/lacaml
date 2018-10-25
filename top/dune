@@ -1,0 +1,6 @@
+(library
+  (name lacaml_top)
+  (public_name lacaml.top)
+  (modes byte)
+  (libraries compiler-libs.toplevel lacaml)
+)

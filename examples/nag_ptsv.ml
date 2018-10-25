@@ -39,4 +39,3 @@ let () =
   printf "Solution: X = @[%a@]@\n" pp_rfvec x;
   printf "Diagonal elements of the diagonal matrix D: @[%a@]@\n" pp_rfvec d;
   printf "Sub-diagonal elements of the Cholesky factor L: @[%a@]@\n" pp_rfvec e
-

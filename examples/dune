@@ -1,0 +1,27 @@
+(executables
+  (names
+    blas
+    eig
+    gbsv
+    lin_eq
+    lin_eq_comp
+    lin_reg
+    nag_gbsv
+    nag_gesv
+    nag_gtsv
+    nag_pbsv
+    nag_posv
+    nag_ppsv
+    nag_ptsv
+    nag_spsv
+    nag_sysv
+    qr
+    sbev
+    sbgv
+    schur_complex
+    schur_real
+    shuffle
+    svd
+  )
+  (libraries lacaml)
+)
