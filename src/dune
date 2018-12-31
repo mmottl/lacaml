@@ -25,7 +25,8 @@
     impl4_S_c impl4_D_c impl4_C_c impl4_Z_c
   )
   (c_flags
-    (:include c_flags.sexp)
+    (:include config/c_flags.sexp)
+    (:include config/blas_kind_flags.sexp)
     -g
     ; -ffast-math can break IEEE754 floating point semantics, but it is likely
     ; safe with the current Lacaml code base
@@ -34,15 +35,9 @@
     ; NOTE: for debugging before releases
     ; -Wall -pedantic -Wextra -Wunused
   )
-  (c_library_flags (:include c_library_flags.sexp) -lm)
+  (c_library_flags (:include config/c_library_flags.sexp) -lm)
 
   (libraries bigarray)
-)
-
-(rule
-  (targets c_flags.sexp c_library_flags.sexp)
-  (deps (:discover config/discover.exe))
-  (action (run %{discover}))
 )
 
 (rule

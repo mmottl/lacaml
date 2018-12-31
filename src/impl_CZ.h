@@ -43,10 +43,9 @@
 
 /** DOTU */
 
-extern COMPLEX FUN(dotu)(
-  integer *N,
-  COMPLEX *X, integer *INCX,
-  COMPLEX *Y, integer *INCY);
+#define NAME FUN(dotu)
+#define WRAPPER_NAME DOTU
+#include "lacaml_dot_wrappers.h"
 
 CAMLprim value LFUN(dotu_stub)(
   intnat vN,
@@ -66,7 +65,7 @@ CAMLprim value LFUN(dotu_stub)(
 
   caml_enter_blocking_section();  /* Allow other threads */
   res =
-    FUN(dotu)(
+    DOTU(
       &N,
       X_data, &INCX,
       Y_data, &INCY);
@@ -91,10 +90,9 @@ CAMLprim value LFUN(dotu_stub_bc)(value *argv, int __unused argn)
 
 /** DOTC */
 
-extern COMPLEX FUN(dotc)(
-  integer *N,
-  COMPLEX *X, integer *INCX,
-  COMPLEX *Y, integer *INCY);
+#define NAME FUN(dotc)
+#define WRAPPER_NAME DOTC
+#include "lacaml_dot_wrappers.h"
 
 CAMLprim value LFUN(dotc_stub)(
   intnat vN,
@@ -114,7 +112,7 @@ CAMLprim value LFUN(dotc_stub)(
 
   caml_enter_blocking_section();  /* Allow other threads */
   res =
-    FUN(dotc)(
+    DOTC(
       &N,
       X_data, &INCX,
       Y_data, &INCY);

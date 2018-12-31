@@ -9,3 +9,39 @@
   (modules make_prec_dep)
   (libraries base stdio str)
 )
+
+(rule
+  (targets c_flags.sexp c_library_flags.sexp)
+  (deps (:discover discover.exe))
+  (action (run %{discover}))
+)
+
+(library
+  (name discover_utils)
+  (modules detect_blas_kind)
+  (c_names detect_blas_kind_stubs)
+  (c_flags
+    (:include c_flags.sexp)
+    -g
+    ; -ffast-math can break IEEE754 floating point semantics, but it is likely
+    ; safe with the current Lacaml code base
+    -O3 -march=native -ffast-math
+    -fPIC -DPIC
+    ; NOTE: for debugging before releases
+    ; -Wall -pedantic -Wextra -Wunused
+  )
+  (c_library_flags (:include c_library_flags.sexp) -lm)
+  (libraries base)
+)
+
+(executable
+  (name gen_blas_kind)
+  (modules gen_blas_kind)
+  (libraries dune.configurator discover_utils)
+)
+
+(rule
+  (targets blas_kind_flags.sexp)
+  (deps (:gen_blas_kind gen_blas_kind.exe))
+  (action (run %{gen_blas_kind}))
+)

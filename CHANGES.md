@@ -1,3 +1,9 @@
+### 11.0.3 (2018-12-31)
+
+  * Fixed a portability bug in (complex) `dotu` and `dotc` due to BLAS API
+    incompatibilities between different platforms.
+
+
 ### 11.0.2 (2018-10-24)
 
   * Switched to dune, dune-release, and OPAM 2.0

@@ -1,4 +1,4 @@
-TARGETS = discover.bc make_prec_dep.bc
+TARGETS = discover.bc make_prec_dep.bc gen_blas_kind.bc
 
 .PHONY: all clean
 

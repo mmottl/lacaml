@@ -112,8 +112,8 @@
   name.i = Double_field(v##name, 1)
 #define vNUMBER value
 #define NUMBER_val(X) X
-#define DOTU FUN(dotu)
-#define DOTC FUN(dotc)
+#define DOTU FUN(lacaml_dotu_wrap)
+#define DOTC FUN(lacaml_dotc_wrap)
 #define ADD_NUMBER(X, Y) ((NUMBER) { X.r + Y.r, X.i + Y.i })
 #define SUB_NUMBER(X, Y) ((NUMBER) { X.r - Y.r, X.i - Y.i })
 #define MUL_NUMBER(X, Y) \

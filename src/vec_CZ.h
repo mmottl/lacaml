@@ -157,7 +157,7 @@ CAMLprim value LFUN(logspace_stub_bc)(
 extern real scnrm2_(integer *N, complex *X, integer *INCX);
 extern doublereal dznrm2_(integer *N, doublecomplex *X, integer *INCX);
 
-extern COMPLEX FUN(dotc)(
+extern COMPLEX DOTC(
   integer *N,
   COMPLEX *X, integer *INCX,
   COMPLEX *Y, integer *INCY);
@@ -181,7 +181,7 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 #endif
   res *= res;
   } else {
-    COMPLEX cres = FUN(dotc)(&N, X_data, &INCX, X_data, &INCX);
+    COMPLEX cres = DOTC(&N, X_data, &INCX, X_data, &INCX);
     res = cres.r;
   }
   caml_leave_blocking_section();  /* Disallow other threads */
