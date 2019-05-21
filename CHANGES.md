@@ -1,3 +1,10 @@
+### 11.0.4 (2019-05-21)
+
+  * Fixed an API misspecification in `ptsv`, which leads to incorrect results.
+
+  Thanks to Nicolas Ratier <nicolas.ratier@femto-st.fr> for the bug report!
+
+
 ### 11.0.3 (2018-12-31)
 
   * Fixed a portability bug in (complex) `dotu` and `dotc` due to BLAS API

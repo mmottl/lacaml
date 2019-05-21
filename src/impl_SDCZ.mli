@@ -1231,7 +1231,7 @@ val pbsv :
 val ptsv :
   ?n : int ->
   ?ofsd : int ->
-  vec ->
+  rvec ->
   ?ofse : int ->
   vec ->
   ?nrhs : int ->

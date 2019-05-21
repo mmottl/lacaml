@@ -1359,7 +1359,7 @@ let pbsv ?n ?(up = true) ?kd ?(abr = 1) ?(abc = 1) ab
 
 external direct_ptsv :
   ofsd : (int [@untagged]) ->
-  d : vec ->
+  d : rvec ->
   ofse : (int [@untagged]) ->
   e : vec ->
   n : (int [@untagged]) ->
