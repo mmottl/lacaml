@@ -27,8 +27,6 @@
     ; safe with the current Lacaml code base
     -O3 -march=native -ffast-math
     -fPIC -DPIC
-    ; NOTE: for debugging before releases
-    ; -Wall -pedantic -Wextra -Wunused
   )
   (c_library_flags (:include c_library_flags.sexp) -lm)
   (libraries base)
