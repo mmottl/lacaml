@@ -21,8 +21,8 @@
   (modules detect_blas_kind)
   (c_names detect_blas_kind_stubs)
   (c_flags
+    (:standard)
     (:include c_flags.sexp)
-    -g
     ; -ffast-math can break IEEE754 floating point semantics, but it is likely
     ; safe with the current Lacaml code base
     -O3 -march=native -ffast-math

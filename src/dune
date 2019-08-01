@@ -25,9 +25,9 @@
     impl4_S_c impl4_D_c impl4_C_c impl4_Z_c
   )
   (c_flags
+    (:standard)
     (:include config/c_flags.sexp)
     (:include config/blas_kind_flags.sexp)
-    -g
     ; -ffast-math can break IEEE754 floating point semantics, but it is likely
     ; safe with the current Lacaml code base
     -O3 -march=native -ffast-math

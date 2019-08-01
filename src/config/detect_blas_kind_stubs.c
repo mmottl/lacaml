@@ -10,7 +10,7 @@ extern void zdotc_(
     doublecomplex *X, integer *OFSX,
     doublecomplex *Y, integer *OFSY);
 
-CAMLprim value lacaml_zdot_is_procedure(value _v_unit)
+CAMLprim value lacaml_zdot_is_procedure(value __unused v_unit)
 {
   doublecomplex C = { 42, 43 };
   integer *N = (integer *) &C.r;
