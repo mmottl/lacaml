@@ -4,6 +4,12 @@
 
 #include "f2c.h"
 
+#if __GNUC__ >= 3
+# define __unused __attribute__ ((unused))
+#else
+# define __unused
+#endif
+
 extern void zdotc_(
     doublecomplex *RES,
     integer *N,
