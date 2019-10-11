@@ -1,3 +1,8 @@
+### 11.0.5 (2019-10-11)
+
+  * Fixed warnings in C-stubs
+
+
 ### 11.0.4 (2019-05-21)
 
   * Fixed an API misspecification in `ptsv`, which leads to incorrect results.
