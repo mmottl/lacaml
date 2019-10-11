@@ -4,10 +4,12 @@
 
 #include "f2c.h"
 
-#if __GNUC__ >= 3
-# define __unused __attribute__ ((unused))
-#else
-# define __unused
+#ifndef __unused
+# if __GNUC__ >= 3
+#  define __unused __attribute__ ((unused))
+# else
+#  define __unused
+# endif
 #endif
 
 extern void zdotc_(
