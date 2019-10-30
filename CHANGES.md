@@ -1,3 +1,8 @@
+### ??.?.? (????-??-??)
+
+  * Switched to OPAM file generation via `dune-project`
+
+
 ### 11.0.5 (2019-10-11)
 
   * Fixed warnings in C-stubs
