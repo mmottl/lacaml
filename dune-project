@@ -35,6 +35,7 @@ convenience functions for vectors and matrices.")
   (depends
     (ocaml (>= 4.08))
     (dune (>= 1.10))
+    dune-configurator
     (conf-blas :build)
     (conf-lapack :build)
     (base :build)
