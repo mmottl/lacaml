@@ -5,8 +5,8 @@
 This [OCaml](http://www.ocaml.org)-library interfaces two widely used
 mathematical FORTRAN-libraries:
 
-  * [BLAS - Basic Linear Algebra Subroutines](http://www.netlib.org/blas/index.html)
-  * [LAPACK - Linear Algebra PACKage](http://www.netlib.org/lapack/index.html)
+  * [BLAS - Basic Linear Algebra Subroutines](http://www.netlib.org/blas/)
+  * [LAPACK - Linear Algebra PACKage](http://www.netlib.org/lapack/)
 
 This allows developers to write high-performance numerical code for
 applications that require linear algebra.
