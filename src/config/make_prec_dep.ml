@@ -2,9 +2,6 @@
 
 open Printf
 
-module Filename = Caml.Filename
-module Scanf = Caml.Scanf
-
 let src = "."
 
 (* Utils
@@ -163,7 +160,7 @@ let derived_files ?full_doc fnames suffix derived =
   Array.iter derive fnames
 
 let () =
-  let fnames = Caml.Sys.readdir src in
+  let fnames = Sys.readdir src in
   let derive ?full_doc suffix subs =
     derived_files ?full_doc fnames suffix subs in
   let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in

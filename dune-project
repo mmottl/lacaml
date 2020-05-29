@@ -38,8 +38,6 @@ convenience functions for vectors and matrices.")
     dune-configurator
     (conf-blas :build)
     (conf-lapack :build)
-    (base :build)
-    (stdio :build)
     base-bytes
     base-bigarray
   )

@@ -1,13 +1,13 @@
 (executable
   (name discover)
   (modules discover)
-  (libraries base dune.configurator)
+  (libraries dune.configurator)
 )
 
 (executable
   (name make_prec_dep)
   (modules make_prec_dep)
-  (libraries base stdio str)
+  (libraries str)
 )
 
 (rule
@@ -29,7 +29,6 @@
     -fPIC -DPIC
   )
   (c_library_flags (:include c_library_flags.sexp) -lm)
-  (libraries base)
 )
 
 (executable

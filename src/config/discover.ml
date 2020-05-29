@@ -10,12 +10,12 @@ let () =
   let open C.Pkg_config in
   C.main ~name:"lacaml" (fun c ->
     let cflags =
-      match Caml.Sys.getenv_opt "LACAML_CFLAGS" with
+      match Sys.getenv_opt "LACAML_CFLAGS" with
       | Some alt_cflags -> split_ws alt_cflags
       | None -> []
     in
     let libs, libs_override =
-      match Caml.Sys.getenv_opt "LACAML_LIBS" with
+      match Sys.getenv_opt "LACAML_LIBS" with
       | Some alt_libs -> split_ws alt_libs, true
       | None -> ["-lblas"; "-llapack"], false
     in
