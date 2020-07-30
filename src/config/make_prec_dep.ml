@@ -1,11 +1,6 @@
 (* Create precision dependent OCaml files *)
 
-open Base
-open Stdio
 open Printf
-
-module Filename = Caml.Filename
-module Scanf = Caml.Scanf
 
 let src = "."
 
@@ -14,11 +9,29 @@ let src = "."
 
 let comment_re = Str.regexp "(\\* [^*]+\\*)[ \n\r\t]*"
 
-let input_file ?(path=src) ?(comments=true) ?(prefix="") fname =
+let channel_with_file open_ch close_ch name ~f =
+  let ch = open_ch name in
+  Fun.protect ~finally:(fun () -> close_ch ch) (fun () -> f ch)
+
+module In_channel = struct
+  let with_file = channel_with_file open_in close_in
+
+  let rec iter_lines ic ~f =
+    match input_line ic with
+    | line -> f line; iter_lines ic ~f
+    | exception End_of_file -> ()
+end  (* In_channel *)
+
+module Out_channel = struct
+  let with_file = channel_with_file open_out close_out
+  let write_all name ~data = with_file name ~f:(fun oc -> output_string oc data)
+end  (* Out_channel *)
+
+let input_file ?(path = src) ?(comments = true) ?(prefix = "") fname =
   In_channel.with_file (Filename.concat path fname) ~f:(fun ic ->
     let buf = Buffer.create 2048 in
     In_channel.iter_lines ic ~f:(fun l ->
-      if String.(l <> "") then begin
+      if l <> "" then begin
         Buffer.add_string buf prefix;
         Buffer.add_string buf l
       end;
@@ -27,7 +40,7 @@ let input_file ?(path=src) ?(comments=true) ?(prefix="") fname =
     if comments then buf
     else Str.global_replace comment_re "" buf)
 
-let output_file ?(path=src) fname ~content =
+let output_file ?(path = src) fname ~content =
   Out_channel.write_all (Filename.concat path fname) ~data:content
 
 let ocaml_major, ocaml_minor =
@@ -109,7 +122,7 @@ let rec substitute fname0 fname1 ?(full_doc=false) subs =
 
 and substitute_string ~full_doc s subs =
   let s =
-    List.fold_left ~f:(fun l (r,s) -> Str.global_replace r s l) ~init:s subs
+    List.fold_left (fun l (r,s) -> Str.global_replace r s l) s subs
   in
   (* Substitute [module type of] used alone as a sig. *)
   let s =
@@ -119,7 +132,7 @@ and substitute_string ~full_doc s subs =
       let subst s =
         let m = string_of_mod_name ~prefix:"  " ~full_doc
                   (Str.matched_group 1 s) subs in
-        String.concat [": sig\n"; m; "\nend\n"] in
+        String.concat "" [": sig\n"; m; "\nend\n"] in
       Str.global_substitute sig_module_type_of_re subst s
     else s in
   (* Substitute [module type of] if not supported or explicit doc is desired. *)
@@ -132,7 +145,7 @@ and substitute_string ~full_doc s subs =
   )
 
 and string_of_mod_name ~prefix ~full_doc mname subs =
-  let fincl = String.uncapitalize mname ^ ".mli" in
+  let fincl = String.uncapitalize_ascii mname ^ ".mli" in
   try
     let s' = input_file fincl ~comments:false ~prefix in
     substitute_string ~full_doc s' subs
@@ -148,20 +161,20 @@ let derived_files ?full_doc fnames suffix derived =
   let derive fname =
     if Str.string_match re fname 0 then (
       let seed = Str.matched_group 1 fname in
-      if String.(seed <> "lacaml") then (
+      if seed <> "lacaml" then (
         let derive1 (new_suffix, subs) =
           let fname1 = seed ^ new_suffix in
           substitute fname fname1 ?full_doc subs;
         in
-        List.iter ~f:derive1 derived;
+        List.iter derive1 derived;
       )) in
-  Array.iter ~f:derive fnames
+  Array.iter derive fnames
 
 let () =
-  let fnames = Caml.Sys.readdir src in
+  let fnames = Sys.readdir src in
   let derive ?full_doc suffix subs =
     derived_files ?full_doc fnames suffix subs in
-  let r subs = List.map ~f:(fun (r,s) -> (Str.regexp r, s)) subs in
+  let r subs = List.map (fun (r,s) -> (Str.regexp r, s)) subs in
   let num_type n = (Str.regexp "num_type\\( *[^= ]\\)", n ^ "\\1") in
   let num_type_float = num_type "float" in
   let num_type_complex = num_type "Complex.t" in
