@@ -40,8 +40,8 @@ CAMLprim intnat lacaml_ilaenv_stub(
           GET_INT(N3),
           GET_INT(N4);
 
-  char *NAME = String_val(vNAME),
-       *OPTS = String_val(vOPTS);
+  char *NAME = (char *) String_val(vNAME),
+       *OPTS = (char *) String_val(vOPTS);
 
   ftnlen NAME_LEN = caml_string_length(vNAME),
          OPTS_LEN = caml_string_length(vOPTS);
