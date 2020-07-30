@@ -1,9 +1,12 @@
-let split_ws str = String.(split_on_char ' ' str |> List.filter ((<>) ""))
+let split_ws str = String.split_on_char ' ' str |> List.filter ((<>) "")
 
-let option_value_map ~default ~f x = 
-  match x with 
-  | Some x -> f x
-  | None -> default
+module Option = struct
+  include Option
+
+  let value_map ~default ~f = function
+    | Some x -> f x
+    | None -> default
+end  (* Option *)
 
 let () =
   let module C = Configurator.V1 in
@@ -25,13 +28,12 @@ let () =
          using the GNU compiler. *)
       let default =
         { cflags = "-DEXTERNAL_EXP10" :: "-std=c99" :: cflags; libs } in
-      option_value_map (C.ocaml_config_var c "system") ~default ~f:(function
+      Option.value_map (C.ocaml_config_var c "system") ~default ~f:(function
         | "linux" | "linux_elf" -> { cflags = "-std=gnu99" :: cflags; libs }
         | "macosx" when not libs_override ->
             { default with libs = "-framework" :: "Accelerate" :: libs }
         | "mingw64" -> { cflags = "-DWIN32" :: default.cflags; libs }
         | _ -> default)
-        
     in
     C.Flags.write_sexp "c_flags.sexp" conf.cflags;
     C.Flags.write_sexp "c_library_flags.sexp" conf.libs)

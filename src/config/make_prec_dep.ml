@@ -9,28 +9,39 @@ let src = "."
 
 let comment_re = Str.regexp "(\\* [^*]+\\*)[ \n\r\t]*"
 
-let input_file ?(path=src) ?(comments=true) ?(prefix="") fname =
-  let fh = open_in (Filename.concat path fname) in
-  let buf = Buffer.create 2048 in
-  try
-    while true do
-      let l = input_line fh in (* or exn *)
-      if l <> "" then (Buffer.add_string buf prefix;
-                      Buffer.add_string buf l );
-      Buffer.add_char buf '\n'
-    done;
-    assert false
-  with _->
-    close_in fh;
+let channel_with_file open_ch close_ch name ~f =
+  let ch = open_ch name in
+  Fun.protect ~finally:(fun () -> close_ch ch) (fun () -> f ch)
+
+module In_channel = struct
+  let with_file = channel_with_file open_in close_in
+
+  let rec iter_lines ic ~f =
+    match input_line ic with
+    | line -> f line; iter_lines ic ~f
+    | exception End_of_file -> ()
+end  (* In_channel *)
+
+module Out_channel = struct
+  let with_file = channel_with_file open_out close_out
+  let write_all name ~data = with_file name ~f:(fun oc -> output_string oc data)
+end  (* Out_channel *)
+
+let input_file ?(path = src) ?(comments = true) ?(prefix = "") fname =
+  In_channel.with_file (Filename.concat path fname) ~f:(fun ic ->
+    let buf = Buffer.create 2048 in
+    In_channel.iter_lines ic ~f:(fun l ->
+      if l <> "" then begin
+        Buffer.add_string buf prefix;
+        Buffer.add_string buf l
+      end;
+      Buffer.add_char buf '\n');
     let buf = Buffer.contents buf in
     if comments then buf
-    else Str.global_replace comment_re "" buf
+    else Str.global_replace comment_re "" buf)
 
-
-let output_file ?(path=src) fname ~content =
-  let fh = open_out (Filename.concat path fname) in
-  output_string fh content;
-  close_out fh
+let output_file ?(path = src) fname ~content =
+  Out_channel.write_all (Filename.concat path fname) ~data:content
 
 let ocaml_major, ocaml_minor =
   Scanf.sscanf Sys.ocaml_version "%i.%i" (fun v1 v2 -> v1, v2)
