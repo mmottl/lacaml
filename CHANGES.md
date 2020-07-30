@@ -1,3 +1,15 @@
+### 11.0.7 (2020-07-30)
+
+  * Removed package dependencies on `stdio` and `base`.  This allows
+    testing with the new OCaml multicore compiler, which as of now does not
+    yet support these libraries.
+
+    Thanks to Anthony Scemama for this contribution!
+
+  * Added support for const char strings in stubs due to stricter handling
+    in newer OCaml runtimes.  This eliminates C-compiler warnings.
+
+
 ### 11.0.6 (2020-01-23)
 
   * Switched to OPAM file generation via `dune-project`
