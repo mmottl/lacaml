@@ -5,9 +5,9 @@ let () =
   if Array.length Sys.argv = 1 then
     let module C = Configurator.V1 in
     let blas_kind_flags =
-      if Sys.command "gen_blas_kind.exe procedure" = 0
+      if Sys.command "./gen_blas_kind.exe procedure" = 0
       then ["-DZDOT_IS_PROCEDURE"]
-      else if Sys.command "gen_blas_kind.exe function" = 0
+      else if Sys.command "./gen_blas_kind.exe function" = 0
       then ["-DZDOT_IS_FUNCTION"]
       else failwith "Could not determine correct zdot calling convention"
     in
