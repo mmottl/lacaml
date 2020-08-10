@@ -18,8 +18,8 @@
 
 (library
   (name discover_utils)
-  (modules detect_blas_kind)
-  (c_names detect_blas_kind_stubs)
+  (modules)
+  (c_names zdot_is_procedure_stubs zdot_is_function_stubs)
   (c_flags
     (:standard)
     (:include c_flags.sexp)

@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <math.h>
 #include <caml/mlvalues.h>
 
@@ -18,16 +17,13 @@ extern void zdotc_(
     doublecomplex *X, integer *OFSX,
     doublecomplex *Y, integer *OFSY);
 
-CAMLprim value lacaml_zdot_is_procedure(value __unused v_unit)
+CAMLprim value lacaml_zdot_is_procedure_stub(value __unused v_unit)
 {
-  doublecomplex C = { 42, 43 };
-  integer *N = (integer *) &C.r;
-  double expected;
+  doublecomplex RES, C = { 42, 43 };
+  integer N = 1;
+  double expected = C.r * C.r + C.i * C.i;
 
-  *N = 1;
-  expected = C.r * C.r + C.i * C.i;
+  zdotc_(&RES, &N, &C, &N, &C, &N);
 
-  zdotc_(&C, N, &C, N, &C, N);
-
-  return Val_bool(fabs(expected - C.r) < 1e-15);
+  return Val_bool(fabs(expected - RES.r) < 1e-15);
 }

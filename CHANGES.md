@@ -1,3 +1,8 @@
+### ?.?.? (????-??-??)
+
+  * Improved detection of (complex) `dotu` and `dotc` calling conventions.
+
+
 ### 11.0.7 (2020-07-30)
 
   * Removed package dependencies on `stdio` and `base`.  This allows
