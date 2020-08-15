@@ -1,4 +1,4 @@
-### ?.?.? (????-??-??)
+### 11.0.8 (2020-08-15)
 
   * Improved detection of (complex) `dotu` and `dotc` calling conventions.
 
