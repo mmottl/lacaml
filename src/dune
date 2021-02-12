@@ -15,24 +15,24 @@
     Mat4_S Mat4_D Mat4_C Mat4_Z
     Mat2_S Mat2_D Mat2_C Mat2_Z
   )
-  (c_names
-    impl_c utils_c
-    vec2_S_c vec2_D_c vec2_C_c vec2_Z_c
-    vec4_S_c vec4_D_c vec4_C_c vec4_Z_c
-    mat2_S_c mat2_D_c mat2_C_c mat2_Z_c
-    mat4_S_c mat4_D_c mat4_C_c mat4_Z_c
-    impl2_S_c impl2_D_c impl2_C_c impl2_Z_c
-    impl4_S_c impl4_D_c impl4_C_c impl4_Z_c
-  )
-  (c_flags
-    (:standard)
-    (:include config/c_flags.sexp)
-    (:include config/blas_kind_flags.sexp)
-    ; -ffast-math can break IEEE754 floating point semantics, but it is likely
-    ; safe with the current Lacaml code base
-    -O3 -march=native -ffast-math
-    -fPIC -DPIC
-  )
+  (foreign_stubs
+    (language c)
+    (names
+      impl_c utils_c
+      vec2_S_c vec2_D_c vec2_C_c vec2_Z_c
+      vec4_S_c vec4_D_c vec4_C_c vec4_Z_c
+      mat2_S_c mat2_D_c mat2_C_c mat2_Z_c
+      mat4_S_c mat4_D_c mat4_C_c mat4_Z_c
+      impl2_S_c impl2_D_c impl2_C_c impl2_Z_c
+      impl4_S_c impl4_D_c impl4_C_c impl4_Z_c)
+    (flags
+      (:standard)
+      (:include config/c_flags.sexp)
+      (:include config/blas_kind_flags.sexp)
+      ; -ffast-math can break IEEE754 floating point semantics, but it is likely
+      ; safe with the current Lacaml code base
+      -O3 -march=native -ffast-math
+      -fPIC -DPIC))
   (c_library_flags (:include config/c_library_flags.sexp) -lm)
 
   (libraries bigarray)

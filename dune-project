@@ -1,10 +1,10 @@
-(lang dune 1.10)
+(lang dune 2.7)
 (name lacaml)
 
 (generate_opam_files true)
 
 (source (github mmottl/lacaml))
-(license "LGPL-2.1+ with OCaml linking exception")
+(license "LGPL-2.1-or-later with OCaml-LGPL-linking-exception")
 (homepage "https://mmottl.github.io/lacaml")
 (documentation "https://mmottl.github.io/lacaml/api")
 
@@ -34,7 +34,6 @@ LAPACK-library (Linear Algebra routines).  It also contains many additional
 convenience functions for vectors and matrices.")
   (depends
     (ocaml (>= 4.08))
-    (dune (>= 1.10))
     dune-configurator
     (conf-blas :build)
     (conf-lapack :build)

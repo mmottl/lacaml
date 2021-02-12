@@ -24,4 +24,5 @@
     svd
   )
   (libraries lacaml)
+  (modes byte exe)
 )

@@ -2,12 +2,14 @@
   (name discover)
   (modules discover)
   (libraries dune.configurator)
+  (modes byte exe)
 )
 
 (executable
   (name make_prec_dep)
   (modules make_prec_dep)
   (libraries str)
+  (modes byte exe)
 )
 
 (rule
@@ -19,15 +21,16 @@
 (library
   (name discover_utils)
   (modules)
-  (c_names zdot_is_procedure_stubs zdot_is_function_stubs)
-  (c_flags
-    (:standard)
-    (:include c_flags.sexp)
-    ; -ffast-math can break IEEE754 floating point semantics, but it is likely
-    ; safe with the current Lacaml code base
-    -O3 -march=native -ffast-math
-    -fPIC -DPIC
-  )
+  (foreign_stubs
+    (language c)
+    (names zdot_is_procedure_stubs zdot_is_function_stubs)
+    (flags
+      (:standard)
+      (:include c_flags.sexp)
+      ; -ffast-math can break IEEE754 floating point semantics, but it is likely
+      ; safe with the current Lacaml code base
+      -O3 -march=native -ffast-math
+      -fPIC -DPIC))
   (c_library_flags (:include c_library_flags.sexp) -lm)
 )
 
@@ -35,6 +38,7 @@
   (name gen_blas_kind)
   (modules gen_blas_kind)
   (libraries dune.configurator discover_utils)
+  (modes byte exe)
 )
 
 (rule
