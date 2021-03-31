@@ -14,9 +14,7 @@
 
 (rule
   (targets c_flags.sexp c_library_flags.sexp)
-  (deps (:discover discover.exe))
-  (action (run %{discover}))
-)
+  (action (run ./discover.exe)))
 
 (library
   (name discover_utils)
@@ -43,6 +41,4 @@
 
 (rule
   (targets blas_kind_flags.sexp)
-  (deps (:gen_blas_kind gen_blas_kind.exe))
-  (action (run %{gen_blas_kind}))
-)
+  (action (run ./gen_blas_kind.exe)))

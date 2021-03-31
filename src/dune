@@ -83,5 +83,4 @@
     vec_SDCZ.mli vec_SDCZ.ml vec_SD.mli vec_SD.ml vec_CZ.mli vec_CZ.ml
     real_io.mli complex_io.mli
   )
-  (action (run config/make_prec_dep.exe))
-)
+  (action (run ./config/make_prec_dep.exe)))
