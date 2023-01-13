@@ -13,7 +13,7 @@
 )
 
 (rule
-  (targets c_flags.sexp c_library_flags.sexp)
+  (targets c_flags.sexp extra_c_flags.sexp c_library_flags.sexp)
   (action (run ./discover.exe)))
 
 (library
@@ -25,10 +25,8 @@
     (flags
       (:standard)
       (:include c_flags.sexp)
-      ; -ffast-math can break IEEE754 floating point semantics, but it is likely
-      ; safe with the current Lacaml code base
-      -O3 -march=native -ffast-math
-      -fPIC -DPIC))
+      (:include extra_c_flags.sexp)
+      ))
   (c_library_flags (:include c_library_flags.sexp) -lm)
 )
 
