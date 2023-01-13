@@ -43,9 +43,11 @@ let () =
       (* -ffast-math can break IEEE754 floating point semantics, but it is likely
          safe with the current Lacaml code base *)
       let default = ["-O3"; "-march=native"; "-ffast-math"; "-fPIC"; "-DPIC"] in
-      Option.value_map (C.ocaml_config_var c "system") ~default ~f:(function
-        | "macosx" when (C.ocaml_config_var c "architecture") = Some "arm64" ->
+      let system = Option.value (C.ocaml_config_var c "system") ~default:"unknown" in
+      let arch = Option.value (C.ocaml_config_var c "architecture") ~default:"unknown" in
+      match system, arch with
+        | "macosx", "arm64" | _, "ppc64" | _, "ppc64le" | _, "unknown" ->
             ["-O3"; "-ffast-math"; "-fPIC"; "-DPIC"]
-        | _ -> default)
+        | _ -> default
     in
     C.Flags.write_sexp "extra_c_flags.sexp" extra_cflags)
