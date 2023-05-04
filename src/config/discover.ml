@@ -38,16 +38,16 @@ let () =
     C.Flags.write_sexp "c_library_flags.sexp" conf.libs;
 
     let extra_cflags =
-      (* -march=native is not supported on apple ARM64, its support was introduced
-         in clang >= 15.0.0 *)
-      (* -ffast-math can break IEEE754 floating point semantics, but it is likely
-         safe with the current Lacaml code base *)
-      let default = ["-O3"; "-march=native"; "-ffast-math"; "-fPIC"; "-DPIC"] in
-      let system = Option.value (C.ocaml_config_var c "system") ~default:"unknown" in
-      let arch = Option.value (C.ocaml_config_var c "architecture") ~default:"unknown" in
-      match system, arch with
-        | "macosx", "arm64" | _, "ppc64" | _, "ppc64le" | _, "unknown" ->
-            ["-O3"; "-ffast-math"; "-fPIC"; "-DPIC"]
-        | _ -> default
+      (* -ffast-math can break IEEE754 floating point semantics, but it
+         is likely safe with the current Lacaml code base *)
+      let shared = ["-O3"; "-ffast-math"; "-fPIC"; "-DPIC"] in
+      let maybe_system = C.ocaml_config_var c "system" in
+      let maybe_arch = C.ocaml_config_var c "architecture" in
+      (* -march=native is not supported on Apple ARM64 yet.
+         Its support was introduced in clang >= 15.0.0 *)
+      match maybe_system, maybe_arch with
+      | Some "macosx", Some "arm64"
+      | _, (None | Some ("ppc64" | "ppc64le")) -> shared
+      | _ -> "-march=native" :: shared
     in
     C.Flags.write_sexp "extra_c_flags.sexp" extra_cflags)
