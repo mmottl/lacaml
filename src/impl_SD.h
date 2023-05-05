@@ -369,9 +369,9 @@ CAMLprim double LFUN(lamch_stub)(value vCMACH)
   return FUN(lamch)(&CMACH);
 }
 
-CAMLprim value LFUN(lamch_stub_bc)(value *argv, int __unused argn)
+CAMLprim value LFUN(lamch_stub_bc)(value vCMACH)
 {
-  return caml_copy_double(LFUN(lamch_stub)(argv[0]));
+  return caml_copy_double(LFUN(lamch_stub)(vCMACH));
 }
 
 
