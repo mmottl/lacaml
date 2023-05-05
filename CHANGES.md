@@ -1,3 +1,18 @@
+### 11.0.9 (2023-05-05)
+
+  * Fixed a bug in the bytecode bindings for `lamch`, which also affected
+    `syevr`.  These functions should now not crash anymore when compiling
+    to bytecode or using the OCaml interpreter.
+    
+    Thanks to Philippe Veber <philippe.veber@gmail.com> for the bug report!
+
+  * Added support for Apple Silicon.
+
+    Thanks to Marcello Seri <marcello.seri@gmail.com> for this contribution!
+
+  * Improved Dune build rules
+
+
 ### 11.0.8 (2020-08-15)
 
   * Improved detection of (complex) `dotu` and `dotc` calling conventions.
