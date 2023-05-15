@@ -4,7 +4,7 @@
 (generate_opam_files true)
 
 (source (github mmottl/lacaml))
-(license "LGPL-2.1-or-later with OCaml-LGPL-linking-exception")
+(license "LGPL-2.1-or-later WITH OCaml-LGPL-linking-exception")
 (homepage "https://mmottl.github.io/lacaml")
 (documentation "https://mmottl.github.io/lacaml/api")
 
