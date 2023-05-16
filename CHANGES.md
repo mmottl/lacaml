@@ -1,3 +1,8 @@
+### 11.0.10 (2023-05-16)
+
+  * Fixed platform configuration bug
+
+
 ### 11.0.9 (2023-05-05)
 
   * Fixed a bug in the bytecode bindings for `lamch`, which also affected

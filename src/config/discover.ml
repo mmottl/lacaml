@@ -47,7 +47,7 @@ let () =
          Its support was introduced in clang >= 15.0.0 *)
       match maybe_system, maybe_arch with
       | Some "macosx", Some "arm64"
-      | _, (None | Some ("ppc64" | "ppc64le")) -> shared
+      | _, (None | Some ("ppc64" | "ppc64le" | "unknown")) -> shared
       | _ -> "-march=native" :: shared
     in
     C.Flags.write_sexp "extra_c_flags.sexp" extra_cflags)
