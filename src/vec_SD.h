@@ -144,8 +144,10 @@ CAMLprim double LFUN(sqr_nrm2_stub)(
 
   VEC_PARAMS(X);
 
+  int stable = Bool_val(vSTABLE);
+
   caml_enter_blocking_section();  /* Allow other threads */
-  if (Bool_val(vSTABLE)) {
+  if (stable) {
     res = FUN(nrm2)(&N, X_data, &INCX);
     res *= res;
   } else res = FUN(dot)(&N, X_data, &INCX, X_data, &INCX);

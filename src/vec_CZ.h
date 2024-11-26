@@ -172,8 +172,10 @@ CAMLprim value LFUN(sqr_nrm2_stub)(
 
   VEC_PARAMS(X);
 
+  int stable = Bool_val(vSTABLE);
+                                   //
   caml_enter_blocking_section();  /* Allow other threads */
-  if (Bool_val(vSTABLE)) {
+  if (stable) {
 #ifndef LACAML_DOUBLE
   res = scnrm2_(&N, X_data, &INCX);
 #else
