@@ -1,6 +1,11 @@
 ## 11.1.0 (XXXX-XX-XX)
 
-- Fixed a rare, architecture-specific GC bug in `lo_seek`.
+- Removed -O3, -ffast-math, and -march=native flags. They may be too risky as
+  defaults.
+
+- Rewrote README and improved changelog.
+
+- Bug fix:moved incorrect `Bool_val` out of blocking section.
 
 ## 11.0.10 (2023-05-16)
 
