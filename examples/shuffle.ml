@@ -1,5 +1,4 @@
 open Format
-
 open Lacaml.D
 open Lacaml.Io
 open Bigarray
@@ -23,8 +22,8 @@ let shuffle n =
   arr
 
 let to_vec arr =
-  Array1.of_array int32 fortran_layout (
-    Array.map (fun i -> Int32.of_int (i + 1)) arr)
+  Array1.of_array int32 fortran_layout
+    (Array.map (fun i -> Int32.of_int (i + 1)) arr)
 
 let () =
   let r = 10 in
@@ -35,7 +34,12 @@ let () =
   laswp m ipiv;
   printf "After: m = @[%a@]@\n@\n" pp_fmat m;
   let m = Mat.random 3 r in
-  let k = to_vec (let a = reordered r in a.(3) <- 3; a) in
+  let k =
+    to_vec
+      (let a = reordered r in
+       a.(3) <- 3;
+       a)
+  in
   (* [forward = false] may segfault on my platform - probably a vendor library
      bug *)
   let forward = true in
@@ -44,4 +48,4 @@ let () =
     (if forward then "forward" else "backward")
     pp_ivec k;
   lapmt ~forward m k;
-  printf "After: m = @[%a@]@\n@\n" pp_fmat m;
+  printf "After: m = @[%a@]@\n@\n" pp_fmat m

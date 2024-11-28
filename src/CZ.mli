@@ -1,33 +1,32 @@
 (* File: CZ.mli
 
-   Copyright (C) 2010-
+   Copyright © 2001-
 
-     Christophe Troestler
-     email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umons.ac.be/an/
+   Markus Mottl <markus.mottl@gmail.com>
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+   Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+   This library is free software; you can redistribute it and/or modify it under
+   the terms of the GNU Lesser General Public License as published by the Free
+   Software Foundation; either version 2.1 of the License, or (at your option)
+   any later version.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*)
+   This library is distributed in the hope that it will be useful, but WITHOUT
+   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+   FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+   details.
 
-(** This module [Lacaml.CPREC] contains linear algebra routines for
-    complex numbers (precision: complexxx).  It is recommended to use this
-    module by writing
+   You should have received a copy of the GNU Lesser General Public License
+   along with this library; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
+
+(** This module [Lacaml.CPREC] contains linear algebra routines for complex
+    numbers (precision: complexxx). It is recommended to use this module by
+    writing
     {[
-    open Lacaml.CPREC
+      open Lacaml.CPREC
     ]}
-    at the top of your file.  *)
+    at the top of your file. *)
 
 open Bigarray
 
@@ -47,8 +46,8 @@ type trans3 = [ `C | `N | `T ]
 (** Transpose parameter (conjugate transposed, normal, or transposed). *)
 
 val prec : (Complex.t, complexxx_elt) Bigarray.kind
-(** Precision for this submodule {!CPREC}.  Allows to write precision
-    independent code. *)
+(** Precision for this submodule {!CPREC}. Allows to write precision independent
+    code. *)
 
 module Vec : sig
   type t = vec
@@ -65,6 +64,5 @@ module Mat : sig
 end
 
 include module type of Complex_io
-
 include module type of Impl2_CPREC
 include module type of Impl4_CPREC

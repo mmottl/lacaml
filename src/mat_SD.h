@@ -1,10 +1,8 @@
 /* File: mat_SD.h
 
-   Copyright (C) 2015-
+   Copyright © 2015-
 
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Markus Mottl <markus.mottl@gmail.com>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -18,17 +16,17 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 */
 
-#include <math.h>
 #include "lacaml_macros.h"
+#include <math.h>
 
 /* Unary matrix operations */
 
 #define NAME LFUN(neg_mat_stub)
 #define BC_NAME LFUN(neg_mat_stub_bc)
-#define FUNC(dst, x) *dst = - x
+#define FUNC(dst, x) *dst = -x
 #include "mat_map.h"
 
 #define NAME LFUN(reci_mat_stub)
@@ -206,7 +204,6 @@
 #define FUNC(dst, x) *dst = x / (1 + SDMATHH(fabs)(x))
 #include "mat_map.h"
 
-
 /* Binary matrix operations */
 
 #define NAME LFUN(add_mat_stub)
@@ -221,12 +218,12 @@
 
 #define NAME LFUN(mul_mat_stub)
 #define BC_NAME LFUN(mul_mat_stub_bc)
-#define FUNC(dst, x, y) *dst = x*y
+#define FUNC(dst, x, y) *dst = x * y
 #include "mat_combine.h"
 
 #define NAME LFUN(div_mat_stub)
 #define BC_NAME LFUN(div_mat_stub_bc)
-#define FUNC(dst, x, y) *dst = x/y
+#define FUNC(dst, x, y) *dst = x / y
 #include "mat_combine.h"
 
 #define NAME LFUN(pow_mat_stub)
@@ -254,23 +251,21 @@
 #define FUNC(dst, x, y) *dst = SDMATHH(fmax)(x, y)
 #include "mat_combine.h"
 
-
 /* Ternary matrix operations */
 
 #define NAME LFUN(cpab_stub)
 #define BC_NAME LFUN(cpab_stub_bc)
 #ifdef FP_FAST_FMA
-# define FUNC(dst, x, y) *dst = SDMATHH(fma)(x, y, *dst)
+#define FUNC(dst, x, y) *dst = SDMATHH(fma)(x, y, *dst)
 #else
-# define FUNC(dst, x, y) *dst += x*y
+#define FUNC(dst, x, y) *dst += x * y
 #endif
 #include "mat_combine.h"
 
 #define NAME LFUN(cmab_stub)
 #define BC_NAME LFUN(cmab_stub_bc)
-#define FUNC(dst, x, y) *dst -= x*y
+#define FUNC(dst, x, y) *dst -= x * y
 #include "mat_combine.h"
-
 
 /* Unary matrix operations yielding floats */
 
@@ -283,33 +278,37 @@
 #define NAME LFUN(log_sum_exp_mat_stub)
 #define BC_NAME LFUN(log_sum_exp_mat_stub_bc)
 #define DECLARE_EXTRA NUMBER x_max = -INFINITY
-#define INIT_HAVE_LOCK  \
-  x_max = \
-    LFUN(max_el_mat_stub_blocking)(PKIND, PINIT, M, N, A_data, rows_A, x_max)
+#define INIT_HAVE_LOCK                                                         \
+  x_max = LFUN(max_el_mat_stub_blocking)(PKIND, PINIT, M, N, A_data, rows_A,   \
+                                         x_max)
 #define INIT 0.0
 #define FUNC(acc, x) acc += SDMATHH(exp)(x - x_max)
 #define FINISH_HAVE_LOCK acc = SDMATHH(log)(acc) + x_max
 #include "mat_fold.h"
-
 
 /* Binary matrix operations yielding floats */
 
 #define NAME LFUN(ssqr_diff_mat_stub)
 #define BC_NAME LFUN(ssqr_diff_mat_stub_bc)
 #define INIT 0.0
-# ifdef FP_FAST_FMA
-#  define FUNC(acc, x, y) x -= y; acc = SDMATHH(fma)(x, x, acc)
-# else
-#  define FUNC(acc, x, y) x -= y; x *= x; acc += x
-# endif
+#ifdef FP_FAST_FMA
+#define FUNC(acc, x, y)                                                        \
+  x -= y;                                                                      \
+  acc = SDMATHH(fma)(x, x, acc)
+#else
+#define FUNC(acc, x, y)                                                        \
+  x -= y;                                                                      \
+  x *= x;                                                                      \
+  acc += x
+#endif
 #include "mat_fold2.h"
 
 #define NAME LFUN(sum_prod_mat_stub)
 #define BC_NAME LFUN(sum_prod_mat_stub_bc)
 #define INIT 0.0
-# ifdef FP_FAST_FMA
-#  define FUNC(acc, x, y) acc = SDMATHH(fma)(x, y, acc)
-# else
-#  define FUNC(acc, x, y) acc += x*y
-# endif
+#ifdef FP_FAST_FMA
+#define FUNC(acc, x, y) acc = SDMATHH(fma)(x, y, acc)
+#else
+#define FUNC(acc, x, y) acc += x * y
+#endif
 #include "mat_fold2.h"

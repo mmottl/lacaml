@@ -1,14 +1,10 @@
 /* File: fold_col.h
 
-   Copyright (C) 2001-
+   Copyright © 2001-
 
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Markus Mottl <markus.mottl@gmail.com>
 
-     Christophe Troestler
-     email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+   Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -22,20 +18,20 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 */
 
 #include "lacaml_macros.h"
 
-static inline NUMBER STR(NAME, _blocking)(
-    integer N, NUMBER *X_data, integer INCX, NUMBER acc) {
+static inline NUMBER STR(NAME, _blocking)(integer N, NUMBER *X_data,
+                                          integer INCX, NUMBER acc) {
 #ifdef DECLARE_EXTRA
   DECLARE_EXTRA;
 #undef DECLARE_EXTRA
 #endif
 
 #ifdef INIT_HAVE_LOCK
-      INIT_HAVE_LOCK;
+  INIT_HAVE_LOCK;
 #undef INIT_HAVE_LOCK
 #endif
 
@@ -43,10 +39,9 @@ static inline NUMBER STR(NAME, _blocking)(
 
   if (INCX > 0) {
     start = X_data;
-    last = start + N*INCX;
-  }
-  else {
-    start = X_data - (N - 1)*INCX;
+    last = start + N * INCX;
+  } else {
+    start = X_data - (N - 1) * INCX;
     last = X_data + INCX;
   };
 
@@ -64,43 +59,34 @@ static inline NUMBER STR(NAME, _blocking)(
     }
 
 #ifdef FINISH_HAVE_LOCK
-      FINISH_HAVE_LOCK;
+  FINISH_HAVE_LOCK;
 #undef FINISH_HAVE_LOCK
 #endif
 
   return acc;
 }
 
-CAMLprim vNUMBER NAME(intnat vN, intnat vOFSX, intnat vINCX, value vX)
-{
+CAMLprim vNUMBER NAME(intnat vN, intnat vOFSX, intnat vINCX, value vX) {
   CAMLparam1(vX);
 
-  integer GET_INT(N),
-          GET_INT(INCX);
+  integer GET_INT(N), GET_INT(INCX);
 
   NUMBER acc = INIT;
 
   if (N > 0) {
     VEC_PARAMS(X);
-    caml_enter_blocking_section();  /* Allow other threads */
+    caml_enter_blocking_section(); /* Allow other threads */
 
-      acc = STR(NAME, _blocking)(N, X_data, INCX, acc);
+    acc = STR(NAME, _blocking)(N, X_data, INCX, acc);
 
-    caml_leave_blocking_section();  /* Disallow other threads */
+    caml_leave_blocking_section(); /* Disallow other threads */
   }
 
   CAMLreturnNUMBER(acc);
 }
 
-CAMLprim value BC_NAME(value vN, value vOFSX, value vINCX, value vX)
-{
-  return
-    COPY_NUMBER(
-        NAME(
-          Int_val(vN),
-          Int_val(vOFSX),
-          Int_val(vINCX),
-          vX));
+CAMLprim value BC_NAME(value vN, value vOFSX, value vINCX, value vX) {
+  return COPY_NUMBER(NAME(Int_val(vN), Int_val(vOFSX), Int_val(vINCX), vX));
 }
 
 #undef NAME

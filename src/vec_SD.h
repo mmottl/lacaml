@@ -1,14 +1,10 @@
 /* File: vec_SD.h
 
-   Copyright (C) 2001-
+   Copyright © 2001-
 
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Markus Mottl <markus.mottl@gmail.com>
 
-     Christophe Troestler
-     email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+   Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -22,22 +18,21 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 */
 
-#include <math.h>
 #include "lacaml_macros.h"
+#include <math.h>
 
-CAMLprim value LFUN(linspace_stub)(value vY, double va, double vb, intnat vN)
-{
+CAMLprim value LFUN(linspace_stub)(value vY, double va, double vb, intnat vN) {
   CAMLparam1(vY);
   integer i, GET_INT(N);
   REAL GET_DOUBLE(a);
   REAL GET_DOUBLE(b);
-  REAL h = (b - a)/(N - 1), x = a;
+  REAL h = (b - a) / (N - 1), x = a;
   VEC_PARAMS1(Y);
 
-  caml_enter_blocking_section();  /* Allow other threads */
+  caml_enter_blocking_section(); /* Allow other threads */
 
   for (i = 1; i <= N; i++) {
     *Y_data = x;
@@ -45,21 +40,14 @@ CAMLprim value LFUN(linspace_stub)(value vY, double va, double vb, intnat vN)
     x = a + i * h;
   }
 
-  caml_leave_blocking_section();  /* Disallow other threads */
+  caml_leave_blocking_section(); /* Disallow other threads */
 
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(linspace_stub_bc)(value vY, value va, value vb, value vN)
-{
-  return
-    LFUN(linspace_stub)(
-        vY,
-        Double_val(va),
-        Double_val(vb),
-        Int_val(vN));
+CAMLprim value LFUN(linspace_stub_bc)(value vY, value va, value vb, value vN) {
+  return LFUN(linspace_stub)(vY, Double_val(va), Double_val(vb), Int_val(vN));
 }
-
 
 #ifndef LACAML_DOUBLE
 extern float exp10f(float);
@@ -69,18 +57,17 @@ extern double exp10(double);
 #define myexp10 exp10
 #endif
 
-CAMLprim value LFUN(logspace_stub)(
-    value vY, double va, double vb, double vbase, intnat vN)
-{
+CAMLprim value LFUN(logspace_stub)(value vY, double va, double vb, double vbase,
+                                   intnat vN) {
   CAMLparam1(vY);
   integer i, GET_INT(N);
   REAL GET_DOUBLE(a);
   REAL GET_DOUBLE(b);
   double GET_DOUBLE(base);
-  REAL h = (b - a)/(N - 1), x = a;
+  REAL h = (b - a) / (N - 1), x = a;
   VEC_PARAMS1(Y);
 
-  caml_enter_blocking_section();  /* Allow other threads */
+  caml_enter_blocking_section(); /* Allow other threads */
 
   if (base == 2.0)
     for (i = 1; i <= N; i++) {
@@ -109,34 +96,24 @@ CAMLprim value LFUN(logspace_stub)(
     }
   }
 
-  caml_leave_blocking_section();  /* Disallow other threads */
+  caml_leave_blocking_section(); /* Disallow other threads */
 
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value LFUN(logspace_stub_bc)(
-    value vY, value va, value vb, value vbase, value vN)
-{
-  return
-    LFUN(logspace_stub)(
-        vY,
-        Double_val(va),
-        Double_val(vb),
-        Double_val(vbase),
-        Int_val(vN));
+CAMLprim value LFUN(logspace_stub_bc)(value vY, value va, value vb, value vbase,
+                                      value vN) {
+  return LFUN(logspace_stub)(vY, Double_val(va), Double_val(vb),
+                             Double_val(vbase), Int_val(vN));
 }
-
 
 extern REAL FUN(nrm2)(integer *N, REAL *X, integer *INCX);
 
-extern REAL FUN(dot)(
-  integer *N,
-  REAL *X, integer *INCX,
-  REAL *Y, integer *INCY);
+extern REAL FUN(dot)(integer *N, REAL *X, integer *INCX, REAL *Y,
+                     integer *INCY);
 
-CAMLprim double LFUN(sqr_nrm2_stub)(
-  value vSTABLE, intnat vN, intnat vOFSX, intnat vINCX, value vX)
-{
+CAMLprim double LFUN(sqr_nrm2_stub)(value vSTABLE, intnat vN, intnat vOFSX,
+                                    intnat vINCX, value vX) {
   CAMLparam1(vX);
 
   integer GET_INT(N), GET_INT(INCX);
@@ -146,27 +123,21 @@ CAMLprim double LFUN(sqr_nrm2_stub)(
 
   int stable = Bool_val(vSTABLE);
 
-  caml_enter_blocking_section();  /* Allow other threads */
+  caml_enter_blocking_section(); /* Allow other threads */
   if (stable) {
     res = FUN(nrm2)(&N, X_data, &INCX);
     res *= res;
-  } else res = FUN(dot)(&N, X_data, &INCX, X_data, &INCX);
-  caml_leave_blocking_section();  /* Disallow other threads */
+  } else
+    res = FUN(dot)(&N, X_data, &INCX, X_data, &INCX);
+  caml_leave_blocking_section(); /* Disallow other threads */
 
   CAMLreturnT(double, res);
 }
 
-CAMLprim value LFUN(sqr_nrm2_stub_bc)(
-    value vSTABLE, value vN, value vOFSX, value vINCX, value vX)
-{
-  return
-    caml_copy_double(
-        LFUN(sqr_nrm2_stub)(
-          vSTABLE,
-          Int_val(vN),
-          Int_val(vOFSX),
-          Int_val(vINCX),
-          vX));
+CAMLprim value LFUN(sqr_nrm2_stub_bc)(value vSTABLE, value vN, value vOFSX,
+                                      value vINCX, value vX) {
+  return caml_copy_double(LFUN(sqr_nrm2_stub)(
+      vSTABLE, Int_val(vN), Int_val(vOFSX), Int_val(vINCX), vX));
 }
 
 #define NAME LFUN(max_stub)
@@ -193,38 +164,25 @@ CAMLprim value LFUN(sqr_nrm2_stub_bc)(
 #define FUNC(acc, x) acc *= x
 #include "fold_col.h"
 
-extern double LFUN(dot_stub)(
-  intnat vN,
-  intnat vOFSY, intnat vINCY, value vY,
-  intnat vOFSX, intnat vINCX, value vX);
+extern double LFUN(dot_stub)(intnat vN, intnat vOFSY, intnat vINCY, value vY,
+                             intnat vOFSX, intnat vINCX, value vX);
 
-CAMLprim double LFUN(ssqr_zero_stub)(
-  intnat vN, intnat vOFSX, intnat vINCX, value vX)
-{
+CAMLprim double LFUN(ssqr_zero_stub)(intnat vN, intnat vOFSX, intnat vINCX,
+                                     value vX) {
   return LFUN(dot_stub(vN, vOFSX, vINCX, vX, vOFSX, vINCX, vX));
 }
 
-CAMLprim value LFUN(ssqr_zero_stub_bc)(
-    value vN, value vOFSX, value vINCX, value vX)
-{
-  return
-    caml_copy_double(
-        LFUN(ssqr_zero_stub)(
-          Int_val(vN),
-          Int_val(vOFSX),
-          Int_val(vINCX),
-          vX));
+CAMLprim value LFUN(ssqr_zero_stub_bc)(value vN, value vOFSX, value vINCX,
+                                       value vX) {
+  return caml_copy_double(
+      LFUN(ssqr_zero_stub)(Int_val(vN), Int_val(vOFSX), Int_val(vINCX), vX));
 }
 
-CAMLprim double LFUN(ssqr_stub)(
-  intnat vN,
-  double vC,
-  intnat vOFSX, intnat vINCX, value vX)
-{
+CAMLprim double LFUN(ssqr_stub)(intnat vN, double vC, intnat vOFSX,
+                                intnat vINCX, value vX) {
   CAMLparam1(vX);
 
-  integer GET_INT(N),
-          GET_INT(INCX);
+  integer GET_INT(N), GET_INT(INCX);
 
   VEC_PARAMS(X);
 
@@ -232,7 +190,7 @@ CAMLprim double LFUN(ssqr_stub)(
   REAL acc = 0.0;
   REAL GET_DOUBLE(C);
 
-  caml_enter_blocking_section();  /* Allow other threads */
+  caml_enter_blocking_section(); /* Allow other threads */
 
   if (INCX == 1)
     /* NOTE: may improve SIMD optimization */
@@ -243,10 +201,9 @@ CAMLprim double LFUN(ssqr_stub)(
   else {
     if (INCX > 0) {
       start = X_data;
-      last = start + N*INCX;
-    }
-    else {
-      start = X_data - (N - 1)*INCX;
+      last = start + N * INCX;
+    } else {
+      start = X_data - (N - 1) * INCX;
       last = X_data + INCX;
     }
 
@@ -257,29 +214,22 @@ CAMLprim double LFUN(ssqr_stub)(
     }
   }
 
-  caml_leave_blocking_section();  /* Disallow other threads */
+  caml_leave_blocking_section(); /* Disallow other threads */
 
   CAMLreturnT(double, acc);
 }
 
-CAMLprim value LFUN(ssqr_stub_bc)(
-    value vN, value vC, value vOFSX, value vINCX, value vX)
-{
-  return
-    caml_copy_double(
-        LFUN(ssqr_stub)(
-          Int_val(vN),
-          Double_val(vC),
-          Int_val(vOFSX),
-          Int_val(vINCX),
-          vX));
+CAMLprim value LFUN(ssqr_stub_bc)(value vN, value vC, value vOFSX, value vINCX,
+                                  value vX) {
+  return caml_copy_double(LFUN(ssqr_stub)(Int_val(vN), Double_val(vC),
+                                          Int_val(vOFSX), Int_val(vINCX), vX));
 }
 
 /* Unary vector operations */
 
 #define NAME LFUN(neg_stub)
 #define BC_NAME LFUN(neg_stub_bc)
-#define FUNC(dst, x) *dst = - x
+#define FUNC(dst, x) *dst = -x
 #include "vec_map.h"
 
 #define NAME LFUN(reci_stub)
@@ -457,7 +407,6 @@ CAMLprim value LFUN(ssqr_stub_bc)(
 #define FUNC(dst, x) *dst = x / (1 + SDMATHH(fabs)(x))
 #include "vec_map.h"
 
-
 /* Binary vector operations */
 
 #define NAME LFUN(add_stub)
@@ -472,12 +421,12 @@ CAMLprim value LFUN(ssqr_stub_bc)(
 
 #define NAME LFUN(mul_stub)
 #define BC_NAME LFUN(mul_stub_bc)
-#define FUNC(dst, x, y) *dst = x*y
+#define FUNC(dst, x, y) *dst = x * y
 #include "vec_combine.h"
 
 #define NAME LFUN(div_stub)
 #define BC_NAME LFUN(div_stub_bc)
-#define FUNC(dst, x, y) *dst = x/y
+#define FUNC(dst, x, y) *dst = x / y
 #include "vec_combine.h"
 
 #define NAME LFUN(pow_stub)
@@ -505,49 +454,49 @@ CAMLprim value LFUN(ssqr_stub_bc)(
 #define FUNC(dst, x, y) *dst = SDMATHH(fmax)(x, y)
 #include "vec_combine.h"
 
-
 /* Ternary matrix operations */
 
 #define NAME LFUN(zpxy_stub)
 #define BC_NAME LFUN(zpxy_stub_bc)
-# ifdef FP_FAST_FMA
-#  define FUNC(dst, x, y) *dst = SDMATHH(fma)(x, y, *dst)
-# else
-#  define FUNC(dst, x, y) *dst += x*y
-# endif
+#ifdef FP_FAST_FMA
+#define FUNC(dst, x, y) *dst = SDMATHH(fma)(x, y, *dst)
+#else
+#define FUNC(dst, x, y) *dst += x * y
+#endif
 #include "vec_combine.h"
 
 #define NAME LFUN(zmxy_stub)
 #define BC_NAME LFUN(zmxy_stub_bc)
-#define FUNC(dst, x, y) *dst -= x*y
+#define FUNC(dst, x, y) *dst -= x * y
 #include "vec_combine.h"
-
 
 /* Unary vector operations yielding floats */
 
 #define NAME LFUN(log_sum_exp_vec_stub)
 #define BC_NAME LFUN(log_sum_exp_vec_stub_bc)
 #define DECLARE_EXTRA NUMBER x_max = -INFINITY
-#define INIT_HAVE_LOCK \
-  x_max = LFUN(max_stub_blocking)(N, X_data, INCX, x_max)
+#define INIT_HAVE_LOCK x_max = LFUN(max_stub_blocking)(N, X_data, INCX, x_max)
 #define INIT 0.0
 #define FUNC(acc, x) acc += SDMATHH(exp)(x - x_max)
 #define FINISH_HAVE_LOCK acc = SDMATHH(log)(acc) + x_max
 #include "fold_col.h"
-
 
 /* Binary vector operations yielding floats */
 
 #define NAME LFUN(ssqr_diff_stub)
 #define BC_NAME LFUN(ssqr_diff_stub_bc)
 #define INIT 0.0
-# ifdef FP_FAST_FMA
-#  define FUNC(acc, x, y) x -= y; acc = SDMATHH(fma)(x, x, acc)
-# else
-#  define FUNC(acc, x, y) x -= y; x *= x; acc += x
-# endif
+#ifdef FP_FAST_FMA
+#define FUNC(acc, x, y)                                                        \
+  x -= y;                                                                      \
+  acc = SDMATHH(fma)(x, x, acc)
+#else
+#define FUNC(acc, x, y)                                                        \
+  x -= y;                                                                      \
+  x *= x;                                                                      \
+  acc += x
+#endif
 #include "fold2_col.h"
-
 
 /* Misc operations */
 
@@ -557,8 +506,7 @@ CAMLprim value LFUN(ssqr_stub_bc)(
 
 /* NaN are put last (greater than anything) to ensure the algo termination.
    If both a and b are NaN, return false (consider NaN equal for this). */
-#define NAN_LAST(a, b, SORT)                            \
-  (isnan(b) ? (!isnan(a)) : (!isnan(a) && (SORT)))
+#define NAN_LAST(a, b, SORT) (isnan(b) ? (!isnan(a)) : (!isnan(a) && (SORT)))
 
 #define NAME LFUN(sort_incr)
 #define BC_NAME LFUN(sort_incr_bc)
@@ -578,10 +526,10 @@ CAMLprim value LFUN(ssqr_stub_bc)(
 #define BC_NAME LFUN(sort_bc)
 #define NAME_PERM LFUN(sort_perm)
 #define BC_NAME_PERM LFUN(sort_perm_bc)
-#define OCAML_SORT_LT(a, b)                                     \
-  NAN_LAST(a, b, (va = caml_copy_double(a),                     \
-                  vb = caml_copy_double(b),                     \
-                  Int_val(caml_callback2(vCMP, va, vb)) < 0))
+#define OCAML_SORT_LT(a, b)                                                    \
+  NAN_LAST(a, b,                                                               \
+           (va = caml_copy_double(a), vb = caml_copy_double(b),                \
+            Int_val(caml_callback2(vCMP, va, vb)) < 0))
 #define OCAML_SORT_CALLBACK
 #include "vec_sort.h"
 #undef OCAML_SORT_CALLBACK

@@ -1,14 +1,14 @@
-Copyright (c) 2000- Markus Mottl <markus.mottl@gmail.com>
-Copyright (c) 2000- Christophe Troestler <Christophe.Troestler@umons.ac.be>
+Copyright © 2000- Markus Mottl <markus.mottl@gmail.com>
+Copyright © 2000- Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
-Copyright (c) 2000-2012 Egbert Ammicht <eammicht@lucent.com>
-Copyright (c) 2000-2012 Patrick Cousot <Patrick.Cousot@ens.fr>
-Copyright (c) 2000-2012 Sam Ehrlichman <sehrlichman@janestreet.com>
-Copyright (c) 2000-2012 Jane Street Capital LLC <opensource@janestreet.com>
-Copyright (c) 2000-2012 Florent Hoareau <h.florent@gmail.com>
-Copyright (c) 2000-2012 Liam Stewart <liam@cs.toronto.edu>
-Copyright (c) 2000-2012 Oleg Trott <ot14@columbia.edu>
-Copyright (c) 2000-2012 Martin Willensdorfer <ma.wi@gmx.at>
+Copyright © 2000-2012 Egbert Ammicht <eammicht@lucent.com>
+Copyright © 2000-2012 Patrick Cousot <Patrick.Cousot@ens.fr>
+Copyright © 2000-2012 Sam Ehrlichman <sehrlichman@janestreet.com>
+Copyright © 2000-2012 Jane Street Capital LLC <opensource@janestreet.com>
+Copyright © 2000-2012 Florent Hoareau <h.florent@gmail.com>
+Copyright © 2000-2012 Liam Stewart <liam@cs.toronto.edu>
+Copyright © 2000-2012 Oleg Trott <ot14@columbia.edu>
+Copyright © 2000-2012 Martin Willensdorfer <ma.wi@gmx.at>
 
 The Library is distributed under the terms of the GNU Lesser General
 Public License version 2.1 (included below).
@@ -22,7 +22,7 @@ requirements listed in clause 6 of the GNU Lesser General Public License.
 By "a publicly distributed version of the Library", we mean either the
 unmodified Library as distributed by the authors, or a modified version
 of the Library that is distributed under the conditions defined in clause
-2 of the GNU Lesser General Public License.  This exception does not
+3 of the GNU Lesser General Public License.  This exception does not
 however invalidate any other reasons why the executable file might be
 covered by the GNU Lesser General Public License.
 

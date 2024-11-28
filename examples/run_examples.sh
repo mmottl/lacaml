@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -eu
 
-dune build `echo *.ml | sed -e 's/.ml/.exe/g'`
+dune build "${@/%.ml/.exe}"
 
 for file in *.ml; do
-  ex=`basename $file .ml`
+  ex=$(basename "$file" .ml)
   exexec=$ex.exe
-  echo TESTING $dir/$ex ==================================================
-  ../_build/default/examples/$dir/$exexec
+  echo TESTING "$ex" ==================================================
+  ../_build/default/examples/"$exexec"
 done

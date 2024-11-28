@@ -1,32 +1,26 @@
 (* File: svd.ml
 
-   Copyright (C) 2004-2005
+   Copyright © 2004-2005
 
-     Egbert Ammicht
-     email: eammicht@lucent.com
+   Egbert Ammicht email: eammicht@lucent.com
 
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Markus Mottl email: markus.mottl@gmail.com WWW: http://www.ocaml.info
 
-     Liam Stewart
-     email: liam@cs.toronto.edu
-     WWW: http://www.cs.toronto.edu/~liam
+   Liam Stewart email: liam@cs.toronto.edu WWW: http://www.cs.toronto.edu/~liam
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+   This library is free software; you can redistribute it and/or modify it under
+   the terms of the GNU Lesser General Public License as published by the Free
+   Software Foundation; either version 2.1 of the License, or (at your option)
+   any later version.
 
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+   This library is distributed in the hope that it will be useful, but WITHOUT
+   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+   FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+   details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*)
+   You should have received a copy of the GNU Lesser General Public License
+   along with this library; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
 open Format
 open Lacaml.Io
@@ -42,7 +36,6 @@ let () =
   printf "@[<2>Singular values S = @[%a@]@]@\n@\n" pp_rfvec s;
   printf "@[<2>Matrix U = @[%a@]@]@\n@\n" pp_fmat u;
   printf "@[<2>Matrix VT = @[%a@]@]@\n" pp_fmat vt
-
 
 (* COMPLEX GESVD DEMO *)
 

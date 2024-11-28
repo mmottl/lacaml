@@ -1,43 +1,34 @@
 (* File: vec_CZ.ml
 
-   Copyright (C) 2001-
+   Copyright © 2001-
 
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Markus Mottl <markus.mottl@gmail.com>
 
-     Christophe Troestler
-     email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+   Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
-   This library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
+   This library is free software; you can redistribute it and/or modify it under
+   the terms of the GNU Lesser General Public License as published by the Free
+   Software Foundation; either version 2.1 of the License, or (at your option)
+   any later version.
 
-   This library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
+   This library is distributed in the hope that it will be useful, but WITHOUT
+   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+   FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+   details.
 
-   You should have received a copy of the GNU Lesser General Public
-   License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-*)
+   You should have received a copy of the GNU Lesser General Public License
+   along with this library; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
 open Complex
 open Vec4_CPREC
 
-let random
-      ?rnd_state
-      ?(re_from = -1.) ?(re_range = 2.)
-      ?(im_from = -1.) ?(im_range = 2.)
-      n =
+let random ?rnd_state ?(re_from = -1.) ?(re_range = 2.) ?(im_from = -1.)
+    ?(im_range = 2.) n =
   let vec = create n in
   let state =
-    match rnd_state with
-    | None -> Random.get_state ()
-    | Some state -> state in
+    match rnd_state with None -> Random.get_state () | Some state -> state
+  in
   for row = 1 to n do
     vec.{row} <-
       {

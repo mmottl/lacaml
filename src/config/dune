@@ -1,42 +1,41 @@
 (executable
-  (name discover)
-  (modules discover)
-  (libraries dune.configurator)
-  (modes byte exe)
-)
+ (name discover)
+ (modules discover)
+ (libraries dune.configurator)
+ (modes byte exe))
 
 (executable
-  (name make_prec_dep)
-  (modules make_prec_dep)
-  (libraries str)
-  (modes byte exe)
-)
+ (name make_prec_dep)
+ (modules make_prec_dep)
+ (libraries str)
+ (modes byte exe))
 
 (rule
-  (targets c_flags.sexp extra_c_flags.sexp c_library_flags.sexp)
-  (action (run ./discover.exe)))
+ (targets c_flags.sexp extra_c_flags.sexp c_library_flags.sexp)
+ (action
+  (run ./discover.exe)))
 
 (library
-  (name discover_utils)
-  (modules)
-  (foreign_stubs
-    (language c)
-    (names zdot_is_procedure_stubs zdot_is_function_stubs)
-    (flags
-      (:standard)
-      (:include c_flags.sexp)
-      (:include extra_c_flags.sexp)
-      ))
-  (c_library_flags (:include c_library_flags.sexp) -lm)
-)
+ (name discover_utils)
+ (modules)
+ (foreign_stubs
+  (language c)
+  (names zdot_is_procedure_stubs zdot_is_function_stubs)
+  (flags
+   (:standard)
+   (:include c_flags.sexp)
+   (:include extra_c_flags.sexp)))
+ (c_library_flags
+  (:include c_library_flags.sexp)
+  -lm))
 
 (executable
-  (name gen_blas_kind)
-  (modules gen_blas_kind)
-  (libraries dune.configurator discover_utils)
-  (modes byte exe)
-)
+ (name gen_blas_kind)
+ (modules gen_blas_kind)
+ (libraries dune.configurator discover_utils)
+ (modes byte exe))
 
 (rule
-  (targets blas_kind_flags.sexp)
-  (action (run ./gen_blas_kind.exe)))
+ (targets blas_kind_flags.sexp)
+ (action
+  (run ./gen_blas_kind.exe)))

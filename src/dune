@@ -1,84 +1,92 @@
 (library
-  (public_name lacaml)
-  (modules
-    Lacaml
-    Common Io
-    S D C Z
-    Utils Version
-    Float32 Float64
-    Complex32 Complex64
-    Real_io Complex_io
-    Impl4_S Impl4_D Impl4_C Impl4_Z
-    Impl2_S Impl2_D Impl2_C Impl2_Z
-    Vec4_S Vec4_D Vec4_C Vec4_Z
-    Vec2_S Vec2_D Vec2_C Vec2_Z
-    Mat4_S Mat4_D Mat4_C Mat4_Z
-    Mat2_S Mat2_D Mat2_C Mat2_Z
-  )
-  (foreign_stubs
-    (language c)
-    (names
-      impl_c utils_c
-      vec2_S_c vec2_D_c vec2_C_c vec2_Z_c
-      vec4_S_c vec4_D_c vec4_C_c vec4_Z_c
-      mat2_S_c mat2_D_c mat2_C_c mat2_Z_c
-      mat4_S_c mat4_D_c mat4_C_c mat4_Z_c
-      impl2_S_c impl2_D_c impl2_C_c impl2_Z_c
-      impl4_S_c impl4_D_c impl4_C_c impl4_Z_c)
-    (flags
-      (:standard)
-      (:include config/c_flags.sexp)
-      (:include config/blas_kind_flags.sexp)
-      (:include config/extra_c_flags.sexp)
-      ))
-  (c_library_flags (:include config/c_library_flags.sexp) -lm)
-
-  (libraries bigarray)
-)
+ (public_name lacaml)
+ (modules Lacaml Common Io S D C Z Utils Version Float32 Float64 Complex32
+   Complex64 Real_io Complex_io Impl4_S Impl4_D Impl4_C Impl4_Z Impl2_S
+   Impl2_D Impl2_C Impl2_Z Vec4_S Vec4_D Vec4_C Vec4_Z Vec2_S Vec2_D Vec2_C
+   Vec2_Z Mat4_S Mat4_D Mat4_C Mat4_Z Mat2_S Mat2_D Mat2_C Mat2_Z)
+ (foreign_stubs
+  (language c)
+  (names impl_c utils_c vec2_S_c vec2_D_c vec2_C_c vec2_Z_c vec4_S_c vec4_D_c
+    vec4_C_c vec4_Z_c mat2_S_c mat2_D_c mat2_C_c mat2_Z_c mat4_S_c mat4_D_c
+    mat4_C_c mat4_Z_c impl2_S_c impl2_D_c impl2_C_c impl2_Z_c impl4_S_c
+    impl4_D_c impl4_C_c impl4_Z_c)
+  (flags
+   (:standard)
+   (:include config/c_flags.sexp)
+   (:include config/blas_kind_flags.sexp)
+   (:include config/extra_c_flags.sexp)))
+ (c_library_flags
+  (:include config/c_library_flags.sexp)
+  -lm)
+ (libraries bigarray))
 
 (rule
-  (targets
-    lacaml.mli
-    ;
-    S.mli S.ml
-    D.mli D.ml
-    C.mli C.ml
-    Z.mli Z.ml
-    ;
-    impl4_S.mli impl4_S.ml
-    impl4_D.mli impl4_D.ml
-    impl4_C.mli impl4_C.ml
-    impl4_Z.mli impl4_Z.ml
-    impl2_S.mli impl2_S.ml
-    impl2_D.mli impl2_D.ml
-    impl2_C.mli impl2_C.ml
-    impl2_Z.mli impl2_Z.ml
-    ;
-    mat4_S.mli mat4_S.ml
-    mat4_D.mli mat4_D.ml
-    mat4_C.mli mat4_C.ml
-    mat4_Z.mli mat4_Z.ml
-    mat2_S.mli mat2_S.ml
-    mat2_D.mli mat2_D.ml
-    mat2_C.mli mat2_C.ml
-    mat2_Z.mli mat2_Z.ml
-    ;
-    vec4_S.mli vec4_S.ml
-    vec4_D.mli vec4_D.ml
-    vec4_C.mli vec4_C.ml
-    vec4_Z.mli vec4_Z.ml
-    vec2_S.mli vec2_S.ml
-    vec2_D.mli vec2_D.ml
-    vec2_C.mli vec2_C.ml
-    vec2_Z.mli vec2_Z.ml
-  )
-  (deps
-    config/make_prec_dep.exe
-    lacaml.pre.mli
-    SD.mli SD.ml CZ.mli CZ.ml
-    impl_SDCZ.mli impl_SDCZ.ml impl_SD.mli impl_SD.ml impl_CZ.mli impl_CZ.ml
-    mat_SDCZ.mli mat_SDCZ.ml mat_SD.mli mat_SD.ml mat_CZ.mli mat_CZ.ml
-    vec_SDCZ.mli vec_SDCZ.ml vec_SD.mli vec_SD.ml vec_CZ.mli vec_CZ.ml
-    real_io.mli complex_io.mli
-  )
-  (action (run ./config/make_prec_dep.exe)))
+ (targets
+  lacaml.mli
+  ;
+  S.mli
+  S.ml
+  D.mli
+  D.ml
+  C.mli
+  C.ml
+  Z.mli
+  Z.ml
+  ;
+  impl4_S.mli
+  impl4_S.ml
+  impl4_D.mli
+  impl4_D.ml
+  impl4_C.mli
+  impl4_C.ml
+  impl4_Z.mli
+  impl4_Z.ml
+  impl2_S.mli
+  impl2_S.ml
+  impl2_D.mli
+  impl2_D.ml
+  impl2_C.mli
+  impl2_C.ml
+  impl2_Z.mli
+  impl2_Z.ml
+  ;
+  mat4_S.mli
+  mat4_S.ml
+  mat4_D.mli
+  mat4_D.ml
+  mat4_C.mli
+  mat4_C.ml
+  mat4_Z.mli
+  mat4_Z.ml
+  mat2_S.mli
+  mat2_S.ml
+  mat2_D.mli
+  mat2_D.ml
+  mat2_C.mli
+  mat2_C.ml
+  mat2_Z.mli
+  mat2_Z.ml
+  ;
+  vec4_S.mli
+  vec4_S.ml
+  vec4_D.mli
+  vec4_D.ml
+  vec4_C.mli
+  vec4_C.ml
+  vec4_Z.mli
+  vec4_Z.ml
+  vec2_S.mli
+  vec2_S.ml
+  vec2_D.mli
+  vec2_D.ml
+  vec2_C.mli
+  vec2_C.ml
+  vec2_Z.mli
+  vec2_Z.ml)
+ (deps config/make_prec_dep.exe lacaml.pre.mli SD.mli SD.ml CZ.mli CZ.ml
+   impl_SDCZ.mli impl_SDCZ.ml impl_SD.mli impl_SD.ml impl_CZ.mli impl_CZ.ml
+   mat_SDCZ.mli mat_SDCZ.ml mat_SD.mli mat_SD.ml mat_CZ.mli mat_CZ.ml
+   vec_SDCZ.mli vec_SDCZ.ml vec_SD.mli vec_SD.ml vec_CZ.mli vec_CZ.ml
+   real_io.mli complex_io.mli)
+ (action
+  (run ./config/make_prec_dep.exe)))

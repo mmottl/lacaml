@@ -1,14 +1,10 @@
 /* File: vec_map.h
 
-   Copyright (C) 2009-
+   Copyright © 2009-
 
-     Markus Mottl
-     email: markus.mottl@gmail.com
-     WWW: http://www.ocaml.info
+   Markus Mottl <markus.mottl@gmail.com>
 
-     Christophe Troestler
-     email: Christophe.Troestler@umons.ac.be
-     WWW: http://math.umh.ac.be/an/
+   Christophe Troestler <Christophe.Troestler@umons.ac.be>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -22,28 +18,23 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with this library; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
 */
 
 #include "lacaml_macros.h"
 
-CAMLprim value NAME(
-  intnat vN,
-  intnat vOFSY, intnat vINCY, value vY,
-  intnat vOFSX, intnat vINCX, value vX)
-{
+CAMLprim value NAME(intnat vN, intnat vOFSY, intnat vINCY, value vY,
+                    intnat vOFSX, intnat vINCX, value vX) {
   CAMLparam2(vX, vY);
 
-  integer GET_INT(N),
-          GET_INT(INCX),
-          GET_INT(INCY);
+  integer GET_INT(N), GET_INT(INCX), GET_INT(INCY);
 
   VEC_PARAMS(X);
   VEC_PARAMS(Y);
 
   NUMBER *start1, *last1, *dst;
 
-  caml_enter_blocking_section();  /* Allow other threads */
+  caml_enter_blocking_section(); /* Allow other threads */
 
   if (INCX == 1 && INCY == 1)
     /* NOTE: may improve SIMD optimization */
@@ -55,14 +46,16 @@ CAMLprim value NAME(
   else {
     if (INCX > 0) {
       start1 = X_data;
-      last1 = start1 + N*INCX;
+      last1 = start1 + N * INCX;
     } else {
-      start1 = X_data - (N - 1)*INCX;
+      start1 = X_data - (N - 1) * INCX;
       last1 = X_data + INCX;
     };
 
-    if (INCY > 0) dst = Y_data;
-    else dst = Y_data - (N - 1)*INCY;
+    if (INCY > 0)
+      dst = Y_data;
+    else
+      dst = Y_data - (N - 1) * INCY;
 
     while (start1 != last1) {
       NUMBER x = *start1;
@@ -72,22 +65,14 @@ CAMLprim value NAME(
     };
   }
 
-  caml_leave_blocking_section();  /* Disallow other threads */
+  caml_leave_blocking_section(); /* Disallow other threads */
 
   CAMLreturn(Val_unit);
 }
 
-CAMLprim value BC_NAME(value *argv, int __unused argn)
-{
-  return
-    NAME(
-        Int_val(argv[0]),
-        Int_val(argv[1]),
-        Int_val(argv[2]),
-        argv[3],
-        Int_val(argv[4]),
-        Int_val(argv[5]),
-        argv[6]);
+CAMLprim value BC_NAME(value *argv, int __unused argn) {
+  return NAME(Int_val(argv[0]), Int_val(argv[1]), Int_val(argv[2]), argv[3],
+              Int_val(argv[4]), Int_val(argv[5]), argv[6]);
 }
 
 #undef NAME
