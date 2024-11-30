@@ -20,25 +20,24 @@
    along with this library; if not, write to the Free Software Foundation, Inc.,
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
-(** {5 Vector operations} *)
-
 open Floatxx
 open Types.Vec
 
-(** {6 Creation of vectors} *)
+(** {4 Creation of Vectors} *)
 
 val random :
   ?rnd_state:Random.State.t -> ?from:float -> ?range:float -> int -> vec
-(** [random ?rnd_state ?from ?range n] @return a vector
-    of size [n] initialized with random elements sampled uniformly from
-    [range] starting at [from].  A random state [rnd_state] can be passed.
+(** [random ?rnd_state ?from ?range n]
+
+    @return
+      a vector of size [n] initialized with random elements sampled uniformly
+      from [range] starting at [from]. A random state [rnd_state] can be passed.
 
     @param rnd_state default = Random.get_state ()
     @param from default = -1.0
-    @param range default = 2.0
-*)
+    @param range default = 2.0 *)
 
-(** {6 Unary vector operations} *)
+(** {4 Unary Vector Operations} *)
 
 val abs : unop
 (** [abs ?n ?ofsy ?incy ?y ?ofsx ?incx x] computes the absolute value of [n]
@@ -489,7 +488,7 @@ val softsign : unop
     @param ofsx default = 1
     @param incx default = 1 *)
 
-(** {6 Binary vector operations} *)
+(** {4 Binary Vector Operations} *)
 
 val pow : binop
 (** [pow ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] computes [pow(a, b)] of
@@ -576,7 +575,7 @@ val max2 : binop
     @param ofsy default = 1
     @param incy default = 1 *)
 
-(** {6 Miscellaneous functions} *)
+(** {4 Miscellaneous Functions} *)
 
 val log_sum_exp : ?n:int -> ?ofsx:int -> ?incx:int -> vec -> float
 (** [log_sum_exp ?n ?ofsx ?incx x] computes the logarithm of the sum of

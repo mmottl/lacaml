@@ -65,13 +65,17 @@ type int_vec = (int, int_elt, fortran_layout) Array1.t
 (** Type of OCaml integer vectors. *)
 
 val create_int_vec : int -> int_vec
-(** [create_int_vec n] @return an int-vector with [n] rows. *)
+(** [create_int_vec n]
+
+    @return an int-vector with [n] rows. *)
 
 type int32_vec = (int32, int32_elt, fortran_layout) Array1.t
 (** Type of 32bit Fortran integer vectors. *)
 
 val create_int32_vec : int -> int32_vec
-(** [create_int32_vec n] @return an int32-vector with [n] rows. *)
+(** [create_int32_vec n]
+
+    @return an int32-vector with [n] rows. *)
 
 val mat_from_vec : ('a, 'b, 'c) Array1.t -> ('a, 'b, 'c) Array2.t
 (** [mat_from_vec a] converts the vector [a] into a matrix with [Array1.dim a]

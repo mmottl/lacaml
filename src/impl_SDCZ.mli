@@ -27,7 +27,7 @@
 open Common
 open Numberxx
 
-(** {6 BLAS-1 interface} *)
+(** {4 BLAS-1 Interface} *)
 
 val swap :
   ?n:int ->
@@ -100,13 +100,15 @@ val iamax : ?n:int -> ?ofsx:int -> ?incx:int -> vec -> int
     @param incx default = 1 *)
 
 val amax : ?n:int -> ?ofsx:int -> ?incx:int -> vec -> num_type
-(** [amax ?n ?ofsx ?incx x] @return the greater of the absolute
-    values of the elements of the vector [x].
+(** [amax ?n ?ofsx ?incx x]
+
+    @return
+      the greater of the absolute values of the elements of the vector [x].
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1 *)
 
-(** {6 BLAS-2 interface} *)
+(** {4 BLAS-2 Interface} *)
 
 val gemv :
   ?m:int ->
@@ -293,7 +295,7 @@ val tpsv :
     @param ofsx default = 1
     @param incx default = 1 *)
 
-(** {6 BLAS-3 interface} *)
+(** {4 BLAS-3 Interface} *)
 
 val gemm :
   ?m:int ->
@@ -491,9 +493,9 @@ val syr2k :
     @param br default = 1
     @param bc default = 1 *)
 
-(** {6 LAPACK interface} *)
+(** {4 LAPACK Interface} *)
 
-(** {7 Auxiliary routines} *)
+(** {5 Auxiliary Routines} *)
 
 val lacpy :
   ?uplo:[ `U | `L ] ->
@@ -573,19 +575,20 @@ val lassq :
   ?incx:int ->
   vec ->
   float * float
-(** [lassq ?n ?ofsx ?incx ?scale ?sumsq] @return [(scl, ssq)], where
-    [scl] is a scaling factor and [ssq] the sum of squares of vector
-    [x] starting at [ofs] and using increment [incx] and initial
-    [scale] and [sumsq].  The following equality holds:
-    [scl**2. *. ssq = x.{1}**2. +. ... +. x.{n}**2. +. scale**2. *. sumsq].
-    See LAPACK-documentation for details!
+(** [lassq ?n ?ofsx ?incx ?scale ?sumsq]
+
+    @return
+      [(scl, ssq)], where [scl] is a scaling factor and [ssq] the sum of squares
+      of vector [x] starting at [ofs] and using increment [incx] and initial
+      [scale] and [sumsq]. The following equality holds:
+      [scl**2. *. ssq = x.{1}**2. +. ... +. x.{n}**2. +. scale**2. *. sumsq].
+      See LAPACK-documentation for details!
 
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
     @param scale default = 0.
-    @param sumsq default = 1.
-*)
+    @param sumsq default = 1. *)
 
 val larnv :
   ?idist:[ `Uniform0 | `Uniform1 | `Normal ] ->
@@ -595,16 +598,17 @@ val larnv :
   ?x:vec ->
   unit ->
   vec
-(** [larnv ?idist ?iseed ?n ?ofsx ?x ()] @return a random vector with random
-    distribution as specifified by [idist], random seed [iseed], vector offset
-    [ofsx] and optional vector [x].
+(** [larnv ?idist ?iseed ?n ?ofsx ?x ()]
+
+    @return
+      a random vector with random distribution as specifified by [idist], random
+      seed [iseed], vector offset [ofsx] and optional vector [x].
 
     @param idist default = [`Normal]
     @param iseed default = integer vector of size 4 with all ones.
     @param n default = [dim x - ofsx + 1] if [x] is provided, [1] otherwise.
     @param ofsx default = [1]
-    @param x default = vector of length [ofsx - 1 + n] if [n] is provided.
-*)
+    @param x default = vector of length [ofsx - 1 + n] if [n] is provided. *)
 
 val lange_min_lwork : int -> norm4 -> int
 (** [lange_min_lwork m norm]
@@ -621,10 +625,12 @@ val lange :
   ?ac:int ->
   mat ->
   float
-(** [lange ?m ?n ?norm ?work ?ar ?ac a] @return the value of the one
-    norm ([norm = `O]), or the Frobenius norm ([norm = `F]), or the infinity
-    norm ([norm = `I]), or the element of largest absolute value
-    ([norm = `M]) of a real matrix [a].
+(** [lange ?m ?n ?norm ?work ?ar ?ac a]
+
+    @return
+      the value of the one norm ([norm = `O]), or the Frobenius norm
+      ([norm = `F]), or the infinity norm ([norm = `I]), or the element of
+      largest absolute value ([norm = `M]) of a real matrix [a].
 
     @param m default = number of rows of matrix [a]
     @param n default = number of columns of matrix [a]
@@ -643,7 +649,7 @@ val lauum : ?n:int -> ?up:bool -> ?ar:int -> ?ac:int -> mat -> unit
     @param ar default = 1
     @param ac default = 1 *)
 
-(** {7 Linear equations (computational routines)} *)
+(** {5 Linear Equations (computational routines)} *)
 
 val getrf :
   ?m:int -> ?n:int -> ?ipiv:int32_vec -> ?ar:int -> ?ac:int -> mat -> int32_vec
@@ -685,12 +691,16 @@ val getrs :
     @param bc default = 1 *)
 
 val getri_min_lwork : int -> int
-(** [getri_min_lwork n] @return the minimum length of the
-    work array used by the {!getri}-function if the matrix has [n] columns. *)
+(** [getri_min_lwork n]
+
+    @return
+      the minimum length of the work array used by the {!getri}-function if the
+      matrix has [n] columns. *)
 
 val getri_opt_lwork : ?n:int -> ?ar:int -> ?ac:int -> mat -> int
-(** [getri_opt_lwork ?n ?ar ?ac a] @return the optimal size of the
-    work array used by the {!getri}-function.
+(** [getri_opt_lwork ?n ?ar ?ac a]
+
+    @return the optimal size of the work array used by the {!getri}-function.
     @param n default = number of columns of matrix [a]
     @param ar default = 1
     @param ac default = 1 *)
@@ -708,12 +718,14 @@ val getri :
     @param ac default = 1 *)
 
 val sytrf_min_lwork : unit -> int
-(** [sytrf_min_lwork ()] @return the minimum length of the
-    work array used by the {!sytrf}-function. *)
+(** [sytrf_min_lwork ()]
+
+    @return the minimum length of the work array used by the {!sytrf}-function. *)
 
 val sytrf_opt_lwork : ?n:int -> ?up:bool -> ?ar:int -> ?ac:int -> mat -> int
-(** [sytrf_opt_lwork ?n ?up ?ar ?ac a] @return the optimal size of the
-    work array used by the {!sytrf}-function.
+(** [sytrf_opt_lwork ?n ?up ?ar ?ac a]
+
+    @return the optimal size of the work array used by the {!sytrf}-function.
     @param n default = number of columns of matrix [a]
     @param up default = true (store upper triangle in [a])
     @param a the matrix [a]
@@ -766,8 +778,11 @@ val sytrs :
     @param bc default = 1 *)
 
 val sytri_min_lwork : int -> int
-(** [sytri_min_lwork n] @return the minimum length of the
-    work array used by the {!sytri}-function if the matrix has [n] columns. *)
+(** [sytri_min_lwork n]
+
+    @return
+      the minimum length of the work array used by the {!sytri}-function if the
+      matrix has [n] columns. *)
 
 val sytri :
   ?n:int ->
@@ -914,20 +929,23 @@ val trtri :
     @param ac default = 1 *)
 
 val geqrf_opt_lwork : ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> mat -> int
-(** [geqrf_opt_lwork ?m ?n ?ar ?ac a] @return the optimum
-    length of the work-array used by the {!geqrf}-function given matrix
-    [a] and optionally its logical dimensions [m] and [n].
+(** [geqrf_opt_lwork ?m ?n ?ar ?ac a]
+
+    @return
+      the optimum length of the work-array used by the {!geqrf}-function given
+      matrix [a] and optionally its logical dimensions [m] and [n].
 
     @param m default = number of rows in matrix [a]
     @param n default = number of columns in matrix [a]
     @param ar default = 1
-    @param ac default = 1
-*)
+    @param ac default = 1 *)
 
 val geqrf_min_lwork : n:int -> int
-(** [geqrf_min_lwork ~n] @return the minimum length of the
-    work-array used by the {!geqrf}-function if the matrix has [n]
-    columns. *)
+(** [geqrf_min_lwork ~n]
+
+    @return
+      the minimum length of the work-array used by the {!geqrf}-function if the
+      matrix has [n] columns. *)
 
 val geqrf :
   ?m:int -> ?n:int -> ?work:vec -> ?tau:vec -> ?ar:int -> ?ac:int -> mat -> vec
@@ -942,7 +960,7 @@ val geqrf :
     @param ar default = 1
     @param ac default = 1 *)
 
-(** {7 Linear equations (simple drivers)} *)
+(** {5 Linear Equations (simple drivers)} *)
 
 val gesv :
   ?n:int ->
@@ -1152,10 +1170,12 @@ val sysv_opt_lwork :
   ?bc:int ->
   mat ->
   int
-(** [sysv_opt_lwork ?n ?up ?ar ?ac a ?nrhs ?br ?bc b] @return the optimum
-    length of the work-array used by the [sysv]-function given matrix
-    [a], optionally its logical dimension [n] and given right hand side
-    matrix [b] with an optional number [nrhs] of vectors.
+(** [sysv_opt_lwork ?n ?up ?ar ?ac a ?nrhs ?br ?bc b]
+
+    @return
+      the optimum length of the work-array used by the [sysv]-function given
+      matrix [a], optionally its logical dimension [n] and given right hand side
+      matrix [b] with an optional number [nrhs] of vectors.
     @param n default = available number of columns in matrix [a]
     @param up default = true i.e., upper triangle of [a] is stored
     @param ar default = 1
@@ -1227,13 +1247,15 @@ val spsv :
     @param br default = 1
     @param bc default = 1 *)
 
-(** {7 Least squares (simple drivers)} *)
+(** {5 Least Squares (simple drivers)} *)
 
 val gels_min_lwork : m:int -> n:int -> nrhs:int -> int
-(** [gels_min_lwork ~m ~n ~nrhs] @return the minimum length of the
-    work-array used by the [gels]-function if the logical dimensions
-    of the matrix are [m] rows and [n] columns and if there are [nrhs]
-    right hand side vectors. *)
+(** [gels_min_lwork ~m ~n ~nrhs]
+
+    @return
+      the minimum length of the work-array used by the [gels]-function if the
+      logical dimensions of the matrix are [m] rows and [n] columns and if there
+      are [nrhs] right hand side vectors. *)
 
 val gels_opt_lwork :
   ?m:int ->
@@ -1247,10 +1269,12 @@ val gels_opt_lwork :
   ?bc:int ->
   mat ->
   int
-(** [gels_opt_lwork ?m ?n ?trans ?ar ?ac a ?nrhs ?br ?bc b] @return
-    the optimum length of the work-array used by the [gels]-function given
-    matrix [a], optionally its logical dimensions [m] and [n] and given
-    right hand side matrix [b] with an optional number [nrhs] of vectors.
+(** [gels_opt_lwork ?m ?n ?trans ?ar ?ac a ?nrhs ?br ?bc b]
+
+    @return
+      the optimum length of the work-array used by the [gels]-function given
+      matrix [a], optionally its logical dimensions [m] and [n] and given right
+      hand side matrix [b] with an optional number [nrhs] of vectors.
     @param m default = available number of rows in matrix [a]
     @param n default = available number of columns in matrix [a]
     @param trans default = `N

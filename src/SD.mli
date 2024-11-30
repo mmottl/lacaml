@@ -29,6 +29,8 @@
 
 open Bigarray
 
+(** {3 PrecDocxx-precision Real Module} *)
+
 type prec = floatxx_elt
 type num_type = float
 

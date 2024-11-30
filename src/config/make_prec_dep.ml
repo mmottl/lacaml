@@ -240,6 +240,7 @@ let () =
         ("FPREC", "S");
         ("floatxx", "float32");
         ("Floatxx", "Float32");
+        ("PrecDocxx", "Single");
         ("num_type_arg", "(float [@unboxed])");
       ]
   and float64 =
@@ -248,6 +249,7 @@ let () =
         ("FPREC", "D");
         ("floatxx", "float64");
         ("Floatxx", "Float64");
+        ("PrecDocxx", "Double");
         ("num_type_arg", "(float [@unboxed])");
       ]
   and complex32 =
@@ -259,6 +261,7 @@ let () =
         ("Floatxx", "Float32");
         ("complexxx", "complex32");
         ("Complexxx", "Complex32");
+        ("PrecDocxx", "Single");
         ("num_type_arg", "num_type");
       ]
   and complex64 =
@@ -270,6 +273,7 @@ let () =
         ("Floatxx", "Float64");
         ("complexxx", "complex64");
         ("Complexxx", "Complex64");
+        ("PrecDocxx", "Double");
         ("num_type_arg", "num_type");
       ]
   in

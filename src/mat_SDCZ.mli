@@ -20,137 +20,185 @@
    along with this library; if not, write to the Free Software Foundation, Inc.,
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
-(* Matrix operations *)
-
 open Common
 open Numberxx
 open Types.Mat
 
-(** {6 Creation of matrices and accessors} *)
+(** {4 Creation of Matrices and Accessors} *)
 
 val create : int -> int -> mat
-(** [create m n] @return a matrix containing [m] rows and [n] columns. *)
+(** [create m n]
+
+    @return a matrix containing [m] rows and [n] columns. *)
 
 val make : int -> int -> num_type -> mat
-(** [make m n x] @return a matrix containing [m] rows and [n] columns
-    initialized with value [x]. *)
+(** [make m n x]
+
+    @return
+      a matrix containing [m] rows and [n] columns initialized with value [x]. *)
 
 val make0 : int -> int -> mat
-(** [make0 m n x] @return a matrix containing [m] rows and [n] columns
-    initialized with the zero element. *)
+(** [make0 m n x]
+
+    @return
+      a matrix containing [m] rows and [n] columns initialized with the zero
+      element. *)
 
 val of_array : num_type array array -> mat
-(** [of_array ar] @return a matrix initialized from the array of arrays
-    [ar].  It is assumed that the OCaml matrix is in row major order
-    (standard). *)
+(** [of_array ar]
+
+    @return
+      a matrix initialized from the array of arrays [ar]. It is assumed that the
+      OCaml matrix is in row major order (standard). *)
 
 val to_array : mat -> num_type array array
-(** [to_array mat] @return an array of arrays initialized from matrix
-    [mat]. *)
+(** [to_array mat]
+
+    @return an array of arrays initialized from matrix [mat]. *)
 
 val of_list : num_type list list -> mat
-(** [of_list ls] @return a matrix initialized from the list of lists
-    [ls].  Each sublist of [ls] represents a row of the desired matrix,
-    and must be of the same length. *)
+(** [of_list ls]
+
+    @return
+      a matrix initialized from the list of lists [ls]. Each sublist of [ls]
+      represents a row of the desired matrix, and must be of the same length. *)
 
 val to_list : mat -> num_type list list
-(** [to_array mat] @return [mat] in row major order as lists. *)
+(** [to_array mat]
+
+    @return [mat] in row major order as lists. *)
 
 val of_col_vecs : vec array -> mat
-(** [of_col_vecs ar] @return a matrix whose columns are initialized from
-    the array of vectors [ar].  The vectors must be of same length. *)
+(** [of_col_vecs ar]
+
+    @return
+      a matrix whose columns are initialized from the array of vectors [ar]. The
+      vectors must be of same length. *)
 
 val to_col_vecs : mat -> vec array
-(** [to_col_vecs mat] @return an array of column vectors initialized
-    from matrix [mat]. *)
+(** [to_col_vecs mat]
+
+    @return an array of column vectors initialized from matrix [mat]. *)
 
 val of_col_vecs_list : vec list -> mat
-(** [of_col_vecs_list ar] @return a matrix whose columns are initialized from
-    the list of vectors [ar]. The vectors must be of same length. *)
+(** [of_col_vecs_list ar]
+
+    @return
+      a matrix whose columns are initialized from the list of vectors [ar]. The
+      vectors must be of same length. *)
 
 val to_col_vecs_list : mat -> vec list
-(** [to_col_vecs_list mat] @return a list of column vectors initialized
-    from matrix [mat]. *)
+(** [to_col_vecs_list mat]
+
+    @return a list of column vectors initialized from matrix [mat]. *)
 
 val as_vec : mat -> vec
-(** [as_vec mat] @return a vector containing all elements of the
-    matrix in column-major order.  The data is shared. *)
+(** [as_vec mat]
+
+    @return
+      a vector containing all elements of the matrix in column-major order. The
+      data is shared. *)
 
 val init_rows : int -> int -> (int -> int -> num_type) -> mat
-(** [init_cols m n f] @return a matrix containing [m] rows and [n]
-    columns, where each element at [row] and [col] is initialized by the
-    result of calling [f row col]. The elements are passed row-wise. *)
+(** [init_cols m n f]
+
+    @return
+      a matrix containing [m] rows and [n] columns, where each element at [row]
+      and [col] is initialized by the result of calling [f row col]. The
+      elements are passed row-wise. *)
 
 val init_cols : int -> int -> (int -> int -> num_type) -> mat
-(** [init_cols m n f] @return a matrix containing [m] rows and [n]
-    columns, where each element at [row] and [col] is initialized by the
-    result of calling [f row col]. The elements are passed column-wise. *)
+(** [init_cols m n f]
+
+    @return
+      a matrix containing [m] rows and [n] columns, where each element at [row]
+      and [col] is initialized by the result of calling [f row col]. The
+      elements are passed column-wise. *)
 
 val create_mvec : int -> mat
-(** [create_mvec m] @return a matrix with one column containing [m] rows. *)
+(** [create_mvec m]
+
+    @return a matrix with one column containing [m] rows. *)
 
 val make_mvec : int -> num_type -> mat
-(** [make_mvec m x] @return a matrix with one column containing [m] rows
-    initialized with value [x]. *)
+(** [make_mvec m x]
+
+    @return
+      a matrix with one column containing [m] rows initialized with value [x]. *)
 
 val mvec_of_array : num_type array -> mat
-(** [mvec_of_array ar] @return a matrix with one column
-    initialized with values from array [ar]. *)
+(** [mvec_of_array ar]
+
+    @return a matrix with one column initialized with values from array [ar]. *)
 
 val mvec_to_array : mat -> num_type array
-(** [mvec_to_array mat] @return an array initialized with values from
-    the first (not necessarily only) column vector of matrix [mat]. *)
+(** [mvec_to_array mat]
+
+    @return
+      an array initialized with values from the first (not necessarily only)
+      column vector of matrix [mat]. *)
 
 val from_col_vec : vec -> mat
-(** [from_col_vec v] @return a matrix with one column representing vector [v].
-    The data is shared. *)
+(** [from_col_vec v]
+
+    @return
+      a matrix with one column representing vector [v]. The data is shared. *)
 
 val from_row_vec : vec -> mat
-(** [from_row_vec v] @return a matrix with one row representing vector [v].
-    The data is shared. *)
+(** [from_row_vec v]
+
+    @return a matrix with one row representing vector [v]. The data is shared. *)
 
 val empty : mat
 (** [empty], the empty matrix. *)
 
 val identity : int -> mat
-(** [identity n] @return the [n]x[n] identity matrix. *)
+(** [identity n]
+
+    @return the [n]x[n] identity matrix. *)
 
 val of_diag :
   ?n:int -> ?br:int -> ?bc:int -> ?b:mat -> ?ofsx:int -> ?incx:int -> vec -> mat
-(** [of_diag ?n ?br ?bc ?b ?ofsx ?incx x] @return matrix [b] with diagonal
-    elements in the designated sub-matrix coming from the designated sub-vector
-    in [x].
+(** [of_diag ?n ?br ?bc ?b ?ofsx ?incx x]
+
+    @return
+      matrix [b] with diagonal elements in the designated sub-matrix coming from
+      the designated sub-vector in [x].
 
     @param n default = greater [n] s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param br default = [1]
     @param bc default = [1]
     @param b default = minimal fresh matrix consistent with [n], [br], and [bc]
     @param ofsx default = 1
-    @param incx default = 1
-*)
+    @param incx default = 1 *)
 
 val dim1 : mat -> int
-(** [dim1 m] @return the first dimension of matrix [m] (number of rows). *)
+(** [dim1 m]
+
+    @return the first dimension of matrix [m] (number of rows). *)
 
 val dim2 : mat -> int
-(** [dim2 m] @return the second dimension of matrix [m] (number of columns). *)
+(** [dim2 m]
+
+    @return the second dimension of matrix [m] (number of columns). *)
 
 val has_zero_dim : mat -> bool
 (** [has_zero_dim mat] checks whether matrix [mat] has a dimension of size
     [zero]. In this case it cannot contain data. *)
 
 val col : mat -> int -> vec
-(** [col m n] @return the [n]th column of matrix [m] as a vector.
-    The data is shared. *)
+(** [col m n]
+
+    @return the [n]th column of matrix [m] as a vector. The data is shared. *)
 
 val copy_row : ?vec:vec -> mat -> int -> vec
-(** [copy_row ?vec mat int] @return a copy of the [n]th row of matrix [m]
-    in vector [vec].
+(** [copy_row ?vec mat int]
 
-    @param vec default = fresh vector of length [dim2 mat]
-*)
+    @return a copy of the [n]th row of matrix [m] in vector [vec].
 
-(** {6 Matrix transformations} *)
+    @param vec default = fresh vector of length [dim2 mat] *)
+
+(** {4 Matrix Transformations} *)
 
 val swap :
   ?patt:patt ->
@@ -184,20 +232,21 @@ val transpose_copy :
   ?ac:int ->
   mat ->
   mat
-(** [transpose_copy ?m ?n ?br ?bc ?b ?ar ?ac a] @return the transpose of
-    (sub-)matrix [a].  If [b] is given, the result will be stored in there
-    using offsets [br] and [bc], otherwise a fresh matrix will be used.
-    NOTE: this operations does _not_ support in-place transposes!
+(** [transpose_copy ?m ?n ?br ?bc ?b ?ar ?ac a]
+
+    @return
+      the transpose of (sub-)matrix [a]. If [b] is given, the result will be
+      stored in there using offsets [br] and [bc], otherwise a fresh matrix will
+      be used. NOTE: this operations does _not_ support in-place transposes!
 
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
     @param n default = greater n s.t. [ac + n - 1 <= dim2 a]
     @param br default = [1]
     @param bc default = [1]
-    @param b default = fresh matrix with [br + n - 1] rows and
-                       [bc + m - 1] columns
+    @param b
+      default = fresh matrix with [br + n - 1] rows and [bc + m - 1] columns
     @param ar default = [1]
-    @param ac default = [1]
-*)
+    @param ac default = [1] *)
 
 val detri : ?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> mat -> unit
 (** [detri ?up ?n ?ar ?ac a] takes a triangular (sub-)matrix [a], i.e. one where
@@ -210,25 +259,27 @@ val detri : ?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> mat -> unit
     @param ac default = [1] *)
 
 val packed : ?up:bool -> ?n:int -> ?ar:int -> ?ac:int -> mat -> vec
-(** [packed ?up ?n ?ar ?ac a] @return (sub-)matrix [a] in packed
-    storage format.
+(** [packed ?up ?n ?ar ?ac a]
+
+    @return (sub-)matrix [a] in packed storage format.
 
     @param up default = [true]
     @param n default = [Mat.dim2 a]
     @param ar default = [1]
-    @param ac default = [1]
-*)
+    @param ac default = [1] *)
 
 val unpacked : ?up:bool -> ?n:int -> vec -> mat
-(** [unpacked ?up x] @return an upper or lower (depending on [up])
-    triangular matrix from packed representation [vec].  The other
-    triangle of the matrix will be filled with zeros.
+(** [unpacked ?up x]
+
+    @return
+      an upper or lower (depending on [up]) triangular matrix from packed
+      representation [vec]. The other triangle of the matrix will be filled with
+      zeros.
 
     @param up default = [true]
-    @param n default = [Vec.dim x]
-*)
+    @param n default = [Vec.dim x] *)
 
-(** {6 Operations on one matrix} *)
+(** {4 Operations on One Matrix} *)
 
 val fill :
   ?patt:patt ->
@@ -304,21 +355,23 @@ val reci : unop
 
 val copy_diag :
   ?n:int -> ?ofsy:int -> ?incy:int -> ?y:vec -> ?ar:int -> ?ac:int -> mat -> vec
-(** [copy_diag ?n ?ofsy ?incy ?y ?ar ?ac a] @return the diagonal of the
-    (sub-)matrix [a] in a (sub-)vector.
+(** [copy_diag ?n ?ofsy ?incy ?y ?ar ?ac a]
+
+    @return the diagonal of the (sub-)matrix [a] in a (sub-)vector.
 
     @param n default = greatest [n] that does not exceed matrix dimensions
     @param ofsy default = 1
     @param incy default = 1
     @param y default = fresh vector of length [n]
     @param ar default = 1
-    @param ac default = 1
-*)
+    @param ac default = 1 *)
 
 val trace : mat -> num_type
-(** [trace m] @return the trace of matrix [m].  If [m] is not a
-    square matrix, the sum of the longest possible sequence of
-    diagonal elements will be returned. *)
+(** [trace m]
+
+    @return
+      the trace of matrix [m]. If [m] is not a square matrix, the sum of the
+      longest possible sequence of diagonal elements will be returned. *)
 
 val scal :
   ?patt:patt ->
@@ -398,7 +451,7 @@ val syrk_diag :
     @param ar default = [1]
     @param ac default = [1] *)
 
-(** {6 Operations on two matrices} *)
+(** {4 Operations on Two Matrices} *)
 
 val add : binop
 (** [add ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes the sum of the [m] by
@@ -611,10 +664,12 @@ val ssqr_diff :
   ?bc:int ->
   mat ->
   num_type
-(** [ssqr_diff ?patt ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of squared
-    differences between the [m] by [n] sub-matrix of the matrix
-    [a] starting in row [ar] and column [ac] with the corresponding
-    sub-matrix of the matrix [b] starting in row [br] and column [bc].
+(** [ssqr_diff ?patt ?m ?n ?ar ?ac a ?br ?bc b]
+
+    @return
+      the sum of squared differences between the [m] by [n] sub-matrix of the
+      matrix [a] starting in row [ar] and column [ac] with the corresponding
+      sub-matrix of the matrix [b] starting in row [br] and column [bc].
 
     @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
@@ -622,10 +677,9 @@ val ssqr_diff :
     @param ar default = 1
     @param ac default = 1
     @param br default = 1
-    @param bc default = 1
-*)
+    @param bc default = 1 *)
 
-(** {6 Iterators over matrices} *)
+(** {4 Iterators Over Matrices} *)
 
 val map :
   (num_type -> num_type) ->

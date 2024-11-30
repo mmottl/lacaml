@@ -127,7 +127,7 @@ val pp_mat_gen :
     @param vertical_context default = [Some !Context.vertical_default]
     @param horizontal_context default = [Some !Context.horizontal_default] *)
 
-(** {6 Default pretty-printers used by the other pretty-printing functions} *)
+(** {2 Default Pretty-printers Used by the Other Pretty-printing Functions} *)
 
 type 'el pp_el_default = (formatter -> 'el -> unit) ref
 (** Type of references for default printers of elements *)
@@ -141,7 +141,7 @@ val pp_complex_el_default : Complex.t pp_el_default
 val pp_int32_el : formatter -> int32 -> unit
 (** fprintf ppf "%ld" el *)
 
-(** {6 Pretty-printing in standard style} *)
+(** {2 Pretty-printing in Standard Style} *)
 
 (** Type of standard pretty-printers for column vectors *)
 type ('el, 'elt) pp_vec =
@@ -166,9 +166,9 @@ val pp_fmat : (float, 'elt) pp_mat
 val pp_cmat : (Complex.t, 'elt) pp_mat
 val pp_imat : (int32, 'elt) pp_mat
 
-(** {7 Labeled pretty-printing} *)
+(** {3 Labeled Pretty-printing} *)
 
-(** {8 Vectors} *)
+(** {4 Vectors} *)
 
 (** Type of pretty-printers for labeled vectors *)
 type ('el, 'elt) pp_labeled_vec =
@@ -254,7 +254,7 @@ val pp_rlfvec : (float, 'elt) pp_lvec
 val pp_rlcvec : (Complex.t, 'elt) pp_lvec
 val pp_rlivec : (int32, 'elt) pp_lvec
 
-(** {8 Matrices} *)
+(** {4 Matrices} *)
 
 (** Type of pretty-printers for labeled matrices *)
 type ('el, 'elt) pp_labeled_mat =
@@ -332,7 +332,7 @@ val pp_lfmat : (float, 'elt) pp_lmat
 val pp_lcmat : (Complex.t, 'elt) pp_lmat
 val pp_limat : (int32, 'elt) pp_lmat
 
-(** {6 Pretty-printing in OCaml-style} *)
+(** {2 Pretty-printing in OCaml-Style} *)
 
 (** Type of pretty-printers for OCaml-vectors *)
 type ('el, 'elt) pp_el_ovec =
@@ -380,7 +380,7 @@ val pp_ofmat : (float, 'elt) pp_omat
 val pp_ocmat : (Complex.t, 'elt) pp_omat
 val pp_oimat : (int32, 'elt) pp_omat
 
-(** {6 Good pretty-printers for toplevels} *)
+(** {2 Good Pretty-printers for Toplevels} *)
 
 (** These pretty-printers will use index labels for easier identification of
     rows and columns. *)

@@ -24,65 +24,90 @@ open Common
 open Numberxx
 open Types.Vec
 
-(** {6 Creation/conversion of vectors and dimension accessor} *)
+(** {4 Creation/Conversion of Vectors and Dimension Accessor} *)
 
 val create : int -> vec
-(** [create n] @return a vector with [n] rows (not initialized). *)
+(** [create n]
+
+    @return a vector with [n] rows (not initialized). *)
 
 val make : int -> num_type -> vec
-(** [make n x] @return a vector with [n] rows initialized with value [x]. *)
+(** [make n x]
+
+    @return a vector with [n] rows initialized with value [x]. *)
 
 val make0 : int -> vec
-(** [make0 n x] @return a vector with [n] rows initialized with the zero
-    element. *)
+(** [make0 n x]
+
+    @return a vector with [n] rows initialized with the zero element. *)
 
 val init : int -> (int -> num_type) -> vec
-(** [init n f] @return a vector containing [n] elements, where each
-    element at position [i] is initialized by the result of calling
-    [f i]. *)
+(** [init n f]
+
+    @return
+      a vector containing [n] elements, where each element at position [i] is
+      initialized by the result of calling [f i]. *)
 
 val of_array : num_type array -> vec
-(** [of_array ar] @return a vector initialized from array [ar]. *)
+(** [of_array ar]
+
+    @return a vector initialized from array [ar]. *)
 
 val to_array : vec -> num_type array
-(** [to_array v] @return an array initialized from vector [v]. *)
+(** [to_array v]
+
+    @return an array initialized from vector [v]. *)
 
 val of_list : num_type list -> vec
-(** [of_list l] @return a vector initialized from list [l]. *)
+(** [of_list l]
+
+    @return a vector initialized from list [l]. *)
 
 val to_list : vec -> num_type list
-(** [to_list v] @return a list initialized from vector [v]. *)
+(** [to_list v]
+
+    @return a list initialized from vector [v]. *)
 
 val append : vec -> vec -> vec
-(** [append v1 v2] @return the vector resulting from appending vector
-    [v2] to [v1]. *)
+(** [append v1 v2]
+
+    @return the vector resulting from appending vector [v2] to [v1]. *)
 
 val concat : vec list -> vec
-(** [concat vs] @return the concatenation of vectors [vs]. *)
+(** [concat vs]
+
+    @return the concatenation of vectors [vs]. *)
 
 val empty : vec
 (** [empty], the empty vector. *)
 
 val linspace : ?y:vec -> num_type -> num_type -> int -> vec
-(** [linspace ?z a b n] @return the vector [y] overwritten with [n]
-    linearly spaced points between and including [a] and [b].
+(** [linspace ?z a b n]
+
+    @return
+      the vector [y] overwritten with [n] linearly spaced points between and
+      including [a] and [b].
     @param y default = fresh vector of dim [n] *)
 
 val logspace : ?y:vec -> num_type -> num_type -> ?base:float -> int -> vec
-(** [logspace ?z a b base n] @return the vector [y] overwritten with [n]
-    points logarithmically spaced using base [b] between and including
-    [base] ** [a] and [base] ** [b].
+(** [logspace ?z a b base n]
+
+    @return
+      the vector [y] overwritten with [n] points logarithmically spaced using
+      base [b] between and including [base] ** [a] and [base] ** [b].
     @param y default = fresh vector of dim [n]
     @param base default = 10.0 *)
 
 val dim : vec -> int
-(** [dim x] @return the dimension of vector [x]. *)
+(** [dim x]
+
+    @return the dimension of vector [x]. *)
 
 val has_zero_dim : vec -> bool
 (** [has_zero_dim vec] checks whether vector [vec] has a dimension of size
     [zero]. In this case it cannot contain data. *)
 
-(** {6 Iterators over vectors} *)
+(** {4 Iterators Over Vectors} *)
 
 val map :
   (num_type -> num_type) ->
@@ -94,8 +119,10 @@ val map :
   ?incx:int ->
   vec ->
   vec
-(** [map f ?n ?ofsx ?incx x] @return a new vector resulting from the
-    application of [f] to each element of [x].
+(** [map f ?n ?ofsx ?incx x]
+
+    @return
+      a new vector resulting from the application of [f] to each element of [x].
     @param n default = greater n s.t. [ofsx+(n-1)(abs incx) <= dim x]
     @param ofsx default = 1
     @param incx default = 1
@@ -125,7 +152,7 @@ val fold :
     @param ofsx default = 1
     @param incx default = 1 *)
 
-(** {6 Operations on one vector} *)
+(** {4 Operations on One Vector} *)
 
 val rev : vec -> vec
 (** [rev x] reverses vector [x] (non-destructive). *)
@@ -269,7 +296,7 @@ val reci : unop
     @param ofsx default = 1
     @param incx default = 1 *)
 
-(** {6 Operations on two vectors} *)
+(** {4 Operations on Two Vectors} *)
 
 val add : binop
 (** [add ?n ?ofsz ?incz ?z ?ofsx ?incx x ?ofsy ?incy y] adds [n] elements of

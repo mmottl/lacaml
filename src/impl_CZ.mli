@@ -29,7 +29,7 @@
 open Common
 open Complexxx
 
-(** {6 BLAS-1 interface} *)
+(** {4 BLAS-1 Interface} *)
 
 val dotu :
   ?n:int ->
@@ -65,7 +65,7 @@ val dotc :
     @param ofsy default = 1
     @param incy default = 1 *)
 
-(** {6 LAPACK interface} *)
+(** {4 LAPACK Interface} *)
 
 (* LANSY *)
 
@@ -93,14 +93,15 @@ val lansy :
 (* GECON *)
 
 val gecon_min_lwork : int -> int
-(** [gecon_min_lwork n] @return the minimum length of the work array
-    used by the [gecon]-function.
-    @param n the logical dimensions of the matrix given to
-             the [gecon]-function *)
+(** [gecon_min_lwork n]
+
+    @return the minimum length of the work array used by the [gecon]-function.
+    @param n the logical dimensions of the matrix given to the [gecon]-function *)
 
 val gecon_min_lrwork : int -> int
-(** [gecon_min_lrwork n] @return the minimum length of the rwork array
-    used by the [gecon]-function.
+(** [gecon_min_lrwork n]
+
+    @return the minimum length of the rwork array used by the [gecon]-function.
     @param n the logical dimensions of the matrix given to [gecon]-function *)
 
 val gecon :
@@ -126,10 +127,10 @@ val gecon :
 (* SYCON *)
 
 val sycon_min_lwork : int -> int
-(** [sycon_min_lwork n] @return the minimum length of the work array
-    used by the [sycon]-function.
-    @param n the logical dimensions of the matrix given to
-             the [sycon]-function *)
+(** [sycon_min_lwork n]
+
+    @return the minimum length of the work array used by the [sycon]-function.
+    @param n the logical dimensions of the matrix given to the [sycon]-function *)
 
 val sycon :
   ?n:int ->
@@ -142,6 +143,7 @@ val sycon :
   mat ->
   float
 (** [sycon ?n ?up ?ipiv ?anorm ?work ?ar ?ac a]
+
     @return
       estimate of the reciprocal of the condition number of symmetric matrix [a]
     @param n default = available number of columns of matrix [a]
@@ -153,14 +155,15 @@ val sycon :
 (* POCON *)
 
 val pocon_min_lwork : int -> int
-(** [pocon_min_lwork n] @return the minimum length of the work array
-    used by the [pocon]-function.
-    @param n the logical dimensions of the matrix given to
-             the [pocon]-function *)
+(** [pocon_min_lwork n]
+
+    @return the minimum length of the work array used by the [pocon]-function.
+    @param n the logical dimensions of the matrix given to the [pocon]-function *)
 
 val pocon_min_lrwork : int -> int
-(** [pocon_min_lrwork n] @return the minimum length of the rwork array
-    used by the [pocon]-function.
+(** [pocon_min_lrwork n]
+
+    @return the minimum length of the rwork array used by the [pocon]-function.
     @param n the logical dimensions of the matrix given to [pocon]-function *)
 
 val pocon :
@@ -184,7 +187,7 @@ val pocon :
     @param rwork default = automatically allocated workspace
     @param anorm default = 1-norm of the matrix [a] as returned by [lange] *)
 
-(** {7 General Schur factorization} *)
+(** {5 General Schur Factorization} *)
 
 val gees :
   ?n:int ->
@@ -203,16 +206,20 @@ val gees :
     for details about arguments.
     @return (sdim, w, vs) *)
 
-(** {7 General SVD routines} *)
+(** {5 General SVD Routines} *)
 
 val gesvd_min_lwork : m:int -> n:int -> int
-(** [gesvd_min_lwork ~m ~n] @return the minimum length of the work array
-    used by the [gesvd]-function for matrices with [m] rows and [n]
-    columns. *)
+(** [gesvd_min_lwork ~m ~n]
+
+    @return
+      the minimum length of the work array used by the [gesvd]-function for
+      matrices with [m] rows and [n] columns. *)
 
 val gesvd_lrwork : m:int -> n:int -> int
-(** [gesvd_lrwork m n] @return the (minimum) length of the rwork array
-    used by the [gesvd]-function. *)
+(** [gesvd_lrwork m n]
+
+    @return
+      the (minimum) length of the rwork array used by the [gesvd]-function. *)
 
 val gesvd_opt_lwork :
   ?m:int ->
@@ -250,16 +257,18 @@ val gesvd :
   mat ->
   rvec * mat * mat
 
-(** {7 General eigenvalue problem (simple drivers)} *)
+(** {5 General Eigenvalue Problem (simple drivers)} *)
 
 val geev_min_lwork : int -> int
-(** [geev_min_lwork n] @return the minimum length of the work array
-    used by the [geev]-function.
+(** [geev_min_lwork n]
+
+    @return the minimum length of the work array used by the [geev]-function.
     @param n the logical dimensions of the matrix given to [geev]-function *)
 
 val geev_min_lrwork : int -> int
-(** [geev_min_lrwork n] @return the minimum length of the rwork array
-    used by the [geev]-function.
+(** [geev_min_lrwork n]
+
+    @return the minimum length of the rwork array used by the [geev]-function.
     @param n the logical dimensions of the matrix given to [geev]-function *)
 
 val geev_opt_lwork :

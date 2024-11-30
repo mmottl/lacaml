@@ -20,48 +20,63 @@
    along with this library; if not, write to the Free Software Foundation, Inc.,
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
-(** {5 Matrix operations} *)
-
 open Floatxx
 open Types.Mat
 
-(** {6 Creation of matrices} *)
+(** {4 Creation of Matrices} *)
 
 val hilbert : int -> mat
-(** [hilbert n] @return an [n]x[n] Hilbert matrix. *)
+(** [hilbert n]
+
+    @return an [n]x[n] Hilbert matrix. *)
 
 val hankel : int -> mat
-(** [hankel n] @return an [n]x[n] Hankel matrix. *)
+(** [hankel n]
+
+    @return an [n]x[n] Hankel matrix. *)
 
 val pascal : int -> mat
-(** [pascal n] @return an [n]x[n] Pascal matrix. *)
+(** [pascal n]
+
+    @return an [n]x[n] Pascal matrix. *)
 
 val rosser : unit -> mat
-(** [rosser n] @return 8x8 Rosser matrix. *)
+(** [rosser n]
+
+    @return 8x8 Rosser matrix. *)
 
 val toeplitz : vec -> mat
-(** [toeplitz v] @return the Toeplitz matrix associated with [v].
-    The constant diagonals are read from left to right from [v].
+(** [toeplitz v]
+
+    @return
+      the Toeplitz matrix associated with [v]. The constant diagonals are read
+      from left to right from [v].
     @raise Invalid_argument if the length of [v] is not an odd number. *)
 
 val vandermonde : vec -> mat
-(** [vandermonde v] @return the Vandermonde matrix associated with [v]. *)
+(** [vandermonde v]
+
+    @return the Vandermonde matrix associated with [v]. *)
 
 val wilkinson : int -> mat
-(** [wilkinson n] @return the [n]x[n] Wilkinson matrix.
+(** [wilkinson n]
+
+    @return the [n]x[n] Wilkinson matrix.
     @raise Invalid_argument if [n] is not an odd number >= 3. *)
 
 val random :
   ?rnd_state:Random.State.t -> ?from:float -> ?range:float -> int -> int -> mat
-(** [random ?rnd_state ?from ?range m n] @return an [m]x[n] matrix
-    initialized with random elements sampled uniformly from [range]
-    starting at [from].  A random state [rnd_state] can be passed.
+(** [random ?rnd_state ?from ?range m n]
+
+    @return
+      an [m]x[n] matrix initialized with random elements sampled uniformly from
+      [range] starting at [from]. A random state [rnd_state] can be passed.
 
     @param rnd_state default = Random.get_state ()
     @param from default = -1.0
     @param range default = 2.0 *)
 
-(** {6 Unary matrix operations} *)
+(** {4 Unary Matrix Operations} *)
 
 val abs : unop
 (** [abs ?patt ?m ?n ?br ?bc ?b ?ar ?ac a] computes the absolute value of the
@@ -641,7 +656,7 @@ val softsign : unop
     @param ar default = 1
     @param ac default = 1 *)
 
-(** {6 Binary matrix operations} *)
+(** {4 Binary Matrix Operations} *)
 
 val pow : binop
 (** [pow ?patt ?m ?n ?cr ?cc ?c ?ar ?ac a ?br ?bc b] computes [pow(a, b)] for
@@ -759,10 +774,12 @@ val sum_prod :
   ?bc:int ->
   mat ->
   float
-(** [sum_prod ?patt ?m ?n ?ar ?ac a ?br ?bc b] @return the sum of elementwise
-    products between the [m] by [n] sub-matrix of the matrix [a] starting in row
-    [ar] and column [ac] with the corresponding sub-matrix of the matrix [b]
-    starting in row [br] and column [bc].
+(** [sum_prod ?patt ?m ?n ?ar ?ac a ?br ?bc b]
+
+    @return
+      the sum of elementwise products between the [m] by [n] sub-matrix of the
+      matrix [a] starting in row [ar] and column [ac] with the corresponding
+      sub-matrix of the matrix [b] starting in row [br] and column [bc].
 
     @param patt default = [`Full]
     @param m default = greater n s.t. [ar + m - 1 <= dim1 a]
@@ -770,10 +787,9 @@ val sum_prod :
     @param ar default = 1
     @param ac default = 1
     @param br default = 1
-    @param bc default = 1
-*)
+    @param bc default = 1 *)
 
-(** {6 Miscellaneous functions} *)
+(** {4 Miscellaneous Functions} *)
 
 val log_sum_exp :
   ?patt:patt -> ?m:int -> ?n:int -> ?ar:int -> ?ac:int -> mat -> float
@@ -785,7 +801,7 @@ val log_sum_exp :
     @param m default = number of rows of [a]
     @param n default = number of columns of [a] *)
 
-(** {6 Ternary matrix operations} *)
+(** {4 Ternary Matrix Operations} *)
 
 val cpab :
   ?patt:patt ->

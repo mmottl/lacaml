@@ -40,27 +40,35 @@
     distribution), read them with Emacs: [M-x man] (under Unix) or [M-x woman]
     (all systems). *)
 
-(** {2 Pretty printing} *)
+(** {1 Precision-dependent Modules} *)
 
-module Io : module type of Io
-(** Pretty-printing of vector and matrices. *)
+(** {2 Real-valued Modules} *)
 
-(** {2 Precision dependent modules} *)
+module S : module type of S
+(** Single-precision real BLAS and LAPACK functions. *)
+
+module D : module type of D
+(** Double-precision real BLAS and LAPACK functions. *)
+
+(** {2 Complex-valued Modules} *)
+
+module C : module type of C
+(** Single-precision complex BLAS and LAPACK functions. *)
+
+module Z : module type of Z
+(** Double-precision complex BLAS and LAPACK functions. *)
+
+(** {1 Precision-independent Module} *)
 
 module Common : module type of Common
 (** Types and functions common to all precision dependent sub-modules. *)
 
-module D : module type of D
-(** Double precision real BLAS and LAPACK functions. *)
+(** {1 Pretty-printing Module} *)
 
-module S : module type of S
-(** Single precision real BLAS and LAPACK functions. *)
+module Io : module type of Io
+(** Pretty-printing of vectors and matrices. *)
 
-module Z : module type of Z
-(** Double precision complex BLAS and LAPACK functions. *)
-
-module C : module type of C
-(** Single precision complex BLAS and LAPACK functions. *)
+(** {1 Utility Module} *)
 
 module Utils : module type of Utils
-(** {2 Utility functions} *)
+(** Utility functions *)

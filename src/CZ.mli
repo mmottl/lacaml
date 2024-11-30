@@ -30,6 +30,8 @@
 
 open Bigarray
 
+(** {3 PrecDocxx-precision Complex Module} *)
+
 type prec = complexxx_elt
 type num_type = Complex.t
 

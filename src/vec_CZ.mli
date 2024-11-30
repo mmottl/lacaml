@@ -20,11 +20,9 @@
    along with this library; if not, write to the Free Software Foundation, Inc.,
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
-(** {5 Vector operations} *)
-
 open Complexxx
 
-(** {6 Creation of vectors} *)
+(** {4 Creation of Vectors} *)
 
 val random :
   ?rnd_state:Random.State.t ->

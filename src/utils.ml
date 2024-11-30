@@ -113,15 +113,18 @@ let z_str = "z"
 
 (** Range checking *)
 
-(** [raise_var_lt0 ~loc ~name var] @raise Invalid_argument to indicate
-    that integer variable [var] with name [name] at location [loc] is lower
-    than [0]. *)
+(** [raise_var_lt0 ~loc ~name var]
+
+    @raise Invalid_argument
+      to indicate that integer variable [var] with name [name] at location [loc]
+      is lower than [0]. *)
 let raise_var_lt0 ~loc ~name var =
   invalid_arg (sprintf "%s: %s < 0: %d" loc name var)
 
 (** [check_var_lt0 ~loc ~name var] checks whether integer variable [var] with
-    name [name] at location [loc] is lower than [0].  @raise Invalid_argument
-    in that case. *)
+    name [name] at location [loc] is lower than [0].
+
+    @raise Invalid_argument in that case. *)
 let check_var_lt0 ~loc ~name var = if var < 0 then raise_var_lt0 ~loc ~name var
 
 let check_var_within loc var_name var lb ub c =
@@ -134,78 +137,101 @@ let check_var_within loc var_name var lb ub c =
 (** Valueless vector checking and allocation functions (do not require a vector
     value as argument *)
 
-(** [calc_vec_min_dim ~n ~ofs ~inc] @return minimum vector dimension given
-    offset [ofs], increment [inc], and operation size [n] for a vector. *)
+(** [calc_vec_min_dim ~n ~ofs ~inc]
+
+    @return
+      minimum vector dimension given offset [ofs], increment [inc], and
+      operation size [n] for a vector. *)
 let calc_vec_min_dim ~n ~ofs ~inc =
   if n = 0 then ofs - 1 else ofs + ((n - 1) * abs inc)
 
-(** [raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim] @raise Invalid_argument
-    to indicate that dimension [dim] of a vector with name [vec_name]
-    exceeds the minimum [min_dim] at location [loc]. *)
+(** [raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim]
+
+    @raise Invalid_argument
+      to indicate that dimension [dim] of a vector with name [vec_name] exceeds
+      the minimum [min_dim] at location [loc]. *)
 let raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim =
   invalid_arg
     (sprintf "%s: dim(%s): valid=[%d..[ got=%d" loc vec_name min_dim dim)
 
-(** [check_vec_min_dim ~loc ~vec_name ~dim ~min_dim] checks whether vector
-    with name [vec_name] and dimension [dim] satisfies minimum dimension
-    [min_dim].  @raise Invalid_argument otherwise. *)
+(** [check_vec_min_dim ~loc ~vec_name ~dim ~min_dim] checks whether vector with
+    name [vec_name] and dimension [dim] satisfies minimum dimension [min_dim].
+
+    @raise Invalid_argument otherwise. *)
 let check_vec_min_dim ~loc ~vec_name ~dim ~min_dim =
   if dim < min_dim then raise_vec_min_dim ~loc ~vec_name ~dim ~min_dim
 
-(** [raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs] @raise Invalid_argument
-    to indicate that vector offset [ofs] is invalid (i.e. is outside of
-    [1..max_ofs]). *)
+(** [raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs]
+
+    @raise Invalid_argument
+      to indicate that vector offset [ofs] is invalid (i.e. is outside of
+      [1..max_ofs]). *)
 let raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs =
   invalid_arg
     (sprintf "%s: ofs%s: valid=[1..%d] got=%d" loc vec_name max_ofs ofs)
 
-(** [bad_n ~n ~max_n] @return [true] iff [n] is smaller than zero or larger
-    than [max_n]. *)
+(** [bad_n ~n ~max_n]
+
+    @return [true] iff [n] is smaller than zero or larger than [max_n]. *)
 let bad_n ~n ~max_n = n < 0 || n > max_n
 
-(** [bad_ofs ~ofs ~max_ofs] @return [true] iff [ofs] is smaller than one or
-    exceeds [max_ofs]. *)
+(** [bad_ofs ~ofs ~max_ofs]
+
+    @return [true] iff [ofs] is smaller than one or exceeds [max_ofs]. *)
 let bad_ofs ~ofs ~max_ofs = ofs < 1 || ofs > max_ofs
 
-(** [bad_inc inc] @return [true] iff [inc] is illegal. *)
+(** [bad_inc inc]
+
+    @return [true] iff [inc] is illegal. *)
 let bad_inc inc = inc = 0
 
-(** [check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs] checks whether vector
-    offset [ofs] for vector of name [vec_name] is invalid (i.e. outside of
-    [1..max_ofs]).  @raise Invalid_argument in that case. *)
+(** [check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs] checks whether vector offset
+    [ofs] for vector of name [vec_name] is invalid (i.e. outside of
+    [1..max_ofs]).
+
+    @raise Invalid_argument in that case. *)
 let check_vec_ofs ~loc ~vec_name ~ofs ~max_ofs =
   if bad_ofs ~ofs ~max_ofs then raise_vec_bad_ofs ~loc ~vec_name ~ofs ~max_ofs
 
-(** [check_vec_inc ~loc ~vec_name inc] checks whether vector increment [inc]
-    for vector of name [vec_name] is invalid (i.e. [0]).  @raise
-    Invalid_argument in that case. *)
+(** [check_vec_inc ~loc ~vec_name inc] checks whether vector increment [inc] for
+    vector of name [vec_name] is invalid (i.e. [0]).
+
+    @raise Invalid_argument in that case. *)
 let check_vec_inc ~loc ~vec_name inc =
   if bad_inc inc then invalid_arg (sprintf "%s: inc%s = 0" loc vec_name)
 
-(** [calc_vec_max_n ~dim ~ofs ~inc] @return maximum operation length [n]
-    for a vector given the dimension [dim] of the vector, the offset [ofs],
-    and increment [inc].  Assumes that the offset has already been validated
-    to not exceed [dim], i.e. the returned [max_n] is at least [1]. *)
+(** [calc_vec_max_n ~dim ~ofs ~inc]
+
+    @return
+      maximum operation length [n] for a vector given the dimension [dim] of the
+      vector, the offset [ofs], and increment [inc]. Assumes that the offset has
+      already been validated to not exceed [dim], i.e. the returned [max_n] is
+      at least [1]. *)
 let calc_vec_max_n ~dim ~ofs ~inc = 1 + ((dim - ofs) / abs inc)
 
-(** [calc_vec_opt_max_n ?ofs ?inc dim] @return maximum operation length [n]
-    for a vector given the dimension [dim] of the vector, the optional offset
-    [ofs], and optional increment [inc].  Assumes that the offset has already
-    been validated to not exceed [dim], i.e. the returned [max_n] is at least
-    [1]. *)
+(** [calc_vec_opt_max_n ?ofs ?inc dim]
+
+    @return
+      maximum operation length [n] for a vector given the dimension [dim] of the
+      vector, the optional offset [ofs], and optional increment [inc]. Assumes
+      that the offset has already been validated to not exceed [dim], i.e. the
+      returned [max_n] is at least [1]. *)
 let calc_vec_opt_max_n ?(ofs = 1) ?(inc = 1) dim = calc_vec_max_n ~dim ~ofs ~inc
 
-(** [raise_max_len ~loc ~len_name ~len ~max_len] @raise Invalid_argument
-    that the maximum operation size (e.g. [m] or [n] for vectors and matrices)
-    has been exceeded. *)
+(** [raise_max_len ~loc ~len_name ~len ~max_len]
+
+    @raise Invalid_argument
+      that the maximum operation size (e.g. [m] or [n] for vectors and matrices)
+      has been exceeded. *)
 let raise_max_len ~loc ~len_name ~len ~max_len =
   invalid_arg (sprintf "%s: %s: valid=[0..%d] got=%d" loc len_name max_len len)
 
 (** [check_vec_dim ~loc ~vec_name ~dim ~ofs ~inc ~n_name ~n] checks the vector
-    operation length in parameter [n] with name [n_name] at location [loc]
-    for vector with name [vec_name] and dimension [dim] given the operation
-    offset [ofs] and increment [inc].  @raise Invalid_argument if any
-    arguments are invalid. *)
+    operation length in parameter [n] with name [n_name] at location [loc] for
+    vector with name [vec_name] and dimension [dim] given the operation offset
+    [ofs] and increment [inc].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_vec_dim ~loc ~vec_name ~dim ~ofs ~inc ~n_name ~n =
   check_vec_inc ~loc ~vec_name inc;
   check_var_lt0 ~loc ~name:n_name n;
@@ -215,11 +241,12 @@ let check_vec_dim ~loc ~vec_name ~dim ~ofs ~inc ~n_name ~n =
     let max_n = calc_vec_max_n ~dim ~ofs ~inc in
     if n > max_n then raise_max_len ~loc ~len_name:n_name ~len:n ~max_len:max_n)
 
-(** [get_vec_n ~loc ~vec_name ~dim ~ofs ~inc ~n_name n] checks or infers
-    the vector operation length in the option parameter [n] with name [n_name]
-    at location [loc] for vector with name [vec_name] and dimension [dim] given
-    the operation offset [ofs] and increment [inc].  @raise Invalid_argument
-    if any arguments are invalid. *)
+(** [get_vec_n ~loc ~vec_name ~dim ~ofs ~inc ~n_name n] checks or infers the
+    vector operation length in the option parameter [n] with name [n_name] at
+    location [loc] for vector with name [vec_name] and dimension [dim] given the
+    operation offset [ofs] and increment [inc].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_vec_n ~loc ~vec_name ~dim ~ofs ~inc ~n_name = function
   | None when dim = 0 ->
       check_vec_inc ~loc ~vec_name inc;
@@ -234,17 +261,23 @@ let get_vec_n ~loc ~vec_name ~dim ~ofs ~inc ~n_name = function
       check_vec_dim ~loc ~vec_name ~dim ~ofs ~inc ~n_name ~n;
       n
 
-(** [get_vec_min_dim ~loc ~vec_name ~ofs ~inc ~n] @return minimum vector
-    dimension given offset [ofs], increment [inc], and operation size [n]
-    for a vector named [vec_name] at location [loc].  @raise Invalid_argument
-    if any of the parameters are illegal. *)
+(** [get_vec_min_dim ~loc ~vec_name ~ofs ~inc ~n]
+
+    @return
+      minimum vector dimension given offset [ofs], increment [inc], and
+      operation size [n] for a vector named [vec_name] at location [loc].
+
+    @raise Invalid_argument if any of the parameters are illegal. *)
 let get_vec_min_dim ~loc ~vec_name ~ofs ~inc ~n =
   check_vec_inc ~loc ~vec_name inc;
   if ofs >= 1 then calc_vec_min_dim ~ofs ~inc ~n
   else invalid_arg (sprintf "%s: ofs%s: valid=[1..] got=%d" loc vec_name ofs)
 
-(** [get_vec_start_stop ~ofsx ~incx ~n] @return [(start, stop)] where [start]
-    and [stop] reflect the start and stop of an iteration respectively. *)
+(** [get_vec_start_stop ~ofsx ~incx ~n]
+
+    @return
+      [(start, stop)] where [start] and [stop] reflect the start and stop of an
+      iteration respectively. *)
 let get_vec_start_stop ~ofsx ~incx ~n =
   if n = 0 then (0, 0)
   else if incx > 0 then (ofsx, ofsx + (n * incx))
@@ -253,63 +286,83 @@ let get_vec_start_stop ~ofsx ~incx ~n =
 (** Valueless matrix checking and allocation functions (do not require a matrix
     value as argument *)
 
-(** [raise_bad_mat_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs] @raise
-    Invalid_argument to indicate that a matrix offset [ofs] named [ofs_name]
-    for a matrix having [name] is invalid (i.e. is outside of [1..max_ofs]). *)
+(** [raise_bad_mat_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs]
+
+    @raise Invalid_argument
+      to indicate that a matrix offset [ofs] named [ofs_name] for a matrix
+      having [name] is invalid (i.e. is outside of [1..max_ofs]). *)
 let raise_bad_mat_ofs ~loc ~name ~ofs_name ~ofs ~max_ofs =
   invalid_arg
     (sprintf "%s: %s%s: valid=[1..%d] got=%d" loc name ofs_name max_ofs ofs)
 
-(** [raise_mat_bad_r ~loc ~mat_name ~r ~max_r] @raise Invalid_argument
-    to indicate that matrix row offset [r] is invalid (i.e. is outside of
-    [1..max_r]). *)
+(** [raise_mat_bad_r ~loc ~mat_name ~r ~max_r]
+
+    @raise Invalid_argument
+      to indicate that matrix row offset [r] is invalid (i.e. is outside of
+      [1..max_r]). *)
 let raise_mat_bad_r ~loc ~mat_name ~r ~max_r =
   raise_bad_mat_ofs ~loc ~name:mat_name ~ofs_name:r_str ~ofs:r ~max_ofs:max_r
 
-(** [raise_mat_bad_c ~loc ~mat_name ~c ~max_c] @raise Invalid_argument
-    to indicate that matrix column offset [c] is invalid (i.e. is outside of
-    [1..max_c]). *)
+(** [raise_mat_bad_c ~loc ~mat_name ~c ~max_c]
+
+    @raise Invalid_argument
+      to indicate that matrix column offset [c] is invalid (i.e. is outside of
+      [1..max_c]). *)
 let raise_mat_bad_c ~loc ~mat_name ~c ~max_c =
   raise_bad_mat_ofs ~loc ~name:mat_name ~ofs_name:c_str ~ofs:c ~max_ofs:max_c
 
-(** [check_mat_r ~loc ~vec_name ~r ~max_r] checks whether matrix row
-    offset [r] for vector of name [vec_name] is invalid (i.e. outside of
-    [1..max_r]).  @raise Invalid_argument in that case. *)
+(** [check_mat_r ~loc ~vec_name ~r ~max_r] checks whether matrix row offset [r]
+    for vector of name [vec_name] is invalid (i.e. outside of [1..max_r]).
+
+    @raise Invalid_argument in that case. *)
 let check_mat_r ~loc ~mat_name ~r ~max_r =
   if r < 1 || r > max_r then raise_mat_bad_r ~loc ~mat_name ~r ~max_r
 
-(** [check_mat_c ~loc ~vec_name ~c ~max_c] checks whether matrix column
-    offset [c] for vector of name [vec_name] is invalid (i.e. outside of
-    [1..max_c]).  @raise Invalid_argument in that case. *)
+(** [check_mat_c ~loc ~vec_name ~c ~max_c] checks whether matrix column offset
+    [c] for vector of name [vec_name] is invalid (i.e. outside of [1..max_c]).
+
+    @raise Invalid_argument in that case. *)
 let check_mat_c ~loc ~mat_name ~c ~max_c =
   if c < 1 || c > max_c then raise_mat_bad_c ~loc ~mat_name ~c ~max_c
 
-(** [calc_mat_max_rows ~dim1 ~r] @return maximum row operation length [m] for a
-    matrix given the dimension [dim1] of the matrix and the start row [r]. *)
+(** [calc_mat_max_rows ~dim1 ~r]
+
+    @return
+      maximum row operation length [m] for a matrix given the dimension [dim1]
+      of the matrix and the start row [r]. *)
 let calc_mat_max_rows ~dim1 ~r = dim1 - r + 1
 
-(** [calc_mat_opt_max_rows ?r dim1] @return maximum row operation length
-    [m] for a matrix given the dimension [dim1] of the matrix and the optional
-    start row [r].  Assumes that the offset has already been validated to
-    not exceed [dim1], i.e. the returned [max_m] is at least [1]. *)
+(** [calc_mat_opt_max_rows ?r dim1]
+
+    @return
+      maximum row operation length [m] for a matrix given the dimension [dim1]
+      of the matrix and the optional start row [r]. Assumes that the offset has
+      already been validated to not exceed [dim1], i.e. the returned [max_m] is
+      at least [1]. *)
 let calc_mat_opt_max_rows ?(r = 1) dim1 = calc_mat_max_rows ~dim1 ~r
 
-(** [calc_mat_max_cols ~dim2 ~c] @return maximum column operation length
-    [n] for a matrix given the dimension [dim1] of the matrix and the start
-    column [c]. *)
+(** [calc_mat_max_cols ~dim2 ~c]
+
+    @return
+      maximum column operation length [n] for a matrix given the dimension
+      [dim1] of the matrix and the start column [c]. *)
 let calc_mat_max_cols ~dim2 ~c = dim2 - c + 1
 
-(** [calc_mat_opt_max_cols ?c dim1] @return maximum column operation length
-    [m] for a matrix given the dimension [dim2] of the matrix and the optional
-    start column [c].  Assumes that the offset has already been validated to
-    not exceed [dim2], i.e. the returned [max_n] is at least [1]. *)
+(** [calc_mat_opt_max_cols ?c dim1]
+
+    @return
+      maximum column operation length [m] for a matrix given the dimension
+      [dim2] of the matrix and the optional start column [c]. Assumes that the
+      offset has already been validated to not exceed [dim2], i.e. the returned
+      [max_n] is at least [1]. *)
 let calc_mat_opt_max_cols ?(c = 1) dim2 = calc_mat_max_cols ~dim2 ~c
 
 (** [check_mat_rows ~loc ~mat_name ~dim1 ~r ~p ~param_name] checks the matrix
-    row operation length in parameter [p] with name [param_name] at
-    location [loc] for matrix with name [mat_name] and dimension [dim1]
-    given the operation row [r].  @raise Invalid_argument if any arguments
-    are invalid. *)
+    row operation length in parameter [p] with name [param_name] at location
+    [loc] for matrix with name [mat_name] and dimension [dim1] given the
+    operation row [r].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_rows ~loc ~mat_name ~dim1 ~r ~p ~param_name =
   check_var_lt0 ~loc ~name:param_name p;
   if p = 0 then check_mat_r ~loc ~mat_name ~r ~max_r:(dim1 + 1)
@@ -321,16 +374,18 @@ let check_mat_rows ~loc ~mat_name ~dim1 ~r ~p ~param_name =
 
 (** [check_mat_m ~loc ~mat_name ~dim1 ~r ~m] checks the matrix row operation
     length in parameter [m] at location [loc] for matrix with name [mat_name]
-    and dimension [dim1] given the operation row [r].  @raise Invalid_argument
-    if any arguments are invalid. *)
+    and dimension [dim1] given the operation row [r].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_m ~loc ~mat_name ~dim1 ~r ~m =
   check_mat_rows ~loc ~mat_name ~dim1 ~r ~p:m ~param_name:m_str
 
-(** [check_mat_cols ~loc ~mat_name ~dim2 ~c ~p ~param_name] checks the
-    matrix column operation length in parameter [p] with name [param_name]
-    at location [loc] for matrix with name [mat_name] and dimension [dim2]
-    given the operation column [c].  @raise Invalid_argument if any arguments
-    are invalid. *)
+(** [check_mat_cols ~loc ~mat_name ~dim2 ~c ~p ~param_name] checks the matrix
+    column operation length in parameter [p] with name [param_name] at location
+    [loc] for matrix with name [mat_name] and dimension [dim2] given the
+    operation column [c].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_cols ~loc ~mat_name ~dim2 ~c ~p ~param_name =
   check_var_lt0 ~loc ~name:param_name p;
   if p = 0 then check_mat_c ~loc ~mat_name ~c ~max_c:(dim2 + 1)
@@ -350,17 +405,19 @@ let check_mat_n ~loc ~mat_name ~dim2 ~c ~n =
 (** [check_mat_mn ~loc ~mat_name ~dim1 ~dim2 ~r ~c ~m ~n] checks the matrix
     operation lengths in parameters [m] and [n] at location [loc] for matrix
     with name [mat_name] and dimensions [dim1] and [dim2] given the operation
-    row [r] and column [c].  @raise Invalid_argument if any arguments are
-    invalid. *)
+    row [r] and column [c].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_mn ~loc ~mat_name ~dim1 ~dim2 ~r ~c ~m ~n =
   check_mat_m ~loc ~mat_name ~dim1 ~r ~m;
   check_mat_n ~loc ~mat_name ~dim2 ~c ~n
 
-(** [get_mat_rows ~loc ~mat_name ~dim1 ~r p ~param_name] checks or infers
-    the matrix row operation length in the option parameter [p] with
-    name [param_name] at location [loc] for matrix with name [mat_name]
-    and dimension [dim1] given the row operation offset [r].  @raise
-    Invalid_argument if any arguments are invalid. *)
+(** [get_mat_rows ~loc ~mat_name ~dim1 ~r p ~param_name] checks or infers the
+    matrix row operation length in the option parameter [p] with name
+    [param_name] at location [loc] for matrix with name [mat_name] and dimension
+    [dim1] given the row operation offset [r].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_rows ~loc ~mat_name ~dim1 ~r ~p ~param_name =
   match p with
   | None when dim1 = 0 ->
@@ -375,24 +432,28 @@ let get_mat_rows ~loc ~mat_name ~dim1 ~r ~p ~param_name =
 
 (** [get_mat_dim1 ~loc ~mat_name ~dim1 ~r ~m ~m_name] checks or infers the
     matrix row operation length in the option parameter [m] with name [m_name]
-    at location [loc] for matrix with name [mat_name] and dimension [dim1]
-    given the row operation offset [r].  @raise Invalid_argument if any
-    arguments are invalid. *)
+    at location [loc] for matrix with name [mat_name] and dimension [dim1] given
+    the row operation offset [r].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_dim1 ~loc ~mat_name ~dim1 ~r ~m ~m_name =
   get_mat_rows ~loc ~mat_name ~dim1 ~r ~p:m ~param_name:m_name
 
 (** [get_mat_m ~loc ~mat_name ~dim1 ~r ~m] checks or infers the matrix row
     operation length in the option parameter [m] at location [loc] for matrix
     with name [mat_name] and dimension [dim1] given the row operation offset
-    [r].  @raise Invalid_argument if any arguments are invalid. *)
+    [r].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_m ~loc ~mat_name ~dim1 ~r ~m =
   get_mat_dim1 ~loc ~mat_name ~dim1 ~r ~m_name:m_str ~m
 
-(** [get_mat_cols ~loc ~mat_name ~dim2 ~c ~param_name p] checks or infers
-    the matrix column operation length in the option parameter [p] with
-    name [param_name] at location [loc] for matrix with name [mat_name]
-    and dimension [dim2] given the column operation offset [c].  @raise
-    Invalid_argument if any arguments are invalid. *)
+(** [get_mat_cols ~loc ~mat_name ~dim2 ~c ~param_name p] checks or infers the
+    matrix column operation length in the option parameter [p] with name
+    [param_name] at location [loc] for matrix with name [mat_name] and dimension
+    [dim2] given the column operation offset [c].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_cols ~loc ~mat_name ~dim2 ~c ~p ~param_name =
   match p with
   | None when dim2 = 0 ->
@@ -408,38 +469,48 @@ let get_mat_cols ~loc ~mat_name ~dim2 ~c ~p ~param_name =
 (** [get_mat_dim2 ~loc ~mat_name ~dim2 ~c ~n ~n_name] checks or infers the
     matrix column operation length in the option parameter [n] with name
     [n_name] at location [loc] for matrix with name [mat_name] and dimension
-    [dim2] given the column operation offset [c].  @raise Invalid_argument
-    if any arguments are invalid. *)
+    [dim2] given the column operation offset [c].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_dim2 ~loc ~mat_name ~dim2 ~c ~n ~n_name =
   get_mat_cols ~loc ~mat_name ~dim2 ~c ~p:n ~param_name:n_name
 
 (** [get_mat_n ~loc ~mat_name ~dim2 ~c ~n] checks or infers the matrix column
     operation length in the option parameter [n] at location [loc] for matrix
-    with name [mat_name] and dimension [dim2] given the column operation
-    offset [c].  @raise Invalid_argument if any arguments are invalid. *)
+    with name [mat_name] and dimension [dim2] given the column operation offset
+    [c].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_n ~loc ~mat_name ~dim2 ~c ~n =
   get_mat_dim2 ~loc ~mat_name ~dim2 ~c ~n ~n_name:n_str
 
-(** [get_mat_min_dim1 ~loc ~mat_name ~r ~m] @return the minimum row dimension
-    of a matrix with name [mat_name] at location [loc] given row [r] and
-    row operation length [m].  @raise Invalid_argument if any arguments
-    are invalid. *)
+(** [get_mat_min_dim1 ~loc ~mat_name ~r ~m]
+
+    @return
+      the minimum row dimension of a matrix with name [mat_name] at location
+      [loc] given row [r] and row operation length [m].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_min_dim1 ~loc ~mat_name ~r ~m =
   if r > 0 then r + m - 1
   else invalid_arg (sprintf "%s: %sr < 1: %d" loc mat_name r)
 
-(** [get_mat_min_dim2 ~loc ~mat_name ~c ~n] @return the minimum column
-    dimension of a matrix with name [mat_name] at location [loc] given column
-    [c] and row operation length [n].  @raise Invalid_argument if any
-    arguments are invalid. *)
+(** [get_mat_min_dim2 ~loc ~mat_name ~c ~n]
+
+    @return
+      the minimum column dimension of a matrix with name [mat_name] at location
+      [loc] given column [c] and row operation length [n].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let get_mat_min_dim2 ~loc ~mat_name ~c ~n =
   if c > 0 then c + n - 1
   else invalid_arg (sprintf "%s: %sc < 1: %d" loc mat_name c)
 
-(** [check_mat_min_dim1 ~loc ~mat_name ~dim1 ~min_dim1] checks the minimum
-    row dimension [min_dim1] of a matrix with name [mat_name] at location
-    [loc] given its row dimension [dim1].  @raise Invalid_argument if
-    any arguments are invalid. *)
+(** [check_mat_min_dim1 ~loc ~mat_name ~dim1 ~min_dim1] checks the minimum row
+    dimension [min_dim1] of a matrix with name [mat_name] at location [loc]
+    given its row dimension [dim1].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_min_dim1 ~loc ~mat_name ~dim1 ~min_dim1 =
   if dim1 < min_dim1 then
     invalid_arg
@@ -447,8 +518,9 @@ let check_mat_min_dim1 ~loc ~mat_name ~dim1 ~min_dim1 =
 
 (** [check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2] checks the minimum
     column dimension [min_dim2] of a matrix with name [mat_name] at location
-    [loc] given its column dimension [dim2].  @raise Invalid_argument if
-    any arguments are invalid. *)
+    [loc] given its column dimension [dim2].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2 =
   if dim2 < min_dim2 then
     invalid_arg
@@ -456,8 +528,9 @@ let check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2 =
 
 (** [check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2] checks the minimum
     column dimension [min_dim2] of a matrix with name [mat_name] at location
-    [loc] given its column dimension [dim2].  @raise Invalid_argument if
-    any arguments are invalid. *)
+    [loc] given its column dimension [dim2].
+
+    @raise Invalid_argument if any arguments are invalid. *)
 let check_mat_min_dims ~loc ~mat_name ~dim1 ~dim2 ~min_dim1 ~min_dim2 =
   check_mat_min_dim1 ~loc ~mat_name ~dim1 ~min_dim1;
   check_mat_min_dim2 ~loc ~mat_name ~dim2 ~min_dim2
