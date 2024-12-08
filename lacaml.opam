@@ -31,8 +31,6 @@ depends: [
   "dune-configurator"
   "conf-blas" {build}
   "conf-lapack" {build}
-  "base-bytes"
-  "base-bigarray"
   "odoc" {with-doc}
 ]
 build: [
