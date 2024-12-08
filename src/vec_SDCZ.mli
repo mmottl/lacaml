@@ -140,7 +140,8 @@ val iter : (num_type -> unit) -> ?n:int -> ?ofsx:int -> ?incx:int -> vec -> unit
 val iteri :
   (int -> num_type -> unit) -> ?n:int -> ?ofsx:int -> ?incx:int -> vec -> unit
 (** [iteri ?n ?ofsx ?incx f x] same as [iter] but additionally passes the index
-    of the element as first argument and the element itself as second argument. *)
+    of the element as first argument and the element itself as second argument.
+*)
 
 val fold :
   ('a -> num_type -> 'a) -> 'a -> ?n:int -> ?ofsx:int -> ?incx:int -> vec -> 'a

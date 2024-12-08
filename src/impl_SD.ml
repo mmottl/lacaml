@@ -896,7 +896,8 @@ let geev_err loc min_work a n vl vr lwork err =
       sprintf
         "%s: The QR algorithm failed to compute all the eigenvalues,\n\
          and no eigenvectors have been computed; elements %d:%d of WR\n\
-         and WI contain eigenvalues which have converged" loc (err + 1) n
+         and WI contain eigenvalues which have converged"
+        loc (err + 1) n
     in
     failwith msg
   else
@@ -1353,7 +1354,10 @@ let syevr ?n ?(vectors = false) ?(range = `A) ?(up = true) ?abstol ?work ?iwork
   let ofsw = get_vec_ofs loc w_str ofsw in
   let w = xxev_get_wx Vec.create loc w_str ofsw w m in
   (* [m] eigenvalues *)
-  let z = get_mat loc z_str Mat.create zr zc z n m (* order of n, m is ok! *) in
+  let z =
+    get_mat loc z_str Mat.create zr zc z n m
+    (* order of n, m is ok! *)
+  in
   let isuppz =
     let min_lisuppz_1 = max 1 m in
     let min_lisuppz = min_lisuppz_1 + min_lisuppz_1 in

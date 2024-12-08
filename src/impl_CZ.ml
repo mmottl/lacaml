@@ -354,7 +354,8 @@ let geev_err loc min_work a n vl vr lwork err =
       sprintf
         "%s: The QR algorithm failed to compute all the eigenvalues, and\n\
          no eigenvectors have been computed; elements %d:%d of WR and WI\n\
-         contain eigenvalues which have converged" loc (err + 1) n
+         contain eigenvalues which have converged"
+        loc (err + 1) n
     in
     failwith msg
   else

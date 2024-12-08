@@ -19,8 +19,7 @@
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA *)
 
 val pp_num : Format.formatter -> Complex.t -> unit
-(** [pp_num ppf el] is equivalent to [fprintf ppf "(%G, %Gi)"
-    el.re el.im]. *)
+(** [pp_num ppf el] is equivalent to [fprintf ppf "(%G, %Gi)" el.re el.im]. *)
 
 val pp_vec : (Complex.t, 'a) Io.pp_vec
 (** Pretty-printer for column vectors. *)

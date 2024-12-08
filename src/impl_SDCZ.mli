@@ -164,9 +164,8 @@ val gbmv :
   ?incx:int ->
   vec ->
   vec
-(** [gbmv
-      ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a kl ku ?ofsx ?incx x]
-    see BLAS documentation!
+(** [gbmv ?m ?n ?beta ?ofsy ?incy ?y ?trans ?alpha ?ar ?ac a kl ku ?ofsx ?incx
+     x] see BLAS documentation!
     @return vector [y], which is overwritten.
     @param m default = same as [n] (i.e., [a] is a square matrix)
     @param n default = available number of columns in matrix [a]
@@ -720,7 +719,8 @@ val getri :
 val sytrf_min_lwork : unit -> int
 (** [sytrf_min_lwork ()]
 
-    @return the minimum length of the work array used by the {!sytrf}-function. *)
+    @return the minimum length of the work array used by the {!sytrf}-function.
+*)
 
 val sytrf_opt_lwork : ?n:int -> ?up:bool -> ?ar:int -> ?ac:int -> mat -> int
 (** [sytrf_opt_lwork ?n ?up ?ar ?ac a]

@@ -82,7 +82,8 @@ let explicit_vec_mat s =
       \    ?ofsz : int -> ?incz : int -> ?z : vec ->\n\
       \    ?ofsx : int -> ?incx : int -> vec ->\n\
       \    ?ofsy : int -> ?incy : int -> vec\n\
-      \    -> vec" s
+      \    -> vec"
+      s
   in
   let s = Str.global_replace type_vec "" s in
   let type_mat = Str.regexp " *open *Types.Mat *" in
@@ -107,7 +108,8 @@ let explicit_vec_mat s =
       \    ?cr : int -> ?cc : int -> ?c : mat ->\n\
       \    ?ar : int -> ?ac : int -> mat ->\n\
       \    ?br : int -> ?bc : int -> mat\n\
-      \    -> mat" s
+      \    -> mat"
+      s
   in
   Str.global_replace type_mat "" s
 

@@ -262,7 +262,8 @@ val gecon_min_lwork : int -> int
 (** [gecon_min_lwork n]
 
     @return the minimum length of the work array used by the [gecon]-function.
-    @param n the logical dimensions of the matrix given to the [gecon]-function *)
+    @param n the logical dimensions of the matrix given to the [gecon]-function
+*)
 
 val gecon_min_liwork : int -> int
 (** [gecon_min_liwork n]
@@ -296,7 +297,8 @@ val sycon_min_lwork : int -> int
 (** [sycon_min_lwork n]
 
     @return the minimum length of the work array used by the [sycon]-function.
-    @param n the logical dimensions of the matrix given to the [sycon]-function *)
+    @param n the logical dimensions of the matrix given to the [sycon]-function
+*)
 
 val sycon_min_liwork : int -> int
 (** [sycon_min_liwork n]
@@ -331,7 +333,8 @@ val pocon_min_lwork : int -> int
 (** [pocon_min_lwork n]
 
     @return the minimum length of the work array used by the [pocon]-function.
-    @param n the logical dimensions of the matrix given to the [pocon]-function *)
+    @param n the logical dimensions of the matrix given to the [pocon]-function
+*)
 
 val pocon_min_liwork : int -> int
 (** [pocon_min_liwork n]
@@ -450,7 +453,8 @@ val gelsd_min_iwork : int -> int -> int
 
     @return
       the minimum (= optimum) length of the iwork-array used by the
-      [gelsd]-function if the logical dimensions of the matrix are [m] and [n]. *)
+      [gelsd]-function if the logical dimensions of the matrix are [m] and [n].
+*)
 
 val gelsd :
   ?m:int ->
@@ -672,14 +676,8 @@ val geev_opt_lwork :
   ?ac:int ->
   mat ->
   int
-(** [geev_opt_lwork
-       ?n
-       ?vlr ?vlc ?vl
-       ?vrr ?vrc ?vr
-       ?ofswr wr
-       ?ofswi wi
-       ?ar ?ac a]
-    See [geev]-function for details about arguments.
+(** [geev_opt_lwork ?n ?vlr ?vlc ?vl ?vrr ?vrc ?vr ?ofswr wr ?ofswi wi ?ar ?ac
+     a] See [geev]-function for details about arguments.
     @return "optimal" size of work array. *)
 
 val geev :
@@ -699,11 +697,7 @@ val geev :
   ?ac:int ->
   mat ->
   mat * vec * vec * mat
-(** [geev ?work ?n
-      ?vlr ?vlc ?vl
-      ?vrr ?vrc ?vr
-      ?ofswr ?wr ?ofswi ?wi
-      ?ar ?ac a]
+(** [geev ?work ?n ?vlr ?vlc ?vl ?vrr ?vrc ?vr ?ofswr ?wr ?ofswi ?wi ?ar ?ac a]
     @return
       ([lv], [wr], [wi], [rv]), where [wr] and [wv] are the real and imaginary
       components of the eigenvalues, and [lv] and [rv] are the left and right
@@ -726,7 +720,8 @@ val geev :
       default = vector of size [n]; imaginary components of the eigenvalues
     @param a the matrix whose eigensystem is computed *)
 
-(** {5 Symmetric-matrix Eigenvalue and Singular Value Problems (simple drivers)} *)
+(** {5 Symmetric-matrix Eigenvalue and Singular Value Problems (simple drivers)}
+*)
 
 val syev_min_lwork : int -> int
 (** [syev_min_lwork n]
@@ -984,13 +979,11 @@ val syevr :
   ?ac:int ->
   mat ->
   int * vec * mat * int32_vec
-(** [syevr
-      ?n ?vectors ?range ?up ?abstol ?work ?iwork
-      ?ofsw ?w ?zr ?zc ?z ?isuppz ?ar ?ac a]
-    [range] is either [`A] for computing all eigenpairs, [`V (vl, vu)] defines
-    the lower and upper range of computed eigenvalues, [`I (il,
-    iu)] defines
-    the indexes of the computed eigenpairs, which are sorted in ascending order.
+(** [syevr ?n ?vectors ?range ?up ?abstol ?work ?iwork ?ofsw ?w ?zr ?zc ?z
+     ?isuppz ?ar ?ac a] [range] is either [`A] for computing all eigenpairs,
+    [`V (vl, vu)] defines the lower and upper range of computed eigenvalues,
+    [`I (il, iu)] defines the indexes of the computed eigenpairs, which are
+    sorted in ascending order.
     @return
       the tuple [(m, w, z, isuppz)], where [m] is the number of computed
       eigenpairs, vector [w] contains the computed eigenvalues in ascending
@@ -1036,8 +1029,7 @@ val sygv_opt_lwork :
     @param up default = true, i.e. upper triangle of [a] is stored
 
     @param itype
-      specifies the problem type to be
-      solved:
+      specifies the problem type to be solved:
       - [`A_B] (default): a*x = (lambda)*a*x
       - [`AB]: a*b*x = (lambda)*x
       - [`BA]: b*a*x = (lambda)*x *)
@@ -1075,8 +1067,7 @@ val sygv :
     @param w default = vec of length [n]
 
     @param itype
-      specifies the problem type to be
-      solved:
+      specifies the problem type to be solved:
       - [`A_B] (default): a*x = (lambda)*a*x
       - [`AB]: a*b*x = (lambda)*x
       - [`BA]: b*a*x = (lambda)*x *)

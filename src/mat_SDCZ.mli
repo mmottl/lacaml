@@ -35,7 +35,8 @@ val make : int -> int -> num_type -> mat
 (** [make m n x]
 
     @return
-      a matrix containing [m] rows and [n] columns initialized with value [x]. *)
+      a matrix containing [m] rows and [n] columns initialized with value [x].
+*)
 
 val make0 : int -> int -> mat
 (** [make0 m n x]
@@ -124,7 +125,8 @@ val make_mvec : int -> num_type -> mat
 (** [make_mvec m x]
 
     @return
-      a matrix with one column containing [m] rows initialized with value [x]. *)
+      a matrix with one column containing [m] rows initialized with value [x].
+*)
 
 val mvec_of_array : num_type array -> mat
 (** [mvec_of_array ar]
@@ -147,7 +149,8 @@ val from_col_vec : vec -> mat
 val from_row_vec : vec -> mat
 (** [from_row_vec v]
 
-    @return a matrix with one row representing vector [v]. The data is shared. *)
+    @return a matrix with one row representing vector [v]. The data is shared.
+*)
 
 val empty : mat
 (** [empty], the empty matrix. *)
@@ -382,7 +385,8 @@ val scal :
   ?ac:int ->
   mat ->
   unit
-(** [scal ?patt ?m ?n alpha ?ar ?ac a] BLAS [scal] function for (sub-)matrices. *)
+(** [scal ?patt ?m ?n alpha ?ar ?ac a] BLAS [scal] function for (sub-)matrices.
+*)
 
 val scal_cols :
   ?patt:patt ->

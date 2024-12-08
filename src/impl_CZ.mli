@@ -96,7 +96,8 @@ val gecon_min_lwork : int -> int
 (** [gecon_min_lwork n]
 
     @return the minimum length of the work array used by the [gecon]-function.
-    @param n the logical dimensions of the matrix given to the [gecon]-function *)
+    @param n the logical dimensions of the matrix given to the [gecon]-function
+*)
 
 val gecon_min_lrwork : int -> int
 (** [gecon_min_lrwork n]
@@ -130,7 +131,8 @@ val sycon_min_lwork : int -> int
 (** [sycon_min_lwork n]
 
     @return the minimum length of the work array used by the [sycon]-function.
-    @param n the logical dimensions of the matrix given to the [sycon]-function *)
+    @param n the logical dimensions of the matrix given to the [sycon]-function
+*)
 
 val sycon :
   ?n:int ->
@@ -158,7 +160,8 @@ val pocon_min_lwork : int -> int
 (** [pocon_min_lwork n]
 
     @return the minimum length of the work array used by the [pocon]-function.
-    @param n the logical dimensions of the matrix given to the [pocon]-function *)
+    @param n the logical dimensions of the matrix given to the [pocon]-function
+*)
 
 val pocon_min_lrwork : int -> int
 (** [pocon_min_lrwork n]
@@ -305,11 +308,7 @@ val geev :
   ?ac:int ->
   mat ->
   mat * vec * mat
-(** [geev ?work ?rwork ?n
-      ?vlr ?vlc ?vl
-      ?vrr ?vrc ?vr
-      ?ofsw w
-      ?ar ?ac a]
+(** [geev ?work ?rwork ?n ?vlr ?vlc ?vl ?vrr ?vrc ?vr ?ofsw w ?ar ?ac a]
     @return
       [(lv, w, rv)], where [lv] and [rv] correspond to the left and right
       eigenvectors respectively, [w] to the eigenvalues. [lv] ([rv]) is the

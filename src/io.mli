@@ -60,9 +60,8 @@ val pp_mat_gen :
   formatter ->
   ('el, 'a, fortran_layout) Array2.t ->
   unit
-(** [pp_mat_gen
-       ?pp_open ?pp_close ?pp_head ?pp_foot ?pp_end_row ?pp_end_col
-       ?pp_left ?pp_right ?pad pp_el ppf mat]
+(** [pp_mat_gen ?pp_open ?pp_close ?pp_head ?pp_foot ?pp_end_row ?pp_end_col
+     ?pp_left ?pp_right ?pad pp_el ppf mat]
 
     Generic printing of matrices (two-dimensional bigarrays).
 
@@ -184,12 +183,12 @@ type ('el, 'elt) pp_labeled_vec =
   formatter ->
   ('el, 'elt, fortran_layout) Array1.t ->
   unit
-(** [pp_labeled_vec ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
-      ?ellipsis ?vertical_context ?horizontal_context () ppf vec]
-    prints vector [vec] to formatter [ppf] labeling the header using function
-    [pp_head], the footer using [pp_foot], the left side (of rows for column
-    vectors; of columns for row vectors) using [pp_left], and the right side
-    using [pp_right]. A [pad]-option and context options can be passed.
+(** [pp_labeled_vec ?pp_head ?pp_foot ?pp_left ?pp_right ?pad ?ellipsis
+     ?vertical_context ?horizontal_context () ppf vec] prints vector [vec] to
+    formatter [ppf] labeling the header using function [pp_head], the footer
+    using [pp_foot], the left side (of rows for column vectors; of columns for
+    row vectors) using [pp_left], and the right side using [pp_right]. A
+    [pad]-option and context options can be passed.
 
     For column vectors the labels on the left side are right-aligned while those
     on the right side are left-aligned.
@@ -224,15 +223,14 @@ type ('el, 'elt) pp_lvec =
   formatter ->
   ('el, 'elt, fortran_layout) Array1.t ->
   unit
-(** [pp_lvec ?print_head ?print_foot ?print_left ?print_right
-      ?labels ?name ?pad ?ellipsis ?vertical_context ?horizontal_context
-      () ppf vec]
-    prints vector [vec] to formatter [ppf] labeling the header with [name] if
-    provided and if [print_head] is true, and labeling the footer with [name] if
-    [print_foot] is true. The left side (of rows for column vectors; of columns
-    for row vectors) is labeled with [labels] if provided and if [print_left] is
-    true, and the right side is labeled with [labels] if [print_right] is true.
-    A [pad]-option and context options can be passed.
+(** [pp_lvec ?print_head ?print_foot ?print_left ?print_right ?labels ?name ?pad
+     ?ellipsis ?vertical_context ?horizontal_context () ppf vec] prints vector
+    [vec] to formatter [ppf] labeling the header with [name] if provided and if
+    [print_head] is true, and labeling the footer with [name] if [print_foot] is
+    true. The left side (of rows for column vectors; of columns for row vectors)
+    is labeled with [labels] if provided and if [print_left] is true, and the
+    right side is labeled with [labels] if [print_right] is true. A [pad]-option
+    and context options can be passed.
 
     For columns vectors the labels on the left side are right-aligned while
     those on the right side are left-aligned.
@@ -270,12 +268,11 @@ type ('el, 'elt) pp_labeled_mat =
   formatter ->
   ('el, 'elt, fortran_layout) Array2.t ->
   unit
-(** [pp_labeled_mat ?pp_head ?pp_foot ?pp_left ?pp_right ?pad
-      ?ellipsis ?vertical_context ?horizontal_context () ppf mat]
-    prints a matrix [mat] to formatter [ppf] labeling the header using function
-    [pp_head], the footer using [pp_foot], the left side of rows using
-    [pp_left], and the right one using [pp_right]. A [pad]-option and context
-    options can be passed.
+(** [pp_labeled_mat ?pp_head ?pp_foot ?pp_left ?pp_right ?pad ?ellipsis
+     ?vertical_context ?horizontal_context () ppf mat] prints a matrix [mat] to
+    formatter [ppf] labeling the header using function [pp_head], the footer
+    using [pp_foot], the left side of rows using [pp_left], and the right one
+    using [pp_right]. A [pad]-option and context options can be passed.
 
     If [None] is passed as argument for the default printers, the corresponding
     labels will not be printed.
@@ -285,7 +282,8 @@ type ('el, 'elt) pp_labeled_mat =
     @param pp_left
       default = [Some pp_int32_el] for matrix rows (= not in header/footer row)
     @param pp_right
-      default = [Some pp_int32_el] for matrix rows (= not in header/footer row) *)
+      default = [Some pp_int32_el] for matrix rows (= not in header/footer row)
+*)
 
 val pp_labeled_fmat : (float, 'elt) pp_labeled_mat
 val pp_labeled_cmat : (Complex.t, 'elt) pp_labeled_mat
@@ -307,13 +305,12 @@ type ('el, 'elt) pp_lmat =
   formatter ->
   ('el, 'elt, fortran_layout) Array2.t ->
   unit
-(** [pp_lmat ?print_head ?print_foot ?print_left ?print_right
-      ?row_labels ?col_labels ?pad ?ellipsis
-      ?vertical_context ?horizontal_context () ppf mat]
-    prints a matrix [mat] to formatter [ppf] labeling the header with the column
-    labels in [col_labels] if provided and if [print_head] is true, and labeling
-    the footer with the column labels if [print_foot] is true. The left side of
-    rows is labeled with the row labels [row_labels] if provided and if
+(** [pp_lmat ?print_head ?print_foot ?print_left ?print_right ?row_labels
+     ?col_labels ?pad ?ellipsis ?vertical_context ?horizontal_context () ppf
+     mat] prints a matrix [mat] to formatter [ppf] labeling the header with the
+    column labels in [col_labels] if provided and if [print_head] is true, and
+    labeling the footer with the column labels if [print_foot] is true. The left
+    side of rows is labeled with the row labels [row_labels] if provided and if
     [print_left] is true, and the right side of rows is labeled with the row
     labels if [print_right] is true. A [pad]-option and context options can be
     passed.
@@ -354,7 +351,8 @@ val pp_rovec : ('el, 'elt) pp_el_ovec
 (** Type of pretty-printers for OCaml-vectors of a given element type *)
 type ('el, 'elt) pp_ovec =
   formatter -> ('el, 'elt, fortran_layout) Array1.t -> unit
-(** [pp_ovec ppf vec] prints the vector [vec] to formatter [ppf] in OCaml-style. *)
+(** [pp_ovec ppf vec] prints the vector [vec] to formatter [ppf] in OCaml-style.
+*)
 
 val pp_ofvec : (float, 'elt) pp_ovec
 val pp_ocvec : (Complex.t, 'elt) pp_ovec
@@ -374,7 +372,8 @@ val pp_omat :
 (** Type of pretty-printers for OCaml-matrices of a given element type *)
 type ('el, 'elt) pp_omat =
   formatter -> ('el, 'elt, fortran_layout) Array2.t -> unit
-(** [pp_omat ppf mat] prints the matrix [mat] to formatter [ppf] in OCaml-style. *)
+(** [pp_omat ppf mat] prints the matrix [mat] to formatter [ppf] in OCaml-style.
+*)
 
 val pp_ofmat : (float, 'elt) pp_omat
 val pp_ocmat : (Complex.t, 'elt) pp_omat
