@@ -1,3 +1,5 @@
+# Changelog
+
 ## 11.1.1 (2024-12-07)
 
 - Removed obsolete `base-bytes` and `base-bigarray` dependencies
