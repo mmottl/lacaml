@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Switched from C99 to C11 to avoid compilation warnings about atomics.
+
 ## [11.1.1] - 2024-12-07
 
 ### Removed
