@@ -25,7 +25,7 @@ let () =
            external implementation by default unless we know that our platform
            is using the GNU compiler. *)
         let default =
-          { cflags = "-DEXTERNAL_EXP10" :: "-std=c99" :: cflags; libs }
+          { cflags = "-DEXTERNAL_EXP10" :: "-std=c11" :: cflags; libs }
         in
         Option.value_map (C.ocaml_config_var c "system") ~default ~f:(function
           | "linux" | "linux_elf" -> { cflags = "-std=gnu99" :: cflags; libs }
