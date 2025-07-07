@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- Makefile target to generate `compile_commands.json` for improved LSP support
+  in editors.
+
 ### Fixed
 
 - Switched from C99 to C11 to avoid compilation warnings about atomics.
