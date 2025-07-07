@@ -28,6 +28,7 @@ bug-reports: "https://github.com/mmottl/lacaml/issues"
 depends: [
   "dune" {>= "2.7"}
   "ocaml" {>= "4.08"}
+  "dune-compiledb"
   "dune-configurator"
   "conf-blas" {build}
   "conf-lapack" {build}

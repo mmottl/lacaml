@@ -33,6 +33,7 @@
  (depends
   (ocaml
    (>= 4.08))
+  dune-compiledb
   dune-configurator
   (conf-blas :build)
   (conf-lapack :build))

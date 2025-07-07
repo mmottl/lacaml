@@ -1,9 +1,15 @@
 TARGETS = lacaml.cma liblacaml_stubs.a
 
-.PHONY: all clean
+.PHONY: all clean clean-compile-commands
 
-all:
+all: compile_commands.json
 	@dune build $(TARGETS)
 
-clean:
+clean: clean-compile-commands
 	@dune clean
+
+compile_commands.json: config/dune config/discover.ml $(wildcard *.c *.h)
+	@dune rules | dune-compiledb
+
+clean-compile-commands:
+	@rm -f compile_commands.json
