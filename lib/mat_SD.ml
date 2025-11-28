@@ -663,8 +663,19 @@ let softsign = unop direct_softsign "softsign"
 
 let binop direct loc =
   let loc = "Lacaml.FPREC.Mat." ^ loc in
-  fun ?patt ?m ?n ?(cr = 1) ?(cc = 1) ?c ?(ar = 1) ?(ac = 1) a ?(br = 1)
-      ?(bc = 1) b ->
+  fun ?patt
+    ?m
+    ?n
+    ?(cr = 1)
+    ?(cc = 1)
+    ?c
+    ?(ar = 1)
+    ?(ac = 1)
+    a
+    ?(br = 1)
+    ?(bc = 1)
+    b
+  ->
     let m = get_dim1_mat loc a_str a ar m_str m in
     let n = get_dim2_mat loc a_str a ac n_str n in
     check_dim_mat loc b_str br bc b m n;
@@ -789,8 +800,19 @@ let sum_prod ?patt ?m ?n ?(ar = 1) ?(ac = 1) a ?(br = 1) ?(bc = 1) b =
 
 let cqab direct loc =
   let loc = "Lacaml.FPREC.Mat." ^ loc in
-  fun ?patt ?m ?n ?(cr = 1) ?(cc = 1) c ?(ar = 1) ?(ac = 1) a ?(br = 1)
-      ?(bc = 1) b ->
+  fun ?patt
+    ?m
+    ?n
+    ?(cr = 1)
+    ?(cc = 1)
+    c
+    ?(ar = 1)
+    ?(ac = 1)
+    a
+    ?(br = 1)
+    ?(bc = 1)
+    b
+  ->
     let m = get_dim1_mat loc a_str a ar m_str m in
     let n = get_dim2_mat loc a_str a ac n_str n in
     check_dim_mat loc b_str br bc b m n;
